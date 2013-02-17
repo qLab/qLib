@@ -1,0 +1,57 @@
+## Getting and building qLib
+
+First of all clone it with git:
+
+    git clone git://github.com/gadfly16/qLib.git
+
+### Building and extracting OTLs
+
+For better version management the assets are distributed in ascii form. This
+means that the OTLs must be built before importing into houdini. qLib provides
+the `qdo` utility script to aid you in this and other processes.
+
+### Building binary OTLs from the extracted directories
+
+The following command executed in qLib's root directory will build the whole
+library:
+
+    ./qdo build -R
+
+The `-R` flags stands for recursive and that make `qdo` to descend into
+subdirectories. The following command will build just the 'base' otls:
+
+    ./qdo build -R otls/base/
+
+Of course the exact commands may be different if you are not in the top level
+of the qLib distribution.
+
+You can also build just one single asset:
+
+    ./qdo build otls/base/bend_ql_SOP_OTL
+
+### Extracting ascii directory structures from binary OTLs
+
+The logic is the same here, just the subcommand differs:
+
+    ./qdo extract -R ./qdo extract -R otls/base ./qdo extract
+otls/base/bend_ql_SOP.otl
+
+### Cleaning up after yourself
+
+Sometimes it's handy to clean up the mess after your work. The logic is the
+same here, you can use the `-R` flag to initiate recursive behavior. The next
+command will clear all binary OTLs recursively under the current directory:
+
+    ./qdo clean -R
+
+If you want to remove the extracted directories use the `-s` or `--source`
+flag. For example:
+
+    ./qdo clean -sR otls/base
+
+### Use the `--help` flag
+
+If you are uncertain you can always use the `-h` or `--help` flag to see all
+the available subcommands and flags, or if you put it after a subcommand to get
+the help of that particular command.
+
