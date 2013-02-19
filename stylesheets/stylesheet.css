@@ -152,6 +152,59 @@ a.button span {
   height: 23px;
 }
 
+
+.linku {
+/*
+border: 1px dotted green;
+*/
+float: right;
+margin-top: -9px;
+}
+
+#links a {
+height: 24px;
+width: 80px;
+border: none;
+background: none;
+margin: 0px 0px 2px 0px;
+padding: 0px;
+display: block;
+float: left;
+box-shadow: none;
+}
+
+#links span {
+height: 24px;
+font-size: 9px;
+font-weight: bold;
+padding: 2px 26px 0px 0px;
+margin: 0px;
+text-align: right;
+line-height: 150%;
+}
+
+#social-facebook span {
+  background: transparent url(../images/bw24_facebook.png) right no-repeat;
+}
+
+#social-youtube span {
+  background: transparent url(../images/bw24_youtube.png) right no-repeat;
+}
+
+#social-twitter span {
+  background: transparent url(../images/bw24_twitter.png) right no-repeat;
+}
+
+#social-googlegroups span {
+  background: transparent url(../images/bw24_Google.png) right no-repeat;
+}
+
+#social-issues span {
+  background: transparent url(../images/bw24_bug.png) right no-repeat;
+}
+
+
+
 #download-zip span {
   background: transparent url(../images/zip-icon.png) 12px 50% no-repeat;
 }
