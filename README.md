@@ -3,10 +3,8 @@ qLib
 
 A general-purpose Digital Asset library for Houdini.
 
-Get social, 'like' it and whatnot:
-- facebook: http://www.facebook.com/pages/qLib/145692112131248
-- twitter:  http://twitter.com/#!/qLib_houdini
-
+Get can get social with us on [Facebook](http://twitter.com/#!/qLib_houdini)
+and/or [Twitter](http://www.facebook.com/pages/qLib/145692112131248).
 
 Installation instructions
 =========================
