@@ -38,12 +38,6 @@
           <h2>An open source library for SideFX Houdini.</h2>
         </header>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/qLab/qLib/archive/v0.1.zip" id="download-zip" class="button"><span>qLib-v0.1.zip</span></a>
-          <a href="https://github.com/qLab/qLib/archive/v0.1.tar.gz" id="download-tar-gz" class="button"><span>qLib-v0.1.tar.gz</span></a>
-          <a href="https://github.com/qLab/qLib" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
         <hr>
 
         <section id="main_content">
@@ -55,13 +49,13 @@
             <p>In order to use Github you have to make an account.</p>
             <h3>Install Git</h3>
             <h4>Ubuntu</h4>
-            <p><code>
+            <pre><code>
             $ sodo apt-get install git
-            </code></p>
+            </code></pre>
             <p>On older Ubuntu versions:</p>
-            <p><code>
+            <pre><code>
             $ sudo apt-get install git-core
-            </code></p>
+            </code></pre>
             <h4>Windows</h4>
             <p>Download and install <a href="http://msysgit.github.com/">Git on Windows</a></p>
             <h4>OS X</h4>
@@ -77,63 +71,63 @@
             computer.  </p>
             <p>You <strong>can't</strong> push into qLab's version of the repository.</p>
             <h3><strong>Clone</strong> <em>your</em> repository</h3>
-            <p><code>
+            <pre><code>
             $ git clone https://github.com/harry/qLib.git
-            </code></p>
+            </code></pre>
             <p>This will create a directory in your current directory named 'qLib'. That
             directory is your local copy of the repository.</p>
             <p>Renaming or moving this directory won't affect it's inner workings.</p>
-            <p><code>
+            <pre><code>
             mv qLib qLib-harry
-            </code></p>
+            </code></pre>
             <p>You can also give a different name to it during cloning.</p>
-            <p><code>
+            <pre><code>
             $ git clone https://github.com/harry/qLib.git qLib-harry
-            </code></p>
+            </code></pre>
             <h3><strong>Peeking</strong> around in your repository</h3>
             <p>Getting the current <strong>status</strong> of your <strong>working directory</strong> and <strong>stage</strong>:</p>
-            <p><code>
+            <pre><code>
             $ git status
-            </code></p>
+            </code></pre>
             <p>To read the <strong>commit log</strong>:</p>
-            <p><code>
+            <pre><code>
             $ git log
-            </code></p>
+            </code></pre>
             <p>To read about the last commit:</p>
-            <p><code>
+            <pre><code>
             $ git log -1
-            </code></p>
+            </code></pre>
             <h3>Setting up <strong>remotes</strong></h3>
             <p>You can see <strong>all</strong> your defined remotes:</p>
-            <p><code>
+            <pre><code>
             $ git remote show
-            </code></p>
+            </code></pre>
             <p>The <strong>clone</strong> command automatically created a remote called <em>origin</em> that
             points to the repository from where you cloned your local one.</p>
             <p>To get <strong>detailed information</strong> about a remote</p>
-            <p><code>
+            <pre><code>
             $ git remote show origin
-            </code></p>
+            </code></pre>
             <p>If you want to pull changes from other remotes you have to <strong>add</strong> them. For
             example if you want to track the development in the original qLib repository
             you have to add it as a remote.</p>
-            <p><code>
+            <pre><code>
             $ git remote add qLib-qLab https://github.com/qLab/qLib.git
-            </code></p>
+            </code></pre>
             <p>Now you can pull the changes from there. If this is not the default remote for
             the branch, you will have to tell Git which one you mean (master).</p>
-            <p><code>
+            <pre><code>
             $ git pull qLab master
-            </code></p>
+            </code></pre>
             <h3>Setting up <strong>branches</strong></h3>
             <p>To list your <strong>local branches</strong>:</p>
-            <p><code>
+            <pre><code>
             $ git branch
-            </code></p>
+            </code></pre>
             <p>To list all branches, local and remote ones:</p>
-            <p><code>
+            <pre><code>
             $ git branch -a
-            </code></p>
+            </code></pre>
             <p>The <strong>clone</strong> command will only set up the default branch which is usually
             called <em>master</em>. The <em>master</em> branch is usually the released version of the
             content while development happens in other branches.</p>
@@ -142,9 +136,9 @@
             are placeholders for actual version numbers.</p>
             <p>The easiest way to set up a <strong>tracking branch</strong> is to use the <em>checkout</em> command
             with the <em>-b</em> flag.</p>
-            <p><code>
+            <pre><code>
             $ git checkout -b dev-0.2 origin/dev-0.2
-            </code></p>
+            </code></pre>
             <p>The command above will create a <strong>local branch</strong> that pulls and pushes from and
             to your repository on Github.</p>
             <p>The difference between <strong>local</strong> and <strong>remote</strong> branches is that you can modify
@@ -156,26 +150,26 @@
             push from an ordinary branch too, but you have to tell git where the remote is
             and which branch you want to use.</p>
             <p>To <strong>delete</strong> a branch:</p>
-            <p><code>
+            <pre><code>
             $ git branch -D deadend
-            </code></p>
+            </code></pre>
             <p>To <strong>delete a branch on a remote</strong>:</p>
-            <p><code>
+            <pre><code>
             $ git push :deadend
-            </code></p>
+            </code></pre>
             <h3><strong>Pushing</strong> your changes</h3>
             <p>When you are ready with your modifications you have to <strong>push</strong> the changes
             back to your Github repository.</p>
             <p>On a tracking branch it is simpe to push.</p>
-            <p><code>
+            <pre><code>
             $ git push
-            </code></p>
+            </code></pre>
             <p>On a non-tracking or from a tracking branch to a repository that is not the one
             that you are tracking it's also not that hard. You just have to specify the
             remote and the branch.</p>
-            <p><code>
+            <pre><code>
             $ git push qLib-bess dev-0.2
-            </code></p>
+            </code></pre>
             <h3>Sending a <strong>Pull Request</strong></h3>
             <p>You can't push to every repository on Github. You have to have proper
             permissions to do that. But you can inform the maintainers of other
