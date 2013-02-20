@@ -173,6 +173,11 @@ float: left;
 box-shadow: none;
 }
 
+#small {
+font-size: 12px;
+text-align: right;
+}
+
 #links span {
 height: 24px;
 font-size: 9px;
