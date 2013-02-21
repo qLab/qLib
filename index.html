@@ -35,7 +35,7 @@
 
         <header>
           <h1>qLib</h1>
-          <h2>An open source library for SideFX Houdini.</h2>
+          <h2>A procedural asset library for SideFX Houdini</h2>
         </header>
 
         <section id="downloads" class="clearfix">
@@ -54,39 +54,124 @@
 
         <hr>
 
-<p id="small"><a href="https://github.com/qLab/qLib/archive/dev-0.2.zip">
+<!--<p id="small"><a href="https://github.com/qLab/qLib/archive/dev-0.2.zip">
 The latest "bleeding edge" version is available here.</a><br>
 (You probably won't bleed much, though.)
-</p>
+</p>-->
 
         <section id="main_content">
-          <h3>Welcome Houdinistas!</h3>
+          <h3>About</h3>
 
-<p>You can download <strong>qLib</strong> from here.</p>
+		  <p><strong>qLib</strong> is a procedural digital asset library for
+		  SideFX's Houdini.  We call it <em>procedural</em> because it is a
+		  collection of simple tools designed to work flawlessly with each
+		  other and Houdini's native toolset. In the right hands it can
+		  <strong>speed up</strong> the production process dramatically by
+		  letting the <strong>artist</strong> spend more time on <em>what</em>
+		  she wants to achieve instead of <em>how</em> she wants to achieve
+		  it.</p>
 
-But it's better to use <strong>git</strong>! Grab <strong>git</strong>
-from <a href="http://code.google.com/p/git-osx-installer/">here for OS X</a>, here <a href="http://msysgit.github.com/">for Windows</a> (that one has a decent bash shell, too)
-or from your package manager on Linux.
-</p>
+		  <p> qLib is <strong>open source software</strong> licenced under the
+		  <a href="https://github.com/qLab/qLib/blob/master/LICENCE">New BSD
+			licence</a>. It's developed by VFX professionals from several
+		  studios working on feature films, game cinematics and
+		  commercials.</p>
 
-<p>Open a shell and clone the repository:</p>
+		  <h3>Installation</h3>
 
-<pre><code>$ cd <em>&lt;target folder&gt;</em>
+		  <p>The installation process involves two steps: <strong>getting the
+			contents</strong> and <strong>setting up the environment</strong>
+		  for Houdini.</p>
+
+		  <p>There are two ways to get the contents of the library. You can
+		  download a compressed <strong>archive file</strong> or you can clone
+		  the official repository with <strong>Git</strong>. While installing
+		  from an archive may be a bit simpler, we highly recommend you to use
+		  <strong>Git</strong> since it gives you the additional benefits of
+		  <strong>instant updates</strong> and easy access to <strong>older versions</strong>
+		  and <strong>development branches</strong>.</p>
+
+		<h3>From Archive File</h3>
+		  
+		<p>Simply <strong>download</strong>  the current version by pressing one of the download
+		buttons and <strong>unpack</strong> it to the place where you want to install qLib.</p>
+
+		  <h3>Cloning the repository with Git</h3>
+
+		  <p>In order to use Git, you first have to <strong>install</strong> it.
+		  Every modern <strong>Linux</strong> distribution has a Git package.
+		  Use your choice of package manager to install it. On
+		  <strong>Windows</strong> download and install
+		  <a href="http://msysgit.github.com/">Git on Windows</a>,
+		  on <strong>OS X</strong> do the same with
+		  <a href="http://code.google.com/p/git-osx-installer/">git-osx-installer</a>.</p>
+
+		  <p>After installing Git, open a terminal and <strong>clone</strong>
+		  the repository.  On <strong>Windows</strong> use <strong>git
+			bash</strong> which is a pretty decent shell included in <em>Git on
+			Windows</em>. Go to the directory where you want to install qLib
+		  and run <em>git clone</em> with the url of the repositroy.</p>
+
+<pre><code>$ cd <em>PLACE/TO/INSTALL</em>
 $ git clone https://github.com/qLab/qLib.git
 </code></pre>
 
-<p>Later if you want to update the library just go into your cloned repository and run the following:</p>
+		  <p>Later if you want to update the library just go into your cloned
+		  repository and run <em>git pull</em>.</p>
 
 <pre><code>$ cd qLib
 $ git pull
 </code></pre>
 
-<p>Thats it! You just updated to the latest version.</p>
-        </section>
+		  <h3>Setting up the environment</h3>
+
+		  <p>To finish the installation you must tell houdini to load the
+		  assets by setting the <strong>HOUDINI_OTLSCAN_PATH</strong>
+		  environment variable. You can <strong>skip</strong> or <strong>postpone</strong> this step if you want
+		  to try out individual assets by loading them manually.</p>
+
+		  <p>The easiest way to do this is to put the following lines into your
+		  <a href="http://www.sidefx.com/docs/current/basics/config_env">
+			<strong>houdini.env</strong></a> file:</p>
+
+<pre><code>QLIB=<em>PLACE/TO/INSTALL</em>
+QL_OTLS=$QLIB/otls
+HOUDINI_OTLSCAN_PATH=@/otls:$QL_OTLS/base:$QL_OTLS/spec:$QL_OTLS/future
+</code></pre>
+
+			<p>Note that on Windows you should use semicolons instead of colons as path separator,
+			so the <strong>last line</strong> on Windows should look like this:</p>
+		  
+<pre><code>HOUDINI_OTLSCAN_PATH=@/otls;$QL_OTLS/base;$QL_OTLS/spec;$QL_OTLS/future
+</code></pre>
+
+			<h3>Further readings and other places of interest</h3>
+
+			<p>qLib comes with fairly extensive <strong>documentation</strong>.
+			First and foremost every asset should have a <strong>help
+			  card</strong> describing the asset's functionality and behavior.</p>
+			
+			<p>Other aspects of the library are covered in the <a
+			  href="https://github.com/qLab/qLib/wiki">Wiki</a>.
+
+			<p>If you think you ran into a <strong>bug</strong>, please report it
+			on the project's <a
+			  href="https://github.com/qLab/qLib/issues?state=open">issue
+			  tracker</a>. <strong>RFE</strong>s are also welcome there!</p>
+
+			<p>If you need help, have a question or just want to keep up with
+			the news regarding qLib, feel free to yoin us on our <a
+			  href="https://groups.google.com/forum/#!forum/qlib">Google
+			  Groups</a> page.</p>
+
+			<br>
+			<h4>Thank you for your interest in qLib!<br>The qLib Team.</h4>
+		  </section>
 
         <footer>
-          qLib is maintained by <a href="https://github.com/qLab">the qLab organization.</a>
-          ("Tactile" theme by <a href="http://twitter.com/jasonlong">Jason Long</a>, from <a href="http://pages.github.com">GitHub Pages</a>)
+		qLib is maintained by <a href="https://github.com/qLab">qLab.</a><br>
+		Original "Tactile" theme by <a href="http://twitter.com/jasonlong">Jason Long</a>,
+		modified by qLab.
         </footer>
 
         
