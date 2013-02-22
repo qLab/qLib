@@ -1,80 +1,94 @@
 qLib
 ====
 
-A general-purpose Digital Asset library for Houdini.
+A procedural asset library for SideFX Houdini
 
-You can get social with us on [Facebook](http://www.facebook.com/pages/qLib/145692112131248)
-and/or [Twitter](http://twitter.com/#!/qLib_houdini).
+### About
 
-Installation instructions
-=========================
+**qLib** is a procedural digital asset library for SideFX's Houdini.  We call
+it **procedural** because it is a collection of simple tools designed to work
+flawlessly with each other and Houdini's native toolset. In the right hands it
+can **speed up** the production process dramatically by letting the **artist**
+spend more time on **what** she wants to achieve instead of **how** she wants
+to achieve it.
 
-Download and unpack the distribution tarball from:
+qLib is **open source software** licensed under the [New BSD
+license](https://github.com/qLab/qLib/blob/master/LICENCE). It's developed by
+VFX professionals from several studios working on feature films, game
+cinematics and commercials.
 
-http://qlab.github.com/qLib/
+### Installation
 
-    NOTE: Do NOT USE THE "Download as .zip" button on github.com. Use the
-    above link if you need the ready-to-use .otl files or use 'git clone'
-    if you want to tinker with the sources.
+The installation process involves two steps: **getting the contents** and
+**setting up the environment** for Houdini.
 
-    The repository stores the assets in a textual form, which can't be used in
-    Houdini directly. See README.developer or the Wiki for instructions on
-    building the actual OTL files from source.
+There are two ways to get the contents of the library. You can download a
+compressed **archive file** or you can clone the official repository with
+**Git**. While installing from an archive may be a bit simpler, we highly
+recommend you to use **Git** since it gives you the additional benefits of
+**instant updates** and easy access to **older versions** and **development
+branches**.
 
-Place the unpacked folder to a convenient location -- probably somewhere where
-others can access it as well -- and add the qLib/otls/<section_name> (see below)
-folder to the HOUDINI_OTLSCAN_PATH environment variable. Creating a variable
-called QLIB can make adding the various sections a bit easier. For example the
-next two lines adds all sections to the path:
+### From Archive File
 
-    QLIB = /Users/mate/qLab/qLib/otls
-    HOUDINI_OTLSCAN_PATH = @/otls:$QLIB/base:$QLIB/spec:$QLIB/future
+Simply **download**  the current version by pressing one of the download
+buttons and **unpack** it to the place where you want to install qLib.
 
-On Windows you should use semicolon instead of colon for path separator:
+### Cloning the repository with Git
 
-    QLIB = /Users/mate/qLab/qLib/otls
-    HOUDINI_OTLSCAN_PATH = @/otls;$QLIB/base;$QLIB/spec;$QLIB/future
+In order to use Git, you first have to **install** it.  Every modern **Linux**
+distribution has a Git package.  Use your choice of package manager to install
+it. On **Windows** download and install [Git on
+Windows](http://msysgit.github.com/"), on **OS X** do the same with
+[git-osx-installer](http://code.google.com/p/git-osx-installer/).
 
-(Dumping the OTL files into a folder which contains other OTLs is not a recommended
-practice: it'll needlessly make maintenance of your assets more difficult.)
+After installing Git, open a terminal and **clone** the repository.  On
+**Windows** use **git bash** which is a pretty decent shell included in **Git
+on Windows**. Go to the directory where you want to install qLib and run **git
+clone** with the url of the repository.
 
+```$ cd **PLACE/TO/INSTALL** $ git clone https://github.com/qLab/qLib.git ```
 
-Sections
-========
+Later if you want to update the library just go into your cloned repository and
+run **git pull**.
 
-The asset library contains the following sections: base, spec, future, and
-graveyard. The assets belonging the different sections are stored in
-directories with the same name.
+```$ cd qLib $ git pull ```
 
-The 'base' assets are intended to be used as building blocks of more
-complex networks.
+### Setting up the environment
 
-The 'spec' assets are useful in specific situations and are probably less
-useful as generic tools. You may decide if you want to add the 'spec' section
-to your path or not. No assets in other sections should ever depend on assets
-in this section.
+To finish the installation you must tell Houdini to load the assets by setting
+the **HOUDINI_OTLSCAN_PATH** environment variable. You can **skip** or
+**postpone** this step if you want to try out individual assets by loading them
+manually.
 
-The 'future' assets are still evolving and not yet integrated into the main
-distribution. They may lack documentation or other requirements (that we agree
-to be mandatory for an asset to be complete). We still release them so they
-can be used (therefore more extensively tested).
+The easiest way to do this is to put the following lines into your <a
+href="http://www.sidefx.com/docs/current/basics/config_env">
+**houdini.env**</a> file:
 
-In other words, 'future' is the alpha testing ground in the "release early,
-release often" spirit.
+```QLIB=**PLACE/TO/INSTALL** QL_OTLS=$QLIB/otls
+HOUDINI_OTLSCAN_PATH=@/otls:$QL_OTLS/base:$QL_OTLS/spec:$QL_OTLS/future ```
 
-The 'graveyard' section is the resting place for obsolete assets. We keep them
-for compatibility reasons for a while. After that they get removed from
-the distribution.
+Note that on Windows you should use semicolons instead of colons as path
+separator, so the **last line** on Windows should look like this:
 
+```HOUDINI_OTLSCAN_PATH=@/otls;$QL_OTLS/base;$QL_OTLS/spec;$QL_OTLS/future ```
 
+### Further readings and other places of interest
 
-A note on interdependencies
-===========================
+qLib comes with fairly extensive **documentation**.  First and foremost every
+asset should have a **help card** describing the asset's functionality and
+behavior.
 
-Although we like to avoid any interdependencies of assets (except depending on
-'base' assets), but it's not a rule set in stone. In a few cases
-an asset might depend on another. This is always mentioned on the dependent
-asset's help page. (But if you have the complete library installed -- which is
-the reasonable thing to do --, you won't have any problems).
+Other aspects of the library are covered in the
+(https://github.com/qLab/qLib/wiki)[Wiki].
 
-'Spec' assets are the exception: no other asset should depend on them.
+If you think you ran into a **bug**, please report it on the project's [issue
+tracker](https://github.com/qLab/qLib/issues?state=open).  **RFE**s are also
+welcome there!
+
+If you need help, have a question or just want to keep up with the news
+regarding qLib, feel free to join us on our [Google
+Groups](https://groups.google.com/forum/#!forum/qlib) page.
+
+#### Thank you for your interest in qLib!
+#### The qLib Team
