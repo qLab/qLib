@@ -38,8 +38,8 @@ buttons and **unpack** it to the place where you want to install qLib.
 
 In order to use Git, you first have to **install** it.  Every modern **Linux**
 distribution has a Git package.  Use your choice of package manager to install
-it. On **Windows** download and install [Git on
-Windows](http://msysgit.github.com/"), on **OS X** do the same with
+it. On **Windows** download and install [Git on Windows](http://msysgit.github.com/),
+on **OS X** do the same with
 [git-osx-installer](http://code.google.com/p/git-osx-installer/).
 
 After installing Git, open a terminal and **clone** the repository.  On
@@ -47,12 +47,17 @@ After installing Git, open a terminal and **clone** the repository.  On
 on Windows**. Go to the directory where you want to install qLib and run **git
 clone** with the url of the repository.
 
-```$ cd **PLACE/TO/INSTALL** $ git clone https://github.com/qLab/qLib.git ```
+```
+$ cd **PLACE/TO/INSTALL**
+$ git clone https://github.com/qLab/qLib.git
+```
 
 Later if you want to update the library just go into your cloned repository and
 run **git pull**.
 
-```$ cd qLib $ git pull ```
+```
+$ cd qLib $ git pull
+```
 
 ### Setting up the environment
 
@@ -65,13 +70,17 @@ The easiest way to do this is to put the following lines into your <a
 href="http://www.sidefx.com/docs/current/basics/config_env">
 **houdini.env**</a> file:
 
-```QLIB=**PLACE/TO/INSTALL** QL_OTLS=$QLIB/otls
-HOUDINI_OTLSCAN_PATH=@/otls:$QL_OTLS/base:$QL_OTLS/spec:$QL_OTLS/future ```
+```
+QLIB=**PLACE/TO/INSTALL** QL_OTLS=$QLIB/otls
+HOUDINI_OTLSCAN_PATH=@/otls:$QL_OTLS/base:$QL_OTLS/spec:$QL_OTLS/future
+```
 
 Note that on Windows you should use semicolons instead of colons as path
 separator, so the **last line** on Windows should look like this:
 
-```HOUDINI_OTLSCAN_PATH=@/otls;$QL_OTLS/base;$QL_OTLS/spec;$QL_OTLS/future ```
+```
+HOUDINI_OTLSCAN_PATH=@/otls;$QL_OTLS/base;$QL_OTLS/spec;$QL_OTLS/future
+```
 
 ### Further readings and other places of interest
 
@@ -80,7 +89,7 @@ asset should have a **help card** describing the asset's functionality and
 behavior.
 
 Other aspects of the library are covered in the
-(https://github.com/qLab/qLib/wiki)[Wiki].
+[Wiki](https://github.com/qLab/qLib/wiki).
 
 If you think you ran into a **bug**, please report it on the project's [issue
 tracker](https://github.com/qLab/qLib/issues?state=open).  **RFE**s are also
@@ -91,4 +100,4 @@ regarding qLib, feel free to join us on our [Google
 Groups](https://groups.google.com/forum/#!forum/qlib) page.
 
 #### Thank you for your interest in qLib!
-#### The qLib Team
+##### The qLib Team
