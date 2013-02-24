@@ -112,7 +112,7 @@ The latest "bleeding edge" version is available here.</a><br>
 			Windows</em>. Go to the directory where you want to install qLib
 		  and run <em>git clone</em> with the url of the repository.</p>
 
-<pre><code>$ cd <em>PLACE/TO/INSTALL</em>
+<pre><code>$ cd <strong>PLACE/TO/INSTALL</strong>
 $ git clone https://github.com/qLab/qLib.git
 </code></pre>
 
@@ -134,15 +134,14 @@ $ git pull
 		  <a href="http://www.sidefx.com/docs/current/basics/config_env">
 			<strong>houdini.env</strong></a> file:</p>
 
-<pre><code>QLIB=<em>PLACE/TO/INSTALL</em>
-QL_OTLS=$QLIB/otls
-HOUDINI_OTLSCAN_PATH=@/otls:$QL_OTLS/base:$QL_OTLS/future:$QL_OTLS/experimental
+<pre><code>QLIB=<strong>PLACE/TO/INSTALL/</strong>qLib/otls
+HOUDINI_OTLSCAN_PATH=@/otls:$QLIB/base:$QLIB/future:$QLIB/experimental
 </code></pre>
 
 			<p>Note that on Windows you should use semicolons instead of colons as path separator,
 			so the <strong>last line</strong> on Windows should look like this:</p>
 		  
-<pre><code>HOUDINI_OTLSCAN_PATH=@/otls;$QL_OTLS/base;$QL_OTLS/future;$QL_OTLS/experimental
+<pre><code>HOUDINI_OTLSCAN_PATH=@/otls;$QLIB/base;$QLIB/future;$QLIB/experimental
 </code></pre>
 
 			<h3>Further readings and other places of interest</h3>
