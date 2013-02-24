@@ -5,12 +5,12 @@ A procedural asset library for SideFX Houdini
 
 ### About
 
-**qLib** is a procedural digital asset library for SideFX's Houdini.  We call
-it **procedural** because it is a collection of simple tools designed to work
-flawlessly with each other and Houdini's native toolset. In the right hands it
-can **speed up** the production process dramatically by letting the **artist**
-spend more time on **what** she wants to achieve instead of **how** she wants
-to achieve it.
+qLib is a **procedural** digital asset library for SideFX's Houdini. In the
+right hands it can **speed up** the production process dramatically by letting
+the **artist** spend more time on **what** she wants to achieve instead of
+**how** she wants to achieve it. We call it procedural because it is a
+collection of simple tools designed to work flawlessly with each other and
+Houdini's native toolset. 
 
 qLib is **open source software** licensed under the [New BSD
 license](https://github.com/qLab/qLib/blob/master/LICENCE). It's developed by
