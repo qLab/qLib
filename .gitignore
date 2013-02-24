@@ -1,0 +1,9 @@
+# vim swap files
+*.swp
+
+# python compiled
+*.pyc
+
+# backup dirs
+examples/backup
+otls/*/backup
