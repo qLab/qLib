@@ -48,7 +48,7 @@ on Windows**. Go to the directory where you want to install qLib and run **git
 clone** with the url of the repository.
 
 ```
-$ cd **PLACE/TO/INSTALL**
+$ cd PLACE/TO/INSTALL
 $ git clone https://github.com/qLab/qLib.git
 ```
 
@@ -56,7 +56,8 @@ Later if you want to update the library just go into your cloned repository and
 run **git pull**.
 
 ```
-$ cd qLib $ git pull
+$ cd qLib
+$ git pull
 ```
 
 ### Setting up the environment
@@ -71,7 +72,7 @@ href="http://www.sidefx.com/docs/current/basics/config_env">
 **houdini.env**</a> file:
 
 ```
-QLIB=**PLACE/TO/INSTALL** QL_OTLS=$QLIB/otls
+QLIB=PLACE/TO/INSTALL QL_OTLS=$QLIB/otls
 HOUDINI_OTLSCAN_PATH=@/otls:$QL_OTLS/base:$QL_OTLS/spec:$QL_OTLS/future
 ```
 
