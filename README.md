@@ -72,7 +72,8 @@ href="http://www.sidefx.com/docs/current/basics/config_env">
 **houdini.env**</a> file:
 
 ```
-QLIB=PLACE/TO/INSTALL QL_OTLS=$QLIB/otls
+QLIB=PLACE/TO/INSTALL
+QL_OTLS=$QLIB/otls
 HOUDINI_OTLSCAN_PATH=@/otls:$QL_OTLS/base:$QL_OTLS/spec:$QL_OTLS/future
 ```
 
