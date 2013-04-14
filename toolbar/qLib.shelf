@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <!-- This file contains definitions of shelves, toolbars, and tools.
+ It should not be hand-edited when it is being used by the application.
+ Note, that two definitions of the same element are not allowed in
+ a single file. -->
+
+  <toolshelf name="qLib" label="qLib">
+    <memberTool name="ReferenceCopy_qL"/>
+    <memberTool name="AttribDisplayMarkers_Add_qL"/>
+  </toolshelf>
+
+  <tool name="ReferenceCopy_qL" label="Ref Copy qL" icon="BUTTONS_copy">
+    <helpText><![CDATA[#icon: BUTTONS/copy
+#context: obj
+#type: tool
+
+= Reference Copy qL =
+
+*version 1*
+
+"""Creates a Reference Copy where the reference source is easy to replace."""
+
+This function is the same as the original _Reference Copy_ operation,
+but it adds an extra parameter that specifies the source operator name
+where all parameter values are referenced from.
+
+This way the reference source is easy to change.
+
+
+@usage Using Reference Copy
+
+Select node(s) and click the shelf button.
+
+]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+import re
+
+def postproc_refcopy(nodepath, srcpath):
+    N = hou.node(nodepath)
+
+    if N:
+
+        # add ref_source parameter
+        #
+        N.addSpareParmTuple(
+            hou.StringParmTemplate(
+                "ref_source", "Ref Source", 1,
+                string_type=hou.stringParmType.NodeReference
+            )
+        )
+
+        N.parm('ref_source').set(srcpath)
+
+        # process linkage expressions
+        #
+        parms = N.parms()
+        for p in parms:
+            try:
+                has_expr = p.keyframes() != ()
+                if has_expr:
+                    x = p.expression()
+                    x = re.sub('"\.\./[^/]+', 'chs("ref_source")+"', x)
+                    p.setExpression(x)
+            except Exception as e:
+                print "failed for param '%s'" % p.name()
+
+
+
+# main
+#
+sel = [ n.path() for n in hou.selectedNodes() ]
+
+for S in sel:
+    c = len( hou.hscript( 'opls -d %s*' % S )[0].split() )
+    T = '%s_copy%d' % (S, c)
+    hou.hscript('opcp -c %s %s' % (S, T))
+    postproc_refcopy(T, S)
+
+]]></script>
+  </tool>
+
+  <tool name="AttribDisplayMarkers_Add_qL" label="(vis attr)" icon="BUTTONS_displayoptions">
+    <helpText><![CDATA[#icon: BUTTONS/displayoptions
+#context: obj
+#type: tool
+
+= Attrib Display Markers (Add) qL =
+
+*version 1*
+
+"""Creates display markers for all the attributes present on the displayed operator."""
+
+This function builds visual display markers for all the attributes
+that exist on the currently displayed operator.
+
+(It can be considered as a shortcut to the similar function of the
+[Attr Visualize qL SOP|node:sop/qLib::attr_visualize_ql::1]'s
+_Marker_ section.)
+
+@related
+    - [Attr Visualize qL SOP|node:sop/qLib::attr_visualize_ql::1]
+    - ...
+
+@usage Using Add Display Markers
+
+Set the Display flag on a node and click the shelf button. Then press
+the `D` key in a Scene View, go to the Markers tab to see the generated
+attribute markers ("Custom" section.)
+
+
+
+]]></helpText>
+    <script scriptType="python"><![CDATA[# TODO: get code from attr_visualize_ql
+#
+# ...
+
+hou.ui.displayMessage("not implemented yet :(")
+
+pass
+]]></script>
+  </tool>
+</shelfDocument>
