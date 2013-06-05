@@ -7,7 +7,8 @@
 
   <toolshelf name="qLib" label="qLib">
     <memberTool name="ReferenceCopy_qL"/>
-    <memberTool name="AttribDisplayMarkers_Add_qL"/>
+    <memberTool name="AttribDisplayMarkers_qL"/>
+    <memberTool name="ToggleIntegerFrames_qL"/>
   </toolshelf>
 
   <tool name="ReferenceCopy_qL" label="Ref Copy qL" icon="BUTTONS_copy">
@@ -80,16 +81,21 @@ for S in sel:
 ]]></script>
   </tool>
 
-  <tool name="AttribDisplayMarkers_Add_qL" label="(vis attr)" icon="BUTTONS_displayoptions">
+  <tool name="AttribDisplayMarkers_qL" label="attr.vis" icon="BUTTONS_displayoptions">
     <helpText><![CDATA[#icon: BUTTONS/displayoptions
 #context: obj
 #type: tool
 
-= Attrib Display Markers (Add) qL =
+= Attrib Display Markers qL =
 
 *version 1*
 
-"""Creates display markers for all the attributes present on the displayed operator."""
+"""Creates display markers for all the attributes present on the displayed operator.
+----
+Shift-LMB: Clear previously built
+Ctrl-LMB: Clear ALL markers then rebuild
+Ctrl+Shift-LMB: Clear ALL markers
+"""
 
 This function builds visual display markers for all the attributes
 that exist on the currently displayed operator.
@@ -111,13 +117,219 @@ attribute markers ("Custom" section.)
 
 
 ]]></helpText>
-    <script scriptType="python"><![CDATA[# TODO: get code from attr_visualize_ql
-#
-# ...
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
 
-hou.ui.displayMessage("not implemented yet :(")
 
-pass
+def ynreq(msg):
+    return hou.ui.displayMessage(msg, ["Ok", "Cancel"]) == 0
+
+def dispmsg(msg):
+    hou.ui.setStatusMessage(msg)
+
+
+
+def get_current_viewer_name():
+    v = toolutils.sceneViewer()
+    w = "%s.%s.world" % \
+            (v.pane().desktop().name(), \
+            v.name() )
+    return w
+
+
+
+def get_display_sop():
+    v = None
+    try:
+        v = toolutils.sceneViewer()
+        v = v.pwd() # OBJ object
+        v = v.displayNode()
+    except:
+        v = None
+        dispmsg("couldn't get Display (S)OP")
+    return v
+
+
+
+def clear_built_markers(kwargs=None, clearAll=False):
+    if True: #ynreq("Clear %s display markers?" % "ALL" if clearAll else "generated"):
+        for m in hou.hscript("viewoptls")[0].split():
+            if clearAll or '_vis_' in m:
+                print "viewoptrm %s" % m
+                hou.hscript("viewoptrm %s" % m)
+
+
+
+
+
+def build_markers(kwargs=None): # ( was create_markers() )
+    """."""
+
+    type_names = {
+        hou.attribType.Point: "point",
+        hou.attribType.Prim: "prim",
+        hou.attribType.Vertex: "vertex"
+    }
+
+    type_labels = {
+        hou.attribType.Point: "p:",
+        hou.attribType.Prim: "pr:",
+        hou.attribType.Vertex: "vt:"
+    }
+
+    pwd = get_display_sop()
+    if pwd: dispmsg("display OP: %s" % pwd.path())
+    else: return
+
+    type_name  = lambda t: type_names[t]  if t in type_names  else ""
+    type_label = lambda t: type_labels[t] if t in type_labels else ""
+    p  = lambda n: pwd.parm(n).eval()
+    ps = lambda n: pwd.parm(n).eval().strip()
+
+    views = hou.hscript("viewls -n")[0].split()
+    g = pwd.geometry()
+
+    def to_as(attrs):
+        return " ".join( [ a.name() for a in attrs if a.dataType() is not hou.attribData.String ] )
+
+    #force_tx  = ps('force_text').split()
+    #vel_attrs = ps('vel_attribs').split()
+
+    force_tx = 'P Cd uv'.split()
+    vel_attrs = 'v accel'.split()
+
+    scale_v   = 1.0 # vec scale
+    scale_vel = (1/24.0) # velocity scale
+
+    attrs_pt = to_as(g.pointAttribs())
+    attrs_pr = to_as(g.primAttribs())
+    attrs_vtx = to_as(g.vertexAttribs())
+
+    #attrs_display = ps('markers_display').split()
+    #if p('do_markers_display')==0: attrs_display = []
+
+    CS = [
+            (attrs_pt, g.findPointAttrib),
+            (attrs_pr, g.findPrimAttrib),
+            (attrs_vtx, g.findVertexAttrib)
+        ]
+
+    hue = 0
+    color = hou.Color()
+
+    for C in CS:
+
+        attrs = C[0].split()
+        find_attr_func = C[1] #g.findPointAttrib
+
+        # add textual version of vector attrs
+        attrs += [ ("text:%s" % v) for v in attrs if find_attr_func(v).size()==3 ]
+        attrs = sorted(attrs)
+
+        for name in attrs:
+
+            tx = "text:" in name
+            name = name.replace("text:", "")
+
+            a = find_attr_func(name)
+            if a and a.dataType() is not hou.attribData.String:
+                opt_name = "_vis_%s_%d" % (name, tx, )
+                size = a.size()
+                is_xn = a.isTransformedAsNormal()
+                is_xv = a.isTransformedAsVector()
+                is_vect = size==3 and not tx # and name not in force_tx
+                as_vel = name in vel_attrs
+                scale = scale_vel if as_vel else scale_v
+    
+                label = "%s%s" % ( type_label(a.type()), name )
+    
+                if is_vect:
+                    label += " [vec."
+                    if as_vel: label += "/v."
+                    if is_xn: label += "; xformed as normal"
+                    if is_xv: label += "; xformed as vector"
+                    label += "]"
+                else:
+                    pass # label += " (num)"
+    
+                print "--- %s: '%s'" % (name, label)
+    
+                # create/update marker
+    
+                hou.hscript('viewoptrm %s' % opt_name)
+                hou.hscript('viewoptadd %s %s' % ('vector' if is_vect else 'text', opt_name))
+    
+                def vos(parm, val):
+                    print ' --- viewoptset %s %s ( %s )' % (opt_name, parm, val)
+                    hou.hscript('viewoptset %s %s ( %s )' % (opt_name, parm, val))
+
+                if True:    
+                    vos('attrib', a.name())
+                    vos('class', type_name(a.type()))
+                    vos('label', '"%s"' % label)
+                    vos('overridecolor', '1')
+                    color.setHSV((hue, 1.0, 0.2)); vos('color', '%f %f %f' % color.rgb())
+                    color.setHSV((hue, 0.7, 0.9)); vos('selcolor', '%f %f %f' % color.rgb())
+
+                if is_vect:
+                    vos('scale', scale)
+
+                if False: # name in attrs_display:
+                    for view in views:
+                        hou.hscript('viewoptenable %s all +%s' % (view, opt_name))
+                    hue += 137.5/2.0
+
+            else:
+                print "couldn't find attribute %s" % name
+
+    print "done. ------------"
+
+'''
+viewoptset
+    vector_dunno
+        arrow ( 0 )
+        attrib ( N )
+        class ( point )
+        color ( 0 0 1 )
+        icon ( SI_pointNormal )
+        label ( "pr: primN (vector)" )
+        overridecolor ( 0 )
+        scale ( 1 )
+        selcolor ( 0 0.45 1 )
+        visibility ( 1 )
+'''
+
+
+print kwargs
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+clear_built_markers(kwargs, clearAll=ctrl)
+
+if not shift:
+    build_markers(kwargs)
+]]></script>
+  </tool>
+
+  <tool name="ToggleIntegerFrames_qL" label="int.frames" icon="PLAYBAR_editable_keys">
+    <helpText><![CDATA[#icon: PLAYBAR/editable_keys
+#context: obj
+#type: tool
+
+= Toggle Integer Frames qL =
+
+*version 1*
+
+"""Toggle non-integer frame values on the playbar."""
+]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+
+m = not hou.playbar.usesIntegerFrames()
+hou.playbar.setUseIntegerFrames(m)
+
+hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"))
 ]]></script>
   </tool>
 </shelfDocument>
