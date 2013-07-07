@@ -214,7 +214,7 @@ def build_markers(kwargs=None): # ( was create_markers() )
             (attrs_vtx, g.findVertexAttrib)
         ]
 
-    hue = 0
+    hue = 120.0
     color = hou.Color()
 
     for C in CS:
@@ -268,7 +268,7 @@ def build_markers(kwargs=None): # ( was create_markers() )
                     vos('class', type_name(a.type()))
                     vos('label', '"%s"' % label)
                     vos('overridecolor', '1')
-                    color.setHSV((hue, 1.0, 0.2)); vos('color', '%f %f %f' % color.rgb())
+                    color.setHSV((hue, 0.2, 1.0)); vos('color', '%f %f %f' % color.rgb())
                     color.setHSV((hue, 0.7, 0.9)); vos('selcolor', '%f %f %f' % color.rgb())
 
                 if is_vect:
