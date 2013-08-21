@@ -1,0 +1,2 @@
+*.hip -crlf -diff
+*.otl -crlf -diff
