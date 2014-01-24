@@ -268,8 +268,9 @@ def build_markers(kwargs=None): # ( was create_markers() )
                     vos('class', type_name(a.type()))
                     vos('label', '"%s"' % label)
                     vos('overridecolor', '1')
-                    color.setHSV((hue, 0.2, 1.0)); vos('color', '%f %f %f' % color.rgb())
-                    color.setHSV((hue, 0.7, 0.9)); vos('selcolor', '%f %f %f' % color.rgb())
+                    color.setHSV((hue, 0.9, 0.9)); vos('color', '%f %f %f' % color.rgb())
+                    color.setHSV((hue, 0.4, 1.0)); vos('selcolor', '%f %f %f' % color.rgb())
+                    hue += 137.5 * 0.5
 
                 if is_vect:
                     vos('scale', scale)
