@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <!-- This file contains definitions of shelves, toolbars, and tools.
+ It should not be hand-edited when it is being used by the application.
+ Note, that two definitions of the same element are not allowed in
+ a single file. -->
+
+  <toolshelf name="qLib-dev" label="qLib-dev">
+    <memberTool name="DigitalAsset_PostProcess_qL"/>
+  </toolshelf>
+
+  <tool name="DigitalAsset_PostProcess_qL" label="DA: Post-Process" icon="DATATYPES_boolean">
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+import soptoolutils
+import traceback
+import re
+
+#hou.ui.displayMessage('(postprocess...)')
+
+'''
+    - get selected nodes
+        - get asset definition
+        - 
+'''
+
+
+def process_node(N):
+    '''.'''
+    try:
+        print "NODE: %s --------" % N.name()
+        assert type(N)==hou.SopNode, "not a SOP node"
+
+        # edit asset
+        #
+        N.allowEditingOfContents()
+        T = N.type()
+        HDA = T.definition()
+        print " -- typename:", HDA.nodeTypeName()
+        print " -- description:", HDA.description()
+
+        # process parameter names
+        #
+        pass
+
+        ptg = HDA.parmTemplateGroup()
+        #pts = T.parmTemplates()
+        pts = ptg.entries()
+
+        for pt in pts:
+            n = pt.name()
+            print "--", n
+
+            if n in ['vex_numthreads', 'vex_edit', 'vex_reload']:
+                print "---- TO BE REMOVED"
+                #HDA.removeParmTuple(pt)
+                ptg.remove(pt)
+                continue
+
+            if '__vex_' in n:
+                n2 = re.sub('__vex_', '', n)
+                print "---- %s -> %s" % (n, n2, )
+                pt.setName(n2)
+                print "----", pt.name()
+                pass
+
+        HDA.setParmTemplateGroup(ptg)
+
+        #HDA.updateFromNode(N)
+
+        # done
+        #
+        print "OKAY.\n"
+
+    except:
+        print "OOPS:", traceback.format_exc()
+
+
+
+sel = hou.selectedNodes()
+for s in sel:
+    process_node(s)
+]]></script>
+  </tool>
+</shelfDocument>

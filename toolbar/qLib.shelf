@@ -6,9 +6,11 @@
  a single file. -->
 
   <toolshelf name="qLib" label="qLib">
-    <memberTool name="ReferenceCopy_qL"/>
-    <memberTool name="AttribDisplayMarkers_qL"/>
     <memberTool name="ToggleIntegerFrames_qL"/>
+    <memberTool name="ToggleViewportBackgroundColor_qL"/>
+    <memberTool name="AttribDisplayMarkers_qL"/>
+    <memberTool name="AutonameNodes_qL"/>
+    <memberTool name="ReferenceCopy_qL"/>
   </toolshelf>
 
   <tool name="ReferenceCopy_qL" label="Ref Copy qL" icon="BUTTONS_copy">
@@ -33,8 +35,20 @@ This way the reference source is easy to change.
 
 Select node(s) and click the shelf button.
 
+@relnotes Release Notes
+
+_version 1_ ---
+
+2014-02-14:
+    - Fixed serious bug (worked properly only on frame 1)
+    - Uses `chsop()` now to get OP paths
+
+2013-03-10:
+    - First version.
 ]]></helpText>
-    <script scriptType="python"><![CDATA[import hou
+    <script scriptType="python"><![CDATA[# do the dunno
+#
+import hou
 import re
 
 def postproc_refcopy(nodepath, srcpath):
@@ -58,11 +72,13 @@ def postproc_refcopy(nodepath, srcpath):
         parms = N.parms()
         for p in parms:
             try:
-                has_expr = p.keyframes() != ()
-                if has_expr:
-                    x = p.expression()
-                    x = re.sub('"\.\./[^/]+', 'chs("ref_source")+"', x)
-                    p.setExpression(x)
+                if True:
+                    for k in p.keyframes():
+                        x = k.expression()
+                        x = re.sub('"\.\./[^/]+', 'chsop("ref_source")+"', x)
+                        k.setExpression(x, hou.exprLanguage.Hscript)
+                        p.setKeyframe(k)
+
             except Exception as e:
                 print "failed for param '%s'" % p.name()
 
@@ -331,6 +347,150 @@ m = not hou.playbar.usesIntegerFrames()
 hou.playbar.setUseIntegerFrames(m)
 
 hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"))
+]]></script>
+  </tool>
+
+  <tool name="ToggleViewportBackgroundColor_qL" label="BG" icon="COP2_invert">
+    <helpText><![CDATA[#icon: COP2/invert
+#context: obj
+#type: tool
+
+= Toggle Viewport Background Color qL =
+
+*version 1*
+
+"""Toggles between light and dark viewport color schemes."""
+
+@bugs Limitations
+
+- It doesn't work for the first time when the default background is dark (click twice)
+
+
+@relnotes Release Notes
+
+_version 1_ ---
+
+2014-02-14:
+    - First version (in qLib).
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+v = toolutils.sceneViewer()
+
+w = "%s.%s.world" % \
+        (v.pane().desktop().name(), \
+        v.name() )
+
+#print "view:", w
+
+if not hasattr(hou.session, "bg"):
+    hou.session.bg = True
+
+hou.session.bg = not hou.session.bg
+
+hou.hscript("viewdisplay -B %s %s" % ("bw" if hou.session.bg else "wb", w, ))
+]]></script>
+  </tool>
+
+  <tool name="AutonameNodes_qL" label="autoname" icon="BUTTONS_comment_out">
+    <helpText><![CDATA[#icon: BUTTONS/comment_out
+#context: obj
+#type: tool
+
+= Autoname Nodes qL =
+
+*version 1*
+
+"""Set node name based on its type and specific parameter settings."""
+
+@todo To Do
+
+    - add more OPs
+    - ...
+
+@relnotes Release Notes
+
+_version 1_ ---
+
+2014-02-14:
+    - First version (in qLib).
+]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+import re
+import traceback
+
+
+pg = ('file', 'fileName', )
+
+pd = {
+    # general
+    'shopnet': ('SHADERS', ),
+    'chopnet': ('CHOPS', ),
+    'cop2net': ('COMPOSITE', ),
+    'ropnet': ('RENDER', ),
+    # OBJs
+    'instance': ('inst--', 'instancepath', ),
+    'alembicarchive': ('abc--', 'fileName', ),
+    'alembicxform': ('abcxform--', 'fileName', ),
+    'qLib::alembic_xform_ql::1': ('abcxform--', 'fileName', ),
+    # SOPs
+    'object_merge': ('objm--', 'objpath1', 'group1', ),
+    'alembic': ('abc_', 'fileName', ),
+}
+
+
+print "\nAutonaming selected nodes..."
+
+for N in hou.selectedNodes():
+
+    name = None
+    P = N.path()
+    T = N.type().name()
+
+    print " - node: %s (%s)" % (P, T, )
+
+    if T in pd:
+        pdt = pd[T]
+
+        if len(pdt)>1:
+            name = N.parm(pdt[1]).eval()
+            name = re.search("[^/\\\\]+$", name).group(0) # pop any path
+            name = '%s%s_1' % (pdt[0], name, )
+        else:
+            name = pdt[0]
+
+    if name is None:
+        for p in pg:
+            if N.parm(p):
+                name = N.parm(p).eval()
+
+    if False:
+        if N.parm("file"):
+            # alembic archive (anything with a .fileName parameter)
+            n = N.parm("file")
+            name = n.evalAsString()
+    
+        elif N.parm("fileName"):
+            # alembic archive (anything with a .fileName parameter)
+            n = N.parm("fileName")
+            name = n.evalAsString()
+            #$name = re.sub("\.abc$", "", name)
+            #name = re.sub("_v[0-9]+$", "", name)
+
+    # TODO: geo w/ single alembic node in it
+
+    print " -- name:", name
+
+    if name:
+        # strip any path from it
+        name = re.search("[^/\\\\]+$", name).group(0)
+        print " -- name:", name
+
+        try:
+            N.setName(name, unique_name=True)
+        except:
+            print "OOPS:", traceback.format_exc()
+
 ]]></script>
   </tool>
 </shelfDocument>
