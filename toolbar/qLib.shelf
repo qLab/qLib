@@ -6,6 +6,7 @@
  a single file. -->
 
   <toolshelf name="qLib" label="qLib">
+    <memberTool name="RealTimePlayback_qL"/>
     <memberTool name="ToggleIntegerFrames_qL"/>
     <memberTool name="ToggleViewportBackgroundColor_qL"/>
     <memberTool name="AttribDisplayMarkers_qL"/>
@@ -119,6 +120,21 @@ that exist on the currently displayed operator.
 (It can be considered as a shortcut to the similar function of the
 [Attr Visualize qL SOP|node:sop/qLib::attr_visualize_ql::1]'s
 _Marker_ section.)
+
+@usage Usage
+
+((LMB)):
+    Builds attribute markers for the current Display SOP.
+    (Existing markers will also be rebuilt.)
+((Shift + LMB)):
+    Clears previously built attribute markers.
+    (Markers not built with this function will be preserved.)
+((Ctrl + LMB)):
+    Clears _all_ markers (made by this tool or otherwise)
+    and rebuilds the attribute marker list.
+((Ctrl + Shift + LMB)) . :
+    Deletes _all_ display markers. _All of them._
+
 
 @related
     - [Attr Visualize qL SOP|node:sop/qLib::attr_visualize_ql::1]
@@ -350,7 +366,7 @@ hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"
 ]]></script>
   </tool>
 
-  <tool name="ToggleViewportBackgroundColor_qL" label="BG" icon="COP2_invert">
+  <tool name="ToggleViewportBackgroundColor_qL" label="BG Toggle" icon="COP2_invert">
     <helpText><![CDATA[#icon: COP2/invert
 #context: obj
 #type: tool
@@ -392,7 +408,7 @@ hou.hscript("viewdisplay -B %s %s" % ("bw" if hou.session.bg else "wb", w, ))
 ]]></script>
   </tool>
 
-  <tool name="AutonameNodes_qL" label="autoname" icon="BUTTONS_comment_out">
+  <tool name="AutonameNodes_qL" label="Auto-Name" icon="BUTTONS_comment_out">
     <helpText><![CDATA[#icon: BUTTONS/comment_out
 #context: obj
 #type: tool
@@ -401,23 +417,180 @@ hou.hscript("viewdisplay -B %s %s" % ("bw" if hou.session.bg else "wb", w, ))
 
 *version 1*
 
-"""Set node name based on its type and specific parameter settings."""
+"""Set operator names based on its type and specific parameter settings and/or its context.
+----
+LMB: Automatically name selected OPs
+Alt-LMB: Alternative naming (see help)
+Ctrl-LMB: Reset name/color to defaults
+"""
+
+This function sets operator names, based on various criteria (operator type, parameter settings
+and network connectivity context). Context is especially considered when naming Null OPs.
+
+@usage Usage
+
+There are several ways of invoking this function, when clicking on the shelf tool:
+
+((LMB)):
+    Auto-naming of selected operators.
+((Alt + LMB)):
+    Alternative auto-naming mode (see below).
+((Ctrl + LMB)):
+    Reset name and color of selected operators.
+
+
+@method Auto-naming methods
+
+*General*
+
+Auto-naming follows the general guidelines:
+
+- For most network container OPs it sets a default name
+  (e.g. _SHADERS_ for a shopnet, etc).
+
+- For operators that refer to an external file (alembic, etc)
+  or another operator (e.g. Object Merge SOP), the name will
+  contain the file or operator name.
+
+
+*Null OPs*
+
+For Null operators, the function will try to determine the role
+of the null based on input/output connections, and name (and color)
+it accordingly.
+
+(TODO: finish this)
+
+- mid-network:
+  - named -> GEO_ prefix ('waypoint')
+  - unnamed -> gets darker color if has multiple outputs ('crossroads')
+- lonely null (no input/output): toggle between 'RENDER' (alt: 'DISPLAY') and regular null
+- endpoint (has input, no output):
+  - unnamed -> OUT (alt: DISPLAY)
+  - named -> add OUT_ prefix
+
+
 
 @todo To Do
+    - Automatic coloring of network containers
+    - Better support for Object Merge SOP
 
-    - add more OPs
-    - ...
 
 @relnotes Release Notes
 
 _version 1_ ---
 
+2014-02-20:
+    - Added a more complex Null OP autonaming mechanism
+    - Added other modes (reset, alternative)
+
 2014-02-14:
     - First version (in qLib).
 ]]></helpText>
+    <toolMenuContext name="network">
+      <contextNetType>SOP</contextNetType>
+    </toolMenuContext>
+    <toolSubmenu>qLib--Shelf</toolSubmenu>
     <script scriptType="python"><![CDATA[import hou
 import re
 import traceback
+
+
+
+def name_null(node, altmode=False):
+    '''.'''
+
+    colors = {
+        'normal':  hou.Color((0.80, 0.80, 0.80)),
+        'red':     hou.Color((0.47, 0.00, 0.00)),
+        'grey':    hou.Color((0.70, 0.70, 0.70)),
+        'm-grey':  hou.Color((0.52, 0.52, 0.52)),
+        'green':   hou.Color((0.00, 0.27, 0.00)),
+        'render':  hou.Color((.4,.2,.6)),
+        'display': hou.Color((0,.4,1)),
+    }
+
+    N = node
+    n = N.name()
+
+    tt = N.type().nameWithCategory()
+    is_sop = tt=='Sop/null'
+    is_dop = tt=='Dop/null'
+    is_noname = re.search('^null', n) is not None
+
+    if not is_sop and not is_dop:
+        return
+
+    n_ins  = len(N.inputs())
+    n_outs = len(N.outputs())
+
+    n0= n
+    n = re.sub('^[A-Z]+[-_]+', '', n)
+    c = None
+    unique = True
+    do_reset = False
+
+    prefix = 'OP'
+    if is_sop: prefix='GEO'
+    if is_dop: prefix='DYN'
+
+    if n_outs == 0:
+        # bottom-of-network null
+        print "--- bottom-of-network"
+        if not is_sop: altmode=False
+        if is_noname or n=='OUT' or n=='DISPLAY' or altmode:
+            n, c = ('OUT', 'normal') if not altmode else ('DISPLAY', 'display')
+            unique = False
+        else:
+            n = 'OUT_%s' % n
+            c = 'green'
+
+    else:
+        # mid-network null
+        print "--- mid-network"
+
+        if not is_noname:
+            # mid-network null already named,
+            # just needs a prefix
+            n = '%s_%s' % (prefix, n, )
+            c = 'red'
+
+        else:
+            # unnamed mid-network null, skip
+            if n_outs>1:
+                c='m-grey'
+            n = None
+
+
+    if n_ins==0 and n_outs==0:
+        # lonely null
+        if is_sop:
+            n1 = 'DISPLAY' if altmode else 'RENDER'
+            c = n1.lower()
+            if not n0.startswith(n1):
+                n = n1
+                #c = 'render'
+                unique = False
+            else:
+                do_reset = True
+
+
+    if do_reset:
+        n = 'null1'
+        c = 'normal'
+        unique = True
+
+    # perform rename
+    #
+    try:
+        if n is not None and n!='':
+            N.setName(n, unique_name=unique)
+        if c in colors:
+            N.setColor(colors[c])
+    except:
+        pass
+
+
 
 
 pg = ('file', 'fileName', )
@@ -439,58 +612,104 @@ pd = {
 }
 
 
-print "\nAutonaming selected nodes..."
+def autoname_selected_nodes(reset=False, altmode=False):
+    '''.'''
 
-for N in hou.selectedNodes():
-
-    name = None
-    P = N.path()
-    T = N.type().name()
-
-    print " - node: %s (%s)" % (P, T, )
-
-    if T in pd:
-        pdt = pd[T]
-
-        if len(pdt)>1:
-            name = N.parm(pdt[1]).eval()
-            name = re.search("[^/\\\\]+$", name).group(0) # pop any path
-            name = '%s%s_1' % (pdt[0], name, )
-        else:
-            name = pdt[0]
-
-    if name is None:
-        for p in pg:
-            if N.parm(p):
-                name = N.parm(p).eval()
-
-    if False:
-        if N.parm("file"):
-            # alembic archive (anything with a .fileName parameter)
-            n = N.parm("file")
-            name = n.evalAsString()
+    print "\nAutonaming selected nodes..."
     
-        elif N.parm("fileName"):
-            # alembic archive (anything with a .fileName parameter)
-            n = N.parm("fileName")
-            name = n.evalAsString()
-            #$name = re.sub("\.abc$", "", name)
-            #name = re.sub("_v[0-9]+$", "", name)
+    for N in hou.selectedNodes():
+    
+        name = None
+        P = N.path()
+        T = N.type().name()
+    
+        print " - node: %s (%s)" % (P, T, )
 
-    # TODO: geo w/ single alembic node in it
+        if reset:
+            name = N.name()
+            if not name.startswith(T):
+                N.setName('%s1' % T, unique_name=True)
+                N.setColor(hou.Color((0.8, 0.8, 0.8)))
+            continue
 
-    print " -- name:", name
+        if T=='null':
+            name_null(N, altmode=altmode)
+            continue
+    
+        if T in pd:
+            pdt = pd[T]
 
-    if name:
-        # strip any path from it
-        name = re.search("[^/\\\\]+$", name).group(0)
+            # TODO: handle object_merge SOP as special case
+            # ("fuller" path for SOPs)
+    
+            if len(pdt)>1:
+                name = N.parm(pdt[1]).eval()
+                # TODO: if path points to SOP, include parent OBJ (object_merge)
+                name = re.search("[^/\\\\]+$", name).group(0) # pop any path
+                name = '%s%s_1' % (pdt[0], name, )
+            else:
+                name = pdt[0]
+    
+        if name is None:
+            for p in pg:
+                if N.parm(p):
+                    name = N.parm(p).eval()
+    
+        if False:
+            if N.parm("file"):
+                # alembic archive (anything with a .fileName parameter)
+                n = N.parm("file")
+                name = n.evalAsString()
+        
+            elif N.parm("fileName"):
+                # alembic archive (anything with a .fileName parameter)
+                n = N.parm("fileName")
+                name = n.evalAsString()
+                #$name = re.sub("\.abc$", "", name)
+                #name = re.sub("_v[0-9]+$", "", name)
+    
+        # TODO: geo w/ single alembic node in it
+    
         print " -- name:", name
+    
+        if name:
+            # strip any path from it
+            name = re.search("[^/\\\\]+$", name).group(0)
+            print " -- name:", name
+    
+            try:
+                N.setName(name, unique_name=True)
+            except:
+                print "OOPS:", traceback.format_exc()
+    
 
-        try:
-            N.setName(name, unique_name=True)
-        except:
-            print "OOPS:", traceback.format_exc()
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+autoname_selected_nodes(reset=ctrl, altmode=alt)
 
 ]]></script>
+  </tool>
+
+  <tool name="RealTimePlayback_qL" label="realtime" icon="PLAYBAR_realtime">
+    <helpText><![CDATA[#icon: PLAYBAR/realtime
+#context: obj
+#type: tool
+
+= Toggle Integer Frames qL =
+
+*version 1*
+
+"""Toggle non-integer frame values on the playbar.
+----
+LMB: Enable real-time playback
+Shift-LMB: Disable real-time playback
+"""
+]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+
+hou.playbar.setRealTime( not kwargs['shiftclick'] )]]></script>
   </tool>
 </shelfDocument>
