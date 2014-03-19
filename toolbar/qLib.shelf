@@ -8,10 +8,11 @@
   <toolshelf name="qLib" label="qLib">
     <memberTool name="RealTimePlayback_qL"/>
     <memberTool name="ToggleIntegerFrames_qL"/>
-    <memberTool name="ToggleViewportBackgroundColor_qL"/>
-    <memberTool name="AttribDisplayMarkers_qL"/>
     <memberTool name="AutonameNodes_qL"/>
     <memberTool name="ReferenceCopy_qL"/>
+    <memberTool name="AttribDisplayMarkers_qL"/>
+    <memberTool name="ToggleViewportBackgroundColor_qL"/>
+    <memberTool name="ToggleViewportGuides_qL"/>
   </toolshelf>
 
   <tool name="ReferenceCopy_qL" label="Ref Copy qL" icon="BUTTONS_copy">
@@ -709,5 +710,45 @@ Shift-LMB: Disable real-time playback
     <script scriptType="python"><![CDATA[import hou
 
 hou.playbar.setRealTime( not kwargs['shiftclick'] )]]></script>
+  </tool>
+
+  <tool name="ToggleViewportGuides_qL" label=".: guides :." icon="IMAGE_view_guides">
+    <helpText><![CDATA[#icon: IMAGE/view_guides
+#context: obj
+#type: tool
+
+= Toggle Viewport Guides qL =
+
+*version 1*
+
+"""Toggles OP guide display in the viewports."""
+
+@bugs Limitations
+
+- It might behave inconsistently between viewports (and needs to be clicked twice)
+
+
+@relnotes Release Notes
+
+_version 1_ ---
+
+2014-03-20:
+    - First version.
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+v = toolutils.sceneViewer()
+w = "%s.%s.world" % \
+        (v.pane().desktop().name(), \
+        v.name() )
+#print "view:", w
+
+if not hasattr(hou.session, "guides"):
+    hou.session.guides = True
+
+hou.session.guides = not hou.session.guides
+#hou.hscript("viewdisplay -g %s %s" % ("on" if hou.session.guides else "off", w, ))
+hou.hscript("viewdisplay -g %s *" % ("on" if hou.session.guides else "off", ))
+hou.ui.setStatusMessage("Geometry guides are now %s" % ("DISPLAYED" if hou.session.guides else "OFF") )]]></script>
   </tool>
 </shelfDocument>
