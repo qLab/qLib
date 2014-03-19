@@ -13,6 +13,7 @@
     <memberTool name="AttribDisplayMarkers_qL"/>
     <memberTool name="ToggleViewportBackgroundColor_qL"/>
     <memberTool name="ToggleViewportGuides_qL"/>
+    <memberTool name="ToggleViewportTemplates_qL"/>
   </toolshelf>
 
   <tool name="ReferenceCopy_qL" label="Ref Copy qL" icon="BUTTONS_copy">
@@ -367,7 +368,7 @@ hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"
 ]]></script>
   </tool>
 
-  <tool name="ToggleViewportBackgroundColor_qL" label="BG Toggle" icon="COP2_invert">
+  <tool name="ToggleViewportBackgroundColor_qL" label="/backgnd/" icon="COP2_invert">
     <helpText><![CDATA[#icon: COP2/invert
 #context: obj
 #type: tool
@@ -712,7 +713,7 @@ Shift-LMB: Disable real-time playback
 hou.playbar.setRealTime( not kwargs['shiftclick'] )]]></script>
   </tool>
 
-  <tool name="ToggleViewportGuides_qL" label=".: guides :." icon="IMAGE_view_guides">
+  <tool name="ToggleViewportGuides_qL" label="/guides/" icon="NODEFLAGS_origin">
     <helpText><![CDATA[#icon: IMAGE/view_guides
 #context: obj
 #type: tool
@@ -750,5 +751,17 @@ hou.session.guides = not hou.session.guides
 #hou.hscript("viewdisplay -g %s %s" % ("on" if hou.session.guides else "off", w, ))
 hou.hscript("viewdisplay -g %s *" % ("on" if hou.session.guides else "off", ))
 hou.ui.setStatusMessage("Geometry guides are now %s" % ("DISPLAYED" if hou.session.guides else "OFF") )]]></script>
+  </tool>
+
+  <tool name="ToggleViewportTemplates_qL" label="/templates/" icon="NODEFLAGS_template">
+    <script scriptType="python"><![CDATA[import toolutils
+
+if not hasattr(hou.session, "templates"):
+    hou.session.templates = True
+
+hou.session.templates = not hou.session.templates
+t = 'on' if hou.session.templates else 'off'
+hou.hscript("viewdisplay -T %s -i %s *" % (t, t, ))
+hou.ui.setStatusMessage("Templates are now %s" % ("DISPLAYED" if hou.session.templates else "OFF") )]]></script>
   </tool>
 </shelfDocument>
