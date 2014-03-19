@@ -392,20 +392,18 @@ _version 1_ ---
     <script scriptType="python"><![CDATA[import toolutils
 
 v = toolutils.sceneViewer()
-
 w = "%s.%s.world" % \
         (v.pane().desktop().name(), \
         v.name() )
-
 #print "view:", w
 
 if not hasattr(hou.session, "bg"):
-    hou.session.bg = True
+    hou.session.bg = not True
 
 hou.session.bg = not hou.session.bg
-
-hou.hscript("viewdisplay -B %s %s" % ("bw" if hou.session.bg else "wb", w, ))
-]]></script>
+#hou.hscript("viewdisplay -B %s %s" % ("bw" if hou.session.bg else "wb", w, ))
+hou.hscript("viewdisplay -B %s *" % ("bw" if hou.session.bg else "wb", ))
+hou.ui.setStatusMessage("Set background to %s" % ("LIGHT" if hou.session.bg else "DARK") )]]></script>
   </tool>
 
   <tool name="AutonameNodes_qL" label="Auto-Name" icon="BUTTONS_comment_out">
