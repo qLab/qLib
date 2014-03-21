@@ -8,10 +8,12 @@
   <toolshelf name="qLib" label="qLib">
     <memberTool name="RealTimePlayback_qL"/>
     <memberTool name="ToggleIntegerFrames_qL"/>
-    <memberTool name="ToggleViewportBackgroundColor_qL"/>
-    <memberTool name="AttribDisplayMarkers_qL"/>
     <memberTool name="AutonameNodes_qL"/>
     <memberTool name="ReferenceCopy_qL"/>
+    <memberTool name="AttribDisplayMarkers_qL"/>
+    <memberTool name="ToggleViewportBackgroundColor_qL"/>
+    <memberTool name="ToggleViewportGuides_qL"/>
+    <memberTool name="ToggleViewportTemplates_qL"/>
   </toolshelf>
 
   <tool name="ReferenceCopy_qL" label="Ref Copy qL" icon="BUTTONS_copy">
@@ -366,7 +368,7 @@ hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"
 ]]></script>
   </tool>
 
-  <tool name="ToggleViewportBackgroundColor_qL" label="BG Toggle" icon="COP2_invert">
+  <tool name="ToggleViewportBackgroundColor_qL" label="/backgnd/" icon="COP2_invert">
     <helpText><![CDATA[#icon: COP2/invert
 #context: obj
 #type: tool
@@ -392,20 +394,18 @@ _version 1_ ---
     <script scriptType="python"><![CDATA[import toolutils
 
 v = toolutils.sceneViewer()
-
 w = "%s.%s.world" % \
         (v.pane().desktop().name(), \
         v.name() )
-
 #print "view:", w
 
 if not hasattr(hou.session, "bg"):
-    hou.session.bg = True
+    hou.session.bg = not True
 
 hou.session.bg = not hou.session.bg
-
-hou.hscript("viewdisplay -B %s %s" % ("bw" if hou.session.bg else "wb", w, ))
-]]></script>
+#hou.hscript("viewdisplay -B %s %s" % ("bw" if hou.session.bg else "wb", w, ))
+hou.hscript("viewdisplay -B %s *" % ("bw" if hou.session.bg else "wb", ))
+hou.ui.setStatusMessage("Set background to %s" % ("LIGHT" if hou.session.bg else "DARK") )]]></script>
   </tool>
 
   <tool name="AutonameNodes_qL" label="Auto-Name" icon="BUTTONS_comment_out">
@@ -711,5 +711,57 @@ Shift-LMB: Disable real-time playback
     <script scriptType="python"><![CDATA[import hou
 
 hou.playbar.setRealTime( not kwargs['shiftclick'] )]]></script>
+  </tool>
+
+  <tool name="ToggleViewportGuides_qL" label="/guides/" icon="NODEFLAGS_origin">
+    <helpText><![CDATA[#icon: IMAGE/view_guides
+#context: obj
+#type: tool
+
+= Toggle Viewport Guides qL =
+
+*version 1*
+
+"""Toggles OP guide display in the viewports."""
+
+@bugs Limitations
+
+- It might behave inconsistently between viewports (and needs to be clicked twice)
+
+
+@relnotes Release Notes
+
+_version 1_ ---
+
+2014-03-20:
+    - First version.
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+v = toolutils.sceneViewer()
+w = "%s.%s.world" % \
+        (v.pane().desktop().name(), \
+        v.name() )
+#print "view:", w
+
+if not hasattr(hou.session, "guides"):
+    hou.session.guides = True
+
+hou.session.guides = not hou.session.guides
+#hou.hscript("viewdisplay -g %s %s" % ("on" if hou.session.guides else "off", w, ))
+hou.hscript("viewdisplay -g %s *" % ("on" if hou.session.guides else "off", ))
+hou.ui.setStatusMessage("Geometry guides are now %s" % ("DISPLAYED" if hou.session.guides else "OFF") )]]></script>
+  </tool>
+
+  <tool name="ToggleViewportTemplates_qL" label="/templates/" icon="NODEFLAGS_template">
+    <script scriptType="python"><![CDATA[import toolutils
+
+if not hasattr(hou.session, "templates"):
+    hou.session.templates = True
+
+hou.session.templates = not hou.session.templates
+t = 'on' if hou.session.templates else 'off'
+hou.hscript("viewdisplay -T %s -i %s *" % (t, t, ))
+hou.ui.setStatusMessage("Templates are now %s" % ("DISPLAYED" if hou.session.templates else "OFF") )]]></script>
   </tool>
 </shelfDocument>
