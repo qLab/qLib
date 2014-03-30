@@ -58,19 +58,85 @@
           <h3>About</h3>
 
                   <p>qLib is a <strong>procedural</strong> digital asset
-                  library for SideFX's Houdini. In the right hands it can
-                  <strong>speed up</strong> the production process dramatically
-                  by letting the <strong>artist</strong> spend more time on
-                  <em>what</em> she wants to achieve instead of <em>how</em>
-                  she wants to achieve it. We call it procedural because it is
-                  a collection of simple tools designed to work flawlessly with
-                  each other and Houdini's native toolset.</p> 
+                  library for SideFX's Houdini. It can speed up the production process
+		  by allowing you to spend more time on <em>what</em> you want to achieve
+		  instead of <em>how</em> to achieve it.
+                  It is a collection of tools designed to work in accordance with
+                  Houdini's native toolset.</p>
 
 		  <p> qLib is <strong>open source software</strong> licensed under the
 		  <a href="https://github.com/qLab/qLib/blob/master/LICENCE">New BSD
 			license</a>. It's developed by VFX professionals from several
 		  studios working on feature films, game cinematics and
 		  commercials.</p>
+
+
+	<h3>Feature highlights</h3>
+
+	<p>Some highlights of what to expect in qLib:</p>
+
+		<ul>
+		<li>Generation, manipulation and visualization of geometry attributes and groups
+		<ul>
+		<li>Scalars and vector types (Vector, Vector Jitter, etc.)</li>
+		<li>Build attributes using rules (Attrib Builder) or volumetric shapes (Attrib Shape)</li>
+		<li>Access topology details as attributes (number of connected edges, etc.)</li>
+		<li>Modify attributes with various methods (remapping, direction reorientation, etc.)</li>
+		<li>Visualize attributes (scalars and vectors) and groups (point- and primitive-groups)</li>
+		</ul>
+		</li>
+		<li>Boundary geometry generation and manipulation
+		<ul>
+		<li>Determine boundaries of animated geometry</li>
+		<li>Camera-related geometry: camera frustrum, camera plane (with from/to persp projection)</li>
+		<li>Clip geometry outside frustrum; keep all geometry within specified bounds; etc.</li>
+		</ul>
+		</li>
+		<li>A complete deformer suite, implemented with a common deformer framework
+		<ul>
+		<li>The most common deformer types are available (Bend, Taper, Twist, Bias, etc.)</li>
+		<li>Common framework provides standardized parameters, sophisticated placement controls, etc.</li>
+		<li>Even some default Houdini deformers are reimplemented using the framework</li>
+		<li>Additional "non-standard" deformers (deform by NURBS surface, point cloud, motion path, etc.)</li>
+		</ul>
+		</li>
+		<li>Re-implemented versions of certain original Houdini operators
+		<ul>
+		<li>Multithreaded, very fast variants (Ray qL SOP, Scatter qL SOP)</li>
+		<li>Improved ("convenience") variants of original OPs (TimeBlend, Peak, PointJitter, etc.)</li>
+		</ul>
+		</li>
+		<li>Other ways of generate and manipulate geometry
+		<ul>
+		</ul>
+		</li>
+		<li>Workflow-related tools
+		<ul>
+		<li>Waypoint SOP: a FileCache SOP variant with important additions
+		<ul>
+		<li>Quick setup with many presets for various filename components (folder, name, extension, etc.)</li>
+		<li>When the node is deleted, it can clean up after itself by deleting the files on disk (optional)</li>
+		<li>Easy-to-setup saving of sub-frames</li>
+		<li>Options for building ROP networks to run multiple Waypoints in proper order</li>
+		</ul>
+		</li>
+		<li>Shot qL (OBJ): a single operator for storing all shot-related information (frame ranges, etc.)</li>
+		<li>Shot Builder (OBJ): for automatically importing many Alembic files into the scene</li>
+		<li>Environment qL (OBJ): automatic and manual setup of variables, etc.</li>
+		</ul>
+		</li>
+		<li>A large collection of gallery items (node and subnet presets)
+		<ul>
+		<li>Lots of various stuff that is very useful but would be too inflexible to use as assets</li>
+		</ul>
+		</li>
+		
+		<li>Shelf tools
+		<ul>
+		<li>A small but very useful set of shelf tool items</li>
+		</ul>
+		</li>
+
 
 		  <h3>Installation</h3>
 
