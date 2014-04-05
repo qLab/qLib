@@ -85,6 +85,10 @@ def postproc_refcopy(nodepath, srcpath):
             except Exception as e:
                 print "failed for param '%s'" % p.name()
 
+        # store typename of the creator tool
+        #
+        hou.hscript("opuserdata -n '___toolcount___' -v '%s' %s" % ('1', nodepath, ))
+        hou.hscript("opuserdata -n '___toolid___' -v '%s' %s" % ('ReferenceCopy_qL', nodepath, ))
 
 
 # main
