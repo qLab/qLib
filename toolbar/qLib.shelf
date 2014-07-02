@@ -8,6 +8,7 @@
   <toolshelf name="qLib" label="qLib">
     <memberTool name="RealTimePlayback_qL"/>
     <memberTool name="ToggleIntegerFrames_qL"/>
+    <memberTool name="AutoConnectNodes_qL"/>
     <memberTool name="AutonameNodes_qL"/>
     <memberTool name="ReferenceCopy_qL"/>
     <memberTool name="AttribDisplayMarkers_qL"/>
@@ -781,5 +782,198 @@ hou.session.templates = not hou.session.templates
 t = 'on' if hou.session.templates else 'off'
 hou.hscript("viewdisplay -T %s -i %s *" % (t, t, ))
 hou.ui.setStatusMessage("Templates are now %s" % ("DISPLAYED" if hou.session.templates else "OFF") )]]></script>
+  </tool>
+
+  <tool name="AutoConnectNodes_qL" label="A-Connect" icon="BUTTONS_chooser_node">
+    <helpText><![CDATA[#icon: BUTTONS/chooser_node
+#type: tool
+
+= Auto-Connect Nodes qL =
+
+*version 1*
+
+"""Connects selected operator(s) automatically.
+----
+LMB: Automatically connect selected OPs
+Ctrl-LMB: Disconnect selected OPs
+"""
+
+This function creates connection(s) between the selected node(s)
+
+This function sets operator names, based on various criteria (operator type, parameter settings
+and network connectivity context). Context is especially considered when naming Null OPs.
+
+@usage Usage
+
+Ways of invoking this function, when clicking on the shelf tool:
+
+((LMB)):
+    Auto-connecting of selected operators.
+((Alt + LMB)):
+    Alternate mode (see below).
+((Ctrl + LMB)):
+    Disconnects selected operators.
+
+
+@method Auto-connection methods
+
+*Network building (single OP selection)*
+
+_A single operator have to be selected that have no input connection(s)._
+
+Recommended usage: place the newly created operator near and under
+its would-be upstream node, and apply this function.
+
+- The nearest above operator with unconnected output will be searched,
+  and connected into the selected node.
+  (The current operator will also be repositioned if the two nodes are close.)
+
+- If the operator has multiple (e.g. two) inputs, the two nearest available
+  above operators will be connected (in a left-to-right order, in accord with
+  the order of the input connectors).
+
+
+@todo To Do
+    - ...
+
+
+@relnotes Release Notes
+
+_version 1_ ---
+
+2014-07-02:
+    - First version (in qLib).
+]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+import re
+import traceback
+
+
+
+def sort_nodes_by_y(nodes, bottomUp=False):
+    '''.'''
+    return sorted(nodes, key=lambda n: n.position()[1] if bottomUp else -n.position()[1] )
+
+
+def sort_nodes_by_x(nodes, rightToLeft=False):
+    '''.'''
+    return sorted(nodes, key=lambda n: -n.position()[0] if rightToLeft else n.position()[0] )
+
+
+def dist2d(n1, n2):
+    '''.'''
+    return n1.position().distanceTo( n2.position() )
+
+
+def sort_nodes_by_dist(nodes, N):
+    '''.'''
+    return sorted(nodes, key=lambda n: dist2d(n, N) )
+
+
+
+
+def find_nearest_above(N, nodes, maxNodes=2):
+    '''Find the nearest available nodes above N.'''
+
+    Npy = N.position()[1]
+    r = [ n for n in nodes if n.position()[1]>(Npy+0.8) and len(n.outputs())==0 ]
+    r = sort_nodes_by_dist(r, N)
+    if maxNodes>0: r = r[:maxNodes]
+    return r
+
+
+
+def autobuild_single(N, altmode=False):
+    '''.'''
+    print " - auto-building %s" % N.path()
+
+    num_c = len(N.inputConnectors())
+    if num_c==0: return
+
+    if num_c>2: num_c=1 # max 2 inputs
+    nodes = N.parent().children()
+    nodes = find_nearest_above(N, nodes, maxNodes=num_c)
+
+    N.setDisplayFlag(True)
+    N.setRenderFlag(True)
+
+    if len(nodes)>0:
+
+        if num_c>1:
+            # multiple input connectors
+            nodes = sort_nodes_by_x(nodes)
+            m = min(num_c, len(nodes))
+
+            for i in range(m):
+                N.setInput(i, nodes[i], 0)
+        else:
+            # single input connector
+            P = nodes[0]
+            N.setInput(0, P, 0)
+    
+            # align w/ parent if necessary
+            d = dist2d(N, P)
+            print " -- dist: %f" % d
+            if d<1.333 and not altmode:
+                Pp = P.position()
+                Np = N.position()
+                Np[0] = Pp[0]
+                Np[1] = Pp[1]-0.9
+                N.setPosition(Np)
+
+
+
+def disconnect(N, recurse=True):
+    '''.'''
+    if recurse:
+        for n in N.outputs():
+            disconnect(n, recurse=False)
+
+    for i in range( len(N.inputConnectors()) ):
+        N.setInput(i, None, 0)
+
+
+
+
+def autoconnect_selected_nodes(reset=False, altmode=False):
+    '''.'''
+
+    nodes = hou.selectedNodes()
+    nodes = sort_nodes_by_y(nodes)
+
+    num_selected = len(nodes)
+
+    print("Autoconnecting selected nodes (%d)..." % num_selected )
+
+    for N in nodes:
+    
+        name = None
+        P = N.path()
+        T = N.type().name()
+    
+        print " - node: %s (%s) [%s]" % (P, T, str(N.position()), )
+
+        num_inputs = len(N.inputs())
+        num_outputs = len(N.outputs())
+
+        if reset:
+            disconnect(N)
+            continue
+
+        if num_selected==1 and num_inputs==0:
+            autobuild_single(N, altmode=altmode)
+            continue
+
+
+
+
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+autoconnect_selected_nodes(reset=ctrl, altmode=alt)
+
+]]></script>
   </tool>
 </shelfDocument>
