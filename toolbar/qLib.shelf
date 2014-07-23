@@ -844,6 +844,10 @@ _version 1_ ---
 2014-07-02:
     - First version (in qLib).
 ]]></helpText>
+    <toolMenuContext name="network">
+      <contextNetType>SOP</contextNetType>
+    </toolMenuContext>
+    <toolSubmenu>qLib--Shelf</toolSubmenu>
     <script scriptType="python"><![CDATA[import hou
 import re
 import traceback
