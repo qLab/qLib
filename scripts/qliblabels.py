@@ -24,6 +24,9 @@ def msg(m):
 def warn(m):
 	msg('WARNING: %s' % m)
 
+def err(m):
+	msg('ERROR: %s' % m)
+
 def dbg(m):
 	msg('[debug] %s' % m)
 
@@ -131,6 +134,78 @@ def set_tag_list(node, taglist):
 		dbg('(removing parm)')
 		rem_tags_parm(node)
 
+
+
+
+def get_label_table():
+	'''.'''
+	return labels
+
+
+def find_all_prefixes(labels):
+	'''.'''
+	r = set()
+
+	for L in labels:
+		E = labels[L]
+
+		cats = E['cats'] if 'cats' in E else []
+		if 'prefix' in E:
+			r.add(E['prefix'])
+		for c in cats:
+			p = 'prefix.%s' % c
+			if p in E:
+				r.add(E[p])
+
+	r = list(r)
+	return r
+
+
+def get_label_data(label):
+	L = get_label_table()
+	r = L[label]  if label in L else  {}
+	return r
+
+
+
+def apply_color(node):
+	'''.'''
+	pass
+	# TODO: finish this
+
+
+
+def apply_naming(node):
+	'''.'''
+	"""
+	TODO: make sure to
+	- remove _all_ known prefixes as well, when necessary
+	- rename to a default name if previous tagging had an explicit naming scheme
+	"""
+	pass
+	c = node.type().category().name().lower() # 'sop', etc.
+
+
+
+def process_op(node, tags, tags_prev=[]):
+	'''.'''
+	# TODO: set color, prefix/name, etc.
+	had_prev_tags = len(tags_prev)>0
+
+	if len(tags):
+		pass # TODO: apply new color, replace prefix, etc.
+	else:
+		pass # TODO: reset op to its defaults
+
+
+
+
+def uimsg(msg, sev=hou.severityType.Message):
+	'''.'''
+	hou.ui.setStatusMessage('[qLib | semantics]  %s' % str(msg), severity=sev)
+
+def uiwarn(msg):
+	uimsg(msg, sev=hou.severityType.Warning)
 
 
 
