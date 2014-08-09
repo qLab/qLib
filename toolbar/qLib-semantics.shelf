@@ -7,6 +7,7 @@
 
   <toolshelf name="qLib-semantics" label="qLib-semantics">
     <memberTool name="qLs_init"/>
+    <memberTool name="qLs_label--Waypoint"/>
   </toolshelf>
 
   <tool name="qLs_init" label="init" icon="BUTTONS_chooser_node">
@@ -19,5 +20,11 @@ reload(qliblabels)
 print "---- FILE:", qliblabels.__file__
 
 # blah blah]]></script>
+  </tool>
+
+  <tool name="qLs_label--Waypoint" label="waypoint" icon="NODEFLAGS_vop_names_short">
+    <script scriptType="python"><![CDATA[import qliblabels; reload(qliblabels)
+qliblabels.shelfToolClicked(kwargs)
+]]></script>
   </tool>
 </shelfDocument>
