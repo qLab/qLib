@@ -269,6 +269,45 @@ def uiwarn(msg):
 
 
 
+def shelfToolClicked(kwargs):
+	'''.'''
+	dbg('shelfToolClicked(): %s' % str(kwargs) )
+	assert type(kwargs) is dict, 'expecting a dict for kwargs'
+
+	try:
+		label = kwargs['toolname'].lower()
+		label = re.search('[a-z]*$', label).group(0)
+
+		nodes = hou.selectedNodes()
+		add_mode = kwargs['shiftclick'] is True
+		clear_mode = kwargs['altclick'] is True
+
+		if label:
+			uimsg("%s node(s) to '%s'" % ('added label to' if add_mode else 'labeled', label, ) )
+
+			for n in nodes:
+				dbg(" -- %s" % n.path())
+				tags_prev = get_tag_list(n)
+				tags = tags_prev if add_mode else []
+
+				if label not in tags:
+					tags.append(label)
+
+				if clear_mode:
+					tags = []
+
+				set_tag_list(n, tags)
+				process_op(n, tags, tags_prev)
+
+		else:
+			uiwarn("couldn't determine label from shelf tool '%s'" % kwargs['toolname'])
+
+	except:
+		err('shelfToolClicked() failed')
+		traceback.print_exc()
+		#dbg('%s' % str( traceback.format_exc() ) )
+
+	pass
 
 
 
