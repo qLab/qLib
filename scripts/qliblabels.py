@@ -16,6 +16,65 @@ import datetime
 import sys
 
 
+
+
+labels = {
+
+	# a completed partial-result
+	'waypoint': {
+		'cats': ('sop', 'dop', ),
+		'color': (1.0, 0.6, 0.6),
+		'prefix': 'WP_',
+		'prefix.sop': 'GEO_',
+		'prefix.dop': 'DOP_',
+	},
+
+	# fetch-like op (ObjectMerge, etc.)
+	'fetch': {
+		'cats': ('sop', ),
+		'color': (0.8, 1.0, 0.8),
+		'prefix': 'IN_',
+	},
+
+	# export-like op (an output point for another fetch)
+	'export': {
+		'cats': ('sop', ),
+		'color': (0.0, 0.3, 0.0),
+		'prefix': 'OUT_',
+	},
+
+	# RENDER op
+	'render': {
+		'cats': ('sop', ),
+		'color': (0.4, 0.2, 0.6),
+		'name': 'RENDER',
+	},
+
+	# DISPLAY op
+	'display': {
+		'cats': ('sop', ),
+		'color': (0.0, 0.4, 1.0),
+		'name': 'DISPLAY',
+	},
+
+	'out': {
+		'cats': ('sop', ),
+		'color': (0.9, 0.9, 0.9),
+		'name': 'OUT',
+	},
+
+
+	# ----
+	# default op settings (do not delete this)
+	'default': {
+		'color': (0.8, 0.8, 0.8),
+	},
+}
+
+
+
+
+
 def msg(m):
 	msg = "[%s qliblabels.py] %s" % (datetime.datetime.now().strftime("%y%m%d %H:%M.%S"), str(m), )
 	sys.stderr.write(msg+"\n")
