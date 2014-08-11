@@ -7,6 +7,8 @@
 
 		@brief		Automatic coloring of newly created nodes.
 
+		Location: $HIH/scripts/
+
 		Note: this script is automatically reloaded on each node creation!
 
 """
@@ -30,6 +32,9 @@ def dbg(m):
 
 def colorize_op(kwargs):
 	'''.'''
+
+	# node type names and default colors
+	#
 	cs = {
 		'cam':           (0.5, 0.5, 0.5),
 		'geo':           (0.6, 0.6, 0.6),
@@ -53,6 +58,14 @@ def colorize_op(kwargs):
 		'lastone':       (0,0,0)
 	}
 
+	# list of nodes to be created as bypassed by default
+	#
+	bypass = [
+		'cache',
+		'lastone'
+	]
+
+
 	try:
 		N = kwargs['node']
 		n = kwargs['node'].name()
@@ -62,6 +75,9 @@ def colorize_op(kwargs):
 
 		if t in cs:
 			N.setColor( hou.Color( cs[t] ) )
+
+		if t in bypass:
+			N.bypass(True)
 
 	except:
 		pass
