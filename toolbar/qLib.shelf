@@ -15,6 +15,7 @@
     <memberTool name="ToggleViewportBackgroundColor_qL"/>
     <memberTool name="ToggleViewportGuides_qL"/>
     <memberTool name="ToggleViewportTemplates_qL"/>
+    <memberTool name="ConvertPathParm_qL"/>
   </toolshelf>
 
   <tool name="ReferenceCopy_qL" label="Ref Copy qL" icon="BUTTONS_copy">
@@ -977,6 +978,49 @@ ctrl  = kwargs['ctrlclick']
 alt   = kwargs['altclick']
 
 autoconnect_selected_nodes(reset=ctrl, altmode=alt)
+
+]]></script>
+  </tool>
+
+  <tool name="ConvertPathParm_qL" label="Convert Path" icon="BUTTONS_comment_out">
+    <helpText><![CDATA[#icon: BUTTONS/comment_out
+#context: obj
+#type: tool
+
+= Convert Path Parm qL =
+
+*version 1*
+
+"""Convert between absolute and relative path representation.
+----
+LMB: Automatically name selected OPs
+Alt-LMB: Alternative naming (see help)
+Ctrl-LMB: Reset name/color to defaults
+"""
+
+...
+
+@usage Usage
+
+...
+
+
+@todo To Do
+    - ...
+
+
+@relnotes Release Notes
+
+_version 1_ ---
+
+2014-09-11:
+    - First version.
+]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+import re
+import traceback
+
+hou.ui.displayMessage("(...not yet implemented...)")
 
 ]]></script>
   </tool>
