@@ -13,8 +13,8 @@
     <memberTool name="ReferenceCopy_qL"/>
     <memberTool name="AttribDisplayMarkers_qL"/>
     <memberTool name="ToggleViewportBackgroundColor_qL"/>
-    <memberTool name="ToggleViewportGuides_qL"/>
     <memberTool name="ToggleViewportTemplates_qL"/>
+    <memberTool name="ToggleViewportGuides_qL"/>
     <memberTool name="ConvertPathParm_qL"/>
   </toolshelf>
 
@@ -774,15 +774,61 @@ hou.ui.setStatusMessage("Geometry guides are now %s" % ("DISPLAYED" if hou.sessi
   </tool>
 
   <tool name="ToggleViewportTemplates_qL" label="/templates/" icon="NODEFLAGS_template">
+    <helpText><![CDATA[#icon: NODEFLAGS/template
+#context: obj
+#type: tool
+
+= Toggle Viewport Templates qL =
+
+*version 1*
+
+"""Toggles template geometry display in viewports.
+----
+LMB: Toggle template display
+Shift-LMB: Clear display template flag on all (S)OPs
+"""
+
+@usage Usage
+
+((LMB)):
+    Toggles template display (Display Options -> Guides -> Templated geometry, Selectable templates)
+((Shift + LMB)):
+    Clears template flag on all (S)OPs within the currently displayed container
+
+
+@related
+    - ...
+
+]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
 
-if not hasattr(hou.session, "templates"):
-    hou.session.templates = True
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
 
-hou.session.templates = not hou.session.templates
-t = 'on' if hou.session.templates else 'off'
-hou.hscript("viewdisplay -T %s -i %s *" % (t, t, ))
-hou.ui.setStatusMessage("Templates are now %s" % ("DISPLAYED" if hou.session.templates else "OFF") )]]></script>
+
+if shift or alt or ctrl:
+    n = toolutils.sceneViewer()
+    n = n.pwd() # container node
+
+    for c in n.children():
+        try:
+            c.setTemplateFlag(0)
+            c.setSelectableTemplateFlag(0)
+        except:
+            pass
+
+    hou.ui.setStatusMessage("Cleared all display template flags")
+else:
+
+    if not hasattr(hou.session, "templates"):
+        hou.session.templates = True
+    
+    hou.session.templates = not hou.session.templates
+    t = 'on' if hou.session.templates else 'off'
+    hou.hscript("viewdisplay -T %s -i %s *" % (t, t, ))
+    hou.ui.setStatusMessage("Templates are now %s" % ("DISPLAYED" if hou.session.templates else "OFF") )
+]]></script>
   </tool>
 
   <tool name="AutoConnectNodes_qL" label="A-Connect" icon="BUTTONS_chooser_node">
