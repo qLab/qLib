@@ -1,5 +1,10 @@
 # ENV_LEVEL_VAR = "yeah"
 
+print "*** SITE ENVIRONMENT ***"
+
+print "hip:", HIP
+print "job:", JOB
+
 ENV_VAR_ORDER = [
         "JOB",
         "SCENE",
@@ -19,12 +24,14 @@ OTL_PATTERN = JOB + "/Asset/*/Houdini/*.otl"
 # the file name without the ".hip" extension, and $SCENE
 # is equal to $HIP
 if "/Scene/" in HIP:
+    print "'/Scene/' in HIP..."
     p = HIP.split('/')
     i = (len(p) - 1) - p[::-1].index("Scene")
     if i < len(p) - 1:
         SCENE_NAME = p[i+1]
         SCENE = '/'.join(p[:i+2])
 else:
+    print "no '/Scene/' in HIP..."
     SCENE_NAME = HIPNAME
     if SCENE_NAME.endswith(".hip"):
         SCENE_NAME = SCENE_NAME[:-4]
