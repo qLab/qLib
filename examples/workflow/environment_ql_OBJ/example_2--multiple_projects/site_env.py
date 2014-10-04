@@ -1,10 +1,9 @@
 import re
 import json
 
-# this function extracts a subfolder after a given folder in a path name.
-#
+
 def extract(pre, path):
-	'''.'''
+	'''This function extracts a subfolder after a given folder in a path name.'''
 	r = re.search("/%s/[^/]+" % pre, path).group(0)
 	r = re.search("[^/]+$", r).group(0)
 	return r
@@ -25,15 +24,14 @@ try:
 	with open("%s/projs.json" % ENV_SCRIPT_PATH) as f:
 		projs = json.loads( f.read() )
 except:
-	pass
+	err('failed projs.json')
 
 if PROJ in projs:
 	PROJSH = projs[PROJ]['shortname']
 
 
 
-# if the file is within the "assets" folder,
-# extract the asset folder name
+# extract asset dir name, if the file is within the "assets" dir
 # (extracting from ".../asset/<asset name>/...")
 #
 if "/assets/" in HIP:
@@ -41,9 +39,8 @@ if "/assets/" in HIP:
 
 
 
-# if the file is within the "shots" folder,
-# extract the shot name
-# (extracting from ".../asset/<asset name>/...")
+# extract shot name, if the file is within the "shots" folder
+# (extracting from ".../shots/<shot name>/...")
 #
 if "/shots/" in HIP:
 	SHOT = extract("shots", HIP)
@@ -56,7 +53,7 @@ if "/shots/" in HIP:
 		with open("%s/%s/ranges.json" % (ENV_SCRIPT_PATH, PROJ, ) ) as f:
 			ranges = json.loads( f.read() )
 	except:
-		pass
+		err('failed to read ranges.json')
 
 	# if the shot was listed in the "ranges.json" file,
 	# set the shot range variables
