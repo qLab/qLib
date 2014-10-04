@@ -6,13 +6,13 @@
  a single file. -->
 
   <toolshelf name="qLib" label="qLib">
+    <memberTool name="ToggleViewportBackgroundColor_qL"/>
     <memberTool name="RealTimePlayback_qL"/>
     <memberTool name="ToggleIntegerFrames_qL"/>
     <memberTool name="AutoConnectNodes_qL"/>
     <memberTool name="AutonameNodes_qL"/>
     <memberTool name="ReferenceCopy_qL"/>
     <memberTool name="AttribDisplayMarkers_qL"/>
-    <memberTool name="ToggleViewportBackgroundColor_qL"/>
     <memberTool name="ToggleViewportTemplates_qL"/>
     <memberTool name="ToggleViewportGuides_qL"/>
     <memberTool name="ConvertPathParm_qL"/>
