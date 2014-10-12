@@ -6,6 +6,7 @@
  a single file. -->
 
   <toolshelf name="qLib" label="qLib">
+    <memberTool name="AccessShotNode_qL"/>
     <memberTool name="ToggleViewportBackgroundColor_qL"/>
     <memberTool name="RealTimePlayback_qL"/>
     <memberTool name="ToggleIntegerFrames_qL"/>
@@ -1067,6 +1068,89 @@ import re
 import traceback
 
 hou.ui.displayMessage("(...not yet implemented...)")
+
+]]></script>
+  </tool>
+
+  <tool name="AccessShotNode_qL" label="::shot::" icon="NETWORKS_scene">
+    <helpText><![CDATA[#icon: COP2/invert
+#context: obj
+#type: tool
+
+= Access: Shot Node qL =
+
+*version 1*
+
+"""Opens a floating parameter panel for scene Shot qL node(s).
+---
+LMB: All Shot and Environment nodes
+Shift-LMB: Only "active" Shot(s) (visible/selectable)
+Alt-LMB: Environment nodes only
+"""
+
+@bugs Limitations
+
+- ...
+
+
+@relnotes Release Notes
+
+_version 1_ ---
+
+2014-10-12:
+    - First version.
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+
+def show_parms(ops, title="Parameters", kwargs=None):
+    """."""
+    PT = hou.paneTabType.Parm
+    P = None
+    t = None
+
+    for op in ops:
+        if P is None:
+            P = hou.ui.curDesktop().createFloatingPanel(PT)
+            P.setName(title)
+            t = P.panes()[0].tabs()[0]
+        else:
+            t = P.panes()[0].createTab(PT)
+
+        if t:
+            t.setPin(True)
+            t.setCurrentNode(op)
+
+    return P
+
+
+
+ctrl = kwargs['ctrlclick']
+shift = kwargs['shiftclick']
+alt = kwargs['altclick']
+
+is_shot = lambda n: 'qLib::shot_ql' in n.type().name()
+is_env = lambda n: 'qLib::environment_ql' in n.type().name()
+
+# find all Shot qL OPs first
+#
+shots = [ c for c in hou.node('/').allSubChildren()
+    if is_shot(c) or is_env(c) ]
+
+if shift or ctrl:
+    shots = [ n for n in shots if n.isSelectableInViewport() or n.isDisplayFlagSet() ]
+
+if alt:
+    shots = [ n for n in shots if is_env(n) ]
+
+shots = sorted(shots,
+    key=lambda n: '%s %d %d %s' % (n.type().name(),
+        n.isSelectableInViewport(),
+        n.isDisplayFlagSet(),
+        n.name(), )
+    )
+
+show_parms(shots, title="Scene Global(s)", kwargs=kwargs)
 
 ]]></script>
   </tool>
