@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    This file defines the menu items when right-clicking over parameters in
+    Houdini.
+
+    Files named the same (ie. PARMmenu.xml) can exist in $HOME/houdiniX.Y/
+    directory and will supplement the original definitions found in
+    $HFS/houdini/ (aka $HH).
+
+    The format in this file is similar to the format in $HH/MainMenuMaster
+    except that it uses the <menuDocument> and <menu> tags instead of 
+    <mainMenu> and <menuBar>. See the comments in that file for more advanced
+    customization abilities.
+    
+    Another difference here is that most menu items in this file have no labels
+    because they are dynamically created by Houdini. If labels are supplied to
+    the items which currently have no labels in this file, they will be
+    ignored.
+
+    Note that the id's correspond to their hotkeys with the h.pane.parms.
+    prefix (where available). For example, the item with id,
+    "revert_to_prev_val", refers to the action in the hotkeys manager as
+    "h.pane.parms.revert_to_prev_val".
+
+    For scriptItem elements, a 'kwargs' python dictionary is provided with the
+    following values:
+	'parms'	    :	A list of hou.Parm objects which the script was invoked
+			upon.
+	'toolname'  :	The menu item's hotkey id (ie. the element's id
+			prefixed with h.pane.parms.)
+	'altclick'  :	True if the Alt key was also pressed, False otherwise
+	'ctrlclick'  :	True if the Ctrl key was also pressed, False otherwise
+	'shiftclick'  :	True if the Shift key was also pressed, False otherwise
+	'cmdclick'  :	True if the Option key was also pressed, False
+			otherwise. Note that this can only be true on OSX.
+-->
+
+<menuDocument>
+    <!-- menuDocument can only contain 1 menu element, whose id is 
+         implicitly "root_menu"
+      -->
+    <menu>
+	<subMenu id="qlib_menu"><label>qLib</label>
+
+	    <scriptItem id="ql_set_to">
+	    <label>Set to ...</label>
+	    </scriptItem>
+
+	    <separatorItem/>
+
+	    <scriptItem id="ql_set_center_pivot_expr">
+	    <label>Set Center Pivot Expression</label>
+	    </scriptItem>
+
+	</subMenu>
+
+
+    <separatorItem/>
+
+
+    <scriptItem id="toggle_abs_rel_path_ql">
+	<label>Toggle Absolute/Relative Path</label>
+	<scriptCode><![CDATA[
+#import choptoolutils
+#choptoolutils.createPose(kwargs['parms'])
+	    ]]></scriptCode>
+	</scriptItem>
+
+
+    </menu>
+</menuDocument>
