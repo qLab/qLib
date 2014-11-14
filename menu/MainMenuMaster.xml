@@ -275,6 +275,57 @@ if hou.ui.displayMessage('Backup configuration? (Takes a few seconds)', ('Yes', 
 
 
 
+	<subMenu id = "hip_menu">
+	<modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
+	<label>HipFile</label>
+
+		<scriptItem id="h.hip_hold">
+			<label>[hip]: Hold Scene...</label>
+			<scriptCode><![CDATA[
+import os, tempfile
+tmp = os.path.join(tempfile.gettempdir(), 'qLib_hold-fetch.hip')
+if hou.ui.displayMessage('Hold scene? (to %s)' % tmp, ('Yes', 'No'))==0:
+	hou.ui.setStatusMessage('Holding scene (%s)...' % tmp, hou.severityType.ImportantMessage)
+	F = hou.hipFile
+	p = F.path()
+	hou.hscript('setenv HIP_HELD = "%s"' % p)
+	F.save(tmp, False)
+	hou.hscript('setenv -u HIP_HELD')
+	F.setName(p)
+]]>
+			</scriptCode>
+		</scriptItem>
+
+		<scriptItem id="h.hip_fetch">
+			<label>[hip]: Fetch Scene...</label>
+			<scriptCode><![CDATA[
+import os, tempfile
+tmp = os.path.join(tempfile.gettempdir(), 'qLib_hold-fetch.hip')
+if hou.ui.displayMessage('Fetch scene? (from %s)' % tmp, ('Yes', 'No'))==0:
+	hou.ui.setStatusMessage('Fetching scene (%s)...' % tmp, hou.severityType.ImportantMessage)
+	F = hou.hipFile
+	F.load(tmp, True)
+	p = str(hou.getenv("HIP_HELD"))
+	hou.hscript('setenv -u HIP_HELD')
+	F.setName(p)
+]]>
+			</scriptCode>
+		</scriptItem>
+
+		<separatorItem />
+
+		<scriptItem id="h.hip_recover">
+			<label>[hip]: Crash Recovery...</label>
+			<scriptCode><![CDATA[
+hou.ui.displayMessage("crash recovery")]]>
+			</scriptCode>
+		</scriptItem>
+
+
+	</subMenu>
+
+
+
 	<subMenu id = "wiki_menu">
 	<modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
 	<label>Wiki</label>
@@ -291,8 +342,6 @@ hou.hscript("unix cd $HIH/wiki '&&' git gui '&'")]]>
 			</scriptCode>
 		</scriptItem>
 	</subMenu>
-
-
 
 
 
