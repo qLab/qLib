@@ -37,31 +37,15 @@
 -->
 
 <menuDocument>
-    <!-- menuDocument can only contain 1 menu element, whose id is 
-         implicitly "root_menu"
-      -->
-    <menu>
-	<subMenu id="qlib_menu"><label>qLib</label>
+<!-- menuDocument can only contain 1 menu element, whose id is 
+ implicitly "root_menu"
+-->
+	<menu>
 
-	    <scriptItem id="ql_set_to">
-	    <label>Set to ...</label>
-	    </scriptItem>
-
-	    <separatorItem/>
-
-	    <scriptItem id="ql_set_center_pivot_expr">
-	    <label>Set Center Pivot Expression</label>
-	    </scriptItem>
-
-	</subMenu>
-
-
-    <separatorItem/>
-
-
-    <scriptItem id="toggle_abs_rel_path_ql">
-	<label>Toggle Absolute/Relative Path</label>
-	<scriptCode><![CDATA[
+		<scriptItem id="toggle_abs_rel_path_ql">
+			<label>Toggle Absolute/Relative Path  [qL]</label>
+			<modifyItem><insertAfter>revert_to_prev_val</insertAfter></modifyItem>
+			<scriptCode><![CDATA[
 if 'parms' in kwargs:
 	for parm in kwargs['parms']:
 		try:
@@ -80,8 +64,88 @@ if 'parms' in kwargs:
 			pass
 
 ]]></scriptCode>
-	</scriptItem>
+		</scriptItem>
 
 
-    </menu>
+
+		<subMenu id="qlib_menu">
+			<label>More  [qL]</label>
+			<modifyItem><insertAfter>motion_effects_menu</insertAfter></modifyItem>
+
+
+			<scriptItem id="ql_set_to">
+				<label>Set to ...</label>
+			</scriptItem>
+
+
+			<separatorItem/>
+
+
+			<scriptItem id="ql_set_to_parent_network_1">
+				<label>[op]: Parent Network, Input #1 (0)</label>
+				<context>
+					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+try:
+	kwargs['parms'][0].set("%s`opinputpath('..', 0)`" % ('op:' if kwargs['shiftclick'] else '') )
+except:
+	pass
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_set_to_parent_network_2">
+				<label>[op]: Parent Network, Input #2 (1)</label>
+				<context>
+					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+try:
+	kwargs['parms'][0].set("%s`opinputpath('..', 1)`" % ('op:' if kwargs['shiftclick'] else '') )
+except:
+	pass
+]]></scriptCode>
+			</scriptItem>
+
+
+			<scriptItem id="ql_set_to_parent_network_3">
+				<label>[op]: Parent Network, Input #3 (2)</label>
+				<context>
+					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+try:
+	kwargs['parms'][0].set("%s`opinputpath('..', 2)`" % ('op:' if kwargs['shiftclick'] else '') )
+except:
+	pass
+]]></scriptCode>
+			</scriptItem>
+
+
+			<scriptItem id="ql_set_to_parent_network_4">
+				<label>[op]: Parent Network, Input #4 (3)</label>
+				<context>
+					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+try:
+	kwargs['parms'][0].set("%s`opinputpath('..', 3)`" % ('op:' if kwargs['shiftclick'] else '') )
+except:
+	pass
+]]></scriptCode>
+			</scriptItem>
+
+
+			<separatorItem/>
+
+
+			<scriptItem id="ql_set_center_pivot_expr">
+				<label>[sop]: Expression: Centroid</label>
+			</scriptItem>
+
+		</subMenu>
+
+
+
+	</menu>
 </menuDocument>
