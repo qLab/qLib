@@ -11,6 +11,9 @@
 """
 
 import hou
+
+import glob
+import os
 import re
 import traceback
 
@@ -80,5 +83,66 @@ def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
 
 
 
+
+
+
+def do_crash_recovery():
+	tmpdir = str(hou.getenv("TEMP"))
+	files = glob.glob( os.path.join(tmpdir, '*.hip') )
+
+	if hou.isUIAvailable() and len(files)>0:
+
+		td = os.path.join(tmpdir, '') # dir with '/'
+		files = [ (f, os.path.getmtime(f), ) for f in files ]
+		files = sorted(files, key=lambda f: f[1], reverse=True)
+		files = [ str(re.sub('^%s' % td, '', f[0])) for f in files ]
+		
+		sel = hou.ui.selectFromList(files, exclusive=True,
+		    title="Crash Recovery",
+		    message="Select .hip File to Recover")
+
+		recovered = False
+		if len(sel)>0:
+		    f = files[sel[0]]
+		    fn = os.path.join(tmpdir, f)
+		
+		    # extract HIPNAME
+		    f = re.sub('^crash.', '', f)
+		    f = re.sub('\..+_[0-9]+\.hip', '.hip', f)
+
+		    # do recovery
+		    try:
+		        hou.hipFile.clear(True)
+		        hou.hipFile.load(fn, True)
+		        recovered = True
+		    except:
+		        hou.ui.setStatusMessage("error while recovering file %s" % fn, hou.severityType.Error)
+
+		    hou.hipFile.setName(f)
+
+		# delete crash file(s)
+
+		msg = 'Cleanup: Delete all crash recovery hip files?'
+		if recovered:
+		    msg = 'File recovered -- Make sure to save it to a safe location.\n\n%s' % msg
+
+		d = hou.ui.displayMessage(msg, buttons=("DELETE", "Skip", ))
+		if d==0:
+		    files = \
+		        glob.glob( os.path.join(tmpdir, 'crash.*') ) + \
+		        glob.glob( os.path.join(tmpdir, '*.hip') )
+		    for f in files:
+		        try:
+		            os.remove(f)
+		        except:
+		            pass
+
+		    hou.ui.setStatusMessage("crash recovery cleanup: deleted %d files" % len(files))
+
+		else:
+		    pass # user cancelled
+
+	else:
+		pass # no crash files found
 
 
