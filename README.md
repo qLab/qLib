@@ -1,7 +1,15 @@
 qLib
 ====
 
-A procedural asset library for SideFX Houdini
+A procedural asset library for SideFX Houdini.
+
+http://qlab.github.io/qLib/
+https://github.com/qLab/qLib
+https://www.facebook.com/qLibHoudini
+
+Download the **dev branch** (the very-latest) here:
+https://github.com/qLab/qLib/archive/dev.zip
+
 
 ### About
 

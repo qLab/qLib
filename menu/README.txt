@@ -2,6 +2,13 @@
 Additional extra menu items
 ===========================
 
+install location:
+
+	$HOME/houdiniXX.X/
+	$HIH
+
+
+
 These are files are completely experimental,
 unsupported, and written / tested on linux only.
 
