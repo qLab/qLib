@@ -14,8 +14,26 @@ import hou
 
 import glob
 import os
+import platform
 import re
+import subprocess
 import traceback
+
+
+def is_platform(name='none'):
+	return name.lower() in platform.system().lower()
+
+def is_linux(): return is_platform('linux')
+def is_windows(): return is_platform('win')
+def is_mac(): return is_platform('mac')
+
+
+
+def statmsg(msg, warn=False):
+	'''.'''
+	s = hou.severityType.Warning if warn else hou.severityType.Message
+	if hou.isUIAvailable():
+		hou.ui.setStatusMessage(msg, severity=s)
 
 
 
@@ -149,4 +167,29 @@ def do_crash_recovery():
 	else:
 		pass # no crash files found
 
+
+
+def open_dir(dir="", env=None):
+	'''.'''
+	dir=str(dir)
+
+	if env:
+		dir = str(hou.getenv(env))
+
+	if not os.path.exists(dir):
+		statmsg("Directory doesn't exist (%s)" % dir, warn=True)
+		return
+
+	if is_linux():
+		statmsg("(linux) xdg-open %s" % dir)
+		subprocess.call(["xdg-open", dir])
+
+	if is_windows():
+		dir = dir.replace('/', '\\')
+		statmsg("(windows) start %s" % dir)
+		subprocess.call(["start", dir])
+
+	if is_mac():
+		statmsg("(mac) open %s" % dir)
+		subprocess.call(["open", dir])
 

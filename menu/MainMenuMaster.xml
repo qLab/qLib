@@ -64,14 +64,14 @@ hou.ui.displayMessage("from code " + str(sys.argv))]]></scriptCode>
 			<scriptItem id="h.browse_HIP">
 				<label>$HIP: Current HIP Directory...</label>
 				<scriptCode><![CDATA[
-hou.hscript("unix xdg-open $HIP '&'")]]>
+import qlibutils; qlibutils.open_dir(env="HIP")]]>
 				</scriptCode>
 			</scriptItem>
 
 			<scriptItem id="h.browse_JOB">
 				<label>$JOB: Jobs Root Directory...</label>
 				<scriptCode><![CDATA[
-hou.hscript("unix xdg-open $JOB '&'")]]>
+import qlibutils; qlibutils.open_dir(env="JOB")]]>
 				</scriptCode>
 			</scriptItem>
 
@@ -80,14 +80,14 @@ hou.hscript("unix xdg-open $JOB '&'")]]>
 			<scriptItem id="h.browse_HIH_root">
 				<label>$HIH: User Config Files...</label>
 				<scriptCode><![CDATA[
-hou.hscript("unix xdg-open $HIH '&'")]]>
+import qlibutils; qlibutils.open_dir(env="HIH")]]>
 				</scriptCode>
 			</scriptItem>
 
 			<scriptItem id="h.browse_HFS">
 				<label>$HFS: Houdini Install...</label>
 				<scriptCode><![CDATA[
-hou.hscript("unix xdg-open $HFS '&'")]]>
+import qlibutils; qlibutils.open_dir(env="HFS")]]>
 				</scriptCode>
 			</scriptItem>
 
@@ -96,7 +96,7 @@ hou.hscript("unix xdg-open $HFS '&'")]]>
 			<scriptItem id="h.browse_HOME">
 				<label>$HOME: Home Directory...</label>
 				<scriptCode><![CDATA[
-hou.hscript("unix xdg-open $HOME '&'")]]>
+import qlibutils; qlibutils.open_dir(env="HOME")]]>
 				</scriptCode>
 			</scriptItem>
 
