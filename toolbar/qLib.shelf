@@ -17,6 +17,7 @@
     <memberTool name="ToggleViewportTemplates_qL"/>
     <memberTool name="ToggleViewportGuides_qL"/>
     <memberTool name="ConvertPathParm_qL"/>
+    <memberTool name="CrashRecovery_qL"/>
   </toolshelf>
 
   <tool name="ReferenceCopy_qL" label="Ref Copy qL" icon="BUTTONS_copy">
@@ -1151,6 +1152,14 @@ shots = sorted(shots,
     )
 
 show_parms(shots, title="Scene Global(s)", kwargs=kwargs)
+
+]]></script>
+  </tool>
+
+  <tool name="CrashRecovery_qL" label="::recover::" icon="MISC_satchel">
+    <script scriptType="python"><![CDATA[import qlibutils
+
+qlibutils.do_crash_recovery()
 
 ]]></script>
   </tool>

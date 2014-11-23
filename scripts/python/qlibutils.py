@@ -98,49 +98,53 @@ def do_crash_recovery():
 		files = [ str(re.sub('^%s' % td, '', f[0])) for f in files ]
 		
 		sel = hou.ui.selectFromList(files, exclusive=True,
-		    title="Crash Recovery",
-		    message="Select .hip File to Recover")
+			title="Crash Recovery",
+			message="Select .hip File to Recover")
 
 		recovered = False
 		if len(sel)>0:
-		    f = files[sel[0]]
-		    fn = os.path.join(tmpdir, f)
-		
-		    # extract HIPNAME
-		    f = re.sub('^crash.', '', f)
-		    f = re.sub('\..+_[0-9]+\.hip', '.hip', f)
+			f = files[sel[0]]
+			fn = os.path.join(tmpdir, f)
 
-		    # do recovery
-		    try:
-		        hou.hipFile.clear(True)
-		        hou.hipFile.load(fn, True)
-		        recovered = True
-		    except:
-		        hou.ui.setStatusMessage("error while recovering file %s" % fn, hou.severityType.Error)
+			# extract HIPNAME
+			f = re.sub('^crash.', '', f)
+			f = re.sub('\..+_[0-9]+\.hip', '.hip', f)
 
-		    hou.hipFile.setName(f)
+			# do recovery
+			try:
+				hou.hipFile.clear(True)
+				hou.hipFile.load(fn, True)
+				hou.setUpdateMode(hou.updateMode.Manual)
+				recovered = True
+			except:
+				hou.ui.setStatusMessage("error while recovering file %s" % fn, hou.severityType.Error)
+				print "ERROR: %s" % traceback.format_exc()
+
+			hou.hipFile.setName(f)
 
 		# delete crash file(s)
 
 		msg = 'Cleanup: Delete all crash recovery hip files?'
 		if recovered:
-		    msg = 'File recovered -- Make sure to save it to a safe location.\n\n%s' % msg
+			msg = \
+				'File recovered. Make sure to save it to a safe location.\n' \
+				'NOTE: Update mode is set to "Manual" to avoid potential re-crashes.\n' \
+				'\n%s' % msg
 
 		d = hou.ui.displayMessage(msg, buttons=("DELETE", "Skip", ))
 		if d==0:
-		    files = \
-		        glob.glob( os.path.join(tmpdir, 'crash.*') ) + \
-		        glob.glob( os.path.join(tmpdir, '*.hip') )
-		    for f in files:
-		        try:
-		            os.remove(f)
-		        except:
-		            pass
+			files = \
+				glob.glob( os.path.join(tmpdir, 'crash.*') ) + \
+				glob.glob( os.path.join(tmpdir, '*.hip') )
+			for f in files:
+			    try:
+				os.remove(f)
+			    except:
+				pass
 
-		    hou.ui.setStatusMessage("crash recovery cleanup: deleted %d files" % len(files))
-
+			hou.ui.setStatusMessage("crash recovery cleanup: deleted %d files" % len(files))
 		else:
-		    pass # user cancelled
+			pass # user cancelled
 
 	else:
 		pass # no crash files found
