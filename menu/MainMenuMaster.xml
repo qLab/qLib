@@ -324,7 +324,7 @@ if hou.ui.displayMessage('Fetch scene? (from %s)' % tmp, ('Yes', 'No'))==0:
 			<modifyItem><insertAfter>h.merge</insertAfter></modifyItem>
 			<label>Crash Recovery...</label>
 			<scriptCode><![CDATA[
-import qlibutils; qlibutils.do_crash_recovery()]]>
+import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
 			</scriptCode>
 		</scriptItem>
 
