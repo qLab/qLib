@@ -82,7 +82,7 @@ if 'parms' in kwargs:
 
 
 			<scriptItem id="ql_set_to_parent_network_1">
-				<label>[op]: Parent Network, Input #1 (0)</label>
+				<label>[subnet]: Parent Network, Input #1 (0)</label>
 				<context>
 					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
 				</context>
@@ -95,7 +95,7 @@ except:
 			</scriptItem>
 
 			<scriptItem id="ql_set_to_parent_network_2">
-				<label>[op]: Parent Network, Input #2 (1)</label>
+				<label>[subnet]: Parent Network, Input #2 (1)</label>
 				<context>
 					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
 				</context>
@@ -109,7 +109,7 @@ except:
 
 
 			<scriptItem id="ql_set_to_parent_network_3">
-				<label>[op]: Parent Network, Input #3 (2)</label>
+				<label>[subnet]: Parent Network, Input #3 (2)</label>
 				<context>
 					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
 				</context>
@@ -123,7 +123,7 @@ except:
 
 
 			<scriptItem id="ql_set_to_parent_network_4">
-				<label>[op]: Parent Network, Input #4 (3)</label>
+				<label>[subnet]: Parent Network, Input #4 (3)</label>
 				<context>
 					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
 				</context>
