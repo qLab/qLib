@@ -73,14 +73,27 @@ def colorize_op(kwargs):
 
 		dbg('node=%s type=%s' % (n, t, ))
 
+
+		# set all solver nodes to white
+		#
+		if 'solver' in t.lower():
+			N.setColor( hou.Color((1, 1, 1)) )
+
+
+		# set node types to certain colors
+		#
 		if t in cs:
 			N.setColor( hou.Color( cs[t] ) )
 
+
+		# bypass some node types by default
+		#
 		if t in bypass:
 			N.bypass(True)
 
+
 	except:
-		pass
+		pass # ignore errors silently
 
 
 
