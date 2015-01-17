@@ -49,6 +49,10 @@ Select node(s) and click the shelf button.
 
 _version 1_ ---
 
+2015-01-16:
+    - Added workaround for "assets with editable subnets can't be reference copied" issue
+      (works with qLib nodes only)
+
 2014-04-05:
     - Added Alt+LMB mode (creates relative path for reference source)
 
@@ -101,6 +105,33 @@ def postproc_refcopy(nodepath, srcpath):
         hou.hscript("opuserdata -n '___toolid___' -v '%s' %s" % ('ReferenceCopy_qL', nodepath, ))
 
 
+def fixum(node, mode):
+    '''Workaround for the "assets with editable subnets cannot be reference copied" issue.'''
+    try:
+        n = hou.node(node)
+        t = n.type()
+        d = t.definition()
+
+        tn = t.name()
+        # hackish workaround: apply to all qLib nodes
+        #
+        if 'qLib::' in tn and '_ql' in tn:
+            #print "(applying %s to %s)" % (mode, n.path(), )
+
+            if mode=='open':
+                n.allowEditingOfContents()
+                pass
+
+            if mode=='close':
+                n.matchCurrentDefinition()
+                pass
+        else:
+            #print "(skipping %s)" % (n.path(), )
+            pass
+    except:
+        print "oops #1"
+        pass
+
 # main
 #
 sel = [ n.path() for n in hou.selectedNodes() ]
@@ -110,11 +141,21 @@ alt = kwargs['shiftclick'] or kwargs['altclick'] or kwargs['ctrlclick']
 for S in sel:
     c = len( hou.hscript( 'opls -d %s*' % S )[0].split() )
     T = '%s_copy%d' % (S, c)
-    hou.hscript('opcp -c %s %s' % (S, T))
-    srcpath = S
-    if alt:
-        srcpath = hou.node(T).relativePathTo(hou.node(S))
-    postproc_refcopy(T, srcpath)
+
+    try:
+        fixum(S, 'open') # "Allow Editing of Contents" for S
+        hou.hscript('opcp -c %s %s' % (S, T))
+        fixum(S, 'close') # "Match Current Definition" for S and T
+        fixum(T, 'close')
+    except:
+        print "oops #2, %s" % S
+        pass
+
+    if True:
+        srcpath = S
+        if alt:
+            srcpath = hou.node(T).relativePathTo(hou.node(S))
+        postproc_refcopy(T, srcpath)
 
 ]]></script>
   </tool>
