@@ -72,12 +72,12 @@ ButtonShadowMedDark:	SHADOW4
 ButtonShadowDark:	SHADOW5
 ButtonShadow:	SHADOW5 //BLACK
 
-ToolbarBevelLight:	HIGHLIGHT3//HIGHLIGHT1
+ToolbarBevelLight:	HIGHLIGHT1
 ToolbarBevelDark:	SHADOW4
 // Top/left end of gradient
-ToolbarFlatGradHi:	GREY(0.66)//GREY(0.67)
+ToolbarFlatGradHi:	GREY(0.67)
 // Bottom/right end of gradient
-ToolbarFlatGradLo:	GREY(0.63)//GREY(0.62)
+ToolbarFlatGradLo:	GREY(0.62)
 
 DialogBlendBG:	WHITE
 
@@ -94,7 +94,7 @@ ButtonArrow:	TEXT
 ButtonArrowDisabled:	HIGHLIGHT1
 ButtonArrowPressed:	PRESSED_TEXT
 
-MenuBG:	GREY(0.8) //GREY(0.85)
+MenuBG:	GREY(0.85)
 MenuText:	TEXT
 MenuTextDisabled:	SHADOW2
 MenuTextHotkey:	SHADOW4
@@ -120,7 +120,7 @@ RampKeyHoverBG:		SHADOW3
 RampKeyHoverFG:		SHADOW5
 RampMarkerHover:	SHADOW3
 
-Separator:	SHADOW1_5//BORDERBASE
+Separator:	BORDERBASE
                                                 
 CheckBG:	EDIT_BG
 CheckLocated:	SHADOW4
@@ -148,15 +148,15 @@ SliderBottomBorder:	HIGHLIGHT3
 SliderAdvancedBevel:	SHADOW1_5
 SliderAdvancedGroove:	0.090 0.356 0.639 // blue sliders
 #SliderAdvancedGroove:	0.493 0.211 0.167 // red sliders
-SliderRemainingBevel:	SHADOW1//SHADOW4
+SliderRemainingBevel:	SHADOW4
 SliderRemainingGroove:	SHADOW1
-SliderTick:	SHADOW2//SHADOW3
+SliderTick:	SHADOW3
 SliderRangeBrackets:	SHADOW5
 
-SliderThumbTopBevel:	SHADOW1//HIGHLIGHT1
+SliderThumbTopBevel:	HIGHLIGHT1
 SliderThumbBottomBevel:	SHADOW3	
 SliderThumbTopBorder:	SHADOW2
-SliderThumbBottomBorder:	SHADOW2//SHADOW4
+SliderThumbBottomBorder:	SHADOW4
 SliderThumbRangeArrow:	SHADOW4
 
 LadderBG:	EDIT_BG
@@ -217,7 +217,7 @@ ListEntrySelected:	SELECTION_BASE
 ListTitleShadow:	SHADOW3
 ListTitleHighlight:	HIGHLIGHT2
 ListTitleGradHi:	HIGHLIGHT3
-ListTitleGradLow:	HIGHLIGHT3_1//BACKGROUND
+ListTitleGradLow:	BACKGROUND
 ListTitleHighlightGradHi:	SELECTION_HIGHLIGHT2
 ListTitleHighlightGradLow:	SELECTION_BASE
 ListText:		TEXT
@@ -230,8 +230,10 @@ InfoBG:	HELP_BG
 InfoText:	TEXT
 
 PopupHelpBG:		HELP_BG
+PopupHelpFG:		TEXT # tooltip text
 PopupHelpHotkeyFG:	SHADOW4
 PopupExtraHelpBG:	HELP_F1_BG
+PopupExtraHelpFG:	TEXT
 
 ShelfGradHi:	GREY(0.7)
 ShelfGradMidHi:	GREY(0.68)
@@ -243,7 +245,7 @@ ShelfGradLow:	GREY(0.7)
 
 ShelfEmptyBG:	DIM_BG
 ShelfTabActiveHi:	HIGHLIGHT1
-ShelfTabActiveLow:	HIGHLIGHT1_1//HIGHLIGHT1
+ShelfTabActiveLow:	HIGHLIGHT1
 ShelfTabInactiveHi:	HIGHLIGHT3
 ShelfTabInactiveLow:	HIGHLIGHT3
 
@@ -337,6 +339,7 @@ NodeBypassFlag:	1.0 1.0 0
 NodeRenderFlag:	0.666 0.5 1.0
 NodeDisplayFlag:	#00 66 CC
 NodeDisplayAndRenderFlag:	0 0.68 0.94
+NodeOutputFlag:			0.75 0.4 0.0
 NodeSelectableFlag:	#66 CC 00
 NodeExportFlag:	0.75 0.4 0.0
 NodeHiddenFlag:			0.58 0.55 0.43
@@ -353,6 +356,8 @@ NetworkCurrentNonSelected:	GREY(0.4)
 NetworkBackground:	GREY(0.65)
 NetworkDisplayHighlight:	0.4180 0.5469 0.6758
 NetworkRenderHighlight:	#9E 8E AE
+NetworkOutputHighlight:		0.75 0.4 0.0
+NetworkTemplateHighlight:	#FF 66 FF
 NetworkOverviewDragger:	WHITE
 NetworkTimeDependent:	0.0 1.0 0.0
 
@@ -397,6 +402,10 @@ DopeSheetKeyPending:	SELECTION_BASE
 DopeSheetKeyMuted:	GREY(0.2)
 DopeSheetKeyOverlay:	1 0 0
 DopeSheetKeyDisabled:	0.5 0 1
+DopeSheetOutsideRangeBG: GREY(0.3)
+DopeSheetSimulation:		0 0.5 1
+DopeSheetSimulationPlaying:     0.59 0.48 0.7
+DopeSheetSimulationReset:	1 0.5 0
 DopeSheetTimeline:	GREY(0.7)
 DopeSheetTimelineAudio:	GREY(0.5)
 DopeSheetTickLarge:	GREY(0.3)
@@ -510,6 +519,14 @@ ChannelColorOther4: hsv  60.0 1.0 0.50  // Dark Yellow
 ChannelColorOther5: hsv 180.0 1.0 0.50  // Dark Aqua
 ChannelColorOther6: hsv 300.0 1.0 0.50  // Dark Purple
 
+// Geometry group colors ---------------------------------------------------
+//
+// These two colors specify opposing corners of a quadrilateral in HSV space.
+// Colors for geometry groups are sampled from within this quad.
+//
+GeoGroupColor1: hsv  90.0 0.4 1.0
+GeoGroupColor2: hsv 330.0 0.9 1.0
+
 // Syntax highlighting in editors and input boxes
 ParmSyntaxPlainColor:	black
 ParmSyntaxStringColor:	#00 66 00
@@ -524,6 +541,8 @@ ParmSyntaxErrorColor:	#ff 00 00
 ParmParenMatchColor:	#00 55 00
 ParmQuoteMatchColor:	#00 ff ff
 ParmMisMatchColor:	#ff 77 77
+
+PreEditUnderlineColor:	SELECTION_BASE
 
 
 // Old UI Resources ----------------------------------------------------------
@@ -660,6 +679,8 @@ ErrorColor:	1.0 0.0 0.0
 ShopViewTitleColor	1.0 1.0 0.0
 
 // The following colors are for Vop input/output labels
+VopInOutVector2Color:		0.4	0.7	0.4
+VopInOutVector2ArrayColor:	0.3	0.5	0.3
 VopInOutVector4Color:		0.7	0.9	0.6
 VopInOutVector4ArrayColor:	0.6	0.7	0.55
 VopInOutVectorColor:		0.5	0.8	0.5
@@ -672,6 +693,8 @@ VopInOutIntColor:		0.5	0.7	0.8
 VopInOutIntArrayColor:		0.5	0.6	0.65
 VopInOutStringColor:		0.8	0.7	0.6
 VopInOutStringArrayColor:	0.65	0.6	0.55
+VopInOutMatrix2Color:		0.6	0.4	0.8
+VopInOutMatrix2ArrayColor:	0.5	0.4	0.6
 VopInOutMatrix3Color:		0.7	0.5	0.9
 VopInOutMatrix3ArrayColor:	0.6	0.5	0.7
 VopInOutPointColor:		0.7	0.3	0.7
@@ -700,6 +723,7 @@ DopInOutObjectColor:	0.65	0.65	0.65
 DopInOutDataColor:	0.50	0.80	0.50
 DopInOutRelDataColor:	0.20	0.60	0.20
 DopInOutAnyColor:	0.9	0.9	0.9
+DopInOutSolverColor:	0.7	0.5	0.9
 
 // The following colors are for simple spreadsheets (ie. tables)
 SSTableBackgroundColor:	0.9	0.9	0.9
