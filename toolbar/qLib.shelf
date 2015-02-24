@@ -436,39 +436,53 @@ hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"
 #context: obj
 #type: tool
 
-= Toggle Viewport Background Color qL =
+= Cycle Viewport Background Color qL =
 
 *version 1*
 
-"""Toggles between light and dark viewport color schemes."""
+"""Cycles between viewport color schemes (dark, grey, light).
+----
+LMB: Cycle background color
+Ctrl-LMB: Reset to black
+Shift-LMB: Reset to grey
+"""
 
 @bugs Limitations
 
-- It doesn't work for the first time when the default background is dark (click twice)
+- It might not seem to work for the first time (try clicking again, then)
 
 
 @relnotes Release Notes
 
 _version 1_ ---
 
+2015-02-24:
+    - Added dark/grey/light cycle (H14)
+
 2014-02-14:
     - First version (in qLib).
 ]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
 
-v = toolutils.sceneViewer()
-w = "%s.%s.world" % \
-        (v.pane().desktop().name(), \
-        v.name() )
-#print "view:", w
+bg = None
 
-if not hasattr(hou.session, "bg"):
-    hou.session.bg = not True
+try:
+    # cycle next bg
+    if kwargs['ctrlclick']: raise
+    bgs = hou.session.bg[:]
+    bgs = bgs[1:]+bgs[:1]
+    if kwargs['shiftclick']: bgs = ['bw', 'light', 'wb']
+    bg = bgs[0]
+    hou.session.bg = bgs
+except:
+    # set up default bg vars
+    hou.session.bg = ['wb', 'bw', 'light']
+    bg = hou.session.bg[0]
 
-hou.session.bg = not hou.session.bg
-#hou.hscript("viewdisplay -B %s %s" % ("bw" if hou.session.bg else "wb", w, ))
-hou.hscript("viewdisplay -B %s *" % ("bw" if hou.session.bg else "wb", ))
-hou.ui.setStatusMessage("Set background to %s" % ("LIGHT" if hou.session.bg else "DARK") )]]></script>
+bgs = { 'wb':'dark', 'bw':'grey', 'light':'light' }
+
+hou.hscript("viewdisplay -B %s *" % bg)
+hou.ui.setStatusMessage("Cycled background to %s" % bgs[bg].upper() )]]></script>
   </tool>
 
   <tool name="AutonameNodes_qL" label="Auto-Name" icon="BUTTONS_comment_out">
