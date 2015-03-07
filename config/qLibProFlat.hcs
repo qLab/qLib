@@ -18,7 +18,7 @@ Scheme:	Houdini qLib Pro Flat
 
 #define HIGHLIGHT1_1	GREY(0.78)
 #define HIGHLIGHT3_1	GREY(0.68)
-
+c
 #define SHADOW1	GREY(0.6)
 #define SHADOW1_5	GREY(0.52)
 #define SHADOW2	GREY(0.46)
@@ -352,7 +352,7 @@ NodeDebugFlag:	0.741 0.988 1
 
 NetworkSelection:	1.00 1.00 0.00
 NetworkCurrent:	1.00 0.85 0.00
-NetworkCurrentNonSelected:	GREY(0.4)
+NetworkCurrentNonSelected:	0.333 0 0 // GREY(0.4)
 NetworkBackground:	GREY(0.65)
 NetworkDisplayHighlight:	0.4180 0.5469 0.6758
 NetworkRenderHighlight:	#9E 8E AE
