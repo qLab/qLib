@@ -69,10 +69,10 @@ Scheme:	Houdini qLib Dark Flat
 
 // Color correction for the icons --------------------------------------------
 
-IconBrightness:	.9
-IconContrast:	1
-IconGamma:	1
-IconSaturation:	1
+IconBrightness:	.85
+IconContrast:	0.9
+IconGamma:	1.025
+IconSaturation:	0.75
 
 // New UI Resources ----------------------------------------------------------
 
@@ -90,8 +90,8 @@ ButtonNonActiveGradLow:	DRKBASE      // Low end of gradient on non-selected tabs
 
 // These are used for tons of borders all over the place, but
 // NOT for buttons >:-(
-ButtonShadowLight:	GREY(0.26)
-ButtonShadowMed:	BLACK
+ButtonShadowLight:	GREY(0.20)
+ButtonShadowMed:	GREY(0.16) // BLACK
 ButtonShadowMedDark:	GREY(0.32)
 ButtonShadowDark:	GREY(0.08) // GREY(0.01)
 ButtonShadow:		GREY(0.16) // BLACK
@@ -108,9 +108,9 @@ ButtonPressedText:	WHITE
 ButtonPressedGradHi:	BUTTON_PRESS // 0.45 0.45 0.2
 ButtonPressedGradLow:	BUTTON_PRESS // 0.45 0.45 0.2
 
-ButtonMenuArrowHi:	GREY(0.25)
-ButtonMenuArrowLow:	GREY(0.15)
-ButtonMenuArrow:	ARROW
+ButtonMenuArrowHi:	GREY(0.24) // GREY(0.25)
+ButtonMenuArrowLow:	GREY(0.24) // GREY(0.15)
+ButtonMenuArrow:	GREY(0.48) // ARROW
 
 ButtonArrow:		ARROW
 ButtonArrowDisabled:	DRKGRADLOW
@@ -263,10 +263,10 @@ PopupHelpHotkeyFG:	SHADOW2
 PopupExtraHelpFG:	TEXT
 PopupExtraHelpBG:	HSV 220 0.425 0.4
 
-ShelfGradHi:		DRKGRADHIGH
-ShelfGradMidHi:		DRKGRADHIGH // DRKGRADMID
-ShelfGradMidLow:	GREY(0.267843) // DRKGRADMID
-ShelfGradLow:		DRKGRADHIGH // DRKGRADLOW
+ShelfGradHi:		GREY(0.22) // DRKGRADHIGH
+ShelfGradMidHi:		GREY(0.24) // DRKGRADMID
+ShelfGradMidLow:	GREY(0.23) // GREY(0.267843) // DRKGRADMID
+ShelfGradLow:		GREY(0.22) // DRKGRADLOW
 
 // This does not appear to be used
 ShelfBG:		EMPTY
@@ -277,16 +277,16 @@ ShelfTabActiveLow:	DRKGRADHIGH
 ShelfTabInactiveHi:	DRKGRADLOW // DRKBASE
 ShelfTabInactiveLow:	DRKGRADLOW // DRKBASE
 
-PaneTabActiveHi:	DRKGRADHIGH
-PaneTabActiveLow:	DRKGRADHIGH
-PaneTabInactiveHi:	DRKBASE
-PaneTabInactiveLow:	DRKBASE
-PaneTabEdges:		GREY(0.15)
+PaneTabActiveHi:	DRKGRADLOW // DRKGRADHIGH
+PaneTabActiveLow:	DRKGRADLOW // DRKGRADHIGH
+PaneTabInactiveHi:	GREY(0.16) // DRKBASE
+PaneTabInactiveLow:	GREY(0.16) // DRKBASE
+PaneTabEdges:		GREY(0.2) // GREY(0.15)
 PaneEmptyBG:		EMPTY
-PaneBorder:		GREY(0.08) // GREY(0.15)
-PaneHeaderGradHi:	DRKGRADHIGH
+PaneBorder:		GREY(0.2) // GREY(0.15)
+PaneHeaderGradHi:	DRKGRADLOW // DRKGRADHIGH
 PaneHeaderGradLow:	DRKGRADLOW
-PaneTabShadow:		GREY(0.075)
+PaneTabShadow:		GREY(0.2) // GREY(0.075)
 
 PathGadgetArrow1:	GREY(0.1)
 PathGadgetArrow2:	GREY(0.2)
@@ -349,11 +349,11 @@ NodeConnectionBevel:		GREY(0.6)
 NodeConnectionTopBorder:	GREY(0.2)
 NodeConnectionBottomBorder:	GREY(0.2)
 
-NodeButtonGrad:			GREY(0.5)
+NodeButtonGrad:			GREY(0.6) // GREY(0.5)
 NodeButtonSelectedGrad:		UNK // NodeButtonSelectedGrad does not seem to be used anymore
-NodeButtonBevel:		GREY(0.55)
+NodeButtonBevel:		GREY(1.0) // GREY(0.55)
 NodeButtonBevelSelected:	UNK 
-NodeSeparator:			GREY(0.2)
+NodeSeparator:			GREY(0.2) // GREY(0.2)
 NodeSeparatorEnabled:		GREY(0.33)
 NodeError:			ERROR
 NodeWarningBG:			BLACK
@@ -381,7 +381,7 @@ NodeDebugFlag:	0.741 0.988 1
 
 NetworkSelection:		HSV 65 1 0.95
 NetworkCurrent:			HSV 45 1 0.95
-NetworkCurrentNonSelected:	GREY(1.0)
+NetworkCurrentNonSelected:	0.667 0.33 0.33 // GREY(1.0)
 NetworkBackground:		DRKBASE
 NetworkDisplayHighlight:	0.257655 0.396379 0.521569
 NetworkRenderHighlight:		0.375148 0.310776 0.498039
@@ -390,7 +390,7 @@ NetworkTemplateHighlight:	#FF 66 FF
 NetworkOverviewDragger:		WHITE
 NetworkTimeDependent:		0.0 1.0 0.0
 
-NetworkGrid:			GREY(0.29)
+NetworkGrid:			GREY(0.15) // GREY(0.29)
 
 NetworkWireNormal:		GREY(.55)
 NetworkWireActive:		HSV 45 0.6 0.55

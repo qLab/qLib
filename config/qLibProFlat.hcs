@@ -9,8 +9,8 @@ Scheme:	Houdini qLib Pro Flat
 #define LIGHT_BASE	GREY(0.7)
 #define TEXT_HIGHLIGHT	BLACK
 
-#define EDIT_BG	GREY(0.8)
-#define EDIT_BG_ALT	GREY(0.75)
+#define EDIT_BG	GREY(0.74) // GREY(0.8)
+#define EDIT_BG_ALT	GREY(0.70) // GREY(0.75)
 
 #define HIGHLIGHT1	GREY(0.8)
 #define HIGHLIGHT2	GREY(0.75)
@@ -31,7 +31,7 @@ c
 #define GRADIENT_LOW	GREY(0.72)
 
 #define PRESSED_TEXT	WHITE
-#define PRESSED_HIGH	SHADOW2_5
+#define PRESSED_HIGH	SHADOW2 // SHADOW2_5
 #define PRESSED_LOW	SHADOW1
 
 #define BORDERBASE	GREY(0.4)
@@ -41,8 +41,8 @@ c
 #define HELP_F1_BG	0.88 0.97 1
 
 #define SELECTION_HIGHLIGHT1	WHITE
-#define SELECTION_BASE	0.85 0.55 0
-#define SELECTION_HIGHLIGHT2	1 0.9 0.5	
+#define SELECTION_BASE	0.85 0.50 0
+#define SELECTION_HIGHLIGHT2	1 0.9 0.4	
 #define SELECTION_SHADOW	1 0.4 0
 #define SELECTED_TEXT	WHITE
 
@@ -57,7 +57,7 @@ IconSaturation:	0.9
 
 // New UI Resources ----------------------------------------------------------
 
-BackColor:	BACKGROUND
+BackColor:	GREY(0.58) // BACKGROUND
 
 ButtonGradHi:	HIGHLIGHT2
 ButtonGradLow:	HIGHLIGHT2
@@ -86,15 +86,15 @@ ButtonPressedText:	PRESSED_TEXT
 ButtonPressedGradHi:	PRESSED_HIGH
 ButtonPressedGradLow:	PRESSED_LOW
 
-ButtonMenuArrowHi:	BACKGROUND
-ButtonMenuArrowLow:	SHADOW2
-ButtonMenuArrow:	GREY(0.9)
+ButtonMenuArrowHi:	GREY(0.48) // BACKGROUND
+ButtonMenuArrowLow:	GREY(0.48) // SHADOW2
+ButtonMenuArrow:	GREY(0.72) // GREY(0.9)
 
 ButtonArrow:	TEXT
 ButtonArrowDisabled:	HIGHLIGHT1
 ButtonArrowPressed:	PRESSED_TEXT
 
-MenuBG:	GREY(0.85)
+MenuBG:	GREY(0.75) // GREY(0.85)
 MenuText:	TEXT
 MenuTextDisabled:	SHADOW2
 MenuTextHotkey:	SHADOW4
@@ -319,7 +319,7 @@ NodeConnectionBevel:	WHITE
 NodeConnectionTopBorder:	GREY(0.33)
 NodeConnectionBottomBorder:	BLACK
 
-NodeButtonGrad:	GRADIENT_HIGH
+NodeButtonGrad:	GREY(0.8) // GRADIENT_HIGH
 // NodeButtonSelectedGrad does not seem to be used anymore.
 NodeButtonSelectedGrad:	BLACK
 NodeButtonBevel:	WHITE
@@ -353,7 +353,7 @@ NodeDebugFlag:	0.741 0.988 1
 NetworkSelection:	1.00 1.00 0.00
 NetworkCurrent:	1.00 0.85 0.00
 NetworkCurrentNonSelected:	0.333 0 0 // GREY(0.4)
-NetworkBackground:	GREY(0.65)
+NetworkBackground:	GREY(0.6) // GREY(0.65)
 NetworkDisplayHighlight:	0.4180 0.5469 0.6758
 NetworkRenderHighlight:	#9E 8E AE
 NetworkOutputHighlight:		0.75 0.4 0.0
@@ -361,7 +361,7 @@ NetworkTemplateHighlight:	#FF 66 FF
 NetworkOverviewDragger:	WHITE
 NetworkTimeDependent:	0.0 1.0 0.0
 
-NetworkGrid:	GREY(0.78)
+NetworkGrid:	GREY(0.6) // GREY(0.78)
 
 NetworkWireNormal:	0.5 0.5 0.5
 NetworkWireActive:	0.0 0.3 0.0
@@ -552,7 +552,7 @@ TextColor:	grey18
 PaperColor:	EDIT_BG
 TextHighlightColor:		TEXT_HIGHLIGHT
 
-ButtonColor:	BACKGROUND
+ButtonColor:	GREY(0.48) // BACKGROUND
 ButtonStripColor:	BACKGROUND
 
 ListTitleColor:	grey68
