@@ -740,7 +740,7 @@ HyperTextLinkColor:	0.0	0.0	1.0
 // a given property (e.g. modified parameters)
 OpNameNoneColor:	0.0	0.0	0.0
 OpNameCommentsColor:	0.0	0.0	1.0
-OpNameAnimatedColor:	0.0	0.45	0.0
+OpNameAnimatedColor:	0.0	0.3	0.0
 OpNameModifiedColor:	0.7	0.1	0.8
 OpNameChoppedColor:	1.0	0.5	0.0
 OpNameSyncedColor:	0.1	0.1	0.6
