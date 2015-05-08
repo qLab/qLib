@@ -20,6 +20,10 @@ import subprocess
 import traceback
 
 
+
+# TODO: msg functions with exception handling
+
+
 def is_platform(name='none'):
 	return name.lower() in platform.system().lower()
 
@@ -198,4 +202,36 @@ def open_dir(dir="", env=None):
 	if is_mac():
 		statmsg("(mac) open %s" % dir)
 		subprocess.call(["open", dir])
+
+
+
+def find_camera(oppattern, path=None):
+	'''Finds a camera OBJ within nested subnets and returns its full path.'''
+	r = ''
+	try:
+		root = hou.pwd()
+		if path: root = hou.node(path)
+		root = root.glob(oppattern)
+
+		if len(root)>0:
+			cam = [ n.path() for n in root[0].allSubChildren() if n.type().name()=='cam' ]
+			if len(cam)>0:
+				r = cam[0]
+			else:
+				pass # no camera found
+		else:
+			pass # no root node found
+
+	except:
+		pass # TODO: error handling
+
+	return r
+
+
+
+def backup_rop_output_file():
+	'''Creates a dated backup of an output file of a ROP. Useful as a ROP Pre-Render call.'''
+	pass
+
+
 
