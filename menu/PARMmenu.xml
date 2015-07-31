@@ -88,7 +88,7 @@ if 'parms' in kwargs:
 				</context>
 				<scriptCode><![CDATA[
 try:
-	kwargs['parms'][0].set("%s`opinputpath('..', 0)`" % ('op:' if kwargs['shiftclick'] else '') )
+	kwargs['parms'][0].set("%s`opinputpath('..', 0)`" % ('op:' if kwargs['ctrlclick'] else '') )
 except:
 	pass
 ]]></scriptCode>
@@ -101,7 +101,7 @@ except:
 				</context>
 				<scriptCode><![CDATA[
 try:
-	kwargs['parms'][0].set("%s`opinputpath('..', 1)`" % ('op:' if kwargs['shiftclick'] else '') )
+	kwargs['parms'][0].set("%s`opinputpath('..', 1)`" % ('op:' if kwargs['ctrlclick'] else '') )
 except:
 	pass
 ]]></scriptCode>
@@ -115,7 +115,7 @@ except:
 				</context>
 				<scriptCode><![CDATA[
 try:
-	kwargs['parms'][0].set("%s`opinputpath('..', 2)`" % ('op:' if kwargs['shiftclick'] else '') )
+	kwargs['parms'][0].set("%s`opinputpath('..', 2)`" % ('op:' if kwargs['ctrlclick'] else '') )
 except:
 	pass
 ]]></scriptCode>
@@ -129,7 +129,7 @@ except:
 				</context>
 				<scriptCode><![CDATA[
 try:
-	kwargs['parms'][0].set("%s`opinputpath('..', 3)`" % ('op:' if kwargs['shiftclick'] else '') )
+	kwargs['parms'][0].set("%s`opinputpath('..', 3)`" % ('op:' if kwargs['ctrlclick'] else '') )
 except:
 	pass
 ]]></scriptCode>
@@ -140,7 +140,16 @@ except:
 
 
 			<scriptItem id="ql_set_center_pivot_expr">
-				<label>[sop]: Expression: Centroid</label>
+				<label>[SOP] Expression: Centroid</label>
+				<scriptCode><![CDATA[
+try:
+	#hou.ui.displayMessage(str(kwargs['parms']))
+	kwargs['parms'][0].setExpression("centroid(opinputpath('.',0), D_X)")
+	kwargs['parms'][1].setExpression("centroid(opinputpath('.',0), D_Y)")
+	kwargs['parms'][2].setExpression("centroid(opinputpath('.',0), D_Z)")
+except:
+	pass
+]]></scriptCode>
 			</scriptItem>
 
 		</subMenu>
