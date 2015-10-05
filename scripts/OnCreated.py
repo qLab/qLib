@@ -55,6 +55,9 @@ def colorize_op(kwargs):
 
 		'ifd':           (0.8, 0.8, 1.0),
 
+		'oceansource':       (1.0, 1.0, 1.0),
+		'whitewatersource':  (1.0, 1.0, 1.0),
+
 		'lastone':       (0,0,0)
 	}
 
