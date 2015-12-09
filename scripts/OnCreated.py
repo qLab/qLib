@@ -27,7 +27,8 @@ def msg(m):
 
 
 def dbg(m):
-	msg('(debug) %s' % m)
+	#msg('(debug) %s' % m)
+	pass
 
 
 def colorize_op(kwargs):
