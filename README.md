@@ -110,7 +110,7 @@ HOUDINI_GALLERY_PATH = $QLIB/gallery;@/gallery
 HOUDINI_TOOLBAR_PATH = $QLIB/toolbar;@/toolbar
 HOUDINI_SCRIPT_PATH = $QLIB/scripts;@/scripts
 ```
-Set environemt variables on osx depending on the shell you are using. For bash/ksh use:	export variable=value:
+Set environment variables on osx depending on the shell you are using. For bash/ksh use:	export variable=value:
 
 ```
 # (osx bash/ksh)
