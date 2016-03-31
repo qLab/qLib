@@ -8,6 +8,7 @@
   <toolshelf name="qLib" label="qLib">
     <memberTool name="AccessShotNode_qL"/>
     <memberTool name="ToggleViewportBackgroundColor_qL"/>
+    <memberTool name="ToggleViewBackground_qL"/>
     <memberTool name="RealTimePlayback_qL"/>
     <memberTool name="ToggleIntegerFrames_qL"/>
     <memberTool name="AutoConnectNodes_qL"/>
@@ -850,6 +851,8 @@ Shift-LMB: Clear display template flag on all (S)OPs
 ((LMB)):
     Toggles template display (Display Options -> Guides -> Templated geometry, Selectable templates)
 ((Shift + LMB)):
+    Enable template display
+((Ctrl + LMB)):
     Clears template flag on all (S)OPs within the currently displayed container
 
 
@@ -864,7 +867,7 @@ ctrl  = kwargs['ctrlclick']
 alt   = kwargs['altclick']
 
 
-if shift or alt or ctrl:
+if ctrl:
     n = toolutils.sceneViewer()
     n = n.pwd() # container node
 
@@ -880,8 +883,11 @@ else:
 
     if not hasattr(hou.session, "templates"):
         hou.session.templates = True
-    
+
     hou.session.templates = not hou.session.templates
+
+    if shift: hou.session.templates = True
+
     t = 'on' if hou.session.templates else 'off'
     hou.hscript("viewdisplay -T %s -i %s *" % (t, t, ))
     hou.ui.setStatusMessage("Templates are now %s" % ("DISPLAYED" if hou.session.templates else "OFF") )
@@ -1216,6 +1222,55 @@ show_parms(shots, title="Scene Global(s)", kwargs=kwargs)
 
 qlibutils.do_crash_recovery()
 
+]]></script>
+  </tool>
+
+  <tool name="ToggleViewBackground_qL" label="/bg image/" icon="COP2_env">
+    <helpText><![CDATA[#icon: COP2/env
+#context: obj
+#type: tool
+
+= Toggle Viewport Background qL =
+
+*version 1*
+
+"""Toggles background image display in all viewports.
+----
+LMB: Toggle display
+Shift-LMB: ...
+"""
+
+@usage Usage
+
+((LMB)):
+    Toggles background image display (Display Options -> Background -> Display background image)
+((Shift + LMB)):
+    Enable background images
+((Ctrl + LMB)):
+    Disable background images
+
+
+@related
+    - ...
+
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+if not hasattr(hou.session, "viewbg"):
+    hou.session.viewbg = True
+
+hou.session.viewbg = not hou.session.viewbg
+
+if ctrl: hou.session.viewbg = False
+if shift: hou.session.viewbg = True
+
+t = 'on' if hou.session.viewbg else 'off'
+hou.hscript("viewbackground -b %s *" % (t, ))
+hou.ui.setStatusMessage("Viewport background images are now %s" % ("DISPLAYED" if hou.session.viewbg else "OFF") )
 ]]></script>
   </tool>
 </shelfDocument>

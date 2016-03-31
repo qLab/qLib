@@ -109,7 +109,7 @@ def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
 
 
 def do_crash_recovery(calledFromUI=False):
-	tmpdir = str(hou.getenv("TEMP"))
+	tmpdir = str( hou.getenv("TEMP") or hou.getenv("HOUDINI_TEMP_DIR") )
 	files = glob.glob( os.path.join(tmpdir, '*.hip') )
 
 	uicall = calledFromUI
@@ -174,7 +174,7 @@ def do_crash_recovery(calledFromUI=False):
 		# no crash files found
 		#
 		if uicall:
-			hou.ui.setStatusMessage("  Crash Recovery:  No emergency-saved .hip file(s) found -- nothing to recover.", hou.severityType.ImportantMessage)
+			hou.ui.setStatusMessage("  Crash Recovery:  No emergency-saved .hip file(s) found -- nothing to recover. (%s)" % tmpdir, hou.severityType.ImportantMessage)
 			pass
 
 
