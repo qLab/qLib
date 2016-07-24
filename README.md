@@ -110,7 +110,30 @@ HOUDINI_GALLERY_PATH = $QLIB/gallery;@/gallery
 HOUDINI_TOOLBAR_PATH = $QLIB/toolbar;@/toolbar
 HOUDINI_SCRIPT_PATH = $QLIB/scripts;@/scripts
 ```
+Set environment variables on osx depending on the shell you are using. For bash/ksh use:	export variable=value:
 
+```
+# (osx bash/ksh)
+QLIB=<<path to qLib install>>
+QOTL=$QLIB/otls
+
+export HOUDINI_OTLSCAN_PATH=$HIH/otls:$HIH/otls/wip:$QOTL/base:$QOTL/future:$QOTL/experimental:@/otls
+export HOUDINI_GALLERY_PATH=$QLIB/gallery:@/gallery
+export HOUDINI_TOOLBAR_PATH=$QLIB/toolbar:@/toolbar
+export HOUDINI_SCRIPT_PATH=$QLIB/scripts:@/scripts
+```
+For csh/tcsh use: setenv variable value"
+
+```
+# (osx csh/tcsh)
+QLIB <<path to qLib install>>
+QOTL $QLIB/otls
+
+setenv HOUDINI_OTLSCAN_PATH $HIH/otls:$HIH/otls/wip:$QOTL/base:$QOTL/future:$QOTL/experimental:@/otls
+setenv HOUDINI_GALLERY_PATH $QLIB/gallery:@/gallery
+setenv HOUDINI_TOOLBAR_PATH $QLIB/toolbar:@/toolbar
+setenv HOUDINI_SCRIPT_PATH $QLIB/scripts:@/scripts
+```
 
 ### Further readings and other places of interest
 
