@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    This file defines the menu items when right-clicking over parameters in
+    Houdini.
+
+    Files named the same (ie. PARMmenu.xml) can exist in $HOME/houdiniX.Y/
+    directory and will supplement the original definitions found in
+    $HFS/houdini/ (aka $HH).
+
+    The format in this file is similar to the format in $HH/MainMenuMaster
+    except that it uses the <menuDocument> and <menu> tags instead of 
+    <mainMenu> and <menuBar>. See the comments in that file for more advanced
+    customization abilities.
+    
+    Another difference here is that most menu items in this file have no labels
+    because they are dynamically created by Houdini. If labels are supplied to
+    the items which currently have no labels in this file, they will be
+    ignored.
+
+    Note that the id's correspond to their hotkeys with the h.pane.parms.
+    prefix (where available). For example, the item with id,
+    "revert_to_prev_val", refers to the action in the hotkeys manager as
+    "h.pane.parms.revert_to_prev_val".
+
+    For scriptItem elements, a 'kwargs' python dictionary is provided with the
+    following values:
+	'parms'	    :	A list of hou.Parm objects which the script was invoked
+			upon.
+	'toolname'  :	The menu item's hotkey id (ie. the element's id
+			prefixed with h.pane.parms.)
+	'altclick'  :	True if the Alt key was also pressed, False otherwise
+	'ctrlclick'  :	True if the Ctrl key was also pressed, False otherwise
+	'shiftclick'  :	True if the Shift key was also pressed, False otherwise
+	'cmdclick'  :	True if the Option key was also pressed, False
+			otherwise. Note that this can only be true on OSX.
+-->
+
+<menuDocument>
+<!-- menuDocument can only contain 1 menu element, whose id is 
+ implicitly "root_menu"
+-->
+	<menu>
+
+		<scriptItem id="toggle_abs_rel_path_ql">
+			<label>Toggle Absolute/Relative Path  [qL]</label>
+			<modifyItem><insertAfter>revert_to_prev_val</insertAfter></modifyItem>
+			<scriptCode><![CDATA[
+if 'parms' in kwargs:
+	for parm in kwargs['parms']:
+		try:
+			node = parm.node()
+			path = parm.evalAsString()
+
+			target = node.node(path)
+
+			path_rel = node.relativePathTo(target)
+			path_abs = target.path()
+
+			r = path_rel if path==path_abs else path_abs
+
+			parm.set(r)
+		except:
+			pass
+
+]]></scriptCode>
+		</scriptItem>
+
+
+
+		<subMenu id="qlib_menu">
+			<label>More  [qLib]</label>
+			<modifyItem><insertAfter>motion_effects_menu</insertAfter></modifyItem>
+
+
+			<scriptItem id="ql_set_to">
+				<label>Set to ...</label>
+			</scriptItem>
+
+
+			<separatorItem/>
+
+
+			<scriptItem id="ql_set_to_parent_network_1">
+				<label>[subnet]: Parent Network, Input #1 (0)</label>
+				<context>
+					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+try:
+	kwargs['parms'][0].set("%s`opinputpath('..', 0)`" % ('op:' if kwargs['ctrlclick'] else '') )
+except:
+	pass
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_set_to_parent_network_2">
+				<label>[subnet]: Parent Network, Input #2 (1)</label>
+				<context>
+					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+try:
+	kwargs['parms'][0].set("%s`opinputpath('..', 1)`" % ('op:' if kwargs['ctrlclick'] else '') )
+except:
+	pass
+]]></scriptCode>
+			</scriptItem>
+
+
+			<scriptItem id="ql_set_to_parent_network_3">
+				<label>[subnet]: Parent Network, Input #3 (2)</label>
+				<context>
+					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+try:
+	kwargs['parms'][0].set("%s`opinputpath('..', 2)`" % ('op:' if kwargs['ctrlclick'] else '') )
+except:
+	pass
+]]></scriptCode>
+			</scriptItem>
+
+
+			<scriptItem id="ql_set_to_parent_network_4">
+				<label>[subnet]: Parent Network, Input #4 (3)</label>
+				<context>
+					<expression>type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+try:
+	kwargs['parms'][0].set("%s`opinputpath('..', 3)`" % ('op:' if kwargs['ctrlclick'] else '') )
+except:
+	pass
+]]></scriptCode>
+			</scriptItem>
+
+
+			<separatorItem/>
+
+
+			<scriptItem id="ql_add_parm_value_multiplier">
+				<label>Add Value/Multiplier to Parameter</label>
+				<scriptCode><![CDATA[
+p = kwargs['parms'][0]
+try:
+    n = p.node()
+
+    v = p.eval()
+    t = p.parmTemplate()
+    g = n.parmTemplateGroup()
+
+    pn = t.name()
+    pl = t.label()
+    pvn = '%s_value' % pn
+    pmn = '%s_mult' % pn
+
+    if not n.parm(pvn) and not n.parm(pmn):
+        # value
+        t.setName(pvn)
+        t.setLabel('%s (v)' % pl)
+        t.setDefaultValue( (v, ) )
+        g.insertAfter(pn, t)
+        # mult
+        t.setName(pmn)
+        t.setLabel('%s (%%)' % pl)
+        t.setMinValue(0.0)
+        t.setMaxValue(2.0)
+        t.setDefaultValue( (1.0, ) )
+        g.insertAfter(pvn, t)
+        # add parms
+        n.setParmTemplateGroup(g)
+
+        p.setExpression("ch('%s') * ch('%s')" % (pvn, pmn, ) )
+    else:
+        hou.ui.setStatusMessage("Value/multiplier params already exist for %s" % p.path(),
+			severity=hou.severityType.Warning)
+except:
+	hou.ui.setStatusMessage("couldn't set up value/multiplier parameters on %s" % p.path(),
+		severity=hou.severityType.Error)
+]]></scriptCode>
+			</scriptItem>
+
+
+			<scriptItem id="ql_set_center_pivot_expr">
+				<label>[SOP] Expression: Centroid</label>
+				<scriptCode><![CDATA[
+try:
+	#hou.ui.displayMessage(str(kwargs['parms']))
+	kwargs['parms'][0].setExpression("centroid(opinputpath('.',0), D_X)")
+	kwargs['parms'][1].setExpression("centroid(opinputpath('.',0), D_Y)")
+	kwargs['parms'][2].setExpression("centroid(opinputpath('.',0), D_Z)")
+except:
+	pass
+]]></scriptCode>
+			</scriptItem>
+
+		</subMenu>
+
+
+
+	</menu>
+</menuDocument>

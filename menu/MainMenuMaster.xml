@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Please note, that the files defining the main menu (ie, MainMenuCommon,
+     MainMenuMaster, and MainMenuEscape)
+     can exist in $HOME/houdiniX.Y/ directory and will supplement 
+     the original definitions found in $HFS/houdini/ -->
+
+<mainMenu>
+	<menuBar>
+	
+
+    <!-- An example of how to add own python scripts submenu to the main menu.
+
+	  Note, that the 'id' attribute is optional, and if not specified, 
+	  it will be automaticaly generated and assigned internally. The 'id'
+	  has some significace for action and toggle items, where it corresponds
+	  to the hotkey for that item. However, if no hotkey needs to be
+	  assigned in the hotkey customization file, the id may be omitted for
+	  these items too.
+
+    <subMenu>
+    <label>My Scripts</label>
+      <scriptItem id="h.my_python_script">
+        <label>My Python Script</label>
+	<scriptPath>$HOME/script_file.py</scriptPath>
+	<scriptArgs>arg_one arg_two arg_three</scriptArgs>
+      </scriptItem>
+    </subMenu>
+    -->
+
+    <!-- An example of how to add embedded python scripts
+
+    <subMenu>
+    <label>My Scripts</label>
+      <scriptItem id="h.my_python_script">
+        <label>My Python Script</label>
+	<scriptArgs>arg_one arg_two arg_three</scriptArgs>
+	<scriptCode><![CDATA[import sys
+hou.ui.displayMessage("from code " + str(sys.argv))]]></scriptCode>
+      </scriptItem>
+    </subMenu>
+    -->
+
+
+
+<!--
+	<subMenu id = "shortcuts_menu">
+	<modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
+	<label>Shortcuts</label>
+
+<separatorItem />
+	</subMenu>
+
+-->
+      
+
+	<subMenu id = "config_menu">
+	<modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
+	<label>Config</label>
+
+		<subMenu id="config_browse_submenu">
+		<label>[fs]: Open</label>
+
+			<scriptItem id="h.browse_HIP">
+				<label>$HIP: Current HIP Directory...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.open_dir(env="HIP")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.browse_JOB">
+				<label>$JOB: Jobs Root Directory...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.open_dir(env="JOB")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<separatorItem />
+
+			<scriptItem id="h.browse_HIH_root">
+				<label>$HIH: User Config Files...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.open_dir(env="HIH")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.browse_HFS">
+				<label>$HFS: Houdini Install...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.open_dir(env="HFS")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<separatorItem />
+
+			<scriptItem id="h.browse_HOME">
+				<label>$HOME: Home Directory...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.open_dir(env="HOME")]]>
+				</scriptCode>
+			</scriptItem>
+
+		</subMenu>
+		
+		<separatorItem />
+
+		<subMenu id="config_edit_submenu">
+		<label>[txt]: Edit File</label>
+			
+			<scriptItem id="h.edit_env">
+				<label>houdini.env...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix xdg-open $HIH/houdini.env '&'")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.edit_display_opts">
+				<label>display_options.def...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix xdg-open $HIH/display_options.def '&'")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<separatorItem />
+
+			<scriptItem id="h.edit_main_menu">
+				<label>Main Window Menu...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix xdg-open $HIH/MainMenuMaster.xml '&'")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.edit_parm_menu">
+				<label>Parameters RMB Menu...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix xdg-open $HIH/PARMmenu.xml '&'")]]>
+				</scriptCode>
+			</scriptItem>
+
+		</subMenu>
+
+		<subMenu id="config_commit_submenu">
+		<label>[git]: Commit Changes</label>
+
+			<scriptItem id="h.commit_main">
+				<label>Main...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix cd $HIH '&&' git gui '&'")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.commit_scripts">
+				<label>Scripts...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix cd $HIH/scripts '&&' git gui '&'")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.commit_toolbars">
+				<label>Shelf Toolbars...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix cd $HIH/toolbar '&&' git gui '&'")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.commit_wiki">
+				<label>Wiki Pages...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix cd $HIH/wiki '&&' git gui '&'")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.commit_presets">
+				<label>Presets (Extract+Commit)...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix cd $HIH/presets '&&' ./IDX.sh x '&&' git gui '&'")]]>
+				</scriptCode>
+			</scriptItem>
+			
+		</subMenu>
+
+
+		<subMenu id="config_otlwip_submenu">
+		<label>[git]: OTLs w.i.p.</label>
+
+			<scriptItem id="h.browse_otlwip">
+				<label>otls/wip Directory...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix xdg-open $HIH/otls/wip '&'")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<separatorItem />
+
+			<scriptItem id="h.otlwip_extract_and_commit">
+				<label>Extract and Commit...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix cd $HIH/otls/wip '&&' ./OTL.sh x '&&' git gui '&'")]]>
+				</scriptCode>
+			</scriptItem>
+			
+			<separatorItem />
+
+			<scriptItem id="h.otlwip_extract">
+				<label>Extract All OTLs</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix cd $HIH/otls/wip '&&' ./OTL.sh x")]]>
+				</scriptCode>
+			</scriptItem>
+			
+			<scriptItem id="h.otlwip_commit">
+				<label>Commit...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix cd $HIH/otls/wip '&&' git gui '&'")]]>
+				</scriptCode>
+			</scriptItem>
+			
+			<separatorItem />
+
+			<scriptItem id="h.otls_rebuild">
+				<label>(Re-)Build OTL Files</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix cd $HIH/otls/wip '&&' ./OTL.sh b")]]>
+				</scriptCode>
+			</scriptItem>
+		
+		</subMenu>
+
+		<subMenu id="config_record_submenu">
+		<label>[rec]: Record</label>
+
+			<scriptItem id="h.resize_window_home_large">
+				<label>Resize Window (at home, large)...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix wmctrl -r :ACTIVE: -e 0,1922,112,1912,1080")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.resize_window_work">
+				<label>Resize Window (at work)...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,40,1280,720")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.resize_window_small">
+				<label>Resize Window (small)...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix wmctrl -r :ACTIVE: -e 0,1922,112,960,540")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.resize_window_animgif">
+				<label>Resize Window (animgif)...</label>
+				<scriptCode><![CDATA[
+hou.hscript("unix wmctrl -r :ACTIVE: -e 0,1922,112,800,640")]]>
+				</scriptCode>
+			</scriptItem>
+
+		</subMenu>
+
+		<separatorItem />
+
+		<scriptItem id="h.backup_config">
+			<label>Backup Configuration...</label>
+			<scriptCode><![CDATA[
+if hou.ui.displayMessage('Backup configuration? (Takes a few seconds)', ('Yes', 'No'))==0:
+	hou.ui.setStatusMessage('Backing up configuration -- Please be patient...', hou.severityType.ImportantMessage)
+	hou.hscript("unix cd $HIH '&&' ./backup.sh")
+	hou.ui.displayMessage('Backup completed.')
+]]>
+			</scriptCode>
+		</scriptItem>
+	</subMenu>
+
+
+
+	<subMenu id = "file_menu">
+
+		<separatorItem id="file_menu_sep_holdfetch">
+			<modifyItem><insertAfter>export_files</insertAfter></modifyItem>
+		</separatorItem>
+
+		<scriptItem id="h.hip_hold">
+			<modifyItem><insertAfter>file_menu_sep_holdfetch</insertAfter></modifyItem>
+			<label>Hold Scene...</label>
+			<scriptCode><![CDATA[
+import os, tempfile
+tmp = os.path.join(tempfile.gettempdir(), 'qLib_hold-fetch.hip')
+if hou.ui.displayMessage('Hold scene? (to %s)' % tmp, ('Yes', 'No'))==0:
+	hou.ui.setStatusMessage('Holding scene (%s)...' % tmp, hou.severityType.ImportantMessage)
+	F = hou.hipFile
+	p = F.path()
+	hou.hscript('setenv HIP_HELD = "%s"' % p)
+	F.save(tmp, False)
+	hou.hscript('setenv -u HIP_HELD')
+	F.setName(p)
+]]>
+			</scriptCode>
+		</scriptItem>
+
+		<scriptItem id="h.hip_fetch">
+			<modifyItem><insertAfter>h.hip_hold</insertAfter></modifyItem>
+			<label>Fetch Scene...</label>
+			<scriptCode><![CDATA[
+import os, tempfile
+tmp = os.path.join(tempfile.gettempdir(), 'qLib_hold-fetch.hip')
+if hou.ui.displayMessage('Fetch scene? (from %s)' % tmp, ('Yes', 'No'))==0:
+	hou.ui.setStatusMessage('Fetching scene (%s)...' % tmp, hou.severityType.ImportantMessage)
+	try:
+		F = hou.hipFile
+		F.load(tmp, True)
+		#if kwargs['shiftclick']: hou.setUpdateMode(hou.updateMode.Manual)
+		p = str(hou.getenv("HIP_HELD"))
+		hou.hscript('setenv -u HIP_HELD')
+		F.setName(p)
+	except:
+		pass
+]]>
+			</scriptCode>
+		</scriptItem>
+
+		<scriptItem id="h.hip_recover">
+			<modifyItem><insertAfter>h.merge</insertAfter></modifyItem>
+			<label>Crash Recovery...</label>
+			<scriptCode><![CDATA[
+import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
+			</scriptCode>
+		</scriptItem>
+
+
+	</subMenu>
+
+
+
+	<subMenu id = "wiki_menu">
+	<modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
+	<label>Wiki</label>
+		<scriptItem id="h.openwiki">
+			<label>[ffx]: Open Wiki...</label>
+			<scriptCode><![CDATA[
+hou.hscript("unix firefox $HIH/wiki/hou_tiddlywiki.html '&'")]]>
+			</scriptCode>
+		</scriptItem>
+		<scriptItem id="h.wikicommit">
+			<label>[git]: Commit Changes...</label>
+			<scriptCode><![CDATA[
+hou.hscript("unix cd $HIH/wiki '&&' git gui '&'")]]>
+			</scriptCode>
+		</scriptItem>
+	</subMenu>
+
+
+
+	</menuBar>
+
+
+
+
+  <!-- An example of how to add a new menu item that will invoke a python script
+       from a file. This method of adding a menu item does not require repeating
+       the entire menu structure that defines the item's parenting. The
+       script_file.py will be passed the argument string "-q -n extra_name"
+       which will be available in the script as standard command line arguments:
+       sys.argv[0] = (...)/script_file.py
+       sys.argv[1] = '-q'
+       sys.argv[2] = '-n'
+       sys.argv[3] = 'extra_name'
+
+  <addScriptItem id="h.my_added_script">
+	<parent>tools_menu</parent>
+        <label>My Added Python Script</label>
+	<scriptPath>$HOME/script_file.py</scriptPath>
+	<scriptArgs>-q -n extra_name</scriptArgs>
+	<insertBefore>h.handleeditor</insertBefore>
+  </addScriptItem>
+  -->
+
+  <!-- The menu item can be inserted at a desired position using the following
+       tags:
+       <insertBefore/>			- insert at the beginning of the submenu
+       <insertBefore>id</insertBefore>	- insert before an item given by the id
+       <insertAfter/>			- append at the end of the submenu
+       <insertAfter>id</insertAfter>	- insert after an item given by the id
+       <insertAtIndex>2</insertAtIndex>	- insert at a given numerical index
+  -->
+
+
+  <!-- An example of how to modify some attributes of the menu items such 
+       as label, parent, and position in the menu. Note, that not all
+       attributes need to be specified within <modifyItem> element; if, for
+       example, the label does not need any change, it may be omitted.
+
+  <modifyItem id="h.open_bundlelist">
+	<parent>tools_menu</parent>
+        <label>My Rearranged Bundles...</label>
+	<insertAfter>h.handleeditor</insertAfter>
+  </modifyItem>
+  -->
+
+
+  <!-- An example of how to remove menu items or entire submenus 
+       from the main menu.
+
+  <removeItem id="h.optype_mgr"/>
+  <removeItem id="tools_menu"/>
+  <removeItem id="h.mat_palette"/>
+  -->
+
+</mainMenu>
