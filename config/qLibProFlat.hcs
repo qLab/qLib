@@ -590,7 +590,7 @@ BlueTextLinkColor:      #33 66 BB
 //
 
 // Parameter is locked
-LockedColor:	#c4 c4 c4
+LockedColor:	HSV 200	0.1	0.7
 // Pending change 
 PendingColor:	#ff ff aa //yellow
 // Keyframe
