@@ -7,8 +7,8 @@ A procedural asset library for SideFX Houdini.
 - https://github.com/qLab/qLib
 - https://www.facebook.com/qLibHoudini
 
-Download the **dev branch** (the very-latest) here:
-https://github.com/qLab/qLib/archive/dev.zip
+Download the **latest version** here:
+https://github.com/qLab/qLib/archive/master.zip
 
 
 ### About
