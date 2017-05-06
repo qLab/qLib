@@ -51,6 +51,7 @@ def colorize_op(kwargs):
 		'ropnet':        (0.2, 0.0, 0.4),
 		'rop_geometry':  (0.2, 0.0, 0.4),
 		'rop_alembic':   (0.2, 0.0, 0.4),
+		'edit':          (1.0, 0.8, 0.8),
 
 		'explodedview':  (0.0, 0.4, 1.0),
 
