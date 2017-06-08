@@ -54,6 +54,7 @@ def colorize_op(kwargs):
 		'edit':          (1.0, 0.8, 0.8),
 
 		'explodedview':  (0.0, 0.4, 1.0),
+		'visualize':     (0.0, 0.4, 1.0),
 
 		'ifd':           (0.8, 0.8, 1.0),
 
