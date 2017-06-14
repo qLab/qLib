@@ -17,12 +17,14 @@ echo -- location: $HIH
 
 rm -fv $HIH/MainMenuMaster.xml
 rm -fv $HIH/PARMmenu.xml
+rm -fv $HIH/MVexport
 
 # NOTE: this might need to be edited
 SRC=./qLib-johannes/menu
 
 ln -sfv $SRC/MainMenuMaster.xml $HIH/MainMenuMaster.xml
 ln -sfv $SRC/PARMmenu.xml $HIH/PARMmenu.xml
+ln -sfv $SRC/MVexport $HIH/MVexport
 
 
 echo ...done.
