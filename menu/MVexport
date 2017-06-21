@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Please note, that the files defining the movie export scripts can
+     exist in the $HOME/houdiniX.Y/ directory and will supplement the
+     original definitions found in $HFS/houdini/ -->
+
+<!-- The python script should define two specific entry functions:
+       def isSupported():
+         This optional function is called to check whether the exporter
+         is supported on the current system.  For example, this function
+         could check whether a particular encoding app is installed.
+
+         Returns True if supported, False otherwise.
+
+       def encode(kwargs):
+         This mandatory function is called to encode the movie file.  It
+         is passed a single dictionary containing all the necessary args.
+
+         The return value is the tuple (status, (stdout, stderr)),
+	 where return_code is the exit status of the external app,
+	 and stdout and stderr are strings representing the contents
+	 of the respective file handles.
+	 
+         The currently supported arguments are:
+           'outputfile' - path to output movie file
+           'outputformat' - (string) id attribute of chosen output format
+           'imagefiles' - list of paths to the input images
+           'imagefilesstringformat' - (string) format string that will yield
+                                      the name of the i'th file when used in
+                                      a 'format % i' expression.
+           'xres' - (integer) width of both input images and output file
+           'yres' - (integer) height of both input images and output file
+	   'framerate' - (float) frame rate (frames per second)
+           'videopreset' - (string) id attribute of chosen video preset
+	   'audiofile' - path to audio file
+	   'audiocopy' - (boolean) flag to request that the audio file be
+                         inserted without transcoding, where possible.
+           'audiopreset' - (string) id attribute of chosen audio preset
+-->
+
+<exporterRegistration>
+
+  <exporter platform="linux">
+    <label>Quicktime (ffmpeg/qLib)... </label>
+
+    <inputImageFormats>jpg png tga</inputImageFormats>
+    <outputFormat id="mov" default="Y">
+        <label>MOV Container</label>
+        <ext>mov</ext>
+
+        <videoPreset id="mjpeg">
+            <label>PhotoJPEG</label>
+        </videoPreset>
+        <videoPreset id="libx264">
+            <label>H.264</label>
+        </videoPreset>
+
+        <audioPreset id="aac">
+            <label>Advanced Audio Coding (AAC)</label>
+        </audioPreset>
+    </outputFormat>
+
+    <pythonScript>$HIH/scripts/ffmpeg_qLib.py</pythonScript>
+  </exporter>
+
+</exporterRegistration>
