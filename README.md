@@ -40,6 +40,7 @@ cinematics and commercials.
 - Workflow-related tools
 - A large collection of gallery items (node and subnet presets)
 - Shelf tools
+- Colour scemes, extra menu items
 - Experimental extras
 
 More details here:
@@ -134,6 +135,13 @@ setenv HOUDINI_GALLERY_PATH $QLIB/gallery:@/gallery
 setenv HOUDINI_TOOLBAR_PATH $QLIB/toolbar:@/toolbar
 setenv HOUDINI_SCRIPT_PATH $QLIB/scripts:@/scripts
 ```
+
+#### 3. Extras
+
+Extra menu items and color scemes can be found in the `menu/` and `config/` folders.
+These can be copied or linked into the appropriate folders within the user's
+houdiniXX.X/ preferences folder (e.g. $HOME/houdini15.0/config)
+
 
 ### Further readings and other places of interest
 
