@@ -118,10 +118,10 @@ Set environment variables on osx depending on the shell you are using. For bash/
 QLIB=<<path to qLib install>>
 QOTL=$QLIB/otls
 
-export HOUDINI_OTLSCAN_PATH=$QOTL/base:$QOTL/future:$QOTL/experimental:@/otls
-export HOUDINI_GALLERY_PATH=$QLIB/gallery:@/gallery
-export HOUDINI_TOOLBAR_PATH=$QLIB/toolbar:@/toolbar
-export HOUDINI_SCRIPT_PATH=$QLIB/scripts:@/scripts
+HOUDINI_OTLSCAN_PATH=$QOTL/base:$QOTL/future:$QOTL/experimental:@/otls
+HOUDINI_GALLERY_PATH=$QLIB/gallery:@/gallery
+HOUDINI_TOOLBAR_PATH=$QLIB/toolbar:@/toolbar
+HOUDINI_SCRIPT_PATH=$QLIB/scripts:@/scripts
 ```
 For csh/tcsh use: setenv variable value"
 
