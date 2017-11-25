@@ -20,7 +20,7 @@ rm -fv $HIH/PARMmenu.xml
 rm -fv $HIH/MVexport
 
 # NOTE: this might need to be edited
-SRC=./qLib-johannes/menu
+SRC=./qLib/menu
 
 ln -sfv $SRC/MainMenuMaster.xml $HIH/MainMenuMaster.xml
 ln -sfv $SRC/PARMmenu.xml $HIH/PARMmenu.xml
