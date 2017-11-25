@@ -1,6 +1,7 @@
 Scheme:	Houdini qLib Pro Flat
 
 #include "$HFS/houdini/config/basic_colors.inc"
+#include "NodeGraph_qLibProFlat.inc"
 
 // Color Palette
 #define BACKGROUND	GREY(0.65)
@@ -16,9 +17,6 @@ Scheme:	Houdini qLib Pro Flat
 #define HIGHLIGHT2	GREY(0.75)
 #define HIGHLIGHT3	GREY(0.7)
 
-#define HIGHLIGHT1_1	GREY(0.78)
-#define HIGHLIGHT3_1	GREY(0.68)
-c
 #define SHADOW1	GREY(0.6)
 #define SHADOW1_5	GREY(0.52)
 #define SHADOW2	GREY(0.46)
@@ -45,6 +43,9 @@ c
 #define SELECTION_HIGHLIGHT2	1 0.9 0.4	
 #define SELECTION_SHADOW	1 0.4 0
 #define SELECTED_TEXT	WHITE
+
+#define LISTA	EDIT_BG
+#define LISTB	EDIT_BG_ALT
 
 #define ERROR	RED
 
@@ -132,16 +133,19 @@ RadioDot:	SELECTION_BASE
 RadioDotHighlight:	SELECTION_HIGHLIGHT2
 
 TextboxBG:	EDIT_BG
+TextboxInvalidBG:	0.95 0.56 0.56
 TextboxBorderPrimary:	BORDERBASE
 TextboxBorderHighlight:	BACKGROUND
 TextboxError:	ERROR
 TextboxGutter:	EDIT_BG_ALT
+TextboxDropMarker: #00 00 66
 
 
 TextboxFeedbackFG:	GREY(0.5)
 TextboxFeedbackBG:	LIGHT_BASE
 SelectedTextFG:	SELECTED_TEXT
 SelectedTextBG:	SELECTION_BASE
+SelectedTextDisabledBG: GREY(0.5)
 
 SliderTopBorder:	BORDERBASE
 SliderBottomBorder:	HIGHLIGHT3
@@ -223,8 +227,12 @@ ListTitleHighlightGradLow:	SELECTION_BASE
 ListText:		TEXT
 ListAltText:		SHADOW3
 
+HotkeyMgrUnboundActionFG:	SHADOW3
+
 // Divider line between spreadsheet columns
 SSBorder:	GREY(0.7)
+
+GroupBorder:	BORDERBASE
 
 InfoBG:	HELP_BG
 InfoText:	TEXT
@@ -232,8 +240,8 @@ InfoText:	TEXT
 PopupHelpBG:		HELP_BG
 PopupHelpFG:		TEXT # tooltip text
 PopupHelpHotkeyFG:	SHADOW4
-PopupExtraHelpBG:	HELP_F1_BG
 PopupExtraHelpFG:	TEXT
+PopupExtraHelpBG:	HELP_F1_BG
 
 ShelfGradHi:	GREY(0.7)
 ShelfGradMidHi:	GREY(0.68)
@@ -358,6 +366,7 @@ NetworkDisplayHighlight:	0.4180 0.5469 0.6758
 NetworkRenderHighlight:	#9E 8E AE
 NetworkOutputHighlight:		0.75 0.4 0.0
 NetworkTemplateHighlight:	#FF 66 FF
+NetworkLegacyHighlight:		#FF 33 33
 NetworkOverviewDragger:	WHITE
 NetworkTimeDependent:	0.0 1.0 0.0
 
@@ -377,6 +386,8 @@ NetworkWireIKActiveLight:	0.0 0.0 0.8
 NetworkWireOutputOverrideNormal:	1.0 1.0 1.0
 NetworkWireOutputOverrideHighlight:	0.0 1.0 0.0
 NetworkWireTimeDepNormal:	0.0 1.0 0.0 
+NetworkWireLoopBack:		HSV 180 1.0 1.0 1.0
+NetworkWirePassThrough:		HSV 180 1.0 1.0 1.0
 
 StatusBarMessageFG:	BLACK
 StatusBarMessageBG:	BACKGROUND
@@ -404,8 +415,8 @@ DopeSheetKeyOverlay:	1 0 0
 DopeSheetKeyDisabled:	0.5 0 1
 DopeSheetOutsideRangeBG: GREY(0.3)
 DopeSheetSimulation:		0 0.5 1
-DopeSheetSimulationPlaying:     0.59 0.48 0.7
 DopeSheetSimulationReset:	1 0.5 0
+DopeSheetSimulationPlaying:     0.59 0.48 0.7
 DopeSheetTimeline:	GREY(0.7)
 DopeSheetTimelineAudio:	GREY(0.5)
 DopeSheetTickLarge:	GREY(0.3)
@@ -426,11 +437,13 @@ DopeSheetSelectionActive:	1 1 0.5
 DopeSheetSelectionInactive:	1 1 0
 DopeSheetSelectionInactiveLock:	1 0 1
 DopeSheetSelectionText:	GREY(0)
+DopeSheetSelectionRemove:	1 0 0
 DopeSheetOverwriteHover:	1 0 0
 DopeSheetOverwriteActive:	0.7 0 0
 DopeSheetOverwriteInactive:	0.9 0 0
 DopeSheetSpreadSheetText:	GREY(0)
 DopeSheetSpreadSheetDisabled:	1 0.9176 0.9569
+DopeSheetRippleTool:	1 1 0
 
 BorderLight:		BORDERBASE
 BorderDark:		BLACK
@@ -649,6 +662,8 @@ SplitBarColor:	GREY(0.5)
 SplitBarPaneOutline: 	GREY(0.4)
 SplitBarGrippyColor:	0.08 0.08 0.08
 SplitBarHighlight:	1 1 1
+
+
 PlayBarOnColor:	0.05 0.8 0.05
 PlayBarOffColor:	0.25 0.25 0.25
 PlayBarDisabledColor:	0.4 0.4 0.4
@@ -679,12 +694,12 @@ ErrorColor:	1.0 0.0 0.0
 ShopViewTitleColor	1.0 1.0 0.0
 
 // The following colors are for Vop input/output labels
-VopInOutVector2Color:		0.4	0.7	0.4
-VopInOutVector2ArrayColor:	0.3	0.5	0.3
 VopInOutVector4Color:		0.7	0.9	0.6
 VopInOutVector4ArrayColor:	0.6	0.7	0.55
 VopInOutVectorColor:		0.5	0.8	0.5
 VopInOutVectorArrayColor:	0.5	0.65	0.5
+VopInOutVector2Color:		0.4	0.7	0.4
+VopInOutVector2ArrayColor:	0.3	0.5	0.3
 VopInOutNormalColor:		0.4	0.4	0.8
 VopInOutColorColor:		0.7	0.5	0.3
 VopInOutFloatColor:		0.5	0.7	0.6
@@ -719,11 +734,11 @@ ShopInOutImage3dColor:	0.4	0.9	0.7
 ShopInOutImage3dArrayColor:	0.3	0.7	0.6
 
 // The following colors are for Dop input/output labels
-DopInOutObjectColor:	0.65	0.65	0.65
-DopInOutDataColor:	0.50	0.80	0.50
-DopInOutRelDataColor:	0.20	0.60	0.20
-DopInOutAnyColor:	0.9	0.9	0.9
-DopInOutSolverColor:	0.7	0.5	0.9
+DopInOutObjectColor:	0.35	0.35	0.35
+DopInOutDataColor:	0.25	0.40	0.25
+DopInOutRelDataColor:	0.10	0.30	0.10
+DopInOutSolverColor:	0.35	0.25	0.45
+DopInOutAnyColor:	0.45	0.45	0.45
 
 // The following colors are for simple spreadsheets (ie. tables)
 SSTableBackgroundColor:	0.9	0.9	0.9
