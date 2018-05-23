@@ -9,7 +9,6 @@
     <memberTool name="AccessShotNode_qL"/>
     <memberTool name="ToggleViewportBackgroundColor_qL"/>
     <memberTool name="ToggleViewBackground_qL"/>
-    <memberTool name="RealTimePlayback_qL"/>
     <memberTool name="ToggleIntegerFrames_qL"/>
     <memberTool name="ReferenceCopy_qL"/>
     <memberTool name="AttribDisplayMarkers_qL"/>
@@ -481,26 +480,6 @@ bgs = { 'wb':'dark', 'bw':'grey', 'light':'light' }
 
 hou.hscript("viewdisplay -B %s *" % bg)
 hou.ui.setStatusMessage("Cycled background to %s" % bgs[bg].upper() )]]></script>
-  </tool>
-
-  <tool name="RealTimePlayback_qL" label="realtime" icon="PLAYBAR_realtime">
-    <helpText><![CDATA[#icon: PLAYBAR/realtime
-#context: obj
-#type: tool
-
-= Toggle Integer Frames qL =
-
-*version 1*
-
-"""Toggle non-integer frame values on the playbar.
-----
-LMB: Enable real-time playback
-Shift-LMB: Disable real-time playback
-"""
-]]></helpText>
-    <script scriptType="python"><![CDATA[import hou
-
-hou.playbar.setRealTime( not kwargs['shiftclick'] )]]></script>
   </tool>
 
   <tool name="ToggleViewportGuides_qL" label="/guides/" icon="NODEFLAGS_origin">
