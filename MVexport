@@ -60,7 +60,7 @@
         </audioPreset>
     </outputFormat>
 
-    <pythonScript>$HIH/scripts/ffmpeg_qLib.py</pythonScript>
+    <pythonScript>$QLIB/scripts/ffmpeg_qLib.py</pythonScript>
   </exporter>
 
 </exporterRegistration>
