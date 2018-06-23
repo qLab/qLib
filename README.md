@@ -30,6 +30,8 @@ license](https://github.com/qLab/qLib/blob/master/LICENCE). It's developed by
 VFX professionals from several studios working on feature films, game
 cinematics and commercials.
 
+[qLib Summary / Highlights (facebook)](https://www.facebook.com/notes/qlib/qlib-summary-highlights/726676570699463)
+
 
 ### Tools
 
@@ -43,32 +45,24 @@ cinematics and commercials.
 - Colour scemes, extra menu items
 - Experimental extras
 
-More details here:
-https://www.facebook.com/notes/qlib/qlib-summary-highlights/726676570699463
-
 
 ### Quick Installation
 
-- Download the latest dev-branch (see link above)
-- Extract and move it into your Houdini config directory
+- Download the latest version (see link above)
+- Extract and move it into the Houdini config folder in your home folder
 - Append the provided houdini.env example file to your own houdini.env
-
-(Note that the provided env file example is for linux.)
 
 
 ### Installation
 
-The installation process involves two steps: **getting the contents** and
-**setting up the environment** for Houdini.
-
-#### 1. Getting the contents
+#### 1. Getting qLib
 
 You can either grab a compressed archive file (as mentioned above), or
 you can clone the official repository with **git**.
 
-The archive way is the easiest, but using git has additional benefits,
-such as instant updates, easy access to older versions, other development
-branches, etc.
+The archive way is the easiest, but with git you can update faster,
+revert to previous versions quick, etc.
+
 
 #### 2. Adding it to the Houdini environment
 
@@ -76,8 +70,7 @@ We provide example *houdini.env* files (windows and linux) which can be
 *appended to your houdini.env file in your Houdini config folder*
 (the HoudiniXX.X/ folder in your home directory).
 
-To read more on configuration, see
-<a href="http://www.sidefx.com/docs/houdini/basics/config_env">documentation on houdini.env</a>.
+[To read more on configuration, see the documentation on houdini.env](http://www.sidefx.com/docs/houdini/basics/config_env)
 
 #### 2a. Important note for facilities
 
@@ -90,9 +83,6 @@ relying on houdini.env files.
 
 qLib comes with documentation. All assets have help cards (even with
 example images and whatnot), providing all the related important details.
-
-Other aspects of the library are covered in the
-[Wiki](https://github.com/qLab/qLib/wiki).
 
 We appreciate bug reports, RFEs (Request For Enhancement), or feedback of
 any kind.
