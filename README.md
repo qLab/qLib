@@ -77,7 +77,7 @@ We provide example *houdini.env* files (windows and linux) which can be
 (the HoudiniXX.X/ folder in your home directory).
 
 To read more on configuration, see
-<a href="http://www.sidefx.com/docs/current/basics/config_env">documentation on houdini.env</a>.
+<a href="http://www.sidefx.com/docs/houdini/basics/config_env">documentation on houdini.env</a>.
 
 #### 2a. Important note for facilities
 
