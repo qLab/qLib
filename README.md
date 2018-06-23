@@ -23,7 +23,7 @@ Houdini concepts.
 Strong emphasis on the following things:
 - **Backwards-compatibility**: old scenes will _not_ break over time
 - **Performance**: we press for VEX/multithreading as much as possible
-- **Usability**: our tools avoid the "in-house" look-and-feel
+- **Usability**: our tools try to avoid the "in-house" look-and-feel
 
 qLib is **open source software** licensed under the [New BSD
 license](https://github.com/qLab/qLib/blob/master/LICENCE). It's developed by
@@ -50,7 +50,7 @@ cinematics and commercials.
 
 - Download the latest version (see link above)
 - Extract and move it into the Houdini config folder in your home folder
-- Append the provided houdini.env example file to your own houdini.env
+- Append provided houdini.env example file contents to your own houdini.env
 
 
 ### Installation
@@ -59,9 +59,8 @@ cinematics and commercials.
 
 You can either grab a compressed archive file (as mentioned above), or
 you can clone the official repository with **git**.
-
-The archive way is the easiest, but with git you can update faster,
-revert to previous versions quick, etc.
+(The archive way is the easiest, but with git you can update faster,
+revert to previous versions quick, etc.)
 
 
 #### 2. Adding it to the Houdini environment
@@ -75,8 +74,8 @@ We provide example *houdini.env* files (windows and linux) which can be
 #### 2a. Important note for facilities
 
 If you're installing at a large facility with a package management system,
-use your package manager to set up these environment variables instead of
-relying on houdini.env files.
+*do not rely on houdini.env files* --
+use your package manager to set up environment variables.
 
 
 ### Further readings and other places of interest
