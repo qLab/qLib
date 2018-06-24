@@ -54,9 +54,9 @@ hou.ui.displayMessage("from code " + str(sys.argv))]]></scriptCode>
 -->
       
 
-	<subMenu id = "config_menu">
+	<subMenu id = "qLib_menu">
 	<modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
-	<label>Config</label>
+	<label>qLib</label>
 
 		<subMenu id="config_browse_submenu">
 		<label>[fs]: Open</label>
@@ -121,156 +121,41 @@ hou.hscript("unix xdg-open $HIH/display_options.def '&'")]]>
 				</scriptCode>
 			</scriptItem>
 
-			<separatorItem />
-
-			<scriptItem id="h.edit_main_menu">
-				<label>Main Window Menu...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix xdg-open $HIH/MainMenuMaster.xml '&'")]]>
-				</scriptCode>
-			</scriptItem>
-
-			<scriptItem id="h.edit_parm_menu">
-				<label>Parameters RMB Menu...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix xdg-open $HIH/PARMmenu.xml '&'")]]>
-				</scriptCode>
-			</scriptItem>
-
-		</subMenu>
-
-		<subMenu id="config_commit_submenu">
-		<label>[git]: Commit Changes</label>
-
-			<scriptItem id="h.commit_main">
-				<label>Main...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix cd $HIH '&&' git gui '&'")]]>
-				</scriptCode>
-			</scriptItem>
-
-			<scriptItem id="h.commit_scripts">
-				<label>Scripts...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix cd $HIH/scripts '&&' git gui '&'")]]>
-				</scriptCode>
-			</scriptItem>
-
-			<scriptItem id="h.commit_toolbars">
-				<label>Shelf Toolbars...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix cd $HIH/toolbar '&&' git gui '&'")]]>
-				</scriptCode>
-			</scriptItem>
-
-			<scriptItem id="h.commit_wiki">
-				<label>Wiki Pages...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix cd $HIH/wiki '&&' git gui '&'")]]>
-				</scriptCode>
-			</scriptItem>
-
-			<scriptItem id="h.commit_presets">
-				<label>Presets (Extract+Commit)...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix cd $HIH/presets '&&' ./IDX.sh x '&&' git gui '&'")]]>
-				</scriptCode>
-			</scriptItem>
-			
-		</subMenu>
-
-
-		<subMenu id="config_otlwip_submenu">
-		<label>[git]: OTLs w.i.p.</label>
-
-			<scriptItem id="h.browse_otlwip">
-				<label>otls/wip Directory...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix xdg-open $HIH/otls/wip '&'")]]>
-				</scriptCode>
-			</scriptItem>
-
-			<separatorItem />
-
-			<scriptItem id="h.otlwip_extract_and_commit">
-				<label>Extract and Commit...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix cd $HIH/otls/wip '&&' ./OTL.sh x '&&' git gui '&'")]]>
-				</scriptCode>
-			</scriptItem>
-			
-			<separatorItem />
-
-			<scriptItem id="h.otlwip_extract">
-				<label>Extract All OTLs</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix cd $HIH/otls/wip '&&' ./OTL.sh x")]]>
-				</scriptCode>
-			</scriptItem>
-			
-			<scriptItem id="h.otlwip_commit">
-				<label>Commit...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix cd $HIH/otls/wip '&&' git gui '&'")]]>
-				</scriptCode>
-			</scriptItem>
-			
-			<separatorItem />
-
-			<scriptItem id="h.otls_rebuild">
-				<label>(Re-)Build OTL Files</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix cd $HIH/otls/wip '&&' ./OTL.sh b")]]>
-				</scriptCode>
-			</scriptItem>
-		
 		</subMenu>
 
 		<subMenu id="config_record_submenu">
 		<label>[rec]: Record</label>
 
 			<scriptItem id="h.resize_window_home_large">
-				<label>Resize Window (at home, large)...</label>
+				<label>Resize Window (HD 1080p)...</label>
 				<scriptCode><![CDATA[
-hou.hscript("unix wmctrl -r :ACTIVE: -e 0,1922,112,1912,1080")]]>
+hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,1912,1080")]]>
 				</scriptCode>
 			</scriptItem>
 
 			<scriptItem id="h.resize_window_work">
-				<label>Resize Window (at work)...</label>
+				<label>Resize Window (HD 720p)...</label>
 				<scriptCode><![CDATA[
-hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,40,1280,720")]]>
+hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,1280,720")]]>
 				</scriptCode>
 			</scriptItem>
 
 			<scriptItem id="h.resize_window_small">
-				<label>Resize Window (small)...</label>
+				<label>Resize Window (small #1)...</label>
 				<scriptCode><![CDATA[
-hou.hscript("unix wmctrl -r :ACTIVE: -e 0,1922,112,960,540")]]>
+hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,960,540")]]>
 				</scriptCode>
 			</scriptItem>
 
 			<scriptItem id="h.resize_window_animgif">
-				<label>Resize Window (animgif)...</label>
+				<label>Resize Window (small #2)...</label>
 				<scriptCode><![CDATA[
-hou.hscript("unix wmctrl -r :ACTIVE: -e 0,1922,112,800,640")]]>
+hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,800,640")]]>
 				</scriptCode>
 			</scriptItem>
 
 		</subMenu>
 
-		<separatorItem />
-
-		<scriptItem id="h.backup_config">
-			<label>Backup Configuration...</label>
-			<scriptCode><![CDATA[
-if hou.ui.displayMessage('Backup configuration? (Takes a few seconds)', ('Yes', 'No'))==0:
-	hou.ui.setStatusMessage('Backing up configuration -- Please be patient...', hou.severityType.ImportantMessage)
-	hou.hscript("unix cd $HIH '&&' ./backup.sh")
-	hou.ui.displayMessage('Backup completed.')
-]]>
-			</scriptCode>
-		</scriptItem>
 	</subMenu>
 
 
@@ -329,25 +214,6 @@ import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
 		</scriptItem>
 
 
-	</subMenu>
-
-
-
-	<subMenu id = "wiki_menu">
-	<modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
-	<label>Wiki</label>
-		<scriptItem id="h.openwiki">
-			<label>[ffx]: Open Wiki...</label>
-			<scriptCode><![CDATA[
-hou.hscript("unix firefox $HIH/wiki/hou_tiddlywiki.html '&'")]]>
-			</scriptCode>
-		</scriptItem>
-		<scriptItem id="h.wikicommit">
-			<label>[git]: Commit Changes...</label>
-			<scriptCode><![CDATA[
-hou.hscript("unix cd $HIH/wiki '&&' git gui '&'")]]>
-			</scriptCode>
-		</scriptItem>
 	</subMenu>
 
 
