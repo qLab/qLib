@@ -205,8 +205,12 @@ if hou.ui.displayMessage('Fetch scene? (from %s)' % tmp, ('Yes', 'No'))==0:
 			</scriptCode>
 		</scriptItem>
 
+		<separatorItem id="file_menu_sep_holdfetch_post">
+			<modifyItem><insertAfter>h.hip_fetch</insertAfter></modifyItem>
+		</separatorItem>
+
 		<scriptItem id="h.hip_recover">
-			<modifyItem><insertAfter>h.merge</insertAfter></modifyItem>
+			<modifyItem><insertAfter>file_menu_sep_holdfetch_post</insertAfter></modifyItem>
 			<label>Crash Recovery...</label>
 			<scriptCode><![CDATA[
 import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
