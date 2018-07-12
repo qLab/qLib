@@ -8,13 +8,13 @@
   <toolshelf name="qLib" label="qLib">
     <memberTool name="AccessShotNode_qL"/>
     <memberTool name="ToggleViewportBackgroundColor_qL"/>
-    <memberTool name="ToggleViewBackground_qL"/>
     <memberTool name="ToggleIntegerFrames_qL"/>
     <memberTool name="ReferenceCopy_qL"/>
     <memberTool name="AttribDisplayMarkers_qL"/>
     <memberTool name="ToggleViewportTemplates_qL"/>
     <memberTool name="ToggleViewportGuides_qL"/>
     <memberTool name="ToggleTimeDependencyDisplay_qL"/>
+    <memberTool name="FlushCaches_qL"/>
     <memberTool name="CrashRecovery_qL"/>
   </toolshelf>
 
@@ -670,59 +670,22 @@ show_parms(shots, title="Scene Global(s)", kwargs=kwargs)
   </tool>
 
   <tool name="CrashRecovery_qL" label="::recover::" icon="MISC_satchel">
+    <helpText><![CDATA[#icon: MISC/satchel
+#type: tool
+
+= Crash Recovery qL =
+
+*version 1*
+
+"""Opens the crash recovery window to load crash recovery hip files.
+"""
+
+
+]]></helpText>
     <script scriptType="python"><![CDATA[import qlibutils
 
 qlibutils.do_crash_recovery()
 
-]]></script>
-  </tool>
-
-  <tool name="ToggleViewBackground_qL" label="/bg image/" icon="COP2_env">
-    <helpText><![CDATA[#icon: COP2/env
-#context: obj
-#type: tool
-
-= Toggle Viewport Background qL =
-
-*version 1*
-
-"""Toggles background image display in all viewports.
-----
-LMB: Toggle display
-Shift-LMB: ...
-"""
-
-@usage Usage
-
-((LMB)):
-    Toggles background image display (Display Options -> Background -> Display background image)
-((Shift + LMB)):
-    Enable background images
-((Ctrl + LMB)):
-    Disable background images
-
-
-@related
-    - ...
-
-]]></helpText>
-    <script scriptType="python"><![CDATA[import toolutils
-
-shift = kwargs['shiftclick']
-ctrl  = kwargs['ctrlclick']
-alt   = kwargs['altclick']
-
-if not hasattr(hou.session, "viewbg"):
-    hou.session.viewbg = True
-
-hou.session.viewbg = not hou.session.viewbg
-
-if ctrl: hou.session.viewbg = False
-if shift: hou.session.viewbg = True
-
-t = 'on' if hou.session.viewbg else 'off'
-hou.hscript("viewbackground -b %s *" % (t, ))
-hou.ui.setStatusMessage("Viewport background images are now %s" % ("DISPLAYED" if hou.session.viewbg else "OFF") )
 ]]></script>
   </tool>
 
@@ -765,5 +728,27 @@ try:
 
 except:
     hou.ui.setStatusMessage("Couldn't toggle time-dependency badge", hou.severityType.Warning)]]></script>
+  </tool>
+
+  <tool name="FlushCaches_qL" label="flush caches" icon="SOP_cache">
+    <helpText><![CDATA[#icon: SOP/cache
+#type: tool
+
+= Flush Caches qL =
+
+*version 1*
+
+"""Flush various memory caches and unloads all geometry.
+"""
+
+
+]]></helpText>
+    <script scriptType="hscript"><![CDATA[opunload -R /*
+
+geocache -c
+objcache -c
+sopcache -c
+texcache -c
+]]></script>
   </tool>
 </shelfDocument>
