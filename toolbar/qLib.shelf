@@ -14,6 +14,7 @@
     <memberTool name="ToggleViewportTemplates_qL"/>
     <memberTool name="ToggleViewportGuides_qL"/>
     <memberTool name="ToggleTimeDependencyDisplay_qL"/>
+    <memberTool name="ColorByAuthor_qL"/>
     <memberTool name="FlushCaches_qL"/>
     <memberTool name="CrashRecovery_qL"/>
   </toolshelf>
@@ -749,6 +750,121 @@ geocache -c
 objcache -c
 sopcache -c
 texcache -c
+]]></script>
+  </tool>
+
+  <tool name="ColorByAuthor_qL" label="/color by author/" icon="SOP_color">
+    <helpText><![CDATA[#icon: SOP/color
+#type: tool
+
+= Color by Author qL =
+
+*version 1*
+
+"""Color nodes in a network based on their authors.
+----
+LMB: Apply coloring by author
+Shift-LMB: Restore original colors
+"""
+
+Select node(s) in a network to specify network.
+All nodes from the authors of selected nodes will he highlighted.
+
+Use Shift-click to restore original color
+(you still have to select a node to specify the network to be restored).
+
+@usage Usage
+
+((LMB)):
+    Apply color by node author
+((Shift + LMB)):
+    Restore original node colors
+]]></helpText>
+    <script scriptType="python"><![CDATA[# color-code nodes based on author names
+#
+
+import toolutils
+import colorsys
+import json
+
+def restore_node_visu(node):
+    '''Restore previous color (comment? etc) on a node.'''
+    color = node.userData('color')
+    if color:
+        node.destroyUserData('color')
+        node.setColor(hou.Color(json.loads(color)))
+
+def save_node_visu(node):
+    '''Save (or resave) original node color.'''
+    restore_node_visu(node)
+    # userData is string only so we just dump it as a json string
+    node.setUserData('color', json.dumps(node.color().rgb()))
+
+def set_node_visu(node, color=None):
+    '''Set color of a node.'''
+    if color:
+        node.setColor(hou.Color(color))
+
+def get_node_author(node):
+    '''Get name of author of a node.'''
+    author = '???'
+    try:
+        # digging up author info from an archaic command
+        author = hou.hscript('opstat -u %s' % node.path())[0].split(' ')[-1].split('\n')[0]
+    except:
+        pass
+    return author
+
+
+# main function
+#
+restore_mode = kwargs['shiftclick']
+sel = hou.selectedNodes()
+
+nodeauths = {} # 'nodename': 'author' dict
+authcolors = {} # 'author': color (3 floats tuple) dict
+authors = set() # author names
+
+if len(sel)>0:
+
+    netw = sel[0].parent()
+    hilite_authors = [ get_node_author(n) for n in sel ]
+    
+    # collect author names
+    #
+    for c in netw.children():
+        # extract author name from opstat func
+        a = get_node_author(c)
+        authors.add(a)
+        nodeauths[c.name()] = a
+    
+    authors = list(authors)
+    
+    # generate unique colors for authors
+    #
+    for i in range(len(authors)):
+        author = authors[i]
+        hue = float(i) / len(authors)
+        val = 0.6 if i%2==0 else 0.5
+        authcolors[author] = colorsys.hsv_to_rgb(hue, 0.5, val)
+
+    # apply colors
+    #
+    func = restore_node_visu if restore_mode else save_node_visu
+    for c in netw.children():
+        func(c)
+
+    if not restore_mode:
+        for c in netw.children():
+            author = nodeauths[c.name()]
+            color = authcolors[author]
+            set_node_visu(c, color=color)
+            if author in hilite_authors:
+                c.setSelected(True)
+else:
+    hou.ui.setStatusMessage("Select node(s) to specify network to color (shift-click to restore)", hou.severityType.Warning)
+
+#
 ]]></script>
   </tool>
 </shelfDocument>
