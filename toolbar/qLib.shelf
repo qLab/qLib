@@ -419,11 +419,32 @@ if not shift:
 
 *version 1*
 
-"""Toggle non-integer frame values on the playbar."""
-]]></helpText>
+"""Toggle non-integer frame values on the playbar.
+----
+LMB: Toggle non-integer frames
+Shift-LMB: Switch to integer frames
+"""
+
+@usage Usage
+
+((LMB)):
+    Toggle non-integer frames
+((Shift + LMB)):
+    Switch to integer frames
+
+
+_version 1_ ---
+
+2018-07-22:
+    - Added shift-click option
+    - Improved help page]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 
+shift = kwargs['shiftclick']
+
 m = not hou.playbar.usesIntegerFrames()
+if shift:
+    m = True
 hou.playbar.setUseIntegerFrames(m)
 
 hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"))
@@ -493,7 +514,18 @@ hou.ui.setStatusMessage("Cycled background to %s" % bgs[bg].upper() )]]></script
 
 *version 1*
 
-"""Toggles OP guide display in the viewports."""
+"""Toggles OP guide display in the viewports.
+----
+LMB: Toggle guide display
+Shift-LMB: Enable guide display
+"""
+
+@usage Usage
+
+((LMB)):
+    Toggles guides display (Display Options -> Guides -> Node guides)
+((Shift + LMB)):
+    Enable guides display
 
 @bugs Limitations
 
@@ -504,10 +536,16 @@ hou.ui.setStatusMessage("Cycled background to %s" % bgs[bg].upper() )]]></script
 
 _version 1_ ---
 
+2018-07-22:
+    - Added shift-click option
+    - Improved help page
+
 2014-03-20:
     - First version.
 ]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
+
+shift = kwargs['shiftclick']
 
 v = toolutils.sceneViewer()
 w = "%s.%s.world" % \
@@ -517,6 +555,9 @@ w = "%s.%s.world" % \
 
 if not hasattr(hou.session, "guides"):
     hou.session.guides = True
+
+if shift:
+    hou.session.guides = False
 
 hou.session.guides = not hou.session.guides
 #hou.hscript("viewdisplay -g %s %s" % ("on" if hou.session.guides else "off", w, ))
@@ -536,7 +577,8 @@ hou.ui.setStatusMessage("Geometry guides are now %s" % ("DISPLAYED" if hou.sessi
 """Toggles template geometry display in viewports.
 ----
 LMB: Toggle template display
-Shift-LMB: Clear display template flag on all (S)OPs
+Shift-LMB: Enable template display
+Ctrl-LMB: Clear display template flag on all (S)OPs
 """
 
 @usage Usage
@@ -699,7 +741,7 @@ qlibutils.do_crash_recovery()
 
 *version 1*
 
-"""Toggles time dependency badge display in network editors."""
+"""Toggles time dependency badge display in all network editors."""
 
 @bugs Limitations
 
@@ -744,12 +786,25 @@ except:
 
 
 ]]></helpText>
-    <script scriptType="hscript"><![CDATA[opunload -R /*
+    <script scriptType="python"><![CDATA[
+r = hou.ui.displayMessage(
+        'Flush all caches? This is a non-undoable operation.',
+        buttons=('Ok', 'Cancel',),
+        default_choice=1, close_choice=1,
+    )
 
-geocache -c
-objcache -c
-sopcache -c
-texcache -c
+if r==0:
+    cmds = [
+            "opunload -R",
+            "geocache -c",
+            "objcache -c",
+            "sopcache -c",
+            "texcache -c"
+        ]
+
+    for cmd in cmds:
+        print " --- ", cmd
+        hou.hscript(cmd)
 ]]></script>
   </tool>
 
@@ -762,6 +817,7 @@ texcache -c
 *version 1*
 
 """Color nodes in a network based on their authors.
+(Select node(s) in the network editor to specify network.)
 ----
 LMB: Apply coloring by author
 Shift-LMB: Restore original colors
