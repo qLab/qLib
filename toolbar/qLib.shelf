@@ -753,7 +753,7 @@ texcache -c
 ]]></script>
   </tool>
 
-  <tool name="ColorByAuthor_qL" label="/color by author/" icon="SOP_color">
+  <tool name="ColorByAuthor_qL" label="/color by author/" icon="COP2_mosaic">
     <helpText><![CDATA[#icon: SOP/color
 #type: tool
 
@@ -785,25 +785,54 @@ Use Shift-click to restore original color
 
 import toolutils
 import colorsys
+import re
 import json
 
 def restore_node_visu(node):
-    '''Restore previous color (comment? etc) on a node.'''
-    color = node.userData('color')
-    if color:
+    '''Restore previous color (comment etc) on a node.'''
+
+    has_data = lambda name: name in node.userDataDict()
+    data = node.userData
+
+    if has_data('color'):
+        node.setColor(hou.Color(json.loads(data('color'))))
         node.destroyUserData('color')
-        node.setColor(hou.Color(json.loads(color)))
+
+    if has_data('comment'):
+        node.setComment(data('comment'))
+        node.destroyUserData('comment')
+
+    if has_data('showcomment'):
+        hou.hscript('opset -Y %s %s' % (data('showcomment'), node.path(), ))
+        node.destroyUserData('showcomment')
+
 
 def save_node_visu(node):
-    '''Save (or resave) original node color.'''
+    '''Save (or resave) original node color/comment.'''
     restore_node_visu(node)
     # userData is string only so we just dump it as a json string
     node.setUserData('color', json.dumps(node.color().rgb()))
+    node.setUserData('comment', node.comment())
 
-def set_node_visu(node, color=None):
-    '''Set color of a node.'''
+    try:
+        flags = hou.hscript('opset %s' % node.path())[0]
+        flags = re.search('-Y [^ ]+', flags).group(0) # might throw here
+        showcom = flags.replace('-Y ', '')
+        node.setUserData('showcomment', showcom)
+    except:
+        pass # worst case, we're not storing this flag
+
+
+def set_node_visu(node, color=None, comment=None):
+    '''Set color/comment of a node. Should be used after visu is saved on a node.'''
     if color:
         node.setColor(hou.Color(color))
+    if comment:
+        node.setComment(comment)
+        # turn on "show comment in network view"
+        hou.hscript('opset -Y on %s' % node.path())
+
+
 
 def get_node_author(node):
     '''Get name of author of a node.'''
@@ -812,7 +841,7 @@ def get_node_author(node):
         # digging up author info from an archaic command
         author = hou.hscript('opstat -u %s' % node.path())[0].split(' ')[-1].split('\n')[0]
     except:
-        pass
+        pass # we can't hack the info out, just return '???'
     return author
 
 
@@ -833,7 +862,6 @@ if len(sel)>0:
     # collect author names
     #
     for c in netw.children():
-        # extract author name from opstat func
         a = get_node_author(c)
         authors.add(a)
         nodeauths[c.name()] = a
@@ -858,7 +886,7 @@ if len(sel)>0:
         for c in netw.children():
             author = nodeauths[c.name()]
             color = authcolors[author]
-            set_node_visu(c, color=color)
+            set_node_visu(c, color=color, comment=author)
             if author in hilite_authors:
                 c.setSelected(True)
 else:
