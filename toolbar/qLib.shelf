@@ -788,14 +788,14 @@ except:
 ]]></helpText>
     <script scriptType="python"><![CDATA[
 r = hou.ui.displayMessage(
-        'Flush all caches? This is a non-undoable operation.',
+        'Flush all caches? This is a non-undoable operation which might flush locked SOP geometry.',
         buttons=('Ok', 'Cancel',),
         default_choice=1, close_choice=1,
     )
 
 if r==0:
     cmds = [
-            "opunload -R",
+            "opunload -R /*",
             "geocache -c",
             "objcache -c",
             "sopcache -c",
