@@ -741,7 +741,21 @@ qlibutils.do_crash_recovery()
 
 *version 1*
 
-"""Toggles time dependency badge display in all network editors."""
+"""Toggles time dependency badge display in all network editors.
+----
+LMB: Toggle time dependency display
+Shift-LMB: Turn on
+Ctrl-LMB: Turn off
+"""
+
+@usage Usage
+
+((LMB)):
+    Toggle time dependency display
+((Shift + LMB)):
+    Turn on display
+((Ctrl + LMB)):
+    Turn off display
 
 @bugs Limitations
 
@@ -752,11 +766,17 @@ qlibutils.do_crash_recovery()
 
 _version 1_ ---
 
+2018-07-22:
+    - Added shift/ctrl-click functions
+
 2018-05-27:
     - First version.
 ]]></helpText>
     <script scriptType="python"><![CDATA[# toggle time-dependency display in network editor(s)
 # in H16.5 the relevant preference is called "badgetimedep", which can be set to "hide", "normal" or "large". "showtimedep" is no longer used
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
 
 D = 'badgetimedep'
 ns = [ t for t in hou.ui.paneTabs() if type(t) is hou.NetworkEditor ]
@@ -764,6 +784,11 @@ ns = [ t for t in hou.ui.paneTabs() if type(t) is hou.NetworkEditor ]
 try:
     b = ns[0].getPref(D) # hide/large
     b = 'hide' if b=='large' else 'large'
+    
+    if shift:
+        b = 'large'
+    if ctrl:
+        b = 'hide'
     
     for n in ns:
         n.setPref('showtimedep', '1') # make it compatible w/ 16.0
