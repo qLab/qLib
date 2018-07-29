@@ -1,0 +1,59 @@
+#!/bin/bash
+#
+#	hr.sh
+#
+#	Batch render a Houdini file.
+#	Usage:
+#
+#	hr <houdini file name> <rop name> <take> [<houdini render arguments>]
+#
+#	Example render arguments:
+#
+#		-f <start> <end>		Set render range
+#		-i <increment>			Set render by-frame increment
+#		-o <filename>			Output file name
+#		-I				Render ROPs frame-by-frame instead of ROP-by-ROP
+#
+#
+
+
+if (( $# < 2 )); then
+	echo -e "Usage: $0 <houdini .hip file> <ROP render node> <take> [<options>]"
+	echo -e "\t[<options>] example: -f <start> <end> -i <increment> -o <outfilename>"
+	exit 1
+fi
+
+
+CMDFILE=`mktemp`
+HIPFILE=$1
+ROPNAME=$2
+TAKENAME=$3
+
+if [[ -f $HIPFILE ]]; then
+
+	echo -e "\nHoudini file:" $HIPFILE " ROP Name:" $ROPNAME "temp cmd:" $CMDFILE
+
+	shift 3
+	echo "Render arguments:" "$@"
+
+	cat >$CMDFILE <<EOF
+#echo Trying to run pre-render setup.
+#python -c 'import xy; xy.preRenderSetup(force=True)'
+echo Setting take to $TAKENAME.
+takeset $TAKENAME
+echo The following ROPs/frames will be rendered:
+render -p -F -c $ROPNAME
+echo Proceeding with render.
+render -V $@ $ROPNAME
+quit
+EOF
+
+	hbatch <$CMDFILE 2>&1 $HIPFILE | gawk '{ print strftime("[%y%m%d %H:%M.%S]"), $0; fflush(); }' | tee `basename $HIPFILE .hip`_`date +%m%d%H%M`.log
+	rm $CMDFILE
+
+else
+	echo "file" $1 "doesn't exist"
+fi
+
+
+
