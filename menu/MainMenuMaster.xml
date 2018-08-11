@@ -78,9 +78,9 @@ import qlibutils; qlibutils.open_dir(env="JOB")]]>
 		<separatorItem />
 
 			<scriptItem id="h.browse_HDALocation">
-				<label>Selected Asset Location(s)...</label>
+				<label>Selected HDA Location(s)...</label>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.to_clipboard("to be implemented...")]]>
+import qlibutils; qlibutils.open_hda_dirs()]]>
 				</scriptCode>
 			</scriptItem>
 
@@ -140,9 +140,9 @@ import qlibutils; qlibutils.to_clipboard(env="JOB")]]>
 		<separatorItem />
 
 			<scriptItem id="h.clipboard_HDALocation">
-				<label>Selected Asset location(s)</label>
+				<label>Selected HDA Location(s)</label>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.to_clipboard("to be implemented...")]]>
+import qlibutils; qlibutils.hdapath_to_clipboard()]]>
 				</scriptCode>
 			</scriptItem>
 

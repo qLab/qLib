@@ -228,6 +228,39 @@ def open_dir(dir="", env=None):
 
 
 
+def get_hda_paths(nodes):
+	'''Find filesystem paths for specified HDAs.'''
+
+	hdas = []
+	for node in nodes:
+		d = node.type().definition()
+		if d:
+			path = d.libraryFilePath()
+			if path!='Embedded':
+				hdas.append(path)
+	return hdas
+
+
+def open_hda_dirs():
+	'''Open folders.'''
+	hdas = get_hda_paths(hou.selectedNodes())
+	dirs = set()
+
+	for h in hdas:
+		dirs.add( os.path.split(h)[0] )
+
+	for d in dirs:
+		open_dir(d)
+
+
+def hdapath_to_clipboard():
+	'''Copy the full path of the first selected HDA to the clipboard.'''
+	hdas = get_hda_paths(hou.selectedNodes())
+	hdas = ' '.join(hdas)
+	to_clipboard(hdas)
+
+
+
 def find_camera(oppattern, path=None):
 	'''Finds a camera OBJ within nested subnets and returns its full path.'''
 	r = ''
