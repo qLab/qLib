@@ -107,6 +107,29 @@ def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
 
 
 
+def to_clipboard(contents="", env=None):
+	"""
+	Copy the specified string to the system clipboard.
+
+	@note
+		- Linux only at the moment
+		- requires xclip to be installed
+
+	@todo
+		Make it work under other OSs than linux?
+	"""
+	try:
+		contents = str(contents)
+		if env:
+			contents = str(hou.getenv(env))
+
+		statmsg("(linux) to clipboard: '%s'" % contents)
+		hou.hscript('unix \'echo -n "%s" | xclip\'' % contents) # hackety hack
+	except:
+		pass
+
+
+
 
 def do_crash_recovery(calledFromUI=False):
 	tmpdir = str( hou.getenv("TEMP") or hou.getenv("HOUDINI_TEMP_DIR") )
