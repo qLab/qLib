@@ -107,6 +107,29 @@ def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
 
 
 
+def to_clipboard(contents="", env=None):
+	"""
+	Copy the specified string to the system clipboard.
+
+	@note
+		- Linux only at the moment
+		- requires xclip to be installed
+
+	@todo
+		Make it work under other OSs than linux?
+	"""
+	try:
+		contents = str(contents)
+		if env:
+			contents = str(hou.getenv(env))
+
+		statmsg("(linux) to clipboard: '%s'" % contents)
+		hou.hscript('unix \'echo -n "%s" | xclip\'' % contents) # hackety hack
+	except:
+		pass
+
+
+
 
 def do_crash_recovery(calledFromUI=False):
 	tmpdir = str( hou.getenv("TEMP") or hou.getenv("HOUDINI_TEMP_DIR") )
@@ -202,6 +225,39 @@ def open_dir(dir="", env=None):
 	if is_mac():
 		statmsg("(mac) open %s" % dir)
 		subprocess.call(["open", dir])
+
+
+
+def get_hda_paths(nodes):
+	'''Find filesystem paths for specified HDAs.'''
+
+	hdas = []
+	for node in nodes:
+		d = node.type().definition()
+		if d:
+			path = d.libraryFilePath()
+			if path!='Embedded':
+				hdas.append(path)
+	return hdas
+
+
+def open_hda_dirs():
+	'''Open folders.'''
+	hdas = get_hda_paths(hou.selectedNodes())
+	dirs = set()
+
+	for h in hdas:
+		dirs.add( os.path.split(h)[0] )
+
+	for d in dirs:
+		open_dir(d)
+
+
+def hdapath_to_clipboard():
+	'''Copy the full path of the first selected HDA to the clipboard.'''
+	hdas = get_hda_paths(hou.selectedNodes())
+	hdas = ' '.join(hdas)
+	to_clipboard(hdas)
 
 
 

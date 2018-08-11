@@ -59,7 +59,7 @@ hou.ui.displayMessage("from code " + str(sys.argv))]]></scriptCode>
 	<label>qLib</label>
 
 		<subMenu id="config_browse_submenu">
-		<label>[fs]: Open</label>
+		<label>Open File Browser</label>
 
 			<scriptItem id="h.browse_HIP">
 				<label>$HIP: Current HIP Directory...</label>
@@ -75,6 +75,15 @@ import qlibutils; qlibutils.open_dir(env="JOB")]]>
 				</scriptCode>
 			</scriptItem>
 
+		<separatorItem />
+
+			<scriptItem id="h.browse_HDALocation">
+				<label>Selected HDA Location(s)...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.open_hda_dirs()]]>
+				</scriptCode>
+			</scriptItem>
+
 			<separatorItem />
 
 			<scriptItem id="h.browse_HIH_root">
@@ -85,7 +94,7 @@ import qlibutils; qlibutils.open_dir(env="HIH")]]>
 			</scriptItem>
 
 			<scriptItem id="h.browse_HFS">
-				<label>$HFS: Houdini Install...</label>
+				<label>$HFS: Houdini Install Dir...</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.open_dir(env="HFS")]]>
 				</scriptCode>
@@ -97,6 +106,43 @@ import qlibutils; qlibutils.open_dir(env="HFS")]]>
 				<label>$HOME: Home Directory...</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.open_dir(env="HOME")]]>
+				</scriptCode>
+			</scriptItem>
+
+		</subMenu>
+
+		<subMenu id="config_clipboard_submenu">
+		<label>Copy to Clipboard</label>
+
+			<scriptItem id="h.clipboard_HIPFILE">
+				<label>$HIPFILE: Full HIP Path/Name</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.to_clipboard(env="HIPFILE")]]>
+				</scriptCode>
+			</scriptItem>
+
+		<separatorItem />
+
+			<scriptItem id="h.clipboard_HIP">
+				<label>$HIP: Current HIP Directory</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.to_clipboard(env="HIP")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.clipboard_JOB">
+				<label>$JOB: Jobs Root Directory</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.to_clipboard(env="JOB")]]>
+				</scriptCode>
+			</scriptItem>
+
+		<separatorItem />
+
+			<scriptItem id="h.clipboard_HDALocation">
+				<label>Selected HDA Location(s)</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.hdapath_to_clipboard()]]>
 				</scriptCode>
 			</scriptItem>
 
