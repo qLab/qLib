@@ -124,7 +124,11 @@ def to_clipboard(contents="", env=None):
 			contents = str(hou.getenv(env))
 
 		statmsg("(linux) to clipboard: '%s'" % contents)
-		hou.hscript('unix \'echo -n "%s" | xclip\'' % contents) # hackety hack
+		cmd = 'xclip'
+		if is_windows(): cmd='clip'
+		if is_mac(): cmd='pbcopy'
+		hou.hscript('unix \'echo -n "%s" | %s\'' % (contents, cmd, ) )
+		# hackety hack
 	except:
 		pass
 
