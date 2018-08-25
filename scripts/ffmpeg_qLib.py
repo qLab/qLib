@@ -3,22 +3,21 @@ import os
 
 import sys
 
-def dbg(m):
-	msg = "[test] %s" % str(m)
-	sys.stderr.write('%s\n' % msg)
-	hou.hscript('message "%s"' % msg)
 
+def dbg(m):
+    msg = "[test] %s" % str(m)
+    sys.stderr.write('%s\n' % msg)
+    hou.hscript('message "%s"' % msg)
 
 
 def isSupported():
-    #dbg('isSupported()')
+    # dbg('isSupported()')
     try:
         #status, (stdout, stderr) = mvexportutils.run(['ffmpeg'])
-	return True
+        return True
     except:
         return False
     return True
-
 
 
 def encode(kwargs):
@@ -67,8 +66,6 @@ def encode(kwargs):
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                             close_fds=True, env=env)
     output = proc.communicate()
- 
+
     # Function has to return (status, (stdout_data, stderr_data))
     return (proc.returncode, output)
-
-
