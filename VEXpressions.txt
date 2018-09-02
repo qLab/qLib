@@ -1,0 +1,23 @@
+#
+#       @file       VEXpressions.txt
+#       @author     xy
+#
+#       @since      2018-09-02
+#
+#       @brief      Varions VEXpression presets for nodes.
+#
+#
+
+groupexpression/snippet
+    [qL] Curve endpoints
+    neighbourcount(0, @ptnum)==1
+
+groupexpression/snippet
+    [qL] Curve(s), start point
+    vertexprimindex(0, @vtxnum)==0
+
+groupexpression/snippet
+    [qL] Curve(s), end point
+    vertexprimindex(0, @vtxnum)==@numvtx-1
+
+

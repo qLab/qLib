@@ -2,73 +2,28 @@
 
 <!-- Please note, that the files defining the main menu (ie, MainMenuCommon,
      MainMenuMaster, and MainMenuEscape)
-     can exist in $HOME/houdiniX.Y/ directory and will supplement 
+     can exist in $HOME/houdiniX.Y/ directory and will supplement
      the original definitions found in $HFS/houdini/ -->
 
 <mainMenu>
 	<menuBar>
-	
 
-    <!-- An example of how to add own python scripts submenu to the main menu.
-
-	  Note, that the 'id' attribute is optional, and if not specified, 
-	  it will be automaticaly generated and assigned internally. The 'id'
-	  has some significace for action and toggle items, where it corresponds
-	  to the hotkey for that item. However, if no hotkey needs to be
-	  assigned in the hotkey customization file, the id may be omitted for
-	  these items too.
-
-    <subMenu>
-    <label>My Scripts</label>
-      <scriptItem id="h.my_python_script">
-        <label>My Python Script</label>
-	<scriptPath>$HOME/script_file.py</scriptPath>
-	<scriptArgs>arg_one arg_two arg_three</scriptArgs>
-      </scriptItem>
-    </subMenu>
-    -->
-
-    <!-- An example of how to add embedded python scripts
-
-    <subMenu>
-    <label>My Scripts</label>
-      <scriptItem id="h.my_python_script">
-        <label>My Python Script</label>
-	<scriptArgs>arg_one arg_two arg_three</scriptArgs>
-	<scriptCode><![CDATA[import sys
-hou.ui.displayMessage("from code " + str(sys.argv))]]></scriptCode>
-      </scriptItem>
-    </subMenu>
-    -->
-
-
-
-<!--
-	<subMenu id = "shortcuts_menu">
-	<modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
-	<label>Shortcuts</label>
-
-<separatorItem />
-	</subMenu>
-
--->
-      
 
 	<subMenu id = "qLib_menu">
 	<modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
 	<label>qLib</label>
 
-		<subMenu id="config_browse_submenu">
+		<subMenu id="ql_browse_submenu">
 		<label>Open File Browser</label>
 
-			<scriptItem id="h.browse_HIP">
+			<scriptItem id="h.ql_browse_HIP">
 				<label>$HIP: Current HIP Directory...</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.open_dir(env="HIP")]]>
 				</scriptCode>
 			</scriptItem>
 
-			<scriptItem id="h.browse_JOB">
+			<scriptItem id="h.ql_browse_JOB">
 				<label>$JOB: Jobs Root Directory...</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.open_dir(env="JOB")]]>
@@ -77,7 +32,7 @@ import qlibutils; qlibutils.open_dir(env="JOB")]]>
 
 		<separatorItem />
 
-			<scriptItem id="h.browse_HDALocation">
+			<scriptItem id="h.ql_browse_HDALocation">
 				<label>Selected HDA Location(s)...</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.open_hda_dirs()]]>
@@ -86,14 +41,14 @@ import qlibutils; qlibutils.open_hda_dirs()]]>
 
 			<separatorItem />
 
-			<scriptItem id="h.browse_HIH_root">
+			<scriptItem id="h.ql_browse_HIH_root">
 				<label>$HIH: User Config Files...</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.open_dir(env="HIH")]]>
 				</scriptCode>
 			</scriptItem>
 
-			<scriptItem id="h.browse_HFS">
+			<scriptItem id="h.ql_browse_HFS">
 				<label>$HFS: Houdini Install Dir...</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.open_dir(env="HFS")]]>
@@ -102,7 +57,7 @@ import qlibutils; qlibutils.open_dir(env="HFS")]]>
 
 			<separatorItem />
 
-			<scriptItem id="h.browse_HOME">
+			<scriptItem id="h.ql_browse_HOME">
 				<label>$HOME: Home Directory...</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.open_dir(env="HOME")]]>
@@ -111,10 +66,10 @@ import qlibutils; qlibutils.open_dir(env="HOME")]]>
 
 		</subMenu>
 
-		<subMenu id="config_clipboard_submenu">
+		<subMenu id="ql_clipboard_submenu">
 		<label>Copy to Clipboard</label>
 
-			<scriptItem id="h.clipboard_HIPFILE">
+			<scriptItem id="h.ql_clipboard_HIPFILE">
 				<label>$HIPFILE: Full HIP Path/Name</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.to_clipboard(env="HIPFILE")]]>
@@ -123,14 +78,14 @@ import qlibutils; qlibutils.to_clipboard(env="HIPFILE")]]>
 
 		<separatorItem />
 
-			<scriptItem id="h.clipboard_HIP">
+			<scriptItem id="h.ql_clipboard_HIP">
 				<label>$HIP: Current HIP Directory</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.to_clipboard(env="HIP")]]>
 				</scriptCode>
 			</scriptItem>
 
-			<scriptItem id="h.clipboard_JOB">
+			<scriptItem id="h.ql_clipboard_JOB">
 				<label>$JOB: Jobs Root Directory</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.to_clipboard(env="JOB")]]>
@@ -139,7 +94,7 @@ import qlibutils; qlibutils.to_clipboard(env="JOB")]]>
 
 		<separatorItem />
 
-			<scriptItem id="h.clipboard_HDALocation">
+			<scriptItem id="h.ql_clipboard_HDALocation">
 				<label>Selected HDA Location(s)</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.hdapath_to_clipboard()]]>
@@ -147,20 +102,20 @@ import qlibutils; qlibutils.hdapath_to_clipboard()]]>
 			</scriptItem>
 
 		</subMenu>
-		
+
 		<separatorItem />
 
-		<subMenu id="config_edit_submenu">
+		<subMenu id="ql_edit_submenu">
 		<label>[txt]: Edit File</label>
-			
-			<scriptItem id="h.edit_env">
+
+			<scriptItem id="h.ql_edit_env">
 				<label>houdini.env...</label>
 				<scriptCode><![CDATA[
 hou.hscript("unix xdg-open $HIH/houdini.env '&'")]]>
 				</scriptCode>
 			</scriptItem>
 
-			<scriptItem id="h.edit_display_opts">
+			<scriptItem id="h.ql_edit_display_opts">
 				<label>display_options.def...</label>
 				<scriptCode><![CDATA[
 hou.hscript("unix xdg-open $HIH/display_options.def '&'")]]>
@@ -169,31 +124,31 @@ hou.hscript("unix xdg-open $HIH/display_options.def '&'")]]>
 
 		</subMenu>
 
-		<subMenu id="config_record_submenu">
+		<subMenu id="ql_record_submenu">
 		<label>[rec]: Record</label>
 
-			<scriptItem id="h.resize_window_home_large">
+			<scriptItem id="h.ql_resize_window_home_large">
 				<label>Resize Window (HD 1080p)...</label>
 				<scriptCode><![CDATA[
 hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,1912,1080")]]>
 				</scriptCode>
 			</scriptItem>
 
-			<scriptItem id="h.resize_window_work">
+			<scriptItem id="h.ql_resize_window_work">
 				<label>Resize Window (HD 720p)...</label>
 				<scriptCode><![CDATA[
 hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,1280,720")]]>
 				</scriptCode>
 			</scriptItem>
 
-			<scriptItem id="h.resize_window_small">
+			<scriptItem id="h.ql_resize_window_small">
 				<label>Resize Window (small #1)...</label>
 				<scriptCode><![CDATA[
 hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,960,540")]]>
 				</scriptCode>
 			</scriptItem>
 
-			<scriptItem id="h.resize_window_animgif">
+			<scriptItem id="h.ql_resize_window_animgif">
 				<label>Resize Window (small #2)...</label>
 				<scriptCode><![CDATA[
 hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,800,640")]]>
@@ -202,18 +157,33 @@ hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,800,640")]]>
 
 		</subMenu>
 
+		<separatorItem />
+
+		<subMenu id="ql_misc_submenu">
+		<label>Misc</label>
+
+			<scriptItem id="h.ql_misc_menurefresh">
+				<label>Refresh Popup Menus</label>
+				<scriptCode><![CDATA[
+hou.hscript("menurefresh")]]>
+				</scriptCode>
+			</scriptItem>
+
+		</subMenu>>
+
+
 	</subMenu>
 
 
 
 	<subMenu id = "file_menu">
 
-		<separatorItem id="file_menu_sep_holdfetch">
+		<separatorItem id="file_menu_sep_ql_holdfetch">
 			<modifyItem><insertAfter>export_files</insertAfter></modifyItem>
 		</separatorItem>
 
-		<scriptItem id="h.hip_hold">
-			<modifyItem><insertAfter>file_menu_sep_holdfetch</insertAfter></modifyItem>
+		<scriptItem id="h.ql_hip_hold">
+			<modifyItem><insertAfter>file_menu_sep_ql_holdfetch</insertAfter></modifyItem>
 			<label>Hold Scene...</label>
 			<scriptCode><![CDATA[
 import os, tempfile
@@ -230,8 +200,8 @@ if hou.ui.displayMessage('Hold scene? (to %s)' % tmp, ('Yes', 'No'))==0:
 			</scriptCode>
 		</scriptItem>
 
-		<scriptItem id="h.hip_fetch">
-			<modifyItem><insertAfter>h.hip_hold</insertAfter></modifyItem>
+		<scriptItem id="h.ql_hip_fetch">
+			<modifyItem><insertAfter>h.ql_hip_hold</insertAfter></modifyItem>
 			<label>Fetch Scene...</label>
 			<scriptCode><![CDATA[
 import os, tempfile
@@ -251,12 +221,12 @@ if hou.ui.displayMessage('Fetch scene? (from %s)' % tmp, ('Yes', 'No'))==0:
 			</scriptCode>
 		</scriptItem>
 
-		<separatorItem id="file_menu_sep_holdfetch_post">
-			<modifyItem><insertAfter>h.hip_fetch</insertAfter></modifyItem>
+		<separatorItem id="file_menu_sep_ql_holdfetch_post">
+			<modifyItem><insertAfter>h.ql_hip_fetch</insertAfter></modifyItem>
 		</separatorItem>
 
-		<scriptItem id="h.hip_recover">
-			<modifyItem><insertAfter>file_menu_sep_holdfetch_post</insertAfter></modifyItem>
+		<scriptItem id="h.ql_hip_recover">
+			<modifyItem><insertAfter>file_menu_sep_ql_holdfetch_post</insertAfter></modifyItem>
 			<label>Crash Recovery...</label>
 			<scriptCode><![CDATA[
 import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
@@ -266,61 +236,6 @@ import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
 
 	</subMenu>
 
-
-
 	</menuBar>
-
-
-
-
-  <!-- An example of how to add a new menu item that will invoke a python script
-       from a file. This method of adding a menu item does not require repeating
-       the entire menu structure that defines the item's parenting. The
-       script_file.py will be passed the argument string "-q -n extra_name"
-       which will be available in the script as standard command line arguments:
-       sys.argv[0] = (...)/script_file.py
-       sys.argv[1] = '-q'
-       sys.argv[2] = '-n'
-       sys.argv[3] = 'extra_name'
-
-  <addScriptItem id="h.my_added_script">
-	<parent>tools_menu</parent>
-        <label>My Added Python Script</label>
-	<scriptPath>$HOME/script_file.py</scriptPath>
-	<scriptArgs>-q -n extra_name</scriptArgs>
-	<insertBefore>h.handleeditor</insertBefore>
-  </addScriptItem>
-  -->
-
-  <!-- The menu item can be inserted at a desired position using the following
-       tags:
-       <insertBefore/>			- insert at the beginning of the submenu
-       <insertBefore>id</insertBefore>	- insert before an item given by the id
-       <insertAfter/>			- append at the end of the submenu
-       <insertAfter>id</insertAfter>	- insert after an item given by the id
-       <insertAtIndex>2</insertAtIndex>	- insert at a given numerical index
-  -->
-
-
-  <!-- An example of how to modify some attributes of the menu items such 
-       as label, parent, and position in the menu. Note, that not all
-       attributes need to be specified within <modifyItem> element; if, for
-       example, the label does not need any change, it may be omitted.
-
-  <modifyItem id="h.open_bundlelist">
-	<parent>tools_menu</parent>
-        <label>My Rearranged Bundles...</label>
-	<insertAfter>h.handleeditor</insertAfter>
-  </modifyItem>
-  -->
-
-
-  <!-- An example of how to remove menu items or entire submenus 
-       from the main menu.
-
-  <removeItem id="h.optype_mgr"/>
-  <removeItem id="tools_menu"/>
-  <removeItem id="h.mat_palette"/>
-  -->
 
 </mainMenu>
