@@ -1,12 +1,9 @@
 """
-		@file		qliblabels.py
-		@author		xy
-		@since		2014-08-09
+        @file       qliblabels.py
+        @author     xy
+        @since      2014-08-09
 
-		@brief		qLib, node tagging/labeling functions (semantics).
-
-		Location: $HIH/scripts/python/
-
+        @brief      qLib, node tagging/labeling functions (semantics).
 """
 
 import hou
@@ -14,6 +11,7 @@ import re
 import traceback
 import datetime
 import sys
+
 
 
 labels = {

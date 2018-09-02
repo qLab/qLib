@@ -1,13 +1,9 @@
 """
-		@file		qlibutils.py
-		@author		xy
-		@since		2012-07-23
+        @file       qlibutils.py
+        @author     xy
+        @since      2012-07-23
 
-		@brief		qLib-related utility functions.
-
-		Location: $HIH/scripts/python/
-
-
+        @brief      qLib-related utility functions.
 """
 
 import hou
@@ -26,14 +22,15 @@ import traceback
 def is_platform(name='none'):
     return name.lower() in platform.system().lower()
 
+def is_linux():
+    return is_platform('linux')
 
-def is_linux(): return is_platform('linux')
+def is_windows():
+    return is_platform('win')
 
+def is_mac():
+    return is_platform('mac')
 
-def is_windows(): return is_platform('win')
-
-
-def is_mac(): return is_platform('mac')
 
 
 def statmsg(msg, warn=False):
@@ -205,7 +202,7 @@ def do_crash_recovery(calledFromUI=False):
         #
         if uicall:
             hou.ui.setStatusMessage(
-                "  Crash Recovery:  No emergency-saved .hip file(s) found -- nothing to recover. (%s)" % tmpdir, hou.severityType.ImportantMessage)
+                '  Crash Recovery:  No emergency-saved .hip file(s) found -- nothing to recover. (%s)' % tmpdir, hou.severityType.ImportantMessage)
             pass
 
 
