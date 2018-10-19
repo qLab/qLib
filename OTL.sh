@@ -29,6 +29,12 @@ case "$1" in
 		find . -name "*.bkp*" -exec rm {} \; # delete backups created by otl building
 	;;
 
+	buildmime|bm)
+		echo "*** BUILDING OTLS (MIME) ***"
+		find . -name "*_OTL" | awk '{ d=$0; sub(/_OTL$/, ".otl", d); print "hotl -l " $0 " " d }' | bash
+		find . -name "*.bkp*" -exec rm {} \; # delete backups created by otl building
+	;;
+
 
 
 	clean_extracted|cx)
@@ -44,6 +50,10 @@ case "$1" in
 		find . -name "*.otl" | awk '{ d=$0; sub(/\.otl$/, "_OTL", d); print "hotl -X " d " " $0 }' | bash
 	;;
 
+	extractmime|xm)
+		echo "*** EXTRACTING OTLS (MIME) ***"
+		find . -name "*.otl" | awk '{ d=$0; sub(/\.otl$/, "_OTL", d); print "hotl -p -t " d " " $0 }' | bash
+	;;
 
 
 	*)
