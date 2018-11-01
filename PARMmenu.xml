@@ -181,20 +181,6 @@ except:
 ]]></scriptCode>
 			</scriptItem>
 
-
-			<scriptItem id="ql_set_center_pivot_expr">
-				<label>[SOP] Expression: Centroid</label>
-				<scriptCode><![CDATA[
-try:
-	#hou.ui.displayMessage(str(kwargs['parms']))
-	kwargs['parms'][0].setExpression("centroid(opinputpath('.',0), D_X)")
-	kwargs['parms'][1].setExpression("centroid(opinputpath('.',0), D_Y)")
-	kwargs['parms'][2].setExpression("centroid(opinputpath('.',0), D_Z)")
-except:
-	pass
-]]></scriptCode>
-			</scriptItem>
-
 		</subMenu>
 
 
