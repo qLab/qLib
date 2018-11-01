@@ -73,8 +73,15 @@ if 'parms' in kwargs:
 			<modifyItem><insertAfter>motion_effects_menu</insertAfter></modifyItem>
 
 
-			<scriptItem id="ql_set_to">
-				<label>Set to ...</label>
+			<scriptItem id="ql_open_in_file_browser">
+				<label>Open as Path in File Browser...</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibutils, os
+qlibutils.open_dir( os.path.dirname(str(kwargs['parms'][0].eval())) )
+]]></scriptCode>
 			</scriptItem>
 
 
