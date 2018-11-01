@@ -9,10 +9,10 @@
     $HFS/houdini/ (aka $HH).
 
     The format in this file is similar to the format in $HH/MainMenuMaster
-    except that it uses the <menuDocument> and <menu> tags instead of 
+    except that it uses the <menuDocument> and <menu> tags instead of
     <mainMenu> and <menuBar>. See the comments in that file for more advanced
     customization abilities.
-    
+
     Another difference here is that most menu items in this file have no labels
     because they are dynamically created by Houdini. If labels are supplied to
     the items which currently have no labels in this file, they will be
@@ -37,7 +37,7 @@
 -->
 
 <menuDocument>
-<!-- menuDocument can only contain 1 menu element, whose id is 
+<!-- menuDocument can only contain 1 menu element, whose id is
  implicitly "root_menu"
 -->
 	<menu>
@@ -141,6 +141,9 @@ except:
 
 			<scriptItem id="ql_add_parm_value_multiplier">
 				<label>Add Value/Multiplier to Parameter</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.FloatParmTemplate</expression>
+				</context>
 				<scriptCode><![CDATA[
 p = kwargs['parms'][0]
 try:
