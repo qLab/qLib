@@ -9,10 +9,10 @@
     $HFS/houdini/ (aka $HH).
 
     The format in this file is similar to the format in $HH/MainMenuMaster
-    except that it uses the <menuDocument> and <menu> tags instead of 
+    except that it uses the <menuDocument> and <menu> tags instead of
     <mainMenu> and <menuBar>. See the comments in that file for more advanced
     customization abilities.
-    
+
     Another difference here is that most menu items in this file have no labels
     because they are dynamically created by Houdini. If labels are supplied to
     the items which currently have no labels in this file, they will be
@@ -37,7 +37,7 @@
 -->
 
 <menuDocument>
-<!-- menuDocument can only contain 1 menu element, whose id is 
+<!-- menuDocument can only contain 1 menu element, whose id is
  implicitly "root_menu"
 -->
 	<menu>
@@ -73,8 +73,15 @@ if 'parms' in kwargs:
 			<modifyItem><insertAfter>motion_effects_menu</insertAfter></modifyItem>
 
 
-			<scriptItem id="ql_set_to">
-				<label>Set to ...</label>
+			<scriptItem id="ql_open_in_file_browser">
+				<label>Open as Path in File Browser...</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibutils, os
+qlibutils.open_dir( os.path.dirname(str(kwargs['parms'][0].eval())) )
+]]></scriptCode>
 			</scriptItem>
 
 
@@ -141,6 +148,9 @@ except:
 
 			<scriptItem id="ql_add_parm_value_multiplier">
 				<label>Add Value/Multiplier to Parameter</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.FloatParmTemplate</expression>
+				</context>
 				<scriptCode><![CDATA[
 p = kwargs['parms'][0]
 try:
@@ -178,20 +188,6 @@ try:
 except:
 	hou.ui.setStatusMessage("couldn't set up value/multiplier parameters on %s" % p.path(),
 		severity=hou.severityType.Error)
-]]></scriptCode>
-			</scriptItem>
-
-
-			<scriptItem id="ql_set_center_pivot_expr">
-				<label>[SOP] Expression: Centroid</label>
-				<scriptCode><![CDATA[
-try:
-	#hou.ui.displayMessage(str(kwargs['parms']))
-	kwargs['parms'][0].setExpression("centroid(opinputpath('.',0), D_X)")
-	kwargs['parms'][1].setExpression("centroid(opinputpath('.',0), D_Y)")
-	kwargs['parms'][2].setExpression("centroid(opinputpath('.',0), D_Z)")
-except:
-	pass
 ]]></scriptCode>
 			</scriptItem>
 

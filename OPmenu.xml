@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    This file defines the menu items when right-clicking over nodes in
+    Houdini.
+
+    Files named the same (ie. OPmenu.xml) can exist in $HOME/houdiniX.Y/
+    directory and will supplement the original definitions found in
+    $HFS/houdini/ (aka $HH).
+
+    The format in this file is similar to the format in $HH/MainMenuMaster
+    except that it uses the <menuDocument> and <menu> tags instead of
+    <mainMenu> and <menuBar>. See the comments in that file for more advanced
+    customization abilities.
+
+    Note that the id's correspond to their hotkeys with the h.pane.wsheet.
+    prefix (where available). For example, the item with id,
+    "opmenu.flag_display", refers to the action in the hotkeys manager as
+    "h.pane.wsheet.opemnu.flag_display".
+
+    Also note that you can specify which context a particular menu item shows
+    up in. To do this, add a context property:
+        <context>
+            <networkCategory>Object</networkCategory>
+        </context>
+    Or, for multiple contexts, a comma-separated list:
+        <context>
+            <networkCategory>Object,Sop,Dop,Pop</networkCategory>
+        </context>
+    Or use an expression to determine if the menu item appears in the current
+    context.  For example, to make the menu item appear only if the node is an
+    Object node:
+	<context>
+	    <expression>kwargs["node"].type().category().name() == "Object"</expression>
+	</context>
+
+    For context expressions and menu scripts, a 'kwargs' python dictionary is
+    provided with the following values:
+	'node'	    :   The node that the menu was opened for.
+	'toolname'  :	The menu item's hotkey id (ie. the element's id
+			prefixed with h.pane.parms.)
+	'altclick'  :	True if the Alt key was also pressed, False otherwise
+	'ctrlclick'  :	True if the Ctrl key was also pressed, False otherwise
+	'shiftclick'  :	True if the Shift key was also pressed, False otherwise
+	'cmdclick'  :	True if the Option key was also pressed, False
+			otherwise. Note that this can only be true on OSX.
+-->
+
+<menuDocument>
+
+    <menu>
+        <subMenu id="comment_submenu_ql">
+            <modifyItem><insertAfter>opmenu.actions_menu</insertAfter></modifyItem>
+            <label>Comment [qL]</label>
+
+            <!-- steal original "edit comment" item TODO: replace with own -->
+            <!--
+            <modifyItem id="opmenu.edit_comment">
+                <parent>comment_submenu_ql</parent>
+            </modifyItem>
+            -->
+
+            <scriptItem id="opmenu.show_comment_ql">
+                <label>Show Comment in Network Editor</label>
+                <scriptCode><![CDATA[
+hou.hscript("opset -Y on %s" % kwargs['node'].path())
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="opmenu.hide_comment_ql">
+                <label>Hide Comment in Network Editor</label>
+                <scriptCode><![CDATA[
+hou.hscript("opset -Y off %s" % kwargs['node'].path())
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
+            <scriptItem id="opmenu.clear_comment_ql">
+                <label>Clear Comment</label>
+                <scriptCode><![CDATA[
+kwargs['node'].setComment("")
+                ]]></scriptCode>
+            </scriptItem>
+        </subMenu>
+    </menu>
+
+</menuDocument>

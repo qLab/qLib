@@ -20,4 +20,37 @@ groupexpression/snippet
     [qL] Curve(s), end point
     vertexprimindex(0, @vtxnum)==@numvtx-1
 
+groupexpression/snippet
+    [qL] Open primitives (e.g. curves)
+    primintrinsic(0, "closed", @elemnum)==0
+
+groupexpression/snippet
+    [qL] Closed primitives
+    primintrinsic(0, "closed", @elemnum)==1
+
+groupexpression/snippet
+    [qL] Prim area: less than
+    chf("tolerance") > primintrinsic(0, "measuredarea", @elemnum)
+
+groupexpression/snippet
+    [qL] Prim area: more than
+    chf("tolerance") < primintrinsic(0, "measuredarea", @elemnum)
+
+groupexpression/snippet
+    [qL] Prim length: less than
+    chf("tolerance") > primintrinsic(0, "measuredperimeter", @elemnum)
+
+groupexpression/snippet
+    [qL] Prim length: more than
+    chf("tolerance") < primintrinsic(0, "measuredperimeter", @elemnum)
+
+groupexpression/snippet
+    [qL] Prim volume: less than
+    chf("tolerance") > primintrinsic(0, "measuredvolume", @elemnum)
+
+groupexpression/snippet
+    [qL] Prim volume: more than
+    chf("tolerance") < primintrinsic(0, "measuredvolume", @elemnum)
+
+
 
