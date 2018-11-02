@@ -184,7 +184,7 @@ hou.hscript("menurefresh")]]>
 
 		<scriptItem id="h.ql_hip_hold">
 			<modifyItem><insertAfter>file_menu_sep_ql_holdfetch</insertAfter></modifyItem>
-			<label>Hold Scene...</label>
+			<label>Hold Scene [qL]...</label>
 			<scriptCode><![CDATA[
 import os, tempfile
 tmp = os.path.join(tempfile.gettempdir(), 'qLib_hold-fetch.hip')
@@ -202,7 +202,7 @@ if hou.ui.displayMessage('Hold scene? (to %s)' % tmp, ('Yes', 'No'))==0:
 
 		<scriptItem id="h.ql_hip_fetch">
 			<modifyItem><insertAfter>h.ql_hip_hold</insertAfter></modifyItem>
-			<label>Fetch Scene...</label>
+			<label>Fetch Scene [qL]...</label>
 			<scriptCode><![CDATA[
 import os, tempfile
 tmp = os.path.join(tempfile.gettempdir(), 'qLib_hold-fetch.hip')
@@ -227,7 +227,7 @@ if hou.ui.displayMessage('Fetch scene? (from %s)' % tmp, ('Yes', 'No'))==0:
 
 		<scriptItem id="h.ql_hip_recover">
 			<modifyItem><insertAfter>file_menu_sep_ql_holdfetch_post</insertAfter></modifyItem>
-			<label>Crash Recovery...</label>
+			<label>Crash Recovery [qL]...</label>
 			<scriptCode><![CDATA[
 import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
 			</scriptCode>
