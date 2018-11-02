@@ -157,6 +157,85 @@ qlibutils.add_parm_value_multiplier(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 
+			<scriptItem id="ql_set_rampbasis_label">
+				<label>Set Ramp to...</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.RampParmTemplate</expression>
+				</context>
+			</scriptItem>
+
+			<separatorItem/>
+
+			<scriptItem id="ql_set_rampbasis_Constant">
+				<label>Constant</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.RampParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Constant)
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_set_rampbasis_linear">
+				<label>Linear</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.RampParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Linear)
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_set_rampbasis_CatmullRom">
+				<label>Catmull-Rom</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.RampParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.CatmullRom)
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_set_rampbasis_MonotoneCubic">
+				<label>Monotone Cubic</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.RampParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.MonotoneCubic)
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_set_rampbasis_Bezier">
+				<label>Bezier</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.RampParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Bezier)
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_set_rampbasis_BSpline">
+				<label>B-Spline</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.RampParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.BSpline)
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_set_rampbasis_Hermite">
+				<label>Hermite</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.RampParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Hermite)
+]]></scriptCode>
+			</scriptItem>
+
 		</subMenu>
 
 
