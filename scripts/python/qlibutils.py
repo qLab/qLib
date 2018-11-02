@@ -107,7 +107,7 @@ def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
 
 def to_clipboard(contents="", env=None):
     """
-    Copy the specified string to the system clipboard.
+    Copies the specified string to the system clipboard.
 
     @note
             - Linux only at the moment
@@ -232,7 +232,7 @@ def open_dir(dir="", env=None):
 
 
 def get_hda_paths(nodes):
-    '''Find filesystem paths for specified HDAs.'''
+    '''Finds filesystem paths for specified HDAs.'''
 
     hdas = []
     for node in nodes:
@@ -245,7 +245,7 @@ def get_hda_paths(nodes):
 
 
 def open_hda_dirs():
-    '''Open folders.'''
+    '''Opens folders.'''
     hdas = get_hda_paths(hou.selectedNodes())
     dirs = set()
 
@@ -257,10 +257,55 @@ def open_hda_dirs():
 
 
 def hdapath_to_clipboard():
-    '''Copy the full path of the first selected HDA to the clipboard.'''
+    '''Copies the full path of the first selected HDA to the clipboard.'''
     hdas = get_hda_paths(hou.selectedNodes())
     hdas = ' '.join(hdas)
     to_clipboard(hdas)
+
+
+
+def add_parm_value_multiplier(kwargs):
+    """Adds a value/multipler parameter pair to the specified parameter.
+    (Called from PARMmenu.xml)
+    """
+    p = kwargs['parms'][0]
+    try:
+        n = p.node()
+
+        v = p.eval()
+        t = p.parmTemplate()
+        g = n.parmTemplateGroup()
+
+        pn = t.name()
+        pl = t.label()
+        pvn = '%s_value' % pn
+        pmn = '%s_mult' % pn
+        t = hou.FloatParmTemplate(name=p.name(), label="...", num_components=1)
+
+        if not n.parm(pvn) and not n.parm(pmn):
+            # value
+            t.setName(pvn)
+            t.setLabel('%s (v)' % pl)
+            t.setDefaultValue( (v, ) )
+            g.insertAfter(pn, t)
+            # mult
+            t.setName(pmn)
+            t.setLabel('%s (%%)' % pl)
+            t.setMinValue(0.0)
+            t.setMaxValue(2.0)
+            t.setDefaultValue( (1.0, ) )
+            g.insertAfter(pvn, t)
+            # add parms
+            n.setParmTemplateGroup(g)
+
+            p.setExpression("ch('%s') * ch('%s')" % (pvn, pmn, ) )
+        else:
+            hou.ui.setStatusMessage("Value/multiplier params already exist for %s" % p.path(),
+                severity=hou.severityType.Warning)
+    except:
+        hou.ui.setStatusMessage("couldn't set up value/multiplier parameters on %s" % p.path(),
+            severity=hou.severityType.Error)
+
 
 
 def find_camera(oppattern, path=None):
