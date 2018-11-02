@@ -11,7 +11,7 @@
         that the file was saved.
 """
 
-if not kwargs["autosave"]:
+if False: # not kwargs["autosave"]:
 
     # TODO: store current scene info in hip file
     #
@@ -20,7 +20,7 @@ if not kwargs["autosave"]:
 
     # add current scene file name to the undo queue to indicate save
     #
-    with hou.undos.group("(-- Saved as: %s --)" % hou.hipFile.basename()):
+    with hou.undos.group("(-- [qL] Saved as: %s --)" % hou.hipFile.basename()):
         try:
             hou.node("/").setComment("")
         except:
