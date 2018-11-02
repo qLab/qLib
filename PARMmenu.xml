@@ -43,26 +43,13 @@
 	<menu>
 
 		<scriptItem id="toggle_abs_rel_path_ql">
-			<label>Toggle Absolute/Relative Path  [qL]</label>
+			<label>Toggle Absolute/Relative Path [qL]</label>
+			<context>
+				<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+			</context>
 			<modifyItem><insertAfter>revert_to_prev_val</insertAfter></modifyItem>
 			<scriptCode><![CDATA[
-if 'parms' in kwargs:
-	for parm in kwargs['parms']:
-		try:
-			node = parm.node()
-			path = parm.evalAsString()
-
-			target = node.node(path)
-
-			path_rel = node.relativePathTo(target)
-			path_abs = target.path()
-
-			r = path_rel if path==path_abs else path_abs
-
-			parm.set(r)
-		except:
-			pass
-
+import qlibutils; qlibutils.toggle_abs_rel_path(kwargs)
 ]]></scriptCode>
 		</scriptItem>
 
