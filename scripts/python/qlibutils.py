@@ -107,7 +107,7 @@ def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
 
 def to_clipboard(contents="", env=None):
     """
-    Copy the specified string to the system clipboard.
+    Copies the specified string to the system clipboard.
 
     @note
             - Linux only at the moment
@@ -232,7 +232,7 @@ def open_dir(dir="", env=None):
 
 
 def get_hda_paths(nodes):
-    '''Find filesystem paths for specified HDAs.'''
+    '''Finds filesystem paths for specified HDAs.'''
 
     hdas = []
     for node in nodes:
@@ -245,7 +245,7 @@ def get_hda_paths(nodes):
 
 
 def open_hda_dirs():
-    '''Open folders.'''
+    '''Opens folders.'''
     hdas = get_hda_paths(hou.selectedNodes())
     dirs = set()
 
@@ -257,7 +257,7 @@ def open_hda_dirs():
 
 
 def hdapath_to_clipboard():
-    '''Copy the full path of the first selected HDA to the clipboard.'''
+    '''Copies the full path of the first selected HDA to the clipboard.'''
     hdas = get_hda_paths(hou.selectedNodes())
     hdas = ' '.join(hdas)
     to_clipboard(hdas)
