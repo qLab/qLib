@@ -263,6 +263,51 @@ def hdapath_to_clipboard():
     to_clipboard(hdas)
 
 
+
+def add_parm_value_multiplier(kwargs):
+    """Adds a value/multipler parameter pair to the specified parameter.
+    (Called from PARMmenu.xml)
+    """
+    p = kwargs['parms'][0]
+    try:
+        n = p.node()
+
+        v = p.eval()
+        t = p.parmTemplate()
+        g = n.parmTemplateGroup()
+
+        pn = t.name()
+        pl = t.label()
+        pvn = '%s_value' % pn
+        pmn = '%s_mult' % pn
+        t = hou.FloatParmTemplate(name=p.name(), label="...", num_components=1)
+
+        if not n.parm(pvn) and not n.parm(pmn):
+            # value
+            t.setName(pvn)
+            t.setLabel('%s (v)' % pl)
+            t.setDefaultValue( (v, ) )
+            g.insertAfter(pn, t)
+            # mult
+            t.setName(pmn)
+            t.setLabel('%s (%%)' % pl)
+            t.setMinValue(0.0)
+            t.setMaxValue(2.0)
+            t.setDefaultValue( (1.0, ) )
+            g.insertAfter(pvn, t)
+            # add parms
+            n.setParmTemplateGroup(g)
+
+            p.setExpression("ch('%s') * ch('%s')" % (pvn, pmn, ) )
+        else:
+            hou.ui.setStatusMessage("Value/multiplier params already exist for %s" % p.path(),
+                severity=hou.severityType.Warning)
+    except:
+        hou.ui.setStatusMessage("couldn't set up value/multiplier parameters on %s" % p.path(),
+            severity=hou.severityType.Error)
+
+
+
 def find_camera(oppattern, path=None):
     '''Finds a camera OBJ within nested subnets and returns its full path.'''
     r = ''
