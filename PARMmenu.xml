@@ -69,7 +69,7 @@ if 'parms' in kwargs:
 
 
 		<subMenu id="qlib_menu">
-			<label>More  [qLib]</label>
+			<label>More [qL]</label>
 			<modifyItem><insertAfter>motion_effects_menu</insertAfter></modifyItem>
 
 
