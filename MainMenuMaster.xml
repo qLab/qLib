@@ -14,7 +14,7 @@
 	<label>qLib</label>
 
 		<subMenu id="ql_browse_submenu">
-		<label>Open File Browser</label>
+		<label>Open in File Browser</label>
 
 			<scriptItem id="h.ql_browse_HIP">
 				<label>$HIP: Current HIP Directory...</label>
@@ -169,8 +169,19 @@ hou.hscript("menurefresh")]]>
 				</scriptCode>
 			</scriptItem>
 
-		</subMenu>>
+		</subMenu>
 
+		<separatorItem />
+
+		<!-- this should be added to the regular Houdini prefs submenu once it's finished -->
+
+		<scriptItem id="h.ql_prefs_window">
+			<label>Preferences...</label>
+			<scriptCode><![CDATA[
+hou.ui.displayMessage("- i don't wanna do my honework!!\n- whoa whoa whoa whoa whaaaat\n- i want CHICKEN 4 DAYZ!!!")
+]]>
+			</scriptCode>
+		</scriptItem>
 
 	</subMenu>
 
