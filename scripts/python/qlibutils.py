@@ -34,15 +34,15 @@ def is_mac():
 
 
 def statmsg(msg, warn=False):
-    '''.'''
+    """.
+    """
     s = hou.severityType.Warning if warn else hou.severityType.Message
     if hou.isUIAvailable():
         hou.ui.setStatusMessage(msg, severity=s)
 
 
 def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
-    """
-    Defines (non-)namespaced aliases for operators with a particular namespace prefix.
+    """Defines (non-)namespaced aliases for operators with a particular namespace prefix.
 
     This is used for always creating the namespaced versions of assets, even if an
     older .hip file contains non-namespaced asset names.
@@ -65,9 +65,7 @@ def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
     @todo
             For each asset, the highest version number should be found and used.
             Right now it uses the first version it founds (which is fine for now).
-
     """
-
     if type(prefix) is list:
         for p in prefix:
             set_namespace_aliases(p)
@@ -106,8 +104,7 @@ def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
 
 
 def to_clipboard(contents="", env=None):
-    """
-    Copies the specified string to the system clipboard.
+    """Copies the specified string to the system clipboard.
 
     @note
             - Linux only at the moment
@@ -134,6 +131,8 @@ def to_clipboard(contents="", env=None):
 
 
 def do_crash_recovery(calledFromUI=False):
+    """Performs crash recovery from an emergency-saved file.
+    """
     tmpdir = str(hou.getenv("TEMP") or hou.getenv("HOUDINI_TEMP_DIR"))
     files = glob.glob(os.path.join(tmpdir, '*.hip'))
 
@@ -207,7 +206,8 @@ def do_crash_recovery(calledFromUI=False):
 
 
 def open_dir(dir="", env=None):
-    '''.'''
+    """Opens the specified directory in the system file browser.
+    """
     dir = str(dir)
 
     if env:
@@ -232,8 +232,8 @@ def open_dir(dir="", env=None):
 
 
 def get_hda_paths(nodes):
-    '''Finds filesystem paths for specified HDAs.'''
-
+    """Finds filesystem paths for specified HDAs.
+    """
     hdas = []
     for node in nodes:
         d = node.type().definition()
@@ -245,7 +245,8 @@ def get_hda_paths(nodes):
 
 
 def open_hda_dirs():
-    '''Opens folders.'''
+    """Opens folders for the selected HDAs.
+    """
     hdas = get_hda_paths(hou.selectedNodes())
     dirs = set()
 
@@ -257,11 +258,33 @@ def open_hda_dirs():
 
 
 def hdapath_to_clipboard():
-    '''Copies the full path of the first selected HDA to the clipboard.'''
+    """Copies the full path of the first selected HDA to the clipboard.
+    """
     hdas = get_hda_paths(hou.selectedNodes())
     hdas = ' '.join(hdas)
     to_clipboard(hdas)
 
+
+def toggle_abs_rel_path(kwargs):
+    """Converts between absolute and relative OP paths.
+    (Called from PARMmenu.xml)
+    """
+    if 'parms' in kwargs:
+        for parm in kwargs['parms']:
+            try:
+                node = parm.node()
+                path = parm.evalAsString()
+
+                target = node.node(path)
+
+                path_rel = node.relativePathTo(target)
+                path_abs = target.path()
+
+                r = path_rel if path==path_abs else path_abs
+
+                parm.set(r)
+            except:
+                pass
 
 
 def add_parm_value_multiplier(kwargs):
@@ -308,7 +331,9 @@ def add_parm_value_multiplier(kwargs):
 
 
 def set_ramp_basis(kwargs, ramp_basis):
-    """Set all knots on a ramp to the specified type."""
+    """Set all knots on a ramp to the specified type.
+    (Called from PARMmenu.xml)
+    """
     try:
         p = kwargs['parms'][0]
         v = p.eval()
@@ -322,7 +347,8 @@ def set_ramp_basis(kwargs, ramp_basis):
 
 
 def find_camera(oppattern, path=None):
-    '''Finds a camera OBJ within nested subnets and returns its full path.'''
+    """Finds a camera OBJ within nested subnets and returns its full path.
+    """
     r = ''
     try:
         root = hou.pwd()
@@ -347,5 +373,7 @@ def find_camera(oppattern, path=None):
 
 
 def backup_rop_output_file():
-    '''Creates a dated backup of an output file of a ROP. Useful as a ROP Pre-Render call.'''
+    """Creates a dated backup of an output file of a ROP.
+    Useful as a ROP Pre-Render call.
+    """
     pass

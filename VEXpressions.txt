@@ -54,3 +54,12 @@ groupexpression/snippet
 
 
 
+attribexpression/snippet
+    [qL] Random distribution (elemnum)
+    chramp("distribution", random(@elemnum))
+
+attribexpression/snippet
+    [qL] Random distribution (id)
+    chramp("distribution", random(@id*76))
+
+
