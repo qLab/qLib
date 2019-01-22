@@ -369,3 +369,17 @@ def backup_rop_output_file():
     Useful as a ROP Pre-Render call.
     """
     pass
+
+
+def remove_embedded_hdas():
+    """Remove all embedded HDAs from the scene.
+    """
+
+    do_it = hou.ui.displayMessage(
+        "Remove all Embdedded HDAs (OTLs) from the current scene?\n"
+        "Warning: This cannot be undone!",
+        buttons=("Ok", "Cancel", ),
+        default_choice=1, close_choice=1)
+
+    if do_it==0:
+        hou.hda.uninstallFile("Embedded")

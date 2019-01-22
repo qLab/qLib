@@ -162,6 +162,15 @@ hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,800,640")]]>
 		<subMenu id="ql_misc_submenu">
 		<label>Misc</label>
 
+			<scriptItem id="h.ql_misc_remove_embedded_hdas">
+				<label>Uninstall Embedded HDAs...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.remove_embedded_hdas()]]>
+				</scriptCode>
+			</scriptItem>
+
+			<separatorItem />
+
 			<scriptItem id="h.ql_misc_menurefresh">
 				<label>Refresh Popup Menus</label>
 				<scriptCode><![CDATA[
