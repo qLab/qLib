@@ -117,15 +117,7 @@ def to_clipboard(contents="", env=None):
         contents = str(contents)
         if env:
             contents = str(hou.getenv(env))
-
-        statmsg("(linux) to clipboard: '%s'" % contents)
-        cmd = 'xclip'
-        if is_windows():
-            cmd = 'clip'
-        if is_mac():
-            cmd = 'pbcopy'
-        hou.hscript('unix \'echo -n "%s" | %s\'' % (contents, cmd, ))
-        # hackety hack
+        hou.ui.copyTextToClipboard(contents)
     except:
         pass
 
@@ -377,3 +369,17 @@ def backup_rop_output_file():
     Useful as a ROP Pre-Render call.
     """
     pass
+
+
+def remove_embedded_hdas():
+    """Remove all embedded HDAs from the scene.
+    """
+
+    do_it = hou.ui.displayMessage(
+        "Remove all Embdedded HDAs (OTLs) from the current scene?\n"
+        "Warning: This cannot be undone!",
+        buttons=("Ok", "Cancel", ),
+        default_choice=1, close_choice=1)
+
+    if do_it==0:
+        hou.hda.uninstallFile("Embedded")
