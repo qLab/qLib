@@ -383,3 +383,21 @@ def remove_embedded_hdas():
 
     if do_it==0:
         hou.hda.uninstallFile("Embedded")
+
+
+def find_same_nodes(nodes):
+    """Find the same node types in a network.
+    """
+
+    def type_name(n):
+        """Build a (not exactly correct) full typename (but without the asset version)."""
+        return "::".join(n.type().nameComponents()[0:-1])
+
+    r = []
+    types = set()
+    for n in nodes:
+        types.add(type_name(n))
+
+    all = nodes[0].parent().children()
+    r = [ n for n in all if type_name(n) in types ]
+    return r

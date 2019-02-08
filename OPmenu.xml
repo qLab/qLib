@@ -49,8 +49,29 @@
 <menuDocument>
 
     <menu>
-        <subMenu id="comment_submenu_ql">
+        <subMenu id="opmenu.actions_menu">
+            <scriptItem id="opmenu.select_node_same_type_ql">
+                <modifyItem><insertAfter>opmenu.select_node</insertAfter></modifyItem>
+                <label>Select All of Same Type [qL]</label>
+                <scriptCode><![CDATA[
+import qlibutils;
+sel = qlibutils.find_same_nodes([kwargs['node']])
+for s in sel:
+    s.setSelected(True)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem id="opmenu.select_node_same_type_sep_ql">
+                <modifyItem><insertAfter>opmenu.select_node_same_type_ql</insertAfter></modifyItem>
+            </separatorItem>
+        </subMenu>
+
+        <separatorItem id="comment_submenu_sep_ql">
             <modifyItem><insertAfter>opmenu.actions_menu</insertAfter></modifyItem>
+        </separatorItem>
+
+        <subMenu id="comment_submenu_ql">
+            <modifyItem><insertAfter>comment_submenu_sep_ql</insertAfter></modifyItem>
             <label>Comment [qL]</label>
 
             <!-- steal original "edit comment" item TODO: replace with own -->
