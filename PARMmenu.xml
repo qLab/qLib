@@ -139,8 +139,19 @@ except:
 					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.FloatParmTemplate</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils;
+import qlibutils; reload(qlibutils);
 qlibutils.add_parm_value_multiplier(kwargs)
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_add_parm_value_multiplier_exp">
+				<label>Add Value/Multiplier + Exponent</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.FloatParmTemplate</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibutils; reload(qlibutils);
+qlibutils.add_parm_value_multiplier(kwargs, add_exponent=True)
 ]]></scriptCode>
 			</scriptItem>
 

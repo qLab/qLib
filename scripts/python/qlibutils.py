@@ -279,7 +279,7 @@ def toggle_abs_rel_path(kwargs):
                 pass
 
 
-def add_parm_value_multiplier(kwargs):
+def add_parm_value_multiplier(kwargs, add_exponent=False):
     """Adds a value/multipler parameter pair to the specified parameter.
     (Called from PARMmenu.xml)
     """
@@ -295,7 +295,10 @@ def add_parm_value_multiplier(kwargs):
         pl = t.label()
         pvn = '%s_value' % pn
         pmn = '%s_mult' % pn
+        pxn = '%s_exp' % pn
         t = hou.FloatParmTemplate(name=p.name(), label="...", num_components=1)
+
+        expr = "ch('%s') * ch('%s')" % (pvn, pmn, )
 
         if not n.parm(pvn) and not n.parm(pmn):
             # value
@@ -310,10 +313,22 @@ def add_parm_value_multiplier(kwargs):
             t.setMaxValue(2.0)
             t.setDefaultValue( (1.0, ) )
             g.insertAfter(pvn, t)
+
+            if add_exponent and not n.parm(pxn):
+                # exp
+                t.setName(pxn)
+                t.setLabel('%s (exp)' % pl)
+                t.setMinValue(0.001)
+                t.setMaxValue(4.0)
+                t.setDefaultValue( (2.0, ) )
+                g.insertAfter(pmn, t)
+
+                expr = "ch('%s') * pow(ch('%s'), ch('%s'))" % (pvn, pmn, pxn, )
+
             # add parms
             n.setParmTemplateGroup(g)
 
-            p.setExpression("ch('%s') * ch('%s')" % (pvn, pmn, ) )
+            p.setExpression(expr)
         else:
             hou.ui.setStatusMessage("Value/multiplier params already exist for %s" % p.path(),
                 severity=hou.severityType.Warning)
