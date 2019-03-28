@@ -842,10 +842,11 @@ if r==0:
 *version 1*
 
 """Color nodes in a network based on their authors.
-(Select node(s) in the network editor to specify network.)
+Select node(s) in the network editor to specify network.
+(NOTE: Selection is also needed when restoring original colors!)
 ----
 LMB: Apply coloring by author
-Shift-LMB: Restore original colors
+Shift-LMB: Restore original colors (requires node selection!)
 """
 
 Select node(s) in a network to specify network.

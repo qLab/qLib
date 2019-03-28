@@ -62,4 +62,25 @@ attribexpression/snippet
     [qL] Random distribution (id)
     chramp("distribution", random(@id*76))
 
+attribexpression/snippet
+    [qL] Number of nearby points
+    len(nearpoints(0, v@P, chf('maxdist'), chi('maxpts')))
+
+attribexpression/snippet
+    [qL] Number of nearby points (normalized)
+    len(nearpoints(0, v@P, chf('maxdist'), chi('maxpts'))) / float(chi('maxpts'))
+
+
+
+attribwrangle/snippet
+    [qL] Number of nearby points
+    float maxdist = chf('maxdist');
+    int maxpts = chi('maxpts');
+    i@numnear = len(nearpoints(0, v@P, maxdist, maxpts));
+
+attribwrangle/snippet
+    [qL] Number of nearby points (normalized)
+    float maxdist = chf('maxdist');
+    int maxpts = chi('maxpts');
+    f@numnear = len(nearpoints(0, v@P, maxdist, maxpts)) / float(maxpts);
 
