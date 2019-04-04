@@ -49,6 +49,13 @@
 <menuDocument>
 
     <menu>
+        <scriptItem id="opmenu.tmp_show_kwargs_ql">
+            <label>debug: show kwargs [qL]</label>
+            <scriptCode><![CDATA[
+hou.ui.displayMessage(str(kwargs))
+            ]]></scriptCode>
+        </scriptItem>
+
         <subMenu id="opmenu.actions_menu">
             <scriptItem id="opmenu.select_node_same_type_ql">
                 <modifyItem><insertAfter>opmenu.select_node</insertAfter></modifyItem>
