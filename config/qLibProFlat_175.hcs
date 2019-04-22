@@ -470,7 +470,7 @@ DopeSheetKeyOverlay:	1 0 0
 DopeSheetKeyDisabled:	0.5 0 1
 DopeSheetKeySelected:	WHITE
 DopeSheetKeySelectedBorder: WHITE
-DopeSheetOutsideRangeBG: BACKGROUND
+DopeSheetOutsideRangeBG: GREY(0.3) // got ya YOU BASTARD // BACKGROUND
 DopeSheetSimulation:		0 0.5 1
 DopeSheetSimulationReset:	1 0.5 0
 DopeSheetSimulationPlaying:     0.59 0.48 0.7
