@@ -1,7 +1,7 @@
-Scheme:	Houdini Pro 
+Scheme:	Houdini qLib Pro Flat (17.5)
 
-#include "basic_colors.inc"
-#include "NodeGraphPro.inc"
+#include "$HFS/houdini/config/basic_colors.inc"
+#include "$HFS/houdini/config/NodeGraphPro.inc"
 
 // Color Palette
 #define BACKGROUND	GREY(0.65)
