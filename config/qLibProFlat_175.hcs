@@ -4,14 +4,14 @@ Scheme:	Houdini qLib Pro Flat (17.5)
 #include "$HFS/houdini/config/NodeGraphPro.inc"
 
 // Color Palette
-#define BACKGROUND	GREY(0.65)
+#define BACKGROUND	GREY(0.60)
 
 #define TEXT	BLACK
 #define LIGHT_BASE	GREY(0.7)
 #define TEXT_HIGHLIGHT	BLACK
 
-#define EDIT_BG	GREY(0.8)
-#define EDIT_BG_ALT	GREY(0.75)
+#define EDIT_BG	GREY(0.733)
+#define EDIT_BG_ALT	GREY(0.7)
 
 #define HIGHLIGHT1	GREY(0.8)
 #define HIGHLIGHT2	GREY(0.75)
@@ -25,7 +25,7 @@ Scheme:	Houdini qLib Pro Flat (17.5)
 #define SHADOW4	GREY(0.3)
 #define SHADOW5	GREY(0.25)
 
-#define GRADIENT_HIGH	GREY(0.83)
+#define GRADIENT_HIGH	GREY(0.72)
 #define GRADIENT_LOW	GREY(0.72)
 
 #define PRESSED_TEXT	WHITE
@@ -60,10 +60,10 @@ IconSaturation:	0.9
 
 BackColor:	BACKGROUND
 
-ButtonGradHi:	GRADIENT_HIGH
-ButtonGradLow:	GRADIENT_LOW
+ButtonGradHi:	HIGHLIGHT1
+ButtonGradLow:	HIGHLIGHT1
 // Low end of gradient on non-selected tabs
-ButtonNonActiveGradLow:	SHADOW2
+ButtonNonActiveGradLow:	BACKGROUND
 
 TextColor:	grey18
 HiliteTextColor:		TEXT_HIGHLIGHT
@@ -74,26 +74,26 @@ ButtonShadowLight:	SHADOW1_5
 ButtonShadowMed:	SHADOW3_5
 ButtonShadowMedDark:	SHADOW4
 ButtonShadowDark:	SHADOW5
-ButtonShadow:	BLACK
+ButtonShadow:	SHADOW5
 
 ToolbarBevelLight:	HIGHLIGHT1
 ToolbarBevelDark:	SHADOW4
 // Top/left end of gradient
-ToolbarFlatGradHi:	GREY(0.67)
+ToolbarFlatGradHi:	GREY(0.6)
 // Bottom/right end of gradient
-ToolbarFlatGradLo:	GREY(0.62)
+ToolbarFlatGradLo:	GREY(0.6)
 
 DialogBlendBG:	WHITE
 
 ButtonText:	TEXT
 ButtonPressedText:	PRESSED_TEXT
 ButtonPressedText2:	PRESSED_TEXT
-ButtonPressedGradHi:	PRESSED_HIGH
+ButtonPressedGradHi:	PRESSED_LOW
 ButtonPressedGradLow:	PRESSED_LOW
 
-ButtonMenuArrowHi:	BACKGROUND
+ButtonMenuArrowHi:	SHADOW2
 ButtonMenuArrowLow:	SHADOW2
-ButtonMenuArrow:	GREY(0.9)
+ButtonMenuArrow:	GREY(0.7)
 
 ButtonArrow:	TEXT
 ButtonArrowDisabled:	HIGHLIGHT1
@@ -102,7 +102,7 @@ ButtonArrowPressed:	PRESSED_TEXT
 SecondaryText:      GREY(0.5)
 LinkText:           0.0 0.0 1.0
 
-MenuBG:	GREY(0.85)
+MenuBG:	GREY(0.75)
 MenuText:	TEXT
 MenuTextDisabled:	SHADOW2
 MenuTextHotkey:	SHADOW4
@@ -159,9 +159,9 @@ SelectedTextDisabledBG: GREY(0.5)
 SliderTopBorder:	BORDERBASE
 SliderBottomBorder:	HIGHLIGHT3
 SliderAdvancedBevel:	SHADOW1_5
-SliderAdvancedGroove:	BLACK
+SliderAdvancedGroove:	0.090 0.356 0.639 // blue sliders
 SliderRemainingBevel:	SHADOW4
-SliderRemainingGroove:	SHADOW2
+SliderRemainingGroove:	SHADOW1
 SliderTick:	SHADOW3
 SliderRangeBrackets:	SHADOW5
 
@@ -288,7 +288,7 @@ PopupHelpHotkeyFG:	SHADOW4
 PopupExtraHelpFG:	TEXT
 PopupExtraHelpBG:	HELP_F1_BG
 
-ShelfGradHi:	GREY(0.8)
+ShelfGradHi:	GREY(0.65)
 ShelfGradMidHi:	GREY(0.65)
 ShelfGradMidLow:	GREY(0.63)
 ShelfGradLow:	GREY(0.7)
@@ -300,7 +300,7 @@ ShelfEmptyBG:	DIM_BG
 ShelfTabActiveHi:	HIGHLIGHT1
 ShelfTabActiveLow:	HIGHLIGHT1
 ShelfTabInactiveHi:	HIGHLIGHT3
-ShelfTabInactiveLow:	SHADOW1
+ShelfTabInactiveLow:	HIGHLIGHT3
 
 PaneTabActiveHi:	HIGHLIGHT2
 PaneTabActiveLow:	HIGHLIGHT2
