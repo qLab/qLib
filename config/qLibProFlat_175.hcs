@@ -538,21 +538,21 @@ RootColor:	HSV 0 0 1
 //
 // These colors for for graphical elements in the Channel Editor
 //
-ChannelEditorBackground:	    GREY(0.65)	    // Background of the graph same as network color
+ChannelEditorBackground:	    GREY(0.48)	    // Background of the graph same as network color
 
-ChannelEditorBGOutsideGlobal: 0.706 0.692 0.622  // Background of the graph outside the global time range (orange color mixed at 20% with grey 0.65)
+ChannelEditorBGOutsideGlobal: GREY(0.25) // 0.706 0.692 0.622  // Background of the graph outside the global time range (orange color mixed at 20% with grey 0.65)
 
-ChannelEditorBGOutsidePlayback: 0.678 0.671 0.636 // Background of the graph outside the playback range (orange color mixed at 10% with grey 0.65)
+ChannelEditorBGOutsidePlayback: GREY(0.44) // 0.678 0.671 0.636 // Background of the graph outside the playback range (orange color mixed at 10% with grey 0.65)
 
 ChannelEditorTimebar:		    BLACK	    // Color of timebar to be xored on top
-ChannelEditorGridLine:		    GREY(0.78)	    // Graph grid line
+ChannelEditorGridLine:		    GREY(0.4)	    // Graph grid line
 ChannelEditorGridDashedLine:	    GREY(0.78)	    // Graph grid dashed line
-ChannelEditorHandleDefault:	    GREY(0.2)	    // Handles
+ChannelEditorHandleDefault:	    #002040 // GREY(0.15)	    // Handles
 ChannelEditorHandleSelected:	    1.0 0.88235 0.701  // Selected handle
 ChannelEditorHandleLocated:	    1.00 1.00 0.00  // Handle when mouse is on top
 ChannelEditorHandleSelectedLocated: 1.00 1.00 1.00  // Selected handle when mouse is on top
 ChannelEditorTimeText:		    GREY(0.65)	    // Color of the bottom time text
-ChannelEditorStatsText:		    1.00 1.00 1.00  // Color of the stats text
+ChannelEditorStatsText:		    GREY(0.8)  // Color of the stats text
 ChannelEditorViewLock:		    1 1 0.5
 
 ChannelListCircleOutline:	    BLACK
@@ -672,7 +672,7 @@ BlueTextLinkColor:      #33 66 BB
 // Not Used
 NormalColor:	0.0 0.0 0.0
 // Parameter is locked
-LockedColor:	#c4 c4 c4
+LockedColor:	HSV 200	0.1	0.7
 // Pending change 
 PendingColor:	#ff ff aa //yellow
 // Keyframe
