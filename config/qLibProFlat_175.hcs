@@ -4,7 +4,7 @@ Scheme:	Houdini qLib Pro Flat (17.5)
 #include "NodeGraph_qLibProFlat_175.inc"
 
 // Color Palette
-#define BACKGROUND	GREY(0.60)
+#define BACKGROUND	GREY(0.58)
 
 #define TEXT	BLACK
 #define LIGHT_BASE	GREY(0.7)
@@ -60,8 +60,8 @@ IconSaturation:	0.9
 
 BackColor:	BACKGROUND
 
-ButtonGradHi:	HIGHLIGHT1
-ButtonGradLow:	HIGHLIGHT1
+ButtonGradHi:	HIGHLIGHT2
+ButtonGradLow:	HIGHLIGHT2
 // Low end of gradient on non-selected tabs
 ButtonNonActiveGradLow:	BACKGROUND
 
@@ -737,14 +737,14 @@ CurrentColor:	0.25 0.85 0.25
 
 SplitBarColor:	
 
-SplitBarBackground:	BACKGROUND
-SplitBarBaseColor:	GREY(0.5)
+SplitBarBackground:	GREY(0.5)
+SplitBarBaseColor:	GREY(0.55)
 SplitBarEdgeColor:	GREY(0.29)
-SplitBarLightColor:	GREY(0.35)
+SplitBarLightColor:	GREY(0.6)
 SplitBarDarkColor:	GREY(0.145)
 SplitBarPaneOutline: 	GREY(0.4)
 SplitBarGrippyColor:	0.08 0.08 0.08
-SplitBarHighlight:	1 1 1
+SplitBarHighlight:	0.590 0.756 0.939 // blue splitbar
 
 
 PlayBarOnColor:	0.05 0.8 0.05
