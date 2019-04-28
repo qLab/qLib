@@ -312,6 +312,8 @@ class qLibUpdater(object):
 
     def patch_houdini_env(self, version, mode):
 
+        subdir = version.replace("v", "qLib-")
+
         filepath = HOUDINI_ENV
         if platform.system() == "Windows":
             sep = ";"
@@ -329,14 +331,14 @@ class qLibUpdater(object):
                 if skip_next_line:
                     skipped_lines += 1
 
-                    if skipped_lines >= 3:
-                        if "PATH" in line:
+                    if skipped_lines >= 1:
+                        if "QLIB" in line:
                             continue
                         skip_next_line = False
                         skipped_lines = 0
-                    continue
+                    #continue
 
-                if "# GAMES DEVELOPMENT TOOLSET " in line:
+                if "# QLIB (INSTALLER) " in line:
                     skip_next_line = True
                     continue
 
@@ -347,23 +349,28 @@ class qLibUpdater(object):
 
 
         if mode == "change":
-            to_write.append("# GAMES DEVELOPMENT TOOLSET \n")
+            to_write.append("# QLIB (INSTALLER) \n")
 
-            entry = "HOUDINI_PATH = "
-
-            entry += quote_char + "$HOUDINI_PATH" + sep
-
-            entry += os.path.join(HOU_TEMP_PATH_STR, APP_VERSION, version)
-
-            entry += sep + "&" + quote_char + "\n"
-
+            # QLIB
+            entry = "QLIB = "
+            entry += quote_char + os.path.join(HOU_TEMP_PATH_STR, APP_VERSION, subdir) + quote_char + "\n"
             to_write.append(entry)
 
-            path_entry = "PATH = "
-            path_entry += quote_char + os.path.join(HOU_TEMP_PATH_STR, APP_VERSION, version , "bin")
-            path_entry += sep + "$PATH" + quote_char + "\n"
+            # HOUDINI_OTLSCAN_PATH
+            entry = "HOUDINI_OTLSCAN_PATH = "
+            entry += quote_char
+            entry += "$HOUDINI_OTLSCAN_PATH" + sep
+            for section in ["base", "future", "experimental"]:
+                entry += "$QLIB/otls/" + section + sep
+            entry += "&" + quote_char + "\n"
+            to_write.append(entry)
 
-            to_write.append(path_entry)
+            # HOUDINI_PATH
+            entry = "HOUDINI_PATH = "
+            entry += quote_char + "$HOUDINI_PATH" + sep
+            entry += "QLIB"
+            entry += sep + "&" + quote_char + "\n"
+            to_write.append(entry)
 
 
         with open(filepath, "w") as fp:
