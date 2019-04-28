@@ -28,7 +28,7 @@ from hutil.Qt.QtWidgets import *
 ########################################################################################################################
 # GLOBAL VARIABLES #####################################################################################################
 
-REPO_URL = 'https://api.github.com/repos/sideeffects/GameDevelopmentToolset'
+REPO_URL = 'https://api.github.com/repos/qLab/qLib'
 
 BRANCHES = ["Development"]
 TOOLS_VERSION = 1
@@ -36,14 +36,14 @@ TOOLS_VERSION = 1
 # store the major and minor version of Houdini (aka 16.5)
 APP_VERSION = ".".join(map(str, hou.applicationVersion()[:2]))
 
-SETTINGS_FILE = os.path.join(os.getenv("HOUDINI_USER_PREF_DIR"), "gamedevtoolset.json")
+SETTINGS_FILE = os.path.join(os.getenv("HOUDINI_USER_PREF_DIR"), "qlib.json")
 HOUDINI_ENV = os.path.join(os.getenv("HOUDINI_USER_PREF_DIR"), "houdini.env")
 
 if platform.system() == "Windows":
-    HOU_TEMP_PATH = os.path.join(os.getenv("APPDATA"), "SideFX", "GameDevToolset")
+    HOU_TEMP_PATH = os.path.join(os.getenv("APPDATA"), "SideFX", "qLib")
     HOU_TEMP_PATH_STR = "$APPDATA\\SideFX\\GameDevToolset"
 else:
-    HOU_TEMP_PATH = os.path.join(os.getenv("HOUDINI_USER_PREF_DIR"), "GameDevToolset")
+    HOU_TEMP_PATH = os.path.join(os.getenv("HOUDINI_USER_PREF_DIR"), "qLib")
     HOU_TEMP_PATH_STR = HOU_TEMP_PATH
 
 
@@ -51,7 +51,7 @@ else:
 class UpdateDialog(QDialog):
     def __init__(self, parent, updater_object):
         super(UpdateDialog, self).__init__(parent)
-        self.setWindowTitle("Game Development Toolset")
+        self.setWindowTitle("qLib")
         self.updater_object = updater_object
 
         self.current_version = None
@@ -138,7 +138,7 @@ class UpdateDialog(QDialog):
 
 
 # UPDATER ##############################################################################################################
-class GameDevelopmentUpdater(object):
+class qLibUpdater(object):
     """
         Main updater object, gets called with the shelf button press
 
@@ -154,7 +154,7 @@ class GameDevelopmentUpdater(object):
         self.desired_version = None
 
         # bail if not allowed in pipelines
-        disabling_message = os.getenv("GAMEDEVTOOLSET_NOINSTALL_MESSAGE")
+        disabling_message = os.getenv("QLIB_NOINSTALL_MESSAGE")
         if disabling_message:
             hou.ui.displayMessage(disabling_message)
             return
@@ -269,11 +269,11 @@ class GameDevelopmentUpdater(object):
         message = ""
 
         if mode == "change":
-            message = "Game Development Toolset Updated Successfully"
+            message = "qLib Updated Successfully"
             message += "\n Please Restart Houdini to load all of the new tools"
 
         elif mode == "uninstall":
-            message = "Game Development Toolset Uninstalled Successfully"
+            message = "qLib Uninstalled Successfully"
             message += "\n Please Restart Houdini for changes to take effect"
 
         hou.ui.displayMessage(message, title="Success")
@@ -370,8 +370,7 @@ class GameDevelopmentUpdater(object):
             for line in to_write:
                 fp.write(line)
 
-
-GameDevelopmentUpdater()
+qLibUpdater()
 ]]></script>
   </tool>
 </shelfDocument>
