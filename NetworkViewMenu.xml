@@ -33,7 +33,7 @@
         <label>qLib</label>
 
         <subMenu id = "select_submenu">
-            <label>Select</label>
+            <label>Select (wip)</label>
 
             <scriptItem id="pane.wsheet.select_all_of_same_type_ql">
                 <label>All of Same Type</label>
