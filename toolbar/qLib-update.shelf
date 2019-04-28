@@ -159,25 +159,9 @@ class GameDevelopmentUpdater(object):
             hou.ui.displayMessage(disabling_message)
             return
 
-        self.cleanup_old_installs()
         self.load_settings()
         self.get_releases()
         self.show_dialog()
-
-    def cleanup_old_installs(self):
-        """ In an older version we left some stuff on the user's folders, we need to clean those out just in case """
-
-        houdini_pref_dir = os.getenv("HOUDINI_USER_PREF_DIR")
-
-        otl = os.path.join(houdini_pref_dir, "otls", "SideFX_GameDevelopmentToolset.hda")
-        desktop = os.path.join(houdini_pref_dir, "desktop", "Games_Minimal.desk")
-        toolbar = os.path.join(houdini_pref_dir, "toolbar", "game_development_toolset.shelf")
-        script = os.path.join(houdini_pref_dir, "scripts", "python", "hou_settings.py")
-
-        to_delete = [otl, desktop, toolbar, script]
-        for filename in to_delete:
-            if os.path.exists(filename):
-                os.remove(filename)
 
     def get_releases(self):
 
