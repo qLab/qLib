@@ -6,20 +6,198 @@
  a single file. -->
 
   <toolshelf name="qLib" label="qLib">
-    <memberTool name="AccessShotNode_qL"/>
-    <memberTool name="ToggleViewportBackgroundColor_qL"/>
-    <memberTool name="ToggleIntegerFrames_qL"/>
-    <memberTool name="ReferenceCopy_qL"/>
-    <memberTool name="AttribDisplayMarkers_qL"/>
-    <memberTool name="ToggleViewportTemplates_qL"/>
-    <memberTool name="ToggleViewportGuides_qL"/>
-    <memberTool name="ToggleTimeDependencyDisplay_qL"/>
-    <memberTool name="ColorByAuthor_qL"/>
-    <memberTool name="FlushCaches_qL"/>
-    <memberTool name="CrashRecovery_qL"/>
+    <memberTool name="qLib::AccessShotNode"/>
+    <memberTool name="qLib::ToggleViewportBackgroundColor"/>
+    <memberTool name="qLib::ToggleIntegerFrames"/>
+    <memberTool name="qLib::ReferenceCopy"/>
+    <memberTool name="qLib::AttribDisplayMarkers"/>
+    <memberTool name="qLib::ToggleViewportTemplates"/>
+    <memberTool name="qLib::ToggleViewportGuides"/>
+    <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
+    <memberTool name="qLib::ColorByAuthor"/>
+    <memberTool name="qLib::FlushCaches"/>
+    <memberTool name="qLib::CrashRecovery"/>
   </toolshelf>
 
-  <tool name="ReferenceCopy_qL" label="Ref Copy qL" icon="BUTTONS_copy">
+  <tool name="qLib::AccessShotNode" label="::shot::" icon="NETWORKS_scene">
+    <helpText><![CDATA[#icon: COP2/invert
+#context: obj
+#type: tool
+
+= Access: Shot Node qL =
+
+*version 1*
+
+"""Opens a floating parameter panel for scene Shot qL node(s).
+---
+LMB: All Shot and Environment nodes
+Shift-LMB: Only "active" Shot(s) (visible/selectable)
+Alt-LMB: Environment nodes only
+"""
+
+@bugs Limitations
+
+- ...
+
+
+@relnotes Release Notes
+
+_version 1_ ---
+
+2014-10-12:
+    - First version.
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+
+def show_parms(ops, title="Parameters", kwargs=None):
+    """."""
+    PT = hou.paneTabType.Parm
+    P = None
+    t = None
+
+    for op in ops:
+        if P is None:
+            P = hou.ui.curDesktop().createFloatingPanel(PT)
+            P.setName(title)
+            t = P.panes()[0].tabs()[0]
+        else:
+            t = P.panes()[0].createTab(PT)
+
+        if t:
+            t.setPin(True)
+            t.setCurrentNode(op)
+
+    return P
+
+
+
+ctrl = kwargs['ctrlclick']
+shift = kwargs['shiftclick']
+alt = kwargs['altclick']
+
+is_shot = lambda n: 'qLib::shot_ql' in n.type().name()
+is_env = lambda n: 'qLib::environment_ql' in n.type().name()
+
+# find all Shot qL OPs first
+#
+shots = [ c for c in hou.node('/').allSubChildren()
+    if is_shot(c) or is_env(c) ]
+
+if shift or ctrl:
+    shots = [ n for n in shots if n.isSelectableInViewport() or n.isDisplayFlagSet() ]
+
+if alt:
+    shots = [ n for n in shots if is_env(n) ]
+
+shots = sorted(shots,
+    key=lambda n: '%s %d %d %s' % (n.type().name(),
+        n.isSelectableInViewport(),
+        n.isDisplayFlagSet(),
+        n.name(), )
+    )
+
+show_parms(shots, title="Scene Global(s)", kwargs=kwargs)
+
+]]></script>
+  </tool>
+
+  <tool name="qLib::ToggleViewportBackgroundColor" label="/backgnd/" icon="COP2_invert">
+    <helpText><![CDATA[#icon: COP2/invert
+#context: obj
+#type: tool
+
+= Cycle Viewport Background Color qL =
+
+*version 1*
+
+"""Cycles between viewport color schemes (dark, grey, light).
+----
+LMB: Cycle background color
+Ctrl-LMB: Reset to black
+Shift-LMB: Reset to grey
+"""
+
+@bugs Limitations
+
+- It might not seem to work for the first time (try clicking again, then)
+
+
+@relnotes Release Notes
+
+_version 1_ ---
+
+2015-02-24:
+    - Added dark/grey/light cycle (H14)
+
+2014-02-14:
+    - First version (in qLib).
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+bg = None
+
+try:
+    # cycle next bg
+    if kwargs['ctrlclick']: raise
+    bgs = hou.session.bg[:]
+    bgs = bgs[1:]+bgs[:1]
+    if kwargs['shiftclick']: bgs = ['bw', 'light', 'wb']
+    bg = bgs[0]
+    hou.session.bg = bgs
+except:
+    # set up default bg vars
+    hou.session.bg = ['wb', 'bw', 'light']
+    bg = hou.session.bg[0]
+
+bgs = { 'wb':'dark', 'bw':'grey', 'light':'light' }
+
+hou.hscript("viewdisplay -B %s *" % bg)
+hou.ui.setStatusMessage("Cycled background to %s" % bgs[bg].upper() )]]></script>
+  </tool>
+
+  <tool name="qLib::ToggleIntegerFrames" label="int.frames" icon="PLAYBAR_editable_keys">
+    <helpText><![CDATA[#icon: PLAYBAR/editable_keys
+#context: obj
+#type: tool
+
+= Toggle Integer Frames qL =
+
+*version 1*
+
+"""Toggle non-integer frame values on the playbar.
+----
+LMB: Toggle non-integer frames
+Shift-LMB: Switch to integer frames
+"""
+
+@usage Usage
+
+((LMB)):
+    Toggle non-integer frames
+((Shift + LMB)):
+    Switch to integer frames
+
+
+_version 1_ ---
+
+2018-07-22:
+    - Added shift-click option
+    - Improved help page]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+
+shift = kwargs['shiftclick']
+
+m = not hou.playbar.usesIntegerFrames()
+if shift:
+    m = True
+hou.playbar.setUseIntegerFrames(m)
+
+hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"))
+]]></script>
+  </tool>
+
+  <tool name="qLib::ReferenceCopy" label="Ref Copy qL" icon="BUTTONS_copy">
     <helpText><![CDATA[#icon: BUTTONS/copy
 #context: obj
 #type: tool
@@ -159,7 +337,7 @@ for S in sel:
 ]]></script>
   </tool>
 
-  <tool name="AttribDisplayMarkers_qL" label="attr.vis" icon="BUTTONS_displayoptions">
+  <tool name="qLib::AttribDisplayMarkers" label="attr.vis" icon="BUTTONS_displayoptions">
     <helpText><![CDATA[#icon: BUTTONS/displayoptions
 #context: obj
 #type: tool
@@ -410,162 +588,7 @@ if not shift:
 ]]></script>
   </tool>
 
-  <tool name="ToggleIntegerFrames_qL" label="int.frames" icon="PLAYBAR_editable_keys">
-    <helpText><![CDATA[#icon: PLAYBAR/editable_keys
-#context: obj
-#type: tool
-
-= Toggle Integer Frames qL =
-
-*version 1*
-
-"""Toggle non-integer frame values on the playbar.
-----
-LMB: Toggle non-integer frames
-Shift-LMB: Switch to integer frames
-"""
-
-@usage Usage
-
-((LMB)):
-    Toggle non-integer frames
-((Shift + LMB)):
-    Switch to integer frames
-
-
-_version 1_ ---
-
-2018-07-22:
-    - Added shift-click option
-    - Improved help page]]></helpText>
-    <script scriptType="python"><![CDATA[import hou
-
-shift = kwargs['shiftclick']
-
-m = not hou.playbar.usesIntegerFrames()
-if shift:
-    m = True
-hou.playbar.setUseIntegerFrames(m)
-
-hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"))
-]]></script>
-  </tool>
-
-  <tool name="ToggleViewportBackgroundColor_qL" label="/backgnd/" icon="COP2_invert">
-    <helpText><![CDATA[#icon: COP2/invert
-#context: obj
-#type: tool
-
-= Cycle Viewport Background Color qL =
-
-*version 1*
-
-"""Cycles between viewport color schemes (dark, grey, light).
-----
-LMB: Cycle background color
-Ctrl-LMB: Reset to black
-Shift-LMB: Reset to grey
-"""
-
-@bugs Limitations
-
-- It might not seem to work for the first time (try clicking again, then)
-
-
-@relnotes Release Notes
-
-_version 1_ ---
-
-2015-02-24:
-    - Added dark/grey/light cycle (H14)
-
-2014-02-14:
-    - First version (in qLib).
-]]></helpText>
-    <script scriptType="python"><![CDATA[import toolutils
-
-bg = None
-
-try:
-    # cycle next bg
-    if kwargs['ctrlclick']: raise
-    bgs = hou.session.bg[:]
-    bgs = bgs[1:]+bgs[:1]
-    if kwargs['shiftclick']: bgs = ['bw', 'light', 'wb']
-    bg = bgs[0]
-    hou.session.bg = bgs
-except:
-    # set up default bg vars
-    hou.session.bg = ['wb', 'bw', 'light']
-    bg = hou.session.bg[0]
-
-bgs = { 'wb':'dark', 'bw':'grey', 'light':'light' }
-
-hou.hscript("viewdisplay -B %s *" % bg)
-hou.ui.setStatusMessage("Cycled background to %s" % bgs[bg].upper() )]]></script>
-  </tool>
-
-  <tool name="ToggleViewportGuides_qL" label="/guides/" icon="NODEFLAGS_origin">
-    <helpText><![CDATA[#icon: IMAGE/view_guides
-#context: obj
-#type: tool
-
-= Toggle Viewport Guides qL =
-
-*version 1*
-
-"""Toggles OP guide display in the viewports.
-----
-LMB: Toggle guide display
-Shift-LMB: Enable guide display
-"""
-
-@usage Usage
-
-((LMB)):
-    Toggles guides display (Display Options -> Guides -> Node guides)
-((Shift + LMB)):
-    Enable guides display
-
-@bugs Limitations
-
-- It might behave inconsistently between viewports (and needs to be clicked twice)
-
-
-@relnotes Release Notes
-
-_version 1_ ---
-
-2018-07-22:
-    - Added shift-click option
-    - Improved help page
-
-2014-03-20:
-    - First version.
-]]></helpText>
-    <script scriptType="python"><![CDATA[import toolutils
-
-shift = kwargs['shiftclick']
-
-v = toolutils.sceneViewer()
-w = "%s.%s.world" % \
-        (v.pane().desktop().name(), \
-        v.name() )
-#print "view:", w
-
-if not hasattr(hou.session, "guides"):
-    hou.session.guides = True
-
-if shift:
-    hou.session.guides = False
-
-hou.session.guides = not hou.session.guides
-#hou.hscript("viewdisplay -g %s %s" % ("on" if hou.session.guides else "off", w, ))
-hou.hscript("viewdisplay -g %s *" % ("on" if hou.session.guides else "off", ))
-hou.ui.setStatusMessage("Geometry guides are now %s" % ("DISPLAYED" if hou.session.guides else "OFF") )]]></script>
-  </tool>
-
-  <tool name="ToggleViewportTemplates_qL" label="/templates/" icon="NODEFLAGS_template">
+  <tool name="qLib::ToggleViewportTemplates" label="/templates/" icon="NODEFLAGS_template">
     <helpText><![CDATA[#icon: NODEFLAGS/template
 #context: obj
 #type: tool
@@ -629,110 +652,67 @@ else:
 ]]></script>
   </tool>
 
-  <tool name="AccessShotNode_qL" label="::shot::" icon="NETWORKS_scene">
-    <helpText><![CDATA[#icon: COP2/invert
+  <tool name="qLib::ToggleViewportGuides" label="/guides/" icon="NODEFLAGS_origin">
+    <helpText><![CDATA[#icon: IMAGE/view_guides
 #context: obj
 #type: tool
 
-= Access: Shot Node qL =
+= Toggle Viewport Guides qL =
 
 *version 1*
 
-"""Opens a floating parameter panel for scene Shot qL node(s).
----
-LMB: All Shot and Environment nodes
-Shift-LMB: Only "active" Shot(s) (visible/selectable)
-Alt-LMB: Environment nodes only
+"""Toggles OP guide display in the viewports.
+----
+LMB: Toggle guide display
+Shift-LMB: Enable guide display
 """
+
+@usage Usage
+
+((LMB)):
+    Toggles guides display (Display Options -> Guides -> Node guides)
+((Shift + LMB)):
+    Enable guides display
 
 @bugs Limitations
 
-- ...
+- It might behave inconsistently between viewports (and needs to be clicked twice)
 
 
 @relnotes Release Notes
 
 _version 1_ ---
 
-2014-10-12:
+2018-07-22:
+    - Added shift-click option
+    - Improved help page
+
+2014-03-20:
     - First version.
 ]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
 
-
-def show_parms(ops, title="Parameters", kwargs=None):
-    """."""
-    PT = hou.paneTabType.Parm
-    P = None
-    t = None
-
-    for op in ops:
-        if P is None:
-            P = hou.ui.curDesktop().createFloatingPanel(PT)
-            P.setName(title)
-            t = P.panes()[0].tabs()[0]
-        else:
-            t = P.panes()[0].createTab(PT)
-
-        if t:
-            t.setPin(True)
-            t.setCurrentNode(op)
-
-    return P
-
-
-
-ctrl = kwargs['ctrlclick']
 shift = kwargs['shiftclick']
-alt = kwargs['altclick']
 
-is_shot = lambda n: 'qLib::shot_ql' in n.type().name()
-is_env = lambda n: 'qLib::environment_ql' in n.type().name()
+v = toolutils.sceneViewer()
+w = "%s.%s.world" % \
+        (v.pane().desktop().name(), \
+        v.name() )
+#print "view:", w
 
-# find all Shot qL OPs first
-#
-shots = [ c for c in hou.node('/').allSubChildren()
-    if is_shot(c) or is_env(c) ]
+if not hasattr(hou.session, "guides"):
+    hou.session.guides = True
 
-if shift or ctrl:
-    shots = [ n for n in shots if n.isSelectableInViewport() or n.isDisplayFlagSet() ]
+if shift:
+    hou.session.guides = False
 
-if alt:
-    shots = [ n for n in shots if is_env(n) ]
-
-shots = sorted(shots,
-    key=lambda n: '%s %d %d %s' % (n.type().name(),
-        n.isSelectableInViewport(),
-        n.isDisplayFlagSet(),
-        n.name(), )
-    )
-
-show_parms(shots, title="Scene Global(s)", kwargs=kwargs)
-
-]]></script>
+hou.session.guides = not hou.session.guides
+#hou.hscript("viewdisplay -g %s %s" % ("on" if hou.session.guides else "off", w, ))
+hou.hscript("viewdisplay -g %s *" % ("on" if hou.session.guides else "off", ))
+hou.ui.setStatusMessage("Geometry guides are now %s" % ("DISPLAYED" if hou.session.guides else "OFF") )]]></script>
   </tool>
 
-  <tool name="CrashRecovery_qL" label="::recover::" icon="MISC_satchel">
-    <helpText><![CDATA[#icon: MISC/satchel
-#type: tool
-
-= Crash Recovery qL =
-
-*version 1*
-
-"""Opens the crash recovery window to load crash recovery hip files.
-"""
-
-
-]]></helpText>
-    <script scriptType="python"><![CDATA[import qlibutils
-
-qlibutils.do_crash_recovery()
-
-]]></script>
-  </tool>
-
-  <tool name="ToggleTimeDependencyDisplay_qL" label="/time dep/" icon="NETVIEW_time_dependent_badge_large">
+  <tool name="qLib::ToggleTimeDependencyDisplay" label="/time dep/" icon="NETVIEW_time_dependent_badge_large">
     <helpText><![CDATA[#icon: NETVIEW/time_dependent_badge_large
 #context: obj
 #type: tool
@@ -798,42 +778,7 @@ except:
     hou.ui.setStatusMessage("Couldn't toggle time-dependency badge", hou.severityType.Warning)]]></script>
   </tool>
 
-  <tool name="FlushCaches_qL" label="flush caches" icon="SOP_cache">
-    <helpText><![CDATA[#icon: SOP/cache
-#type: tool
-
-= Flush Caches qL =
-
-*version 1*
-
-"""Flush various memory caches and unloads all geometry.
-"""
-
-
-]]></helpText>
-    <script scriptType="python"><![CDATA[
-r = hou.ui.displayMessage(
-        'Flush all caches? This is a non-undoable operation which might flush locked SOP geometry.',
-        buttons=('Ok', 'Cancel',),
-        default_choice=1, close_choice=1,
-    )
-
-if r==0:
-    cmds = [
-            "opunload -R /*",
-            "geocache -c",
-            "objcache -c",
-            "sopcache -c",
-            "texcache -c"
-        ]
-
-    for cmd in cmds:
-        print " --- ", cmd
-        hou.hscript(cmd)
-]]></script>
-  </tool>
-
-  <tool name="ColorByAuthor_qL" label="/color by author/" icon="COP2_mosaic">
+  <tool name="qLib::ColorByAuthor" label="/color by author/" icon="COP2_mosaic">
     <helpText><![CDATA[#icon: SOP/color
 #type: tool
 
@@ -975,6 +920,61 @@ else:
     hou.ui.setStatusMessage("Select node(s) to specify network to color (shift-click to restore)", hou.severityType.Warning)
 
 #
+]]></script>
+  </tool>
+
+  <tool name="qLib::FlushCaches" label="flush caches" icon="SOP_cache">
+    <helpText><![CDATA[#icon: SOP/cache
+#type: tool
+
+= Flush Caches qL =
+
+*version 1*
+
+"""Flush various memory caches and unloads all geometry.
+"""
+
+
+]]></helpText>
+    <script scriptType="python"><![CDATA[
+r = hou.ui.displayMessage(
+        'Flush all caches? This is a non-undoable operation which might flush locked SOP geometry.',
+        buttons=('Ok', 'Cancel',),
+        default_choice=1, close_choice=1,
+    )
+
+if r==0:
+    cmds = [
+            "opunload -R /*",
+            "geocache -c",
+            "objcache -c",
+            "sopcache -c",
+            "texcache -c"
+        ]
+
+    for cmd in cmds:
+        print " --- ", cmd
+        hou.hscript(cmd)
+]]></script>
+  </tool>
+
+  <tool name="qLib::CrashRecovery" label="::recover::" icon="MISC_satchel">
+    <helpText><![CDATA[#icon: MISC/satchel
+#type: tool
+
+= Crash Recovery qL =
+
+*version 1*
+
+"""Opens the crash recovery window to load crash recovery hip files.
+"""
+
+
+]]></helpText>
+    <script scriptType="python"><![CDATA[import qlibutils
+
+qlibutils.do_crash_recovery()
+
 ]]></script>
   </tool>
 </shelfDocument>
