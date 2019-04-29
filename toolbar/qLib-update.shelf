@@ -6,10 +6,10 @@
  a single file. -->
 
   <toolshelf name="qLib_update" label="qLib-update">
-    <memberTool name="qLibUpdate_qL"/>
+    <memberTool name="qLib::qLibUpdate"/>
   </toolshelf>
 
-  <tool name="qLibUpdate_qL" label="qLib Update" icon="DESKTOP_installer">
+  <tool name="qLib::qLibUpdate" label="qLib Update" icon="DESKTOP_installer">
     <script scriptType="python"><![CDATA[import os
 import shutil
 import contextlib
