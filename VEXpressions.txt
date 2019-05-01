@@ -9,77 +9,77 @@
 #
 
 groupexpression/snippet
-    [qL] Curve endpoints
+    [qL] Curve Endpoints
     neighbourcount(0, @ptnum)==1
 
 groupexpression/snippet
-    [qL] Curve(s), start point
+    [qL] Curve(s), Start Point
     vertexprimindex(0, @vtxnum)==0
 
 groupexpression/snippet
-    [qL] Curve(s), end point
+    [qL] Curve(s), End Point
     vertexprimindex(0, @vtxnum)==@numvtx-1
 
 groupexpression/snippet
-    [qL] Open primitives (e.g. curves)
+    [qL] Open Primitives (e.g. Curves)
     primintrinsic(0, "closed", @elemnum)==0
 
 groupexpression/snippet
-    [qL] Closed primitives
+    [qL] Closed Primitives
     primintrinsic(0, "closed", @elemnum)==1
 
 groupexpression/snippet
-    [qL] Prim area: less than
+    [qL] Prim Area: Smaller than
     chf("tolerance") > primintrinsic(0, "measuredarea", @elemnum)
 
 groupexpression/snippet
-    [qL] Prim area: more than
+    [qL] Prim Area: Larger than
     chf("tolerance") < primintrinsic(0, "measuredarea", @elemnum)
 
 groupexpression/snippet
-    [qL] Prim length: less than
+    [qL] Prim Length: Shorter than
     chf("tolerance") > primintrinsic(0, "measuredperimeter", @elemnum)
 
 groupexpression/snippet
-    [qL] Prim length: more than
+    [qL] Prim Length: Longer than
     chf("tolerance") < primintrinsic(0, "measuredperimeter", @elemnum)
 
 groupexpression/snippet
-    [qL] Prim volume: less than
+    [qL] Prim Volume: Smaller than
     chf("tolerance") > primintrinsic(0, "measuredvolume", @elemnum)
 
 groupexpression/snippet
-    [qL] Prim volume: more than
+    [qL] Prim Volume: Larger than
     chf("tolerance") < primintrinsic(0, "measuredvolume", @elemnum)
 
 
 
 attribexpression/snippet
-    [qL] Random distribution (elemnum)
+    [qL] Random Distribution (elemnum)
     chramp("distribution", random(@elemnum))
 
 attribexpression/snippet
-    [qL] Random distribution (id)
+    [qL] Random Distribution (id)
     chramp("distribution", random(@id*76))
 
 attribexpression/snippet
-    [qL] Number of nearby points
+    [qL] Number of Nearby Points
     len(nearpoints(0, v@P, chf('maxdist'), chi('maxpts')))
 
 attribexpression/snippet
-    [qL] Number of nearby points (normalized)
+    [qL] Number of Nearby Points (Normalized)
     len(nearpoints(0, v@P, chf('maxdist'), chi('maxpts'))) / float(chi('maxpts'))
 
 
 
 attribwrangle/snippet
-    [qL] Number of nearby points
+    [qL] Number of Nearby Points
     float maxdist = chf('maxdist');
     int maxpts = chi('maxpts');
     i@numnear = len(nearpoints(0, v@P, maxdist, maxpts));
 
 attribwrangle/snippet
-    [qL] Number of nearby points (normalized)
+    [qL] Number of Nearby Points (Normalized)
     float maxdist = chf('maxdist');
     int maxpts = chi('maxpts');
     f@numnear = len(nearpoints(0, v@P, maxdist, maxpts)) / float(maxpts);
