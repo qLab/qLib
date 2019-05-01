@@ -70,6 +70,14 @@ attribexpression/snippet
     [qL] Number of Nearby Points (Normalized)
     len(nearpoints(0, v@P, chf('maxdist'), chi('maxpts'))) / float(chi('maxpts'))
 
+attribexpression/snippet
+    [qL] Vector to 2nd Input Point Positions
+    @opinput1_P - @P
+
+attribexpression/snippet
+    [qL] Vector to 2nd Input Point Positions (Normalized)
+    normalize(@opinput1_P - @P)
+
 
 
 attribwrangle/snippet
