@@ -32,7 +32,7 @@
         <modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
         <label>qLib</label>
 
-        <subMenu id = "select_submenu">
+        <subMenu id = "select_submenu_ql">
             <label>Select (wip)</label>
 
             <scriptItem id="pane.wsheet.select_all_of_same_type_ql">
@@ -110,6 +110,85 @@ hou.ui.displayMessage(str(kwargs))
                 <label>Locked HDAs</label>
                 <scriptCode><![CDATA[
 hou.ui.displayMessage(str(kwargs))
+                ]]></scriptCode>
+            </scriptItem>
+
+        </subMenu>
+
+        <subMenu id = "comment_submenu_ql">
+            <label>Node Comment</label>
+
+           <scriptItem id="pane.wsheet.comment_cut_ql">
+                <label>Cut</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+if sel:
+    hou.ui.copyTextToClipboard(sel[0].comment())
+    sel[0].setComment("")
+                ]]></scriptCode>
+            </scriptItem>
+
+           <scriptItem id="pane.wsheet.comment_copy_ql">
+                <label>Copy</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+if sel:
+    hou.ui.copyTextToClipboard(sel[0].comment())
+                ]]></scriptCode>
+            </scriptItem>
+
+           <scriptItem id="pane.wsheet.comment_paste_ql">
+                <label>Paste</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+c = hou.ui.getTextFromClipboard()
+for s in sel:
+    try:
+        s.setComment(c)
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
+           <scriptItem id="pane.wsheet.show_comment_ql">
+                <label>Show in Network Editor</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+for s in sel:
+    try:
+        hou.hscript("opset -Y on %s" % s.path())
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.hide_comment_ql">
+                <label>Hide in Network Editor</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+for s in sel:
+    try:
+        hou.hscript("opset -Y off %s" % s.path())
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
+            <scriptItem id="pane.wsheet.clear_comment_ql">
+                <label>Clear Comment...</label>
+                <scriptCode><![CDATA[
+d = hou.ui.displayMessage("Clear comment on selected nodes?", buttons=("Yes", "No", ))
+if d == 0:
+    sel = hou.selectedNodes()
+    for s in sel:
+        try:
+            s.setComment("")
+        except:
+            pass
                 ]]></scriptCode>
             </scriptItem>
 
