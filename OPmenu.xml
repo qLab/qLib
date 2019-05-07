@@ -65,45 +65,14 @@ for s in sel:
                 <modifyItem><insertAfter>opmenu.select_node_same_type_ql</insertAfter></modifyItem>
             </separatorItem>
         </subMenu>
-
-        <separatorItem id="comment_submenu_sep_ql">
-            <modifyItem><insertAfter>opmenu.actions_menu</insertAfter></modifyItem>
-        </separatorItem>
-
-        <subMenu id="comment_submenu_ql">
-            <modifyItem><insertAfter>comment_submenu_sep_ql</insertAfter></modifyItem>
-            <label>Comment [qL]</label>
-
-            <!-- steal original "edit comment" item TODO: replace with own -->
-            <!--
-            <modifyItem id="opmenu.edit_comment">
-                <parent>comment_submenu_ql</parent>
-            </modifyItem>
-            -->
-
-            <scriptItem id="opmenu.show_comment_ql">
-                <label>Show Comment in Network Editor</label>
-                <scriptCode><![CDATA[
-hou.hscript("opset -Y on %s" % kwargs['node'].path())
-                ]]></scriptCode>
-            </scriptItem>
-
-            <scriptItem id="opmenu.hide_comment_ql">
-                <label>Hide Comment in Network Editor</label>
-                <scriptCode><![CDATA[
-hou.hscript("opset -Y off %s" % kwargs['node'].path())
-                ]]></scriptCode>
-            </scriptItem>
-
-            <separatorItem />
-
-            <scriptItem id="opmenu.clear_comment_ql">
-                <label>Clear Comment</label>
-                <scriptCode><![CDATA[
-kwargs['node'].setComment("")
-                ]]></scriptCode>
-            </scriptItem>
-        </subMenu>
+<!--
+        <scriptItem id="opmenu.tmp_show_kwargs_ql">
+            <label>debug: show kwargs [qL]</label>
+            <scriptCode><![CDATA[
+hou.ui.displayMessage(str(kwargs))
+            ]]></scriptCode>
+        </scriptItem>
+-->
     </menu>
 
 </menuDocument>

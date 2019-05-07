@@ -92,15 +92,6 @@ import qlibutils; qlibutils.to_clipboard(env="JOB")]]>
 				</scriptCode>
 			</scriptItem>
 
-		<separatorItem />
-
-			<scriptItem id="h.ql_clipboard_HDALocation">
-				<label>Selected HDA Location(s)</label>
-				<scriptCode><![CDATA[
-import qlibutils; qlibutils.hdapath_to_clipboard()]]>
-				</scriptCode>
-			</scriptItem>
-
 		</subMenu>
 
 		<separatorItem />
