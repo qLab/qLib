@@ -115,8 +115,37 @@ hou.ui.displayMessage(str(kwargs))
 
         </subMenu>
 
+        <subMenu id = "copy_to_clipboard_submenu_ql">
+
+            <label>Copy</label>
+
+            <scriptItem id="pane.wsheet.copy_node_names_ql">
+                <label>Selected OP Names</label>
+                <scriptCode><![CDATA[
+import qlibutils; qlibutils.nodes_to_clipboard()
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.copy_node_paths_ql">
+                <label>Selected OP Full Paths</label>
+                <scriptCode><![CDATA[
+import qlibutils; qlibutils.nodes_to_clipboard(fullPaths=True)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
+            <scriptItem id="pane.wsheet.copy_hda_locations_ql">
+                <label>Selected HDA Location(s)</label>
+                <scriptCode><![CDATA[
+import qlibutils; qlibutils.hdapath_to_clipboard()
+                ]]></scriptCode>
+            </scriptItem>
+
+        </subMenu>
+
         <subMenu id = "comment_submenu_ql">
-            <label>Node Comment</label>
+            <label>Comment</label>
 
            <scriptItem id="pane.wsheet.comment_cut_ql">
                 <label>Cut</label>

@@ -253,8 +253,17 @@ def hdapath_to_clipboard():
     """Copies the full path of the first selected HDA to the clipboard.
     """
     hdas = get_hda_paths(hou.selectedNodes())
-    hdas = ' '.join(hdas)
+    hdas = '\n'.join(hdas)
     to_clipboard(hdas)
+
+
+def nodes_to_clipboard(fullPaths=False):
+    """Copies the names or full paths of selected nodes to the clipboard.
+    """
+    sep = '\n' if fullPaths else ' '
+    nodes = hou.selectedNodes()
+    text = sep.join([ n.path() if fullPaths else n.name() for n in nodes ])
+    to_clipboard(text)
 
 
 def toggle_abs_rel_path(kwargs):
