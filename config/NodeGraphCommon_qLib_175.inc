@@ -218,5 +218,5 @@ NodePopupBG:                    #494B55
 NodePopupBasicBG:               #3F414B
 NodePopupNeedsRefreshBG:        #46474B
 
-TaskPopupBG:                    #293535
+TaskPopupBG:                    #495555
 TaskPopupBasicBG:               #1F2B2B

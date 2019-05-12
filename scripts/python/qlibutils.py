@@ -425,3 +425,66 @@ def find_same_nodes(nodes):
     all = nodes[0].parent().children()
     r = [ n for n in all if type_name(n) in types ]
     return r
+
+
+def get_netview_path(kwargs):
+    """Finds the path of the current network view from kwargs.
+    """
+    if "editor" in kwargs:
+        return kwargs["editor"].pwd()
+    else:
+        # TODO: raise an error
+        return None
+
+
+def add_to_selection(nodes, kwargs):
+    """Extends the current node selection with 'nodes', according to
+    the modifier keys in kwargs.
+
+    no modifier:    replace selection
+    shift:          add to selection
+    ctrl:           remove from selection
+    ctrl+shift:     intersect with selection
+    """
+    haz_shift = kwargs["shiftclick"] or kwargs['altclick']
+    haz_ctrl = kwargs["ctrlclick"]
+
+    current = set(hou.selectedNodes())
+    sel = set(nodes)
+
+    if haz_shift or haz_ctrl:
+        # we got some modifier pressed
+        if haz_shift:
+            if haz_ctrl:
+                # shift+ctrl: intersection
+                sel = sel.intersection(current)
+            else:
+                # shift: union
+                sel = sel.union(current)
+        else:
+            # ctrl: remove from selection
+            sel = current.difference(sel)
+
+    if sel is not None:
+        hou.clearAllSelected()
+        for n in sel:
+            n.setSelected(True)
+
+
+def is_node_locked(node):
+    """Check if node is locked. Implementation level LOL.
+    """
+    r = False
+    if "isHardLocked" in dir(node):
+        r = node.isHardLocked()
+    elif "isLocked" in dir(node):
+        r = node.isLocked()
+    return r
+
+
+def select_netview_nodes(kwargs, criteria):
+    """.
+    """
+    path = get_netview_path(kwargs)
+    sel = [ n for n in path.children() if criteria(n) ]
+    add_to_selection(sel, kwargs)
