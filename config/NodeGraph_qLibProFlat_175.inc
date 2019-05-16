@@ -26,10 +26,10 @@ GraphNameText:			GREY(0.1)
 GraphNodeTypeText:		GREY(0.4)
 GraphCommentText:		#133539
 GraphDescriptiveNameText:	#39526E
-GraphContextOptionDepsText:	#6DB4BD
-GraphLopLastModifiedPrimText:	#6DB4BD
-GraphLopLayerCountText:		#6DB4BD
-GraphOutputForViewText:		#6DB4BD
+GraphContextOptionDepsText:	#236569
+GraphLopLastModifiedPrimText:	#236569
+GraphLopLayerCountText:		#236569
+GraphOutputForViewText:		#236569
 GraphNetworkBoxText:		WHITE
 GraphNetworkBoxTextDark:	BLACK
 GraphNetworkBoxNameText:	#76A8E1
