@@ -55,12 +55,28 @@ groupexpression/snippet
 
 
 attribexpression/snippet
+    [qL] Element number
+    @elemnum
+
+attribexpression/snippet
+    [qL] Element number (float [0..1])
+    @elemnum/(@numelem-1.0)
+
+attribexpression/snippet
     [qL] Random Distribution (elemnum)
-    chramp("distribution", random(@elemnum))
+    chramp("distribution", random(@elemnum*12+34))
 
 attribexpression/snippet
     [qL] Random Distribution (id)
-    chramp("distribution", random(@id*76))
+    chramp("distribution", random(@id*76+19))
+
+attribexpression/snippet
+    [qL] Vector to 2nd Input Point Positions
+    @opinput1_P - @P
+
+attribexpression/snippet
+    [qL] Vector to 2nd Input Point Positions (Normalized)
+    normalize(@opinput1_P - @P)
 
 attribexpression/snippet
     [qL] Number of Nearby Points
@@ -71,12 +87,12 @@ attribexpression/snippet
     len(nearpoints(0, v@P, chf('maxdist'), chi('maxpts'))) / float(chi('maxpts'))
 
 attribexpression/snippet
-    [qL] Vector to 2nd Input Point Positions
-    @opinput1_P - @P
+    [qL] id to string attribute
+    sprintf("piece%d", i@id)
 
 attribexpression/snippet
-    [qL] Vector to 2nd Input Point Positions (Normalized)
-    normalize(@opinput1_P - @P)
+    [qL] "name" piece numbers to int attribute
+    opdigits(s@name)
 
 
 
@@ -109,4 +125,13 @@ attribwrangle/snippet
 	v = normalize(d) * -sdf;
     }
     v@P += v;
+
+attribwrangle/snippet
+    [qL] id attribute to name ("pieceNNN")
+    s@name = sprintf("piece%d", i@id);
+
+attribwrangle/snippet
+    [qL] name ("pieceNNN") numbering to id attrib
+    i@id = opdigits(s@name);
+
 
