@@ -28,6 +28,7 @@
 <mainMenu>
     <menuBar>
 
+
     <subMenu id = "qLib_network_view_menu">
         <modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
         <label>qLib</label>
@@ -140,6 +141,7 @@ hou.ui.displayMessage(str(kwargs))
 -->
         </subMenu>
 
+
         <subMenu id = "copy_to_clipboard_submenu_ql">
 
             <label>Copy</label>
@@ -168,6 +170,20 @@ import qlibutils; qlibutils.hdapath_to_clipboard()
             </scriptItem>
 
         </subMenu>
+
+
+        <subMenu id = "paste_from_clipboard_submenu_ql">
+
+            <label>Paste</label>
+            <scriptItem id="pane.wsheet.paste_from_clipboard_ql">
+                <label>Clipboard as Text/Image...</label>
+                <scriptCode><![CDATA[
+import qlibutils; qlibutils.paste_clipboard_to_netview(kwargs)
+                ]]></scriptCode>
+            </scriptItem>
+
+        </subMenu>
+
 
         <subMenu id = "comment_submenu_ql">
             <label>Comment</label>
@@ -249,6 +265,8 @@ if d == 0:
             </scriptItem>
 
         </subMenu>
+
+
 <!--
         <separatorItem />
 
