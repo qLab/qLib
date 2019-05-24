@@ -71,6 +71,15 @@ qlibutils.open_dir( os.path.dirname(str(kwargs['parms'][0].eval())) )
 ]]></scriptCode>
 			</scriptItem>
 
+			<scriptItem id="ql_select_target_op">
+				<label>Select (Add) Target Node</label>
+				<context>
+					<expression>len(kwargs['parms'])>0 and kwargs['parms'][0].evalAsNode() is not None</expression>
+				</context>
+				<scriptCode><![CDATA[
+kwargs['parms'][0].evalAsNode().setSelected(True)
+]]></scriptCode>
+			</scriptItem>
 
 			<separatorItem/>
 
