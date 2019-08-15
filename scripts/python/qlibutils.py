@@ -261,12 +261,23 @@ def hdapath_to_clipboard():
     to_clipboard(hdas)
 
 
-def nodes_to_clipboard(fullPaths=False):
+def nodes_to_clipboard(fullPaths=False, hdaTypeNames=False):
     """Copies the names or full paths of selected nodes to the clipboard.
     """
     sep = '\n' if fullPaths else ' '
     nodes = hou.selectedNodes()
-    text = sep.join([ n.path() if fullPaths else n.name() for n in nodes ])
+
+    func = lambda n: n.name()
+
+    if hdaTypeNames:
+        func = lambda n: n.type().name()
+
+    if fullPaths:
+            func = lambda n: n.path()
+            if hdaTypeNames:
+                func = lambda n: "%s (%s)" % (n.path(), n.type().name(), )
+
+    text = sep.join([ func(n) for n in nodes ])
     to_clipboard(text)
 
 
