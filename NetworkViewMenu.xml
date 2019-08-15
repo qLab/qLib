@@ -33,6 +33,109 @@
         <modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
         <label>qLib</label>
 
+        <subMenu id = "display_submenu_ql">
+            <label>Display</label>
+
+            <scriptItem id="pane.wsheet.display_isolate_selected_ql">
+                <label>Isolate Selected Nodes</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+all = kwargs['editor'].pwd().children()
+if len(sel)>0:
+    for s in all:
+        try:
+            hou.hscript("opset -e off %s" % s.path())
+        except:
+            pass
+    for s in sel:
+        try:
+            hou.hscript("opset -e on %s" % s.path())
+        except:
+            pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.display_hide_selected_ql">
+                <label>Hide Selected Nodes</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+for s in sel:
+    try:
+        hou.hscript("opset -e off %s" % s.path())
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
+            <scriptItem id="pane.wsheet.display_show_all_ql">
+                <label>Show All Nodes</label>
+                <scriptCode><![CDATA[
+sel = kwargs['editor'].pwd().children()
+for s in sel:
+    try:
+        hou.hscript("opset -e on %s" % s.path())
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
+            <scriptItem id="pane.wsheet.display_show_desc_parm_ql">
+                <label>Show Descriptive Parm</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+for s in sel:
+    try:
+        hou.hscript("opset -P on %s" % s.path())
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.display_hide_desc_parm_ql">
+                <label>Hide Descriptive Parm</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+for s in sel:
+    try:
+        hou.hscript("opset -P off %s" % s.path())
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
+            <scriptItem id="pane.wsheet.display_show_comment_ql">
+                <label>Show Comment</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+for s in sel:
+    try:
+        hou.hscript("opset -Y on %s" % s.path())
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.display_hide_comment_ql">
+                <label>Hide Comment</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+for s in sel:
+    try:
+        hou.hscript("opset -Y off %s" % s.path())
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
+        </subMenu>
+
+
         <subMenu id = "select_submenu_ql">
             <label>Select</label>
 
@@ -240,7 +343,7 @@ for s in sel:
 
             <separatorItem />
 
-           <scriptItem id="pane.wsheet.show_comment_ql">
+            <scriptItem id="pane.wsheet.show_comment_ql">
                 <label>Show in Network Editor</label>
                 <scriptCode><![CDATA[
 sel = hou.selectedNodes()
