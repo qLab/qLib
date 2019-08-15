@@ -153,10 +153,26 @@ import qlibutils; qlibutils.nodes_to_clipboard()
                 ]]></scriptCode>
             </scriptItem>
 
+            <scriptItem id="pane.wsheet.copy_node_hdatypenames_ql">
+                <label>Selected OP HDA Type Names</label>
+                <scriptCode><![CDATA[
+import qlibutils; qlibutils.nodes_to_clipboard(hdaTypeNames=True)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
             <scriptItem id="pane.wsheet.copy_node_paths_ql">
                 <label>Selected OP Full Paths</label>
                 <scriptCode><![CDATA[
 import qlibutils; qlibutils.nodes_to_clipboard(fullPaths=True)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.copy_node_paths_hdatypenames_ql">
+                <label>Selected OP Full Paths and Type</label>
+                <scriptCode><![CDATA[
+import qlibutils; qlibutils.nodes_to_clipboard(fullPaths=True, hdaTypeNames=True)
                 ]]></scriptCode>
             </scriptItem>
 
