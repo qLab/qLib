@@ -413,7 +413,6 @@ def backup_rop_output_file():
 def remove_embedded_hdas():
     """Remove all embedded HDAs from the scene.
     """
-
     do_it = hou.ui.displayMessage(
         "Remove all Embdedded HDAs (OTLs) from the current scene?\n"
         "Warning: This cannot be undone!",
