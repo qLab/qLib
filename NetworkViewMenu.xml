@@ -245,6 +245,9 @@ for s in sel:
         </subMenu>
 
 
+        <separatorItem />
+
+
         <subMenu id = "copy_to_clipboard_submenu_ql">
 
             <label>Copy</label>
@@ -302,6 +305,9 @@ import qlibutils; qlibutils.paste_clipboard_to_netview(kwargs)
             </scriptItem>
 
         </subMenu>
+
+
+        <separatorItem />
 
 
         <subMenu id = "comment_submenu_ql">
