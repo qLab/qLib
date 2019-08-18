@@ -134,4 +134,9 @@ attribwrangle/snippet
     [qL] name ("pieceNNN") numbering to id attrib
     i@id = opdigits(s@name);
 
+attribwrangle/snippet
+    [qL] Point (element) number to id attribute
+    i@id = @elemnum;
+
+
 
