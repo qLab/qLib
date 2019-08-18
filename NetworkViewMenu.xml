@@ -99,6 +99,16 @@ import qlibutils
 qlibutils.select_netview_nodes(kwargs, lambda n: n.isTimeDependent())
                 ]]></scriptCode>
             </scriptItem>
+
+            <separatorItem />
+
+            <scriptItem id="pane.wsheet.select_embedded_ql">
+                <label>Embedded HDAs</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, lambda n: qlibutils.has_embedded_def(n))
+                ]]></scriptCode>
+            </scriptItem>
 <!--
             <separatorItem />
 

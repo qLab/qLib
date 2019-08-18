@@ -497,6 +497,14 @@ def is_node_locked(node):
     return r
 
 
+def has_embedded_def(node):
+    """Check if the node's HDA definition is Embedded.
+    """
+    d = node.type().definition()
+    r = d and d.libraryFilePath() == "Embedded"
+    return r
+
+
 def select_netview_nodes(kwargs, criteria):
     """.
     """
