@@ -590,3 +590,32 @@ def paste_clipboard_to_netview(kwargs):
                 pane.setBackgroundImages(images)
                 nodegraphutils.saveBackgroundImages(pwd, images)
 
+
+def embed_selected_hdas(kwargs):
+    """Embed HDA definitions of selected nodes (interactive only).
+    """
+    defs = set()
+
+    for s in hou.selectedNodes():
+        d = s.type().definition()
+        if d and d.libraryFilePath()!="Embedded":
+            defs.add(d)
+
+    defs = list(defs)
+
+    if len(defs)==0:
+        statmsg("No nodes with embeddable definitions were selected")
+        return
+
+    msg = "Embed the following HDA(s) into the current hip file?\n\n"
+    msg += "\n".join([ "HDA:  %s\npath:  %s\n" % (d.nodeType().name(), d.libraryFilePath(), ) for d in defs ])
+
+    do_it = hou.ui.displayMessage(
+        msg,
+        buttons=("Embed", "Cancel", ),
+        default_choice=1, close_choice=1)
+
+    if do_it==0:
+        for d in defs:
+            d.copyToHDAFile("Embedded")
+            # TODO: switch definition? this seems to switch it

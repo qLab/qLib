@@ -402,6 +402,20 @@ if d == 0:
         </subMenu>
 
 
+
+        <subMenu id = "misc_submenu_ql">
+            <label>Misc</label>
+
+            <scriptItem id="pane.wsheet.embed_selected_hdas_ql">
+                <label>Embed Selected HDAs...</label>
+                <scriptCode><![CDATA[
+import qlibutils; reload(qlibutils); qlibutils.embed_selected_hdas(kwargs)
+]]></scriptCode>
+            </scriptItem>
+
+        </subMenu>
+
+
 <!--
         <separatorItem />
 
