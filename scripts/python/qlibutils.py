@@ -504,6 +504,36 @@ def has_embedded_def(node):
     return r
 
 
+def get_node_author(node, username_only=False):
+    """Returns the author of the specified node.
+    """
+    author = '???'
+    try:
+        # digging up author info using an archaic command
+        author = hou.hscript('opstat -u %s' % node.path())[0].split(' ')[-1].split('\n')[0]
+        if username_only:
+            author = author.split("@")[0]
+    except:
+        pass # we can't hack the info out, just return '???'
+    return author
+
+
+def get_node_authors(nodes, username_only=False):
+    """Returns a list of authors for the specified list of nodes.
+    """
+    r = set()
+    for n in nodes:
+        r.add(get_node_author(n, username_only=username_only))
+    return list(r)
+
+
+def has_author(node, authors, username_only=False):
+    """Check if a node has one of the authors in the "authors" list.
+    """
+    a = get_node_author(node, username_only=username_only)
+    return a in authors
+
+
 def select_netview_nodes(kwargs, criteria):
     """.
     """
