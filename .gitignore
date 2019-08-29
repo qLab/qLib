@@ -15,3 +15,7 @@ gallery/backup
 # pycharm workspace stuff
 .idea/*
 
+# waf
+.lock*
+build/*
+
