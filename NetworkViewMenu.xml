@@ -36,6 +36,33 @@
         <subMenu id = "select_submenu_ql">
             <label>Select</label>
 
+            <scriptItem id="pane.wsheet.select_all_ql">
+                <label>Select All</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.set_netview_selection(kwargs, lambda n: True)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.select_none_ql">
+                <label>Select None</label>
+                <scriptCode><![CDATA[
+#import qlibutils
+#qlibutils.set_netview_selection(kwargs, lambda n: False)
+hou.clearAllSelected()
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.select_invert_ql">
+                <label>Select Invert</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.set_netview_selection(kwargs, lambda n: not n.isSelected())
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
             <scriptItem id="pane.wsheet.select_all_of_same_type_ql">
                 <label>All of Same Type</label>
                 <scriptCode><![CDATA[
@@ -177,9 +204,22 @@ hou.ui.displayMessage(str(kwargs))
 -->
         </subMenu>
 
-
         <subMenu id = "display_submenu_ql">
             <label>Display</label>
+
+            <scriptItem id="pane.wsheet.display_show_all_ql">
+                <label>Show All Nodes</label>
+                <scriptCode><![CDATA[
+sel = kwargs['editor'].pwd().children()
+for s in sel:
+    try:
+        hou.hscript("opset -e on %s" % s.path())
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
 
             <scriptItem id="pane.wsheet.display_isolate_selected_ql">
                 <label>Isolate Selected Nodes</label>
@@ -207,20 +247,6 @@ sel = hou.selectedNodes()
 for s in sel:
     try:
         hou.hscript("opset -e off %s" % s.path())
-    except:
-        pass
-                ]]></scriptCode>
-            </scriptItem>
-
-            <separatorItem />
-
-            <scriptItem id="pane.wsheet.display_show_all_ql">
-                <label>Show All Nodes</label>
-                <scriptCode><![CDATA[
-sel = kwargs['editor'].pwd().children()
-for s in sel:
-    try:
-        hou.hscript("opset -e on %s" % s.path())
     except:
         pass
                 ]]></scriptCode>
