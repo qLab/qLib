@@ -52,6 +52,10 @@ groupexpression/snippet
     [qL] Prim Volume: Larger than
     chf("tolerance") < primintrinsic(0, "measuredvolume", @elemnum)
 
+groupexpression/snippet
+    [qL] Group by Normal/Lookat Point
+    degrees( acos(dot(@N, normalize(chv("position")-@P))) ) < chf("angle")
+
 
 
 attribexpression/snippet

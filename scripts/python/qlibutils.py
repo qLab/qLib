@@ -542,6 +542,11 @@ def select_netview_nodes(kwargs, criteria):
     add_to_selection(sel, kwargs)
 
 
+def set_netview_selection(kwargs, criteria):
+    path = get_netview_path(kwargs)
+    for n in path.children():
+        n.setSelected(criteria(n))
+
 
 def paste_clipboard_to_netview(kwargs):
     """Paste clipboard contents (text or image) into the network editor.
