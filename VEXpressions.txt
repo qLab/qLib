@@ -143,4 +143,21 @@ attribwrangle/snippet
     i@id = @elemnum;
 
 
+popforce/localforceexpression
+    [qL] Magnitude by Ramp over Lifespan
+    force *= chramp("force_by_age", @nage);
+
+popforce/localforceexpression
+    [qL] Random Magnitude from id
+    // random magnitude from id          (exp,  min,    max)
+    force *= fit01( pow(rand(@id*12+34),  1.0),  0.25,  1.0 );
+
+popforce/localnoiseexpression
+    [qL] Magnitude by Ramp over Lifespan
+    amp *= chramp("amp_by_age", @nage);
+
+popforce/localnoiseexpression
+    [qL] Random Magnitude from id
+    // random magnitude from id        (exp,   min,   max)
+    amp *= fit01( pow(rand(@id*12+34),  1.0),  0.25,  1.0 );
 
