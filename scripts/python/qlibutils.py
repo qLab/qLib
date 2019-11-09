@@ -8,6 +8,7 @@
 
 import hou
 
+import datetime
 import glob
 import os
 import platform
@@ -571,8 +572,9 @@ def paste_clipboard_to_netview(kwargs):
         else:
             # paste image
 
-            # TODO: generate automatic name
-            image_name = ''
+            # generate automatic name
+            image_name = 'image_' + datetime.datetime.now().replace(microsecond=0).isoformat('_').replace(":", "")
+
             ok, image_name = hou.ui.readInput('Enter name of image to be pasted:',
                 buttons=('Ok', 'Cancel', ), close_choice=1,
                 initial_contents=image_name)
@@ -654,3 +656,5 @@ def embed_selected_hdas(kwargs):
         for d in defs:
             d.copyToHDAFile("Embedded")
             # TODO: switch definition? this seems to switch it
+#
+
