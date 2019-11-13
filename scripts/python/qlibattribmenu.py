@@ -6,6 +6,69 @@
         @brief      Functions for building attribute popup menus.
 """
 
+"""
+
+*** History entry for related change (update date accordingly) ***
+
+2019-11-13:
+    - Updated attribute popup menu(s) to use shared menu python code ([#899|https://github.com/qLab/qLib/issues/899])
+
+
+
+*** Some Make-Me-Life-Easier Codez ***
+
+
+
+# use "class" parameter to determine if point, prim, etc
+# and return numeric attribs
+#
+import traceback
+r = []
+try:
+    import qlibattribmenu as qm
+    r = qm.buildAttribMenu(kwargs,
+        hou.pwd().parm("class").evalAsString(),
+        filter=qm.isNumeric )
+except:
+    r = ["", ":("]
+    print traceback.format_exc()
+return r
+
+
+
+# list ALL attributes
+# instead of "all" use "comp" or "component" to list all but detail attribs
+#
+import traceback
+r = []
+try:
+    import qlibattribmenu as qm
+    r = qm.buildAttribMenu(kwargs,
+        "all")
+except:
+    r = ["", ":("]
+    print traceback.format_exc()
+return r
+
+
+
+# list per-prim and per-point attributes, of type int or string
+#
+import traceback
+r = []
+try:
+    import qlibattribmenu as qm
+    r = qm.buildAttribMenu(kwargs,
+        "prim point",
+        filter=lambda a: qm.isInt(a) or qm.isString(a) )
+except:
+    r = ["", "couldn't build this menu :("]
+    print traceback.format_exc()
+return r
+"""
+
+
+
 import hou
 
 import re
