@@ -45,7 +45,7 @@ def buildAttribLabel(a, showClass=True):
     s = len(a.strings())
     if s>0: ax.append('strings:%d' % s)
 
-    ax = ' (%s)' % ', '.join(ax) if len(ax) else ''
+    ax = '  (%s)' % ', '.join(ax) if len(ax) else ''
     R = '%s@  %s%s' % (ty, a.name(), ax, )
     return R
 
@@ -90,8 +90,7 @@ def buildAttribMenu(
 
     attribClass = tuple(sorted(attribClass))
 
-    #print "inputGeo:", str(inputGeo)
-    #print "attribClass:", str(attribClass)
+    # got inputGeo and attribClass (hopefully)
 
     if not inputGeo:
         raise hou.OperationFailed("Couldn't determine input geometry")
@@ -110,6 +109,7 @@ def buildAttribMenu(
         show_class = showClass
 
     R = []
+    add_sep = False
     for c in attribClass:
 
         # get them attributes
@@ -124,14 +124,16 @@ def buildAttribMenu(
         # sort 'em alphabetically
         attribs = sorted(attribs, key = lambda a: a.name().lower())
 
+        # add menu separator between classes
+        if add_sep and len(attribs)>0:
+            R.append("_separator_")
+            R.append("")
+
         for a in attribs:
             R.append(a.name())
             R.append(buildAttribLabel(a, showClass=show_class))
 
-        # add menu separator between classes
-        if c!=attribClass[-1]:
-            R.append("_separator_")
-            R.append("")
+        add_sep = True
 
     return R
 
