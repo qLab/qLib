@@ -20,8 +20,9 @@ def buildAttribLabel(a, showClass=True):
         - show unique values for ints too? not just strings?
     """
     assert type(a) is hou.Attrib
-
+    csh = { "global": "detail", "point": "pt", "vertex": "vtx" }
     had=hou.attribData
+
     td = { had.String:'s', had.Int:'i', had.Float:'f' }
     t = a.dataType()
     ts = a.size()
@@ -33,7 +34,9 @@ def buildAttribLabel(a, showClass=True):
 
     ax=[]
     if showClass:
-        ax.append( re.search('[^.]+$', str(a.type()) ).group(0) )
+        c = re.search('[^.]+$', str(a.type()) ).group(0).lower()
+        if c in csh: c = csh[c]
+        ax.append(c)
 
     q = a.qualifier()
     if q and q!='':
@@ -43,7 +46,7 @@ def buildAttribLabel(a, showClass=True):
     if s>0: ax.append('strings:%d' % s)
 
     ax = ' (%s)' % ', '.join(ax) if len(ax) else ''
-    R = '%s@ %s%s' % (ty, a.name(), ax, )
+    R = '%s@  %s%s' % (ty, a.name(), ax, )
     return R
 
 
@@ -78,9 +81,14 @@ def buildAttribMenu(
     if "all" in attribClass:
         attribClass = ("point", "primitive", "vertex", "detail", )
 
+    if "comp" in attribClass or "component" in attribClass:
+        attribClass = ("point", "primitive", "vertex", )
+
     if type(attribClass) is not tuple:
         # this is intended for lists
         attribClass = tuple(attribClass)
+
+    attribClass = tuple(sorted(attribClass))
 
     #print "inputGeo:", str(inputGeo)
     #print "attribClass:", str(attribClass)
@@ -94,7 +102,8 @@ def buildAttribMenu(
         "primitive": "primAttribs",
         "prim": "primAttribs",
         "vertex": "vertexAttribs",
-        "detail": "globalAttribs" }
+        "detail": "globalAttribs",
+        "global": "globalAttribs" }
 
     show_class = len(attribClass)>1
     if showClass:
@@ -102,35 +111,39 @@ def buildAttribMenu(
 
     R = []
     for c in attribClass:
+
+        # get them attributes
         attribs = ()
         if c in get_funcs:
             attribs = inputGeo.__getattribute__(get_funcs[c])()
 
-        #print "GOT ATTRIBS --"
-        #print c, str(attribs)
-
+        # filter them if required
         if filter:
             attribs = [ a for a in attribs if filter(a) ]
 
-        #print "GOT FILTERED --"
-        #print c, str(attribs)
-
+        # sort 'em alphabetically
         attribs = sorted(attribs, key = lambda a: a.name().lower())
-
-        #print "GOT SORTED --"
-        #print c, str(attribs)
 
         for a in attribs:
             R.append(a.name())
             R.append(buildAttribLabel(a, showClass=show_class))
 
+        # add menu separator between classes
         if c!=attribClass[-1]:
-            # add menu separator between classes
             R.append("_separator_")
             R.append("")
 
     return R
 
+
+
+def isNumeric(hou_attrib):
+    """Convenience filter function for numeric (int/float of size 1) attributes.
+    """
+    assert type(hou_attrib) is hou.Attrib, "invalid argument"
+
+    return \
+        hou_attrib.dataType()!=hou.attribData.String
 
 
 def isNumber(hou_attrib):
@@ -140,6 +153,26 @@ def isNumber(hou_attrib):
 
     return \
         hou_attrib.dataType()!=hou.attribData.String and \
+        hou_attrib.size()==1
+
+
+def isInt(hou_attrib):
+    """Convenience filter function for numeric (int/float of size 1) attributes.
+    """
+    assert type(hou_attrib) is hou.Attrib, "invalid argument"
+
+    return \
+        hou_attrib.dataType()==hou.attribData.Int and \
+        hou_attrib.size()==1
+
+
+def isString(hou_attrib):
+    """Convenience filter function for string attributes.
+    """
+    assert type(hou_attrib) is hou.Attrib, "invalid argument"
+
+    return \
+        hou_attrib.dataType()==hou.attribData.String and \
         hou_attrib.size()==1
 
 
