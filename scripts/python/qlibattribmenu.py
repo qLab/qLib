@@ -138,61 +138,60 @@ def buildAttribMenu(
 
 
 def isNumeric(hou_attrib):
-    """Convenience filter function for numeric (int/float of size 1) attributes.
+    """Convenience filter function for numeric attributes (floats, ints, vectors).
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()!=hou.attribData.String
+
 
 
 def isNumber(hou_attrib):
     """Convenience filter function for numeric (int/float of size 1) attributes.
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()!=hou.attribData.String and \
         hou_attrib.size()==1
 
 
+
 def isInt(hou_attrib):
-    """Convenience filter function for numeric (int/float of size 1) attributes.
+    """Convenience filter function for integer attributes.
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()==hou.attribData.Int and \
         hou_attrib.size()==1
+
 
 
 def isString(hou_attrib):
     """Convenience filter function for string attributes.
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()==hou.attribData.String and \
         hou_attrib.size()==1
+
 
 
 def isVector(hou_attrib):
     """Convenience filter function for numeric (int/float of size 3) attributes.
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()!=hou.attribData.String and \
         hou_attrib.size()==3
+
 
 
 def isVector4(hou_attrib):
-    """Convenience filter function for numeric (int/float of size 3) attributes.
+    """Convenience filter function for numeric (int/float of size 4) attributes.
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()!=hou.attribData.String and \
-        hou_attrib.size()==3
+        hou_attrib.size()==4
 
 
