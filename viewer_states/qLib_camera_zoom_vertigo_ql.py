@@ -15,7 +15,7 @@ class ScrubState(object):
         pass
         self.scene_viewer.setPromptMessage(
             "Drag left/right to adjust. Use RMB menu to select mode.\n\n"
-            "Shift+Left Click to specify new dolly-zoom focal distance"
+            #"Shift+Left Click to specify new dolly-zoom focal distance"
             )
 
     def onExit(self, kwargs):
@@ -38,6 +38,10 @@ class ScrubState(object):
             # left mouse button is down
             x = device.mouseX()
             y = device.mouseY()
+
+            if device.isShiftKey():
+                prim = viewport.queryPrimAtPixel(None, int(x), int(y))
+                print "prim:", prim
 
             if not self._undo:
                 self._undo = True
@@ -66,22 +70,20 @@ class ScrubState(object):
                     dist = t-self._cam_p
                     dist = dist.length()
                     f = self._cam_focal * (dist / self._dist_orig)
-                    #cam.setFocalLength(f)
+                    cam.setFocalLength(f)
                 
             else:
                 self._base_xy = (x, y, )
                 self._cam_focal = cam.focalLength()
                 self._cam_p = hou.Vector3(cam.pivot()) # view pivot
                 self._cam_t = hou.Vector3(cam.translation()) # camera translation
-                d = self._cam_t - self._cam_p
+                self._cam_ws = hou.Vector3(0,0,0) * viewport.viewTransform() # camera pt in world space
+                d = self._cam_ws - self._cam_p
                 self._dist_orig = d.length()
-                # TODO: FIX THIS-- dolly dir should always point towards camera direction!
-                d = hou.Vector3(0,0,1)# * cam.rotation().inverted()
-                # WTF?! just {0,0,1} works?!?!
                 d = d.normalized()
-                self._dolly_dir = d
-                print "_cam_t", self._cam_t
-                #print "_cam_p", self._cam_p
+                # TODO: FIX THIS-- dolly dir should always point towards camera direction!
+                # wtf-- {0,0,1} works?
+                self._dolly_dir = hou.Vector3(0,0,1) # was d
         else:
             # no left mouse button
             self._base_xy = None
