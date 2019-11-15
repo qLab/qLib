@@ -6,6 +6,69 @@
         @brief      Functions for building attribute popup menus.
 """
 
+"""
+
+*** History entry for related change (update date accordingly) ***
+
+2019-11-13:
+    - Updated attribute popup menu(s) to use shared menu python code ([#899|https://github.com/qLab/qLib/issues/899])
+
+
+
+*** Some Make-Me-Life-Easier Codez ***
+
+
+
+# use "class" parameter to determine if point, prim, etc
+# and return numeric attribs
+#
+import traceback
+r = []
+try:
+    import qlibattribmenu as qm
+    r = qm.buildAttribMenu(kwargs,
+        hou.pwd().parm("class").evalAsString(),
+        filter=qm.isNumeric )
+except:
+    r = ["", ":("]
+    print traceback.format_exc()
+return r
+
+
+
+# list ALL attributes
+# instead of "all" use "comp" or "component" to list all but detail attribs
+#
+import traceback
+r = []
+try:
+    import qlibattribmenu as qm
+    r = qm.buildAttribMenu(kwargs,
+        "all")
+except:
+    r = ["", ":("]
+    print traceback.format_exc()
+return r
+
+
+
+# list per-prim and per-point attributes, of type int or string
+#
+import traceback
+r = []
+try:
+    import qlibattribmenu as qm
+    r = qm.buildAttribMenu(kwargs,
+        "prim point",
+        filter=lambda a: qm.isInt(a) or qm.isString(a) )
+except:
+    r = ["", "couldn't build this menu :("]
+    print traceback.format_exc()
+return r
+"""
+
+
+
 import hou
 
 import re
@@ -45,7 +108,7 @@ def buildAttribLabel(a, showClass=True):
     s = len(a.strings())
     if s>0: ax.append('strings:%d' % s)
 
-    ax = ' (%s)' % ', '.join(ax) if len(ax) else ''
+    ax = '  (%s)' % ', '.join(ax) if len(ax) else ''
     R = '%s@  %s%s' % (ty, a.name(), ax, )
     return R
 
@@ -90,8 +153,7 @@ def buildAttribMenu(
 
     attribClass = tuple(sorted(attribClass))
 
-    #print "inputGeo:", str(inputGeo)
-    #print "attribClass:", str(attribClass)
+    # got inputGeo and attribClass (hopefully)
 
     if not inputGeo:
         raise hou.OperationFailed("Couldn't determine input geometry")
@@ -110,6 +172,7 @@ def buildAttribMenu(
         show_class = showClass
 
     R = []
+    add_sep = False
     for c in attribClass:
 
         # get them attributes
@@ -124,75 +187,76 @@ def buildAttribMenu(
         # sort 'em alphabetically
         attribs = sorted(attribs, key = lambda a: a.name().lower())
 
+        # add menu separator between classes
+        if add_sep and len(attribs)>0:
+            R.append("_separator_")
+            R.append("")
+
         for a in attribs:
             R.append(a.name())
             R.append(buildAttribLabel(a, showClass=show_class))
 
-        # add menu separator between classes
-        if c!=attribClass[-1]:
-            R.append("_separator_")
-            R.append("")
+        add_sep = True
 
     return R
 
 
 
 def isNumeric(hou_attrib):
-    """Convenience filter function for numeric (int/float of size 1) attributes.
+    """Convenience filter function for numeric attributes (floats, ints, vectors).
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()!=hou.attribData.String
+
 
 
 def isNumber(hou_attrib):
     """Convenience filter function for numeric (int/float of size 1) attributes.
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()!=hou.attribData.String and \
         hou_attrib.size()==1
 
 
+
 def isInt(hou_attrib):
-    """Convenience filter function for numeric (int/float of size 1) attributes.
+    """Convenience filter function for integer attributes.
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()==hou.attribData.Int and \
         hou_attrib.size()==1
+
 
 
 def isString(hou_attrib):
     """Convenience filter function for string attributes.
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()==hou.attribData.String and \
         hou_attrib.size()==1
+
 
 
 def isVector(hou_attrib):
     """Convenience filter function for numeric (int/float of size 3) attributes.
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()!=hou.attribData.String and \
         hou_attrib.size()==3
+
 
 
 def isVector4(hou_attrib):
-    """Convenience filter function for numeric (int/float of size 3) attributes.
+    """Convenience filter function for numeric (int/float of size 4) attributes.
     """
     assert type(hou_attrib) is hou.Attrib, "invalid argument"
-
     return \
         hou_attrib.dataType()!=hou.attribData.String and \
-        hou_attrib.size()==3
+        hou_attrib.size()==4
 
 
