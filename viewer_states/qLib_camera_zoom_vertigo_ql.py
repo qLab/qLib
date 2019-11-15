@@ -1,22 +1,30 @@
 import hou
 
 
-class ScrubState(object):
+class CameraZoomVertigo_qL_State(object):
     def __init__(self, scene_viewer, state_name):
         self.state_name = state_name
         self.scene_viewer = scene_viewer
         self._base_xy = None
         self._cam_focal = None
-        self._cam_p = None
-        self._cam_t = None
+        self._cam_p = None          # camera pivot (look-at point) in world space
+        self._cam_t = None          # camera tranaslation in camera-something space
+        self._cam_ws = None         # camera position in world space
         self._undo = False
 
     def onGenerate(self, kwargs):
-        pass
         self.scene_viewer.setPromptMessage(
-            "Drag left/right to adjust. Use RMB menu to select mode.\n\n"
-            #"Shift+Left Click to specify new dolly-zoom focal distance"
+            "<--  Drag left/right  -->\n"
+            "\nLMB: Dolly/Zoom ('Vertigo')"
+            "   MMB: Focal Length Zoom"
+            "   RMB: Dolly"
+            "\nHold SPACE for regular viewport navigation",
+            #"\n\nShift+Left Click to specify new dolly-zoom focal distance"
+            hou.promptMessageType.Message
             )
+
+    def onResume(self, kwargs):
+        self.onGenerate(kwargs)
 
     def onExit(self, kwargs):
         self.scene_viewer.clearPromptMessage()
@@ -34,7 +42,10 @@ class ScrubState(object):
 
         # TODO: shift-LMB should specify new vertigo distance!
 
-        if device.isLeftButton():
+        lmb = device.isLeftButton()
+        mmb = device.isMiddleButton()
+        rmb = device.isRightButton()
+        if lmb or mmb or rmb:
             # left mouse button is down
             x = device.mouseX()
             y = device.mouseY()
@@ -47,15 +58,15 @@ class ScrubState(object):
                 self._undo = True
                 self.scene_viewer.beginStateUndo("Zoom")
                 #print "begin undo"
-            
+
             if self._base_xy:
                 dx = x - self._base_xy[0]
                 dy = y - self._base_xy[1]
                 delta = dx
-                
+
                 #print "delta:", delta
-                
-                if kwargs["mode"]=="zoom":
+
+                if mmb: # kwargs["mode"]=="zoom":
                     # regular zoom
                     f = self._cam_focal + delta * 0.1
                     cam.setFocalLength(f)
@@ -66,12 +77,16 @@ class ScrubState(object):
                     width, _ = self.scene_viewer.contentSize()
                     t = self._cam_t - self._dolly_dir * (delta/width)*2.0*self._dist_orig
 
-                    cam.setTranslation(t) # NOTE: this might throw an exception
-                    dist = t-self._cam_p
-                    dist = dist.length()
-                    f = self._cam_focal * (dist / self._dist_orig)
-                    cam.setFocalLength(f)
-                
+                    try:
+                        cam.setTranslation(t) # NOTE: this might throw an exception
+                        if lmb:
+                            dist = t-self._cam_p
+                            dist = dist.length()
+                            f = self._cam_focal * (dist / self._dist_orig)
+                            cam.setFocalLength(f)
+                    except:
+                        pass
+
             else:
                 self._base_xy = (x, y, )
                 self._cam_focal = cam.focalLength()
@@ -80,10 +95,7 @@ class ScrubState(object):
                 self._cam_ws = hou.Vector3(0,0,0) * viewport.viewTransform() # camera pt in world space
                 d = self._cam_ws - self._cam_p
                 self._dist_orig = d.length()
-                d = d.normalized()
-                # TODO: FIX THIS-- dolly dir should always point towards camera direction!
-                # wtf-- {0,0,1} works?
-                self._dolly_dir = hou.Vector3(0,0,1) # was d
+                self._dolly_dir = hou.Vector3(0,0,1)
         else:
             # no left mouse button
             self._base_xy = None
@@ -103,14 +115,15 @@ def createViewerStateTemplate():
             hou.objNodeTypeCategory(),
             #contexts = [ hou.sopNodeTypeCategory(), hou.dopNodeTypeCategory(), hou.lopNodeTypeCategory(), ],
         )
-    template.bindFactory(ScrubState)
+    template.bindFactory(CameraZoomVertigo_qL_State)
 
-    menu = hou.ViewerStateMenu(state_name, state_label)
-    menu.addRadioStrip("mode", "Mode", "vertigo")
-    menu.addRadioStripItem("mode", "vertigo", "Dolly-Zoom ('Vertigo')")
-    menu.addRadioStripItem("mode", "zoom", "Regular Zoom (focal length)")
-    template.bindMenu(menu)
-    
+    if False:
+        menu = hou.ViewerStateMenu(state_name, state_label)
+        menu.addRadioStrip("mode", "Mode", "vertigo")
+        menu.addRadioStripItem("mode", "vertigo", "Dolly-Zoom ('Vertigo')")
+        menu.addRadioStripItem("mode", "zoom", "Regular Zoom (focal length)")
+        template.bindMenu(menu)
+
     return template
 
 
