@@ -8,6 +8,7 @@
   <toolshelf name="qLib" label="qLib">
     <memberTool name="qLib::AccessShotNode"/>
     <memberTool name="qLib::ToggleViewportBackgroundColor"/>
+    <memberTool name="qLib::camera_dolly_zoom_ql"/>
     <memberTool name="qLib::ToggleIntegerFrames"/>
     <memberTool name="qLib::ReferenceCopy"/>
     <memberTool name="qLib::AttribDisplayMarkers"/>
@@ -974,6 +975,34 @@ if r==0:
     <script scriptType="python"><![CDATA[import qlibutils
 
 qlibutils.do_crash_recovery()
+
+]]></script>
+  </tool>
+
+  <tool name="qLib::camera_dolly_zoom_ql" label="dolly/zoom" icon="OBJ_camera">
+    <helpText><![CDATA[#icon: OBJ/camera
+#type: tool
+
+= Camera Dolly/Zoom qL =
+
+*version 1*
+
+"""Switches to the dolly/zoom ('vertigo') camera viewport state (H17.5+).
+"""
+]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+v = hou.applicationVersion()
+
+if v[0]>=17 and v[1]>=5:
+    try:
+        import stateutils
+        viewer = stateutils.findSceneViewer()
+        viewer.setCurrentState("qLib::camera_zoom_vertigo_ql")
+    except:
+        pass
+else:
+    hou.ui.displayMessage("This requires Houdini 17.5 or higher")
+
 
 ]]></script>
   </tool>
