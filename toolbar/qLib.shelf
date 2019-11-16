@@ -997,13 +997,19 @@ if v[0]>=17 and v[1]>=5:
     try:
         import stateutils
         viewer = stateutils.findSceneViewer()
-        viewer.setCurrentState("qLib::camera_zoom_vertigo_ql")
+        # this is: obj, sop, dop
+        t = viewer.pwd().childTypeCategory().name().lower()[:3]
+        type = "qLib::camera_zoom_vertigo_ql_%s" % t
+
+        # do some proper checking if the state exists
+        try:
+            viewer.setCurrentState(type)
+        except:
+            pass
     except:
         pass
 else:
     hou.ui.displayMessage("This requires Houdini 17.5 or higher")
-
-
 ]]></script>
   </tool>
 </shelfDocument>
