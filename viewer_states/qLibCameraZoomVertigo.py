@@ -1,7 +1,7 @@
 import hou
 
 
-class CameraZoomVertigo_qL_State(object):
+class State(object):
     def __init__(self, scene_viewer, state_name):
         self.state_name = state_name
         self.scene_viewer = scene_viewer
@@ -103,28 +103,6 @@ class CameraZoomVertigo_qL_State(object):
                 self._undo = False
                 self.scene_viewer.endStateUndo()
                 #print "end undo"
-
-
-
-def createViewerStateTemplate():
-    state_name = "qLib::camera_zoom_vertigo_ql"
-    state_label = "Camera Zoom/Vertigo [qL]"
-    template = hou.ViewerStateTemplate(
-            state_name,
-            state_label,
-            hou.objNodeTypeCategory(),
-            #contexts = [ hou.sopNodeTypeCategory(), hou.dopNodeTypeCategory(), hou.lopNodeTypeCategory(), ],
-        )
-    template.bindFactory(CameraZoomVertigo_qL_State)
-
-    if False:
-        menu = hou.ViewerStateMenu(state_name, state_label)
-        menu.addRadioStrip("mode", "Mode", "vertigo")
-        menu.addRadioStripItem("mode", "vertigo", "Dolly-Zoom ('Vertigo')")
-        menu.addRadioStripItem("mode", "zoom", "Regular Zoom (focal length)")
-        template.bindMenu(menu)
-
-    return template
 
 
 

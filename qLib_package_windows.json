@@ -1,0 +1,16 @@
+{
+    "env": [
+        {
+            "QLIB": "$HIH/qLib-dev",
+        },
+        {
+            "QOTL": "$QLIB/otls",
+        },
+        {
+            "HOUDINI_OTLSCAN_PATH": "$QOTL/base;$QOTL/future;$QOTL/experimental;$HOUDINI_OTLSCAN_PATH",
+        },
+    ],
+    
+    "path": "$QLIB",
+}
+

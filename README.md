@@ -65,11 +65,21 @@ revert to previous versions quick, etc.)
 
 #### 2. Adding it to the Houdini environment
 
+##### Houdini 17.5 or higher ("plugin" method)
+
+- Create a folder called **packages** in your Houdini config folder (in your home dir)
+- Copy the **qLib_linux.json** (or **qLib_windows.json**) file into the **packages** folder
+
+[To read more on configuration, see the documentation on Packages](https://www.sidefx.com/docs/houdini/ref/plugins.html)
+
+##### Older Houdini versions
+
 We provide example *houdini.env* files (windows and linux) which can be
 *appended to your houdini.env file in your Houdini config folder*
 (the HoudiniXX.X/ folder in your home directory).
 
 [To read more on configuration, see the documentation on houdini.env](http://www.sidefx.com/docs/houdini/basics/config_env)
+
 
 #### 2a. Important note for facilities
 
