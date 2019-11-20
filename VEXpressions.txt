@@ -131,6 +131,11 @@ attribwrangle/snippet
     v@P += v;
 
 attribwrangle/snippet
+    [qL] Extract packed prim full transform
+    // Use the 'xform' attribute with a Transform by Attrib SOP
+    4@xform = primintrinsic(0, "packedfulltransform", @primnum);
+
+attribwrangle/snippet
     [qL] id attribute to name ("pieceNNN")
     s@name = sprintf("piece%d", i@id);
 
