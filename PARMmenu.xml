@@ -245,6 +245,50 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Hermite)
 
 		</subMenu>
 
+		<subMenu id="qlib_string_rel_ref_menu">
+			<label>Reference String Parm [qL]</label>
+			<modifyItem><insertAfter>qlib_menu</insertAfter></modifyItem>
+			<context>
+				<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+			</context>
+
+			<scriptMenuStripDynamic id="qlib_string_rel_ref_items">
+			<contentsScriptCode><![CDATA[
+			n = kwargs["parms"][0].node() # hou.node('/obj/geo1/null1')
+
+			nodes = hou.hscript("opdepend -i %s" % n.path())[0].split()
+			nodes = [ hou.node(n) for n in nodes ]
+
+			types = ( hou.parmTemplateType.String, )
+			parms = []
+
+			for node in nodes:
+				parms += [ pt[0] for pt in node.parmTuples() \
+							if (pt.parmTemplate().type() in types) \
+							and pt[0].evalAsString()!="" \
+							and pt[0].isDisabled()==False \
+							and pt[0].isHidden()==False ]
+
+			parms = [ p.path() for p in parms ]
+
+			menu_items = []
+			for pn in parms:
+				p = hou.parm(pn)
+				menu_items.append(pn)
+				menu_items.append('"%s"  (%s)' % (p.evalAsString(), pn, ) )
+
+			return menu_items
+			]]></contentsScriptCode>
+			<scriptCode><![CDATA[
+src = hou.parmTuple(kwargs["selectedtoken"])
+for parm in kwargs["parms"]:
+	parm.deleteAllKeyframes()
+	parm.tuple().set(src)
+]]></scriptCode>
+	</scriptMenuStripDynamic>
+
+		</subMenu>
+
 
 
 	</menu>
