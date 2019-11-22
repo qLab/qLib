@@ -244,6 +244,27 @@ import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
 			</scriptCode>
 		</scriptItem>
 
+		<separatorItem id="file_menu_sep_ql_save_pre">
+			<modifyItem><insertAfter>saveastype_strip</insertAfter></modifyItem>
+		</separatorItem>
+
+		<scriptItem id="h.ql_hip_revert">
+			<modifyItem><insertAfter>file_menu_sep_ql_save_pre</insertAfter></modifyItem>
+			<label>Revert to Last Saved</label>
+			<scriptCode><![CDATA[
+import os.path
+import qlibutils
+file = hou.hipFile.path()
+if os.path.isfile(file):
+	do_it = hou.ui.displayMessage(
+		"Revert to last saved version of the file?",
+		buttons=("Revert", "Cancel", ),
+		default_choice=1, close_choice=1)
+	if do_it==0:
+		hou.hipFile.load(file_name=file)]]>
+			</scriptCode>
+		</scriptItem>
+
 
 	</subMenu>
 
