@@ -282,12 +282,13 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Hermite)
 			menu_items = []
 			for pn in parms:
 				p = hou.parm(pn)
-				rel_path = [ node.relativePathTo(p.node())+"/"+p.name() ]
+				rel_pn = node.relativePathTo(p.node())+"/"+p.name()
+				rel_path = [ rel_pn ]
 				if len(p.keyframes())>0 or p.evalAsString()!=p.rawValue():
 					rel_path += [ "<anim/expr>" ]
 				rel_path = "  ".join(rel_path)
 
-				menu_items.append(pn)
+				menu_items.append(rel_pn)
 				menu_items.append('"%s"  ( %s )' % (p.evalAsString(), rel_path, ) )
 
 			return menu_items
@@ -296,7 +297,9 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Hermite)
 src = hou.parmTuple(kwargs["selectedtoken"])
 for parm in kwargs["parms"]:
 	parm.deleteAllKeyframes()
-	parm.tuple().set(src)
+	parm.revertToDefaults()
+	#parm.tuple().set(src)
+	parm.set("`chs(\"%s\""")`" % kwargs["selectedtoken"])
 ]]></scriptCode>
 	</scriptMenuStripDynamic>
 
