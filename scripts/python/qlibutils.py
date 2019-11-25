@@ -37,6 +37,10 @@ def is_mac():
     return is_platform('mac')
 
 
+def houVersionAsFloat():
+    v = hou.applicationVersion()
+    return float( "%d.%d" % (v[0], v[1], ) )
+
 
 def statmsg(msg, warn=False):
     """.
