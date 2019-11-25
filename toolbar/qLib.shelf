@@ -990,10 +990,11 @@ qlibutils.do_crash_recovery()
 """Switches to the dolly/zoom ('vertigo') camera viewport state (H17.5+).
 """
 ]]></helpText>
-    <script scriptType="python"><![CDATA[import hou
-v = hou.applicationVersion()
+    <script scriptType="python"><![CDATA[import qlibutils
 
-if v[0]>=17 and v[1]>=5:
+v = qlibutils.houVersionAsFloat()
+
+if v>=17.5:
     try:
         import stateutils
         viewer = stateutils.findSceneViewer()
