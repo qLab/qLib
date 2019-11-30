@@ -606,6 +606,9 @@ def paste_clipboard_to_netview(kwargs):
                 
                 if len(nodes)==0:
                     node = hou.node('/obj').createNode(hda_typename, node_name="embedded_images")
+                    node.setComment("embedded BG images for network views\n(do not delete)")
+                    hou.hscript("opset -Y on %s" % node.path())
+                    pass # set comment "do not delete"
         
                 # add clipboard image to hda definition (as section)
                 ba = Qt.QtCore.QByteArray();
