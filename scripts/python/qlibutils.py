@@ -50,6 +50,20 @@ def statmsg(msg, warn=False):
         hou.ui.setStatusMessage(msg, severity=s)
 
 
+def ynreq(text="Are you sure?",
+    buttons=("Yes", "No", ) ):
+    """Shows an "Are you sure Y/N" style yes/no dialog.
+    """
+    do_it = 1
+    try:
+        do_it = hou.ui.displayMessage(text,
+            buttons=buttons,
+            default_choice=1, close_choice=1)
+    except:
+        print "ERROR: %s" % traceback.format_exc()
+    return do_it==0
+
+
 def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
     """Defines (non-)namespaced aliases for operators with a particular namespace prefix.
 
@@ -181,8 +195,7 @@ def do_crash_recovery(calledFromUI=False):
                 'NOTE: Update mode is set to "Manual" to avoid potential re-crashes.\n' \
                 '\n%s' % msg
 
-        d = hou.ui.displayMessage(msg, buttons=("DELETE", "Skip", ))
-        if d == 0:
+        if ynreq(msg, buttons=("DELETE", "Skip", )):
             files = \
                 glob.glob(os.path.join(tmpdir, 'crash.*')) + \
                 glob.glob(os.path.join(tmpdir, '*.hip'))
@@ -418,13 +431,14 @@ def backup_rop_output_file():
 def remove_embedded_hdas():
     """Remove all embedded HDAs from the scene.
     """
-    do_it = hou.ui.displayMessage(
+    do_it = ynreq(
         "Remove all Embdedded HDAs (OTLs) from the current scene?\n"
-        "Warning: This cannot be undone!",
-        buttons=("Ok", "Cancel", ),
-        default_choice=1, close_choice=1)
+        "Warning: This cannot be undone!\n\n"
+        "NOTE: Embedded definitions that don't have a non-embedded version available\n"
+        "will not be removed.",
+        buttons=("Ok", "Cancel", ))
 
-    if do_it==0:
+    if do_it:
         hou.hda.uninstallFile("Embedded")
 
 
@@ -654,12 +668,7 @@ def embed_selected_hdas(kwargs):
     msg = "Embed the following HDA(s) into the current hip file?\n\n"
     msg += "\n".join([ "HDA:  %s\npath:  %s\n" % (d.nodeType().name(), d.libraryFilePath(), ) for d in defs ])
 
-    do_it = hou.ui.displayMessage(
-        msg,
-        buttons=("Embed", "Cancel", ),
-        default_choice=1, close_choice=1)
-
-    if do_it==0:
+    if ynreq(msg, buttons=("Embed", "Cancel", )):
         for d in defs:
             d.copyToHDAFile("Embedded")
             # TODO: switch definition? this seems to switch it
