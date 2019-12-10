@@ -335,13 +335,18 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Hermite)
 
 			# TODO: filter out menus so it'll be only string fields!
 			def iz_good(pt):
-				p = pt[0]
-				t = pt[0].parmTemplate()
-				s = p.evalAsString()
-				return \
-					(pt.parmTemplate().type() in types) \
-					and s!="" and "/" not in s \
-					and not p.isDisabled() and not p.isHidden()
+				r = False
+				try:
+					p = pt[0]
+					t = pt[0].parmTemplate()
+					s = p.evalAsString()
+					r = \
+						(pt.parmTemplate().type() in types) \
+						and s!="" and "/" not in s \
+						and not p.isDisabled() and not p.isHidden()
+				except:
+					pass
+				return r
 
 			for n in nodes:
 				n.updateParmStates()
