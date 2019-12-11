@@ -49,7 +49,7 @@
 			</context>
 			<modifyItem><insertAfter>revert_to_prev_val</insertAfter></modifyItem>
 			<scriptCode><![CDATA[
-import qlibutils; qlibutils.toggle_abs_rel_path(kwargs)
+import qlibmenutools; qlibmenutools.toggle_abs_rel_path(kwargs)
 ]]></scriptCode>
 		</scriptItem>
 
@@ -69,8 +69,7 @@ import qlibutils; qlibutils.toggle_abs_rel_path(kwargs)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils, os
-qlibutils.open_dir( os.path.dirname(str(kwargs['parms'][0].eval())) )
+import qlibmenutools; qlibmenutools.open_as_fs_path(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -100,13 +99,7 @@ kwargs['parms'][0].evalAsNode().setSelected(True)
 				</context>
 				<scriptCode><![CDATA[
 import qlibmenutools
-try:
-	qlibmenutools.reset_parms(kwargs)
-	parms = qlibmenutools.get_all_parms(kwargs)
-	for parm in parms:
-		parm.set("%s`opinputpath('..', 0)`" % ('op:' if kwargs['ctrlclick'] else '') )
-except:
-	pass
+qlibmenutools.set_parent_opinput(kwargs, 0)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -120,14 +113,7 @@ except:
 				</context>
 				<scriptCode><![CDATA[
 import qlibmenutools
-try:
-	qlibmenutools.reset_parms(kwargs)
-	parms = qlibmenutools.get_all_parms(kwargs)
-	for parm in parms:
-		parm.set("%s`opinputpath('..', 1)`" % ('op:' if kwargs['ctrlclick'] else '') )
-except:
-	pass
-
+qlibmenutools.set_parent_opinput(kwargs, 1)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -142,14 +128,7 @@ except:
 				</context>
 				<scriptCode><![CDATA[
 import qlibmenutools
-try:
-	qlibmenutools.reset_parms(kwargs)
-	parms = qlibmenutools.get_all_parms(kwargs)
-	for parm in parms:
-		parm.set("%s`opinputpath('..', 2)`" % ('op:' if kwargs['ctrlclick'] else '') )
-except:
-	pass
-
+qlibmenutools.set_parent_opinput(kwargs, 2)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -164,14 +143,7 @@ except:
 				</context>
 				<scriptCode><![CDATA[
 import qlibmenutools
-try:
-	qlibmenutools.reset_parms(kwargs)
-	parms = qlibmenutools.get_all_parms(kwargs)
-	for parm in parms:
-		parm.set("%s`opinputpath('..', 3)`" % ('op:' if kwargs['ctrlclick'] else '') )
-except:
-	pass
-
+qlibmenutools.set_parent_opinput(kwargs, 3)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -188,8 +160,7 @@ except:
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; reload(qlibutils);
-qlibutils.add_parm_value_multiplier(kwargs)
+import qlibmenutools; qlibmenutools.add_parm_value_multiplier(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -202,8 +173,7 @@ qlibutils.add_parm_value_multiplier(kwargs)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; reload(qlibutils);
-qlibutils.add_parm_value_multiplier(kwargs, add_exponent=True)
+import qlibmenutools; qlibmenutools.add_parm_value_multiplier(kwargs, add_exponent=True)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -228,7 +198,7 @@ qlibutils.add_parm_value_multiplier(kwargs, add_exponent=True)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Constant)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Constant)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -241,7 +211,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Constant)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Linear)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Linear)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -254,7 +224,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Linear)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.CatmullRom)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.CatmullRom)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -267,7 +237,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.CatmullRom)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.MonotoneCubic)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.MonotoneCubic)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -280,7 +250,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.MonotoneCubic)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Bezier)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Bezier)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -293,7 +263,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Bezier)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.BSpline)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.BSpline)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -306,14 +276,14 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.BSpline)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Hermite)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Hermite)
 ]]></scriptCode>
 			</scriptItem>
 
 		</subMenu>
 
 		<subMenu id="qlib_string_rel_ref_menu">
-			<label>Reference String Parm [qL]</label>
+			<label>Reference Upstream Parm [qL]</label>
 			<modifyItem><insertAfter>reference_menu</insertAfter></modifyItem>
 			<context>
 					<expression>
@@ -321,61 +291,13 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Hermite)
 						return qlibmenutools.parm_is_string(kwargs)
 					</expression>
 			</context>
-
 			<scriptMenuStripDynamic id="qlib_string_rel_ref_items">
 			<contentsScriptCode><![CDATA[
 			import qlibmenutools
-			node = qlibmenutools.get_all_parms(kwargs)[0].node()
-
-			nodes = hou.hscript("opdepend -i %s" % node.path())[0].split()
-			nodes = [ hou.node(n) for n in nodes ]
-
-			types = ( hou.parmTemplateType.String, )
-			parms = []
-
-			# TODO: filter out menus so it'll be only string fields!
-			def iz_good(pt):
-				r = False
-				try:
-					p = pt[0]
-					t = pt[0].parmTemplate()
-					s = p.evalAsString()
-					r = \
-						(pt.parmTemplate().type() in types) \
-						and s!="" and "/" not in s \
-						and not p.isDisabled() and not p.isHidden()
-				except:
-					pass
-				return r
-
-			for n in nodes:
-				n.updateParmStates()
-				parms += [ pt[0] for pt in n.parmTuples() if iz_good(pt) ]
-
-			parms = [ p.path() for p in parms ]
-
-			# TODO: limit menu items?
-			menu_items = []
-			for pn in parms:
-				p = hou.parm(pn)
-				rel_pn = node.relativePathTo(p.node())+"/"+p.name()
-				rel_path = [ rel_pn ]
-				if len(p.keyframes())>0 or p.evalAsString()!=p.rawValue():
-					rel_path += [ "<anim/expr>" ]
-				rel_path = "  ".join(rel_path)
-
-				menu_items.append(rel_pn)
-				menu_items.append('"%s"  ( %s )' % (p.evalAsString(), rel_path, ) )
-
-			return menu_items
+			return qlibmenutools.build_upstream_channel_refs_menu(kwargs)
 			]]></contentsScriptCode>
 			<scriptCode><![CDATA[
-src = hou.parmTuple(kwargs["selectedtoken"])
-for parm in kwargs["parms"]:
-	parm.deleteAllKeyframes()
-	parm.revertToDefaults()
-	#parm.tuple().set(src)
-	parm.set("`chs(\"%s\""")`" % kwargs["selectedtoken"])
+import qlibmenutools; qlibmenutools.set_upstream_channel_ref_value(kwargs)
 ]]></scriptCode>
 	</scriptMenuStripDynamic>
 

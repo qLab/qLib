@@ -6,8 +6,11 @@
         @brief      Menu related convenience functions.
 """
 
-import hou
+import os
 import traceback
+
+import hou
+import qlibutils
 
 
 def get_all_parms(kwargs, unlocked_only=False):
@@ -98,3 +101,192 @@ def reset_parms(kwargs, unlocked_only=False):
             parm.revertToDefaults()
     except:
         pass
+
+
+def set_string_parm(kwargs, value):
+    """Sets a string parm to a specified value.
+    It resets the parm first in order to get rid of any expressions
+    (to avoid expressions "bouncing" the parm setting to another parm).
+    """
+    try:
+        reset_parms(kwargs)
+	parms = get_all_parms(kwargs)
+	for parm in parms:
+		parm.set(str(value))
+    except:
+        pass
+
+
+
+def set_parent_opinput(kwargs, index):
+    """.
+    """
+    set_string_parm(kwargs, "%s`opinputpath('..', %d)`" % \
+        ('op:' if kwargs['ctrlclick'] else '', index, )
+    )
+
+
+def toggle_abs_rel_path(kwargs):
+    """Converts between absolute and relative OP paths.
+    (Called from PARMmenu.xml)
+    """
+    if 'parms' in kwargs:
+        for parm in kwargs['parms']:
+            try:
+                node = parm.node()
+                path = parm.evalAsString()
+
+                target = node.node(path)
+
+                path_rel = node.relativePathTo(target)
+                path_abs = target.path()
+
+                r = path_rel if path==path_abs else path_abs
+
+                parm.set(r)
+            except:
+                pass
+
+
+def add_parm_value_multiplier(kwargs, add_exponent=False):
+    """Adds a value/multipler parameter pair to the specified parameter.
+    (Called from PARMmenu.xml)
+    """
+    p = kwargs['parms'][0]
+    try:
+        n = p.node()
+
+        v = p.eval()
+        t = p.parmTemplate()
+        g = n.parmTemplateGroup()
+
+        pn = t.name()
+        pl = t.label()
+        pvn = '%s_value' % pn
+        pmn = '%s_mult' % pn
+        pxn = '%s_exp' % pn
+        t = hou.FloatParmTemplate(name=p.name(), label="...", num_components=1)
+
+        expr = "ch('%s') * ch('%s')" % (pvn, pmn, )
+
+        if not n.parm(pvn) and not n.parm(pmn):
+            # value
+            t.setName(pvn)
+            t.setLabel('%s (v)' % pl)
+            t.setDefaultValue( (v, ) )
+            g.insertAfter(pn, t)
+            # mult
+            t.setName(pmn)
+            t.setLabel('%s (%%)' % pl)
+            t.setMinValue(0.0)
+            t.setMaxValue(2.0)
+            t.setDefaultValue( (1.0, ) )
+            g.insertAfter(pvn, t)
+
+            if add_exponent and not n.parm(pxn):
+                # exp
+                t.setName(pxn)
+                t.setLabel('%s (exp)' % pl)
+                t.setMinValue(0.001)
+                t.setMaxValue(4.0)
+                t.setDefaultValue( (2.0, ) )
+                g.insertAfter(pmn, t)
+
+                expr = "ch('%s') * pow(ch('%s'), ch('%s'))" % (pvn, pmn, pxn, )
+
+            # add parms
+            n.setParmTemplateGroup(g)
+
+            p.setExpression(expr)
+        else:
+            hou.ui.setStatusMessage("Value/multiplier params already exist for %s" % p.path(),
+                severity=hou.severityType.Warning)
+    except:
+        hou.ui.setStatusMessage("couldn't set up value/multiplier parameters on %s" % p.path(),
+            severity=hou.severityType.Error)
+
+
+def set_ramp_basis(kwargs, ramp_basis):
+    """Set all knots on a ramp to the specified type.
+    (Called from PARMmenu.xml)
+    """
+    try:
+        p = kwargs['parms'][0]
+        v = p.eval()
+        num_keys = len(v.basis())
+        new_basis = (ramp_basis, ) * num_keys
+        new_ramp = hou.Ramp(new_basis, v.keys(), v.values())
+        p.set(new_ramp)
+    except:
+        hou.ui.setStatusMessage("couldn't set ramp interpolation type on %s" % p.path(),
+            severity=hou.severityType.Error)
+
+
+def build_upstream_channel_refs_menu(kwargs):
+    """Builds a dynamic submenu of upstream parameters
+    that can be linked in as a channel reference expression.
+    """
+    node = get_all_parms(kwargs)[0].node()
+
+    nodes = hou.hscript("opdepend -i %s" % node.path())[0].split()
+    nodes = [ hou.node(n) for n in nodes ]
+
+    types = ( hou.parmTemplateType.String, )
+    parms = []
+
+    # TODO: filter out menus so it'll be only string fields!
+    def iz_good(pt):
+        r = False
+        try:
+            p = pt[0]
+            t = pt[0].parmTemplate()
+            s = p.evalAsString()
+            r = \
+                (pt.parmTemplate().type() in types) \
+                and s!="" and "/" not in s \
+                and not p.isDisabled() and not p.isHidden()
+        except:
+            pass
+        return r
+
+    for n in nodes:
+        n.updateParmStates()
+        parms += [ pt[0] for pt in n.parmTuples() if iz_good(pt) ]
+
+    parms = [ p.path() for p in parms ]
+
+    # TODO: limit menu items?
+    menu_items = []
+    for pn in parms:
+        p = hou.parm(pn)
+        rel_pn = node.relativePathTo(p.node())+"/"+p.name()
+        rel_path = [ rel_pn ]
+        if len(p.keyframes())>0 or p.evalAsString()!=p.rawValue():
+            rel_path += [ "<anim/expr>" ]
+        rel_path = "  ".join(rel_path)
+
+        menu_items.append(rel_pn)
+        menu_items.append('"%s"  ( %s )' % (p.evalAsString(), rel_path, ) )
+
+    return menu_items
+
+
+def set_upstream_channel_ref_value(kwargs):
+    """Callback function related to the menu above.
+    """
+    src = hou.parmTuple(kwargs["selectedtoken"])
+    reset_parms(kwargs)
+    parms = get_all_parms(kwargs)
+    for parm in parms:
+        parm.set("`chs(\"%s\""")`" % kwargs["selectedtoken"])
+
+
+def open_as_fs_path(kwargs):
+    """Considers parm value as an FS path and opens it in
+    the filesystem browser.
+    """
+    dirs = [ os.path.dirname(p.evalAsString()) for p in get_all_parms(kwargs) ]
+    dirs = list(set(dirs)) # don't open anything twice
+    for dir in dirs:
+        qlibutils.open_dir(dir)
+
