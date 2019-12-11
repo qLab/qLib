@@ -69,8 +69,7 @@ import qlibmenutools; qlibmenutools.toggle_abs_rel_path(kwargs)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils, os
-qlibutils.open_dir( os.path.dirname(str(kwargs['parms'][0].eval())) )
+import qlibmenutools; qlibmenutools.open_as_fs_path(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 

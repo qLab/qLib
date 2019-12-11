@@ -6,8 +6,11 @@
         @brief      Menu related convenience functions.
 """
 
-import hou
+import os
 import traceback
+
+import hou
+import qlibutils
 
 
 def get_all_parms(kwargs, unlocked_only=False):
@@ -276,4 +279,14 @@ def set_upstream_channel_ref_value(kwargs):
     parms = get_all_parms(kwargs)
     for parm in parms:
         parm.set("`chs(\"%s\""")`" % kwargs["selectedtoken"])
+
+
+def open_as_fs_path(kwargs):
+    """Considers parm value as an FS path and opens it in
+    the filesystem browser.
+    """
+    dirs = [ os.path.dirname(p.evalAsString()) for p in get_all_parms(kwargs) ]
+    dirs = list(set(dirs)) # don't open anything twice
+    for dir in dirs:
+        qlibutils.open_dir(dir)
 
