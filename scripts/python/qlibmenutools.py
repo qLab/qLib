@@ -98,3 +98,28 @@ def reset_parms(kwargs, unlocked_only=False):
             parm.revertToDefaults()
     except:
         pass
+
+
+def set_string_parm(kwargs, value):
+    """Sets a string parm to a specified value.
+    It resets the parm first in order to get rid of any expressions
+    (to avoid expressions "bouncing" the parm setting to another parm).
+    """
+    try:
+        reset_parms(kwargs)
+	parms = get_all_parms(kwargs)
+	for parm in parms:
+		parm.set(str(value))
+    except:
+        pass
+
+
+
+def set_parent_opinput(kwargs, index):
+    """.
+    """
+    set_string_parm(kwargs, "%s`opinputpath('..', %d)`" % \
+        ('op:' if kwargs['ctrlclick'] else '', index, )
+    )
+
+

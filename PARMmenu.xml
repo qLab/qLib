@@ -100,13 +100,7 @@ kwargs['parms'][0].evalAsNode().setSelected(True)
 				</context>
 				<scriptCode><![CDATA[
 import qlibmenutools
-try:
-	qlibmenutools.reset_parms(kwargs)
-	parms = qlibmenutools.get_all_parms(kwargs)
-	for parm in parms:
-		parm.set("%s`opinputpath('..', 0)`" % ('op:' if kwargs['ctrlclick'] else '') )
-except:
-	pass
+qlibmenutools.set_parent_opinput(kwargs, 0)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -120,14 +114,7 @@ except:
 				</context>
 				<scriptCode><![CDATA[
 import qlibmenutools
-try:
-	qlibmenutools.reset_parms(kwargs)
-	parms = qlibmenutools.get_all_parms(kwargs)
-	for parm in parms:
-		parm.set("%s`opinputpath('..', 1)`" % ('op:' if kwargs['ctrlclick'] else '') )
-except:
-	pass
-
+qlibmenutools.set_parent_opinput(kwargs, 1)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -142,14 +129,7 @@ except:
 				</context>
 				<scriptCode><![CDATA[
 import qlibmenutools
-try:
-	qlibmenutools.reset_parms(kwargs)
-	parms = qlibmenutools.get_all_parms(kwargs)
-	for parm in parms:
-		parm.set("%s`opinputpath('..', 2)`" % ('op:' if kwargs['ctrlclick'] else '') )
-except:
-	pass
-
+qlibmenutools.set_parent_opinput(kwargs, 2)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -164,14 +144,7 @@ except:
 				</context>
 				<scriptCode><![CDATA[
 import qlibmenutools
-try:
-	qlibmenutools.reset_parms(kwargs)
-	parms = qlibmenutools.get_all_parms(kwargs)
-	for parm in parms:
-		parm.set("%s`opinputpath('..', 3)`" % ('op:' if kwargs['ctrlclick'] else '') )
-except:
-	pass
-
+qlibmenutools.set_parent_opinput(kwargs, 3)
 ]]></scriptCode>
 			</scriptItem>
 
