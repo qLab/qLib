@@ -49,7 +49,7 @@
 			</context>
 			<modifyItem><insertAfter>revert_to_prev_val</insertAfter></modifyItem>
 			<scriptCode><![CDATA[
-import qlibutils; qlibutils.toggle_abs_rel_path(kwargs)
+import qlibmenutools; qlibmenutools.toggle_abs_rel_path(kwargs)
 ]]></scriptCode>
 		</scriptItem>
 

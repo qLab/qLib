@@ -123,3 +123,25 @@ def set_parent_opinput(kwargs, index):
     )
 
 
+def toggle_abs_rel_path(kwargs):
+    """Converts between absolute and relative OP paths.
+    (Called from PARMmenu.xml)
+    """
+    if 'parms' in kwargs:
+        for parm in kwargs['parms']:
+            try:
+                node = parm.node()
+                path = parm.evalAsString()
+
+                target = node.node(path)
+
+                path_rel = node.relativePathTo(target)
+                path_abs = target.path()
+
+                r = path_rel if path==path_abs else path_abs
+
+                parm.set(r)
+            except:
+                pass
+
+
