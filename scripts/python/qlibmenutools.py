@@ -219,3 +219,61 @@ def set_ramp_basis(kwargs, ramp_basis):
             severity=hou.severityType.Error)
 
 
+def build_upstream_channel_refs_menu(kwargs):
+    """Builds a dynamic submenu of upstream parameters
+    that can be linked in as a channel reference expression.
+    """
+    node = get_all_parms(kwargs)[0].node()
+
+    nodes = hou.hscript("opdepend -i %s" % node.path())[0].split()
+    nodes = [ hou.node(n) for n in nodes ]
+
+    types = ( hou.parmTemplateType.String, )
+    parms = []
+
+    # TODO: filter out menus so it'll be only string fields!
+    def iz_good(pt):
+        r = False
+        try:
+            p = pt[0]
+            t = pt[0].parmTemplate()
+            s = p.evalAsString()
+            r = \
+                (pt.parmTemplate().type() in types) \
+                and s!="" and "/" not in s \
+                and not p.isDisabled() and not p.isHidden()
+        except:
+            pass
+        return r
+
+    for n in nodes:
+        n.updateParmStates()
+        parms += [ pt[0] for pt in n.parmTuples() if iz_good(pt) ]
+
+    parms = [ p.path() for p in parms ]
+
+    # TODO: limit menu items?
+    menu_items = []
+    for pn in parms:
+        p = hou.parm(pn)
+        rel_pn = node.relativePathTo(p.node())+"/"+p.name()
+        rel_path = [ rel_pn ]
+        if len(p.keyframes())>0 or p.evalAsString()!=p.rawValue():
+            rel_path += [ "<anim/expr>" ]
+        rel_path = "  ".join(rel_path)
+
+        menu_items.append(rel_pn)
+        menu_items.append('"%s"  ( %s )' % (p.evalAsString(), rel_path, ) )
+
+    return menu_items
+
+
+def set_upstream_channel_ref_value(kwargs):
+    """Callback function related to the menu above.
+    """
+    src = hou.parmTuple(kwargs["selectedtoken"])
+    reset_parms(kwargs)
+    parms = get_all_parms(kwargs)
+    for parm in parms:
+        parm.set("`chs(\"%s\""")`" % kwargs["selectedtoken"])
+
