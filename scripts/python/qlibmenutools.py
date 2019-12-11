@@ -203,3 +203,19 @@ def add_parm_value_multiplier(kwargs, add_exponent=False):
             severity=hou.severityType.Error)
 
 
+def set_ramp_basis(kwargs, ramp_basis):
+    """Set all knots on a ramp to the specified type.
+    (Called from PARMmenu.xml)
+    """
+    try:
+        p = kwargs['parms'][0]
+        v = p.eval()
+        num_keys = len(v.basis())
+        new_basis = (ramp_basis, ) * num_keys
+        new_ramp = hou.Ramp(new_basis, v.keys(), v.values())
+        p.set(new_ramp)
+    except:
+        hou.ui.setStatusMessage("couldn't set ramp interpolation type on %s" % p.path(),
+            severity=hou.severityType.Error)
+
+

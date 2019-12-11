@@ -199,7 +199,7 @@ import qlibmenutools; qlibmenutools.add_parm_value_multiplier(kwargs, add_expone
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Constant)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Constant)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -212,7 +212,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Constant)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Linear)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Linear)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -225,7 +225,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Linear)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.CatmullRom)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.CatmullRom)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -238,7 +238,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.CatmullRom)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.MonotoneCubic)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.MonotoneCubic)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -251,7 +251,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.MonotoneCubic)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Bezier)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Bezier)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -264,7 +264,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Bezier)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.BSpline)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.BSpline)
 ]]></scriptCode>
 			</scriptItem>
 
@@ -277,7 +277,7 @@ import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.BSpline)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.set_ramp_basis(kwargs, hou.rampBasis.Hermite)
+import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Hermite)
 ]]></scriptCode>
 			</scriptItem>
 
