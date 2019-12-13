@@ -76,7 +76,7 @@ import qlibmenutools; qlibmenutools.open_as_fs_path(kwargs)
 			<separatorItem/>
 
 			<scriptItem id="ql_select_target_op">
-				<label>Select (Add) Target Node(s)</label>
+				<label>Select/Add Target Node(s)</label>
 				<context>
 					<expression>
 						import qlibmenutools
