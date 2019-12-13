@@ -79,7 +79,8 @@ def parm_has_target_node(kwargs):
     """
     r = False
     try:
-        r = get_all_parms(kwargs)[0].evalAsNode() is not None
+        p = get_all_parms(kwargs)[0]
+        r = len(p.node().glob(p.evalAsString())) > 0
     except:
         print "ERROR: %s" % traceback.format_exc()
     return r
@@ -101,6 +102,16 @@ def reset_parms(kwargs, unlocked_only=False):
             parm.revertToDefaults()
     except:
         pass
+
+
+def select_target_nodes(kwargs):
+    """.
+    """
+    parms = get_all_parms(kwargs)
+    for parm in parms:
+        nodes = parm.node().glob(parm.evalAsString())
+        for node in nodes:
+            node.setSelected(True)
 
 
 def set_string_parm(kwargs, value):

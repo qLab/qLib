@@ -74,7 +74,7 @@ import qlibmenutools; qlibmenutools.open_as_fs_path(kwargs)
 			</scriptItem>
 
 			<scriptItem id="ql_select_target_op">
-				<label>Select (Add) Target Node</label>
+				<label>Select (Add) Target Node(s)</label>
 				<context>
 					<expression>
 						import qlibmenutools
@@ -82,7 +82,7 @@ import qlibmenutools; qlibmenutools.open_as_fs_path(kwargs)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-kwargs['parms'][0].evalAsNode().setSelected(True)
+import qlibmenutools; qlibmenutools.select_target_nodes(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 
