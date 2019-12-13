@@ -108,6 +108,12 @@ def reset_parms(kwargs, unlocked_only=False):
         pass
 
 
+def reset_parm(parm):
+    """.
+    """
+    reset_parms( { "parms": (parm, ) } )
+
+
 def select_target_nodes(kwargs):
     """.
     """
@@ -126,9 +132,8 @@ def expand_target_wildcards(kwargs):
         pnode = parm.node()
         nodes = pnode.glob(parm.evalAsString())
         paths = " ".join( [ pnode.relativePathTo(n) for n in nodes ] )
-        reset_parms( { "parms": (parm, ) } )
+        reset_parm(parm)
         parm.set(paths)
-    pass
 
 
 def set_string_parm(kwargs, value):
