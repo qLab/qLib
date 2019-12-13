@@ -16,9 +16,13 @@ import qlibutils
 def get_all_parms(kwargs, unlocked_only=False):
     """Get all (both normal and locked) parms, related to an RMB menu click.
     """
-    r = kwargs["parms"]
-    if not unlocked_only:
-        r += kwargs["locked_parms"]
+    r = None
+    try:
+        r = kwargs["parms"]
+        if not unlocked_only:
+            r += kwargs["locked_parms"]
+    except:
+        pass
     return r
 
 
@@ -112,6 +116,19 @@ def select_target_nodes(kwargs):
         nodes = parm.node().glob(parm.evalAsString())
         for node in nodes:
             node.setSelected(True)
+
+
+def expand_target_wildcards(kwargs):
+    """.
+    """
+    parms = get_all_parms(kwargs)
+    for parm in parms:
+        pnode = parm.node()
+        nodes = pnode.glob(parm.evalAsString())
+        paths = " ".join( [ pnode.relativePathTo(n) for n in nodes ] )
+        reset_parms( { "parms": (parm, ) } )
+        parm.set(paths)
+    pass
 
 
 def set_string_parm(kwargs, value):
