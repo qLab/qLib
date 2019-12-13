@@ -43,9 +43,12 @@
 	<menu>
 
 		<scriptItem id="toggle_abs_rel_path_ql">
-			<label>Toggle Absolute/Relative Path [qL]</label>
+			<label>Toggle Absolute/Relative Path(s) [qL]</label>
 			<context>
-				<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_is_string(kwargs)
+					</expression>
 			</context>
 			<modifyItem><insertAfter>revert_to_prev_val</insertAfter></modifyItem>
 			<scriptCode><![CDATA[
@@ -73,8 +76,10 @@ import qlibmenutools; qlibmenutools.open_as_fs_path(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 
+			<separatorItem/>
+
 			<scriptItem id="ql_select_target_op">
-				<label>Select (Add) Target Node</label>
+				<label>Select/Add Target Node(s)</label>
 				<context>
 					<expression>
 						import qlibmenutools
@@ -82,7 +87,20 @@ import qlibmenutools; qlibmenutools.open_as_fs_path(kwargs)
 					</expression>
 				</context>
 				<scriptCode><![CDATA[
-kwargs['parms'][0].evalAsNode().setSelected(True)
+import qlibmenutools; qlibmenutools.select_target_nodes(kwargs)
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_expand_target_op_wildcards">
+				<label>Expand Target Node Path Wildcards</label>
+				<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_has_target_node(kwargs)
+					</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.expand_target_wildcards(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 

@@ -16,9 +16,13 @@ import qlibutils
 def get_all_parms(kwargs, unlocked_only=False):
     """Get all (both normal and locked) parms, related to an RMB menu click.
     """
-    r = kwargs["parms"]
-    if not unlocked_only:
-        r += kwargs["locked_parms"]
+    r = None
+    try:
+        r = kwargs["parms"]
+        if not unlocked_only:
+            r += kwargs["locked_parms"]
+    except:
+        pass
     return r
 
 
@@ -79,7 +83,8 @@ def parm_has_target_node(kwargs):
     """
     r = False
     try:
-        r = get_all_parms(kwargs)[0].evalAsNode() is not None
+        p = get_all_parms(kwargs)[0]
+        r = len(p.node().glob(p.evalAsString())) > 0
     except:
         print "ERROR: %s" % traceback.format_exc()
     return r
@@ -103,6 +108,34 @@ def reset_parms(kwargs, unlocked_only=False):
         pass
 
 
+def reset_parm(parm):
+    """.
+    """
+    reset_parms( { "parms": (parm, ) } )
+
+
+def select_target_nodes(kwargs):
+    """.
+    """
+    parms = get_all_parms(kwargs)
+    for parm in parms:
+        nodes = parm.node().glob(parm.evalAsString())
+        for node in nodes:
+            node.setSelected(True)
+
+
+def expand_target_wildcards(kwargs):
+    """.
+    """
+    parms = get_all_parms(kwargs)
+    for parm in parms:
+        pnode = parm.node()
+        nodes = pnode.glob(parm.evalAsString())
+        paths = " ".join( [ pnode.relativePathTo(n) for n in nodes ] )
+        reset_parm(parm)
+        parm.set(paths)
+
+
 def set_string_parm(kwargs, value):
     """Sets a string parm to a specified value.
     It resets the parm first in order to get rid of any expressions
@@ -110,9 +143,9 @@ def set_string_parm(kwargs, value):
     """
     try:
         reset_parms(kwargs)
-	parms = get_all_parms(kwargs)
-	for parm in parms:
-		parm.set(str(value))
+        parms = get_all_parms(kwargs)
+        for parm in parms:
+            parm.set(str(value))
     except:
         pass
 
@@ -130,22 +163,34 @@ def toggle_abs_rel_path(kwargs):
     """Converts between absolute and relative OP paths.
     (Called from PARMmenu.xml)
     """
-    if 'parms' in kwargs:
-        for parm in kwargs['parms']:
-            try:
-                node = parm.node()
-                path = parm.evalAsString()
+    parms = get_all_parms(kwargs)
+    to_abs = None # None=yet to be decided, True=convert to abs 1=to rel
 
-                target = node.node(path)
+    for parm in parms:
+        pnode = parm.node()
+        paths_in = parm.evalAsString().split() # paths as string
+        paths_out = []
 
-                path_rel = node.relativePathTo(target)
+        for path in paths_in:
+            target = pnode.node(path)
+
+            if target:
+                # works with single nodes but not with patterns
+                path_rel = pnode.relativePathTo(target)
                 path_abs = target.path()
 
-                r = path_rel if path==path_abs else path_abs
+                # decide if we want to convert all to abs or rel
+                if to_abs is None:
+                    to_abs = path!=path_abs
 
-                parm.set(r)
-            except:
-                pass
+                paths_out.append( path_abs if to_abs else path_rel )
+            else:
+                # probably a pattern, don't deal with it
+                paths_out.append(path)
+
+        path = " ".join(paths_out)
+        reset_parm(parm)
+        parm.set(path)
 
 
 def add_parm_value_multiplier(kwargs, add_exponent=False):
