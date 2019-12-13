@@ -43,9 +43,12 @@
 	<menu>
 
 		<scriptItem id="toggle_abs_rel_path_ql">
-			<label>Toggle Absolute/Relative Path [qL]</label>
+			<label>Toggle Absolute/Relative Path(s) [qL]</label>
 			<context>
-				<expression>len(kwargs['parms'])>0 and type(kwargs['parms'][0].parmTemplate()) is hou.StringParmTemplate</expression>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_is_string(kwargs)
+					</expression>
 			</context>
 			<modifyItem><insertAfter>revert_to_prev_val</insertAfter></modifyItem>
 			<scriptCode><![CDATA[

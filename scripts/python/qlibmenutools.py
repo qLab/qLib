@@ -163,22 +163,34 @@ def toggle_abs_rel_path(kwargs):
     """Converts between absolute and relative OP paths.
     (Called from PARMmenu.xml)
     """
-    if 'parms' in kwargs:
-        for parm in kwargs['parms']:
-            try:
-                node = parm.node()
-                path = parm.evalAsString()
+    parms = get_all_parms(kwargs)
+    to_abs = None # None=yet to be decided, True=convert to abs 1=to rel
 
-                target = node.node(path)
+    for parm in parms:
+        pnode = parm.node()
+        paths_in = parm.evalAsString().split() # paths as string
+        paths_out = []
 
-                path_rel = node.relativePathTo(target)
+        for path in paths_in:
+            target = pnode.node(path)
+
+            if target:
+                # works with single nodes but not with patterns
+                path_rel = pnode.relativePathTo(target)
                 path_abs = target.path()
 
-                r = path_rel if path==path_abs else path_abs
+                # decide if we want to convert all to abs or rel
+                if to_abs is None:
+                    to_abs = path!=path_abs
 
-                parm.set(r)
-            except:
-                pass
+                paths_out.append( path_abs if to_abs else path_rel )
+            else:
+                # probably a pattern, don't deal with it
+                paths_out.append(path)
+
+        path = " ".join(paths_out)
+        reset_parm(parm)
+        parm.set(path)
 
 
 def add_parm_value_multiplier(kwargs, add_exponent=False):
