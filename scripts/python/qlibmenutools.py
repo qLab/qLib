@@ -138,9 +138,9 @@ def set_string_parm(kwargs, value):
     """
     try:
         reset_parms(kwargs)
-	parms = get_all_parms(kwargs)
-	for parm in parms:
-		parm.set(str(value))
+        parms = get_all_parms(kwargs)
+        for parm in parms:
+            parm.set(str(value))
     except:
         pass
 
