@@ -162,6 +162,15 @@ import qlibutils; qlibutils.remove_embedded_hdas()]]>
 
 			<separatorItem />
 
+			<scriptItem id="h.ql_misc_show_houdinipath">
+				<label>Show Houdini Path Entries...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.show_houdinipath(kwargs)]]>
+				</scriptCode>
+			</scriptItem>
+
+			<separatorItem />
+
 			<scriptItem id="h.ql_misc_menurefresh">
 				<label>Refresh Popup Menus</label>
 				<scriptCode><![CDATA[

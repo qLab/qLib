@@ -578,3 +578,12 @@ def embed_selected_hdas(kwargs):
             # TODO: switch definition? this seems to switch it
 #
 
+
+def show_houdinipath(kwargs):
+    """Displays entries .
+    """
+    hou.ui.displayMessage(
+        "Houdini Path ($HOUDINI_PATH) entries (in order)",
+        details = "\n".join(hou.houdiniPath()),
+        details_expanded=True)
+
