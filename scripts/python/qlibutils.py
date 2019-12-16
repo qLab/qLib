@@ -64,6 +64,7 @@ def ynreq(text="Are you sure?",
     return do_it==0
 
 
+
 def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
     """Defines (non-)namespaced aliases for operators with a particular namespace prefix.
 
@@ -586,4 +587,20 @@ def show_houdinipath(kwargs):
         "Houdini Path ($HOUDINI_PATH) entries (in order)",
         details = "\n".join(hou.houdiniPath()),
         details_expanded=True)
+
+
+def show_shellcmd_results(kwargs, cmd, label):
+    """Runs a shell command and displays its results.
+    """
+
+    try:
+        result = os.popen(cmd).read()
+        hou.ui.displayMessage(
+            "%s\n(shell command: '%s')" % (label, cmd, ),
+            details = result,
+            details_expanded=True
+        )
+
+    except:
+        print "ERROR: %s" % traceback.format_exc()
 
