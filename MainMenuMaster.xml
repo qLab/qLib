@@ -162,6 +162,29 @@ import qlibutils; qlibutils.remove_embedded_hdas()]]>
 
 			<separatorItem />
 
+			<scriptItem id="h.ql_misc_show_houdinipath">
+				<label>Show Houdini Path Entries...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.show_houdinipath(kwargs)]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.ql_misc_hconfig">
+				<label>Show Set Env Variables (hconfig)...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.show_shellcmd_results(kwargs, cmd="hconfig", label="Defined Environment Variables")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.ql_misc_hconfig_p">
+				<label>Show Path Env Variables (hconfig -p)...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.show_shellcmd_results(kwargs, cmd="hconfig -p", label="Defined Environment Variables (with descriptions)")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<separatorItem />
+
 			<scriptItem id="h.ql_misc_menurefresh">
 				<label>Refresh Popup Menus</label>
 				<scriptCode><![CDATA[
