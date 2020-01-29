@@ -267,7 +267,7 @@ def postproc_refcopy(nodepath, srcpath):
         parms = N.parms()
         for p in parms:
             try:
-                if True:
+                if not p.parmTemplate().isHidden(): # skip hidden parms, e.g. description labels
                     for k in p.keyframes():
                         x = k.expression()
                         x = re.sub('"\.\./[^/]+', 'chsop("ref_source")+"', x)

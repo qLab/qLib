@@ -365,6 +365,21 @@ def find_same_nodes(nodes):
     return r
 
 
+def find_same_colored(nodes):
+    """Find nodes with the same color(s) as the specified node(s).
+    TODO:
+        - make sure there's no need for per-component floating point comparison
+    """
+    r = []
+    colors = set()
+    for n in nodes:
+        colors.add(n.color())
+
+    all = nodes[0].parent().children()
+    r = [ n for n in all if n.color() in colors ]
+    return r
+
+
 def get_netview_path(kwargs):
     """Finds the path of the current network view from kwargs.
     """
