@@ -73,6 +73,16 @@ qlibutils.add_to_selection(same, kwargs)
                 ]]></scriptCode>
             </scriptItem>
 
+            <scriptItem id="pane.wsheet.select_all_of_same_color_ql">
+                <label>All of Same Color</label>
+                <scriptCode><![CDATA[
+import qlibutils
+sel = hou.selectedNodes()
+same = qlibutils.find_same_colored(sel)
+qlibutils.add_to_selection(same, kwargs)
+                ]]></scriptCode>
+            </scriptItem>
+
             <separatorItem />
 
             <scriptItem id="pane.wsheet.select_non_bypassed_ql">
