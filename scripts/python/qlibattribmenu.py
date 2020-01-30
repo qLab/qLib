@@ -241,6 +241,15 @@ def isString(hou_attrib):
 
 
 
+def isIntOrString(hou_attrib):
+    """Convenience filter function for int/string
+    (usually partition or piece) attributes.
+    """
+    assert type(hou_attrib) is hou.Attrib, "invalid argument"
+    return isInt(hou_attrib) or isString(hou_attrib)
+
+
+
 def isVector(hou_attrib):
     """Convenience filter function for numeric (int/float of size 3) attributes.
     """
