@@ -11,6 +11,7 @@ import traceback
 
 import hou
 import qlibutils
+import re
 
 
 def get_all_parms(kwargs, unlocked_only=False):
@@ -172,6 +173,12 @@ def toggle_abs_rel_path(kwargs):
         paths_out = []
 
         for path in paths_in:
+            parmname = ""
+            if pnode.parm(path):
+                # if it's a parm, pop/remember parm name and still deal w/ node paths
+                parmname = re.search("/[^/]+$", path).group(0)
+                path = re.sub(parmname+"$", "", path)
+
             target = pnode.node(path)
 
             if target:
@@ -183,10 +190,10 @@ def toggle_abs_rel_path(kwargs):
                 if to_abs is None:
                     to_abs = path!=path_abs
 
-                paths_out.append( path_abs if to_abs else path_rel )
+                paths_out.append( (path_abs if to_abs else path_rel) + parmname )
             else:
                 # probably a pattern, don't deal with it
-                paths_out.append(path)
+                paths_out.append(path + parmname)
 
         path = " ".join(paths_out)
         reset_parm(parm)
