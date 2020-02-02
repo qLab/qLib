@@ -619,3 +619,10 @@ def show_shellcmd_results(kwargs, cmd, label):
     except:
         print "ERROR: %s" % traceback.format_exc()
 
+
+def displayHelpPath(path):
+    """Wrapper for displaying a help page.
+    """
+    assert type(path) is str
+    hou.ui.curDesktop().displayHelpPath(path)
+
