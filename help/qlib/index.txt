@@ -1,0 +1,41 @@
+= qLib =
+#display: inverted notoc
+
+"""Procedural digital asset library for Houdini."""
+
+qLib is a procedural digital asset library for SideFX's Houdini.
+It is a collection of tools designed to work in accordance with Houdini's native toolset.
+It improves the production process by allowing you to spend more time on what you want to achieve
+instead of how to achieve it.
+
+qLib is open source software licensed under the New BSD license.
+It's developed by VFX professionals from several studios, working on feature films,
+game cinematics and commercials.
+
+
+
+@subtopics
+#display: notitle
+
+:col:
+    == User Interface Additions ==
+    
+    ::[Main Menu|ui/mainmenu]
+    ::[Network View Menu|ui/networkviewmenu]
+    ::[Parameter RMB Menu|ui/parmmenu]
+    ::[qLib Shelf|ui/shelf]
+
+:col:
+    == Nodes ==
+    ...
+
+    :list:
+        #query: type:node title:ql
+
+
+:box:
+    #display: notintoc
+
+    * [License|LICENSE]
+
+
