@@ -206,6 +206,17 @@ hou.ui.displayMessage("- i don't wanna do my honework!!\n- whoa whoa whoa whoa w
 			</scriptCode>
 		</scriptItem>
 
+		<separatorItem />
+
+		<scriptItem id="h.ql_prefs_window">
+			<label>Help: Contents</label>
+			<scriptCode><![CDATA[
+import qlibutils
+qlibutils.displayHelpPath("/qlib")
+]]>
+			</scriptCode>
+		</scriptItem>
+
 	</subMenu>
 
 
