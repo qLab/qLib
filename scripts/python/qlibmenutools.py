@@ -291,14 +291,13 @@ def build_upstream_channel_refs_menu(kwargs):
         r = False
         try:
             p = pt[0]
-            t = pt[0].parmTemplate()
             s = p.evalAsString()
             r = \
                 (pt.parmTemplate().type() in types) \
                 and s!="" and "/" not in s \
-                and not p.isDisabled() and not p.isHidden()
+                and not p.isDisabled() and p.isVisible()
         except:
-            pass
+            print "ERROR: %s" % traceback.format_exc()
         return r
 
     for n in nodes:
