@@ -85,6 +85,16 @@ qlibutils.add_to_selection(same, kwargs)
 
             <separatorItem />
 
+            <scriptItem id="pane.wsheet.select_subnet_inputs_ql">
+                <label>All Subnet Inputs</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, lambda n: n.networkItemType().name()=="SubnetIndirectInput", allItems=True)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
             <scriptItem id="pane.wsheet.select_non_bypassed_ql">
                 <label>Non-Bypassed</label>
                 <scriptCode><![CDATA[

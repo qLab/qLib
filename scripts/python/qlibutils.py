@@ -478,17 +478,19 @@ def has_author(node, authors, username_only=False):
     return a in authors
 
 
-def select_netview_nodes(kwargs, criteria):
+def select_netview_nodes(kwargs, criteria, allItems=False):
     """.
     """
     path = get_netview_path(kwargs)
-    sel = [ n for n in path.children() if criteria(n) ]
+    child_func = path.allItems if allItems else path.children
+    sel = [ n for n in child_func() if criteria(n) ]
     add_to_selection(sel, kwargs)
 
 
-def set_netview_selection(kwargs, criteria):
+def set_netview_selection(kwargs, criteria, allItems=False):
     path = get_netview_path(kwargs)
-    for n in path.children():
+    child_func = path.allItems if allItems else path.children
+    for n in path.child_func():
         n.setSelected(criteria(n))
 
 
