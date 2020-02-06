@@ -25,6 +25,10 @@ game cinematics and commercials.
     ::[Parameter RMB Menu|ui/parmmenu]
     ::[qLib Shelf|ui/shelf]
 
+    == Other ==
+
+    ::[Brotips|brotips/main]
+
     == Docs shortcuts ==
 
     ::[/help/nodes]
