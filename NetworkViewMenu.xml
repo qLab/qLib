@@ -67,7 +67,7 @@ qlibutils.set_netview_selection(kwargs, lambda n: not n.isSelected())
                 <label>All of Same Type</label>
                 <scriptCode><![CDATA[
 import qlibutils
-sel = hou.selectedNodes()
+sel = hou.selectedItems()
 same = qlibutils.find_same_nodes(sel)
 qlibutils.add_to_selection(same, kwargs)
                 ]]></scriptCode>
@@ -77,7 +77,7 @@ qlibutils.add_to_selection(same, kwargs)
                 <label>All of Same Color</label>
                 <scriptCode><![CDATA[
 import qlibutils
-sel = hou.selectedNodes()
+sel = hou.selectedItems()
 same = qlibutils.find_same_colored(sel)
 qlibutils.add_to_selection(same, kwargs)
                 ]]></scriptCode>

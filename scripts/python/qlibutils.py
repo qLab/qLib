@@ -353,15 +353,19 @@ def find_same_nodes(nodes):
 
     def type_name(n):
         """Build a (not exactly correct) full typename (but without the asset version)."""
-        return "::".join(n.type().nameComponents()[0:-1])
+        r = n.networkItemType().name().lower()
+        if r=="node":
+            r = "::".join(n.type().nameComponents()[0:-1])
+        return r
 
     r = []
-    types = set()
-    for n in nodes:
-        types.add(type_name(n))
+    if len(nodes)>0:
+        types = set()
+        for n in nodes:
+            types.add(type_name(n))
 
-    all = nodes[0].parent().children()
-    r = [ n for n in all if type_name(n) in types ]
+        all = nodes[0].parent().allItems()
+        r = [ n for n in all if type_name(n) in types ]
     return r
 
 
@@ -371,12 +375,13 @@ def find_same_colored(nodes):
         - make sure there's no need for per-component floating point comparison
     """
     r = []
-    colors = set()
-    for n in nodes:
-        colors.add(n.color())
+    if len(nodes)>0:
+        colors = set()
+        for n in nodes:
+            colors.add(n.color())
 
-    all = nodes[0].parent().children()
-    r = [ n for n in all if n.color() in colors ]
+        all = nodes[0].parent().allItems()
+        r = [ n for n in all if n.color() in colors ]
     return r
 
 
