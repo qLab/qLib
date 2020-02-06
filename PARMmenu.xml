@@ -58,7 +58,7 @@ import qlibmenutools; qlibmenutools.toggle_abs_rel_path(kwargs)
 
 
 
-		<subMenu id="qlib_menu">
+		<subMenu id="qlib_more_menu">
 			<label>More [qL]</label>
 			<modifyItem><insertAfter>motion_effects_menu</insertAfter></modifyItem>
 
@@ -302,7 +302,7 @@ import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Hermite
 
 		<subMenu id="qlib_string_rel_ref_menu">
 			<label>Reference Upstream Parm [qL]</label>
-			<modifyItem><insertAfter>reference_menu</insertAfter></modifyItem>
+			<modifyItem><insertAfter>qlib_more_menu</insertAfter></modifyItem>
 			<context>
 					<expression>
 						import qlibmenutools
