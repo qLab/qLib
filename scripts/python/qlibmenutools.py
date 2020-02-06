@@ -317,7 +317,9 @@ def build_upstream_channel_refs_menu(kwargs):
         rel_path = "  ".join(rel_path)
 
         menu_items.append(rel_pn)
-        menu_items.append('"%s"  ( %s )' % (p.evalAsString(), rel_path, ) )
+        label = p.evalAsString()
+        label = label[:40] + ( label[40:] and "..." )
+        menu_items.append('"%s"  ( %s )' % (label, rel_path, ) )
 
     return menu_items
 
