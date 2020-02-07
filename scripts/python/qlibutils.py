@@ -45,7 +45,10 @@ def houVersionAsFloat():
 def statmsg(msg, warn=False):
     """.
     """
-    s = hou.severityType.Warning if warn else hou.severityType.Message
+    assert type(msg) is str
+    s = hou.severityType.ImportantMessage if warn else hou.severityType.Message
+    if warn:
+        msg = "WARNING: %s" % msg
     if hou.isUIAvailable():
         hou.ui.setStatusMessage(msg, severity=s)
 
