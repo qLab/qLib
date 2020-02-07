@@ -25,16 +25,16 @@ import nodegraphutils
 
 
 def is_platform(name='none'):
-    return name.lower() in platform.system().lower()
+    return name.lower() == platform.system().lower()
 
 def is_linux():
     return is_platform('linux')
 
 def is_windows():
-    return is_platform('win')
+    return is_platform('windows')
 
 def is_mac():
-    return is_platform('mac')
+    return is_platform('darwin')
 
 
 def houVersionAsFloat():
