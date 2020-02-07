@@ -395,40 +395,6 @@ def get_netview_path(kwargs):
         return None
 
 
-def add_to_selection(nodes, kwargs):
-    """Extends the current node selection with 'nodes', according to
-    the modifier keys in kwargs.
-
-    no modifier:    replace selection
-    shift:          add to selection
-    ctrl:           remove from selection
-    ctrl+shift:     intersect with selection
-    """
-    haz_shift = kwargs["shiftclick"] or kwargs['altclick']
-    haz_ctrl = kwargs["ctrlclick"]
-
-    current = set(hou.selectedNodes())
-    sel = set(nodes)
-
-    if haz_shift or haz_ctrl:
-        # we got some modifier pressed
-        if haz_shift:
-            if haz_ctrl:
-                # shift+ctrl: intersection
-                sel = sel.intersection(current)
-            else:
-                # shift: union
-                sel = sel.union(current)
-        else:
-            # ctrl: remove from selection
-            sel = current.difference(sel)
-
-    if sel is not None:
-        hou.clearAllSelected()
-        for n in sel:
-            n.setSelected(True)
-
-
 def is_node_locked(node):
     """Check if node is locked. Implementation level LOL.
     """
@@ -478,20 +444,75 @@ def has_author(node, authors, username_only=False):
     return a in authors
 
 
-def select_netview_nodes(kwargs, criteria, allItems=False):
-    """.
+def add_to_selection(nodes, kwargs, selectMode=None):
+    """Extends the current node selection with 'nodes', according to
+    the modifier keys in kwargs.
+
+    no modifier:    replace selection
+    shift, alt:     add to selection
+    ctrl:           remove from selection
+    ctrl+shift:     intersect with selection
+    """
+    assert selectMode is None or type(selectMode) is str
+
+    haz_shift = kwargs["shiftclick"] or kwargs['altclick']
+    haz_ctrl = kwargs["ctrlclick"]
+
+    if selectMode is None:
+        # determine select mode based on kwargs
+        if haz_shift or haz_ctrl:
+            # we got some modifier pressed
+            if haz_shift:
+                    # shift: add (union), shift+ctrl: intersect
+                    selectMode = "intersect" if haz_ctrl else "add"
+            else:
+                # ctrl: remove from selection
+                selectMode = "remove"
+    else:
+        selectMode = selectMode.lower()
+
+    current = set(hou.selectedItems())
+    sel = set(nodes)
+    sel_length_old = len(sel)
+
+    if selectMode=="intersect":
+        sel = sel.intersection(current)
+    elif selectMode=="add":
+        sel = sel.union(current)
+    elif selectMode=="remove":
+        sel = current.difference(sel)
+    else:
+        selectMode = "replace"
+
+    if sel is not None:
+        hou.clearAllSelected()
+        for n in sel:
+            n.setSelected(True)
+
+    # report back
+    statmsg("Select (%s) %d nodes: Now %d selected (was %d)" % \
+        (selectMode.capitalize(), sel_length_old, len(sel), len(current), ) )
+
+
+def select_netview_nodes(kwargs, criteria, allItems=False, selectMode=None):
+    """Select nodes.
     """
     path = get_netview_path(kwargs)
     child_func = path.allItems if allItems else path.children
-    sel = [ n for n in child_func() if criteria(n) ]
-    add_to_selection(sel, kwargs)
+    sel = None
+    try:
+        sel = [ n for n in child_func() if criteria(n) ]
+    except:
+        statmsg("Couldn't select / Selection criteria not applicable", warn=True)
+
+    if sel is not None:
+        add_to_selection(sel, kwargs, selectMode=selectMode)
 
 
 def set_netview_selection(kwargs, criteria, allItems=False):
-    path = get_netview_path(kwargs)
-    child_func = path.allItems if allItems else path.children
-    for n in path.child_func():
-        n.setSelected(criteria(n))
+    """Replace selection with nodes matching a criteria function.
+    """
+    select_netview_nodes(kwargs, criteria, allItems=allItems, selectMode="replace")
 
 
 def paste_clipboard_to_netview(kwargs):
