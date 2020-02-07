@@ -724,9 +724,9 @@ hou.ui.setStatusMessage("Geometry guides are now %s" % ("DISPLAYED" if hou.sessi
 
 """Toggles time dependency badge display in all network editors.
 ----
-LMB: Toggle time dependency display
-Shift-LMB: Turn on
-Ctrl-LMB: Turn off
+LMB: Toggle time dependency display (between normal and large)
+Shift-LMB: Turn on (large)
+Ctrl-LMB: Turn off (hide)
 """
 
 @usage Usage
@@ -763,8 +763,8 @@ D = 'badgetimedep'
 ns = [ t for t in hou.ui.paneTabs() if type(t) is hou.NetworkEditor ]
 
 try:
-    b = ns[0].getPref(D) # hide/large
-    b = 'hide' if b=='large' else 'large'
+    b = ns[0].getPref(D)
+    b = 'normal' if b=='large' else 'large'
     
     if shift:
         b = 'large'

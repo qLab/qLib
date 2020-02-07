@@ -40,16 +40,16 @@
                 <label>Select All</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.set_netview_selection(kwargs, lambda n: True)
+qlibutils.set_netview_selection(kwargs, lambda n: True, allItems=True)
                 ]]></scriptCode>
             </scriptItem>
 
             <scriptItem id="pane.wsheet.select_none_ql">
                 <label>Select None</label>
                 <scriptCode><![CDATA[
-#import qlibutils
-#qlibutils.set_netview_selection(kwargs, lambda n: False)
-hou.clearAllSelected()
+import qlibutils
+qlibutils.set_netview_selection(kwargs, lambda n: False, allItems=True)
+#hou.clearAllSelected()
                 ]]></scriptCode>
             </scriptItem>
 
@@ -57,7 +57,7 @@ hou.clearAllSelected()
                 <label>Select Invert</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.set_netview_selection(kwargs, lambda n: not n.isSelected())
+qlibutils.set_netview_selection(kwargs, lambda n: not n.isSelected(), allItems=True)
                 ]]></scriptCode>
             </scriptItem>
 
