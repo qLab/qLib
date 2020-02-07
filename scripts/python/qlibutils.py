@@ -11,7 +11,7 @@ import hou
 import datetime
 import glob
 import os
-import platform
+import sys
 import re
 import subprocess
 import traceback
@@ -24,8 +24,9 @@ import nodegraphutils
 # TODO: msg functions with exception handling
 
 
-def is_platform(name='none'):
-    return name.lower() in platform.system().lower()
+def is_platform(name):
+    assert type(name) is str
+    return sys.platform.lower().startswith(name.lower())
 
 def is_linux():
     return is_platform('linux')
@@ -34,7 +35,7 @@ def is_windows():
     return is_platform('win')
 
 def is_mac():
-    return is_platform('mac')
+    return is_platform('darwin')
 
 
 def houVersionAsFloat():
