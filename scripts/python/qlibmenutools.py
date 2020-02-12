@@ -290,13 +290,15 @@ def build_upstream_channel_refs_menu(kwargs):
     def iz_good(pt):
         r = False
         try:
-            p = pt[0]
-            s = p.evalAsString()
-            r = \
-                (pt.parmTemplate().type() in types) \
-                and s!="" and "/" not in s \
-                and not p.isDisabled() and p.isVisible()
+            if len(pt)>0: # because of separators...
+                p = pt[0]
+                s = p.evalAsString()
+                r = \
+                    (pt.parmTemplate().type() in types) \
+                    and s!="" and "/" not in s \
+                    and not p.isDisabled() and p.isVisible()
         except:
+            print pt
             print "ERROR: %s" % traceback.format_exc()
         return r
 
