@@ -658,3 +658,40 @@ def displayHelpPath(path):
     assert type(path) is str
     hou.ui.curDesktop().displayHelpPath(path)
 
+
+def clipboard_has_node_paths(kwargs):
+    """Return True if the clipboard contains valid node path(s).
+    """
+    R = False
+    n = hou.ui.getTextFromClipboard().split()
+    if len(n)>0:
+        n = n[0]
+    R = hou.node(n)!=None
+    return R
+
+
+def paste_clipboard_as_object_merge(kwargs):
+    """Paste copied clipboard node path(s) as Object Merge SOP(s).
+    """
+    try:
+        nodes = [ hou.node(n) for n in hou.ui.getTextFromClipboard().split() ]
+
+        haz_shift = kwargs["shiftclick"] or kwargs['altclick']
+
+        objm = None
+        root = kwargs['editor'].pwd()
+
+        for node in nodes:
+            if objm==None or not haz_shift:
+                objm = root.createNode("object_merge",
+                    node_name="objm_%s" % node.name())
+                objm.moveToGoodPosition()
+                objm.parm("numobj").set(0)
+
+            if objm:
+                n = objm.parm("numobj")
+                i = n.eval()+1
+                n.set(i)
+                objm.parm("objpath%d" %i).set(objm.relativePathTo(node))
+    except:
+        print "ERROR: %s" % traceback.format_exc()
