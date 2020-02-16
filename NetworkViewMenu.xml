@@ -385,6 +385,17 @@ import qlibutils; qlibutils.paste_clipboard_to_netview(kwargs)
                 ]]></scriptCode>
             </scriptItem>
 
+            <scriptItem id="pane.wsheet.paste_path_as_objectmerge_ql">
+                <label>Copied Node(s) as Object Merge SOP...</label>
+                <expression>
+                    import qlibutils
+                    return qlibutils.clipboard_has_node_paths(kwargs)
+                </expression>
+                <scriptCode><![CDATA[
+import qlibutils; qlibutils.paste_clipboard_as_object_merge(kwargs)
+                ]]></scriptCode>
+            </scriptItem>
+
         </subMenu>
 
 
