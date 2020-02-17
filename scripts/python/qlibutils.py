@@ -684,7 +684,7 @@ def paste_clipboard_as_object_merge(kwargs):
             if objm==None or not haz_shift:
                 objm = root.createNode("object_merge",
                     node_name="objm_%s" % node.name())
-                objm.moveToGoodPosition()
+                objm.moveToGoodPosition(move_unconnected=False)
                 objm.parm("numobj").set(0)
 
             if objm:
