@@ -1,4 +1,6 @@
 {
+    "recommends": "houdini_version >= '17.5.321'",
+
     "env": [
         {
             "QLIB": "$HIH/qLib-dev",
