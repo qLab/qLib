@@ -664,8 +664,7 @@ def clipboard_has_node_paths(kwargs):
     """
     R = False
     n = hou.ui.getTextFromClipboard().split()
-    if len(n)>0:
-        n = n[0]
+    n = n[0] if len(n)>0 else ""
     R = hou.node(n)!=None
     return R
 
