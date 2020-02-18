@@ -72,7 +72,7 @@ revert to previous versions quick, etc.)
 
 [To read more on configuration, see the documentation on Packages](https://www.sidefx.com/docs/houdini/ref/plugins.html)
 
-(Please note that qLib requires 17.5.321 or higher for packages to work.)
+(Please note that qLib requires 17.5.321 or higher for its package to work.)
 
 ##### Older Houdini versions
 
