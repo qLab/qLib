@@ -694,3 +694,23 @@ def paste_clipboard_as_object_merge(kwargs):
                 objm.parm("objpath%d" %i).set(objm.relativePathTo(node))
     except:
         print "ERROR: %s" % traceback.format_exc()
+
+
+def get_existing_images(kwargs):
+    """Return a list of paths (opdef:/...) for existing images in the hip file.
+    """
+    R = []
+    return R
+
+
+def hip_has_pasted_images(kwargs):
+    """.
+    """
+    return False
+
+
+def paste_existing_image(kwargs):
+    """.
+    """
+    pass
+
