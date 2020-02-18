@@ -376,14 +376,27 @@ import qlibutils; qlibutils.hdapath_to_clipboard()
 
 
         <subMenu id = "paste_from_clipboard_submenu_ql">
-
             <label>Paste</label>
+
             <scriptItem id="pane.wsheet.paste_from_clipboard_ql">
                 <label>Clipboard as Text/Image...</label>
                 <scriptCode><![CDATA[
 import qlibutils; qlibutils.paste_clipboard_to_netview(kwargs)
                 ]]></scriptCode>
             </scriptItem>
+
+            <scriptItem id="pane.wsheet.paste_existing_image_ql">
+                <label>Existing Pasted Image...</label>
+                <expression>
+                    import qlibutils
+                    return qlibutils.hip_has_pasted_images(kwargs)
+                </expression>
+                <scriptCode><![CDATA[
+import qlibutils; qlibutils.paste_existing_image(kwargs)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
 
             <scriptItem id="pane.wsheet.paste_path_as_objectmerge_ql">
                 <label>Copied Node(s) as Object Merge SOP...</label>
@@ -405,7 +418,7 @@ import qlibutils; qlibutils.paste_clipboard_as_object_merge(kwargs)
         <subMenu id = "comment_submenu_ql">
             <label>Comment</label>
 
-           <scriptItem id="pane.wsheet.comment_cut_ql">
+            <scriptItem id="pane.wsheet.comment_cut_ql">
                 <label>Cut</label>
                 <scriptCode><![CDATA[
 import qlibutils
@@ -416,7 +429,7 @@ if sel:
                 ]]></scriptCode>
             </scriptItem>
 
-           <scriptItem id="pane.wsheet.comment_copy_ql">
+            <scriptItem id="pane.wsheet.comment_copy_ql">
                 <label>Copy</label>
                 <scriptCode><![CDATA[
 import qlibutils
