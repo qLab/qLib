@@ -519,6 +519,45 @@ def set_netview_selection(kwargs, criteria, allItems=False):
     select_netview_nodes(kwargs, criteria, allItems=allItems, selectMode="replace")
 
 
+
+
+def embedded_img_prefix(image_name):
+    """.
+    """
+    return "opdef:/qLib::Object/embedded_images?%s" % image_name
+
+
+def embedded_hda_typename():
+    return 'qLib::embedded_images'
+
+
+def get_embedded_img_hdadef():
+    category = hou.objNodeTypeCategory()
+    embedded = 'Embedded'
+    hda_def = hou.hdaDefinition(category, embedded_hda_typename(), embedded)
+    return hda_def
+
+
+def add_image_to_netview(image_path, pane, pwd):
+    """.
+    """
+    # add image to network view
+    image = hou.NetworkImage(image_path)
+    image.setBrightness(0.75)
+    #image.setRect(hou.BoundingRect(0, 0, 5, 2))
+    s = pane.visibleBounds()
+    center = s.center()
+    s.translate(-center)
+    s.scale((0.25, 0.25, ))
+    s.translate(center)
+    image.setRect(s)
+
+    images = nodegraphutils.loadBackgroundImages(pwd)
+    images.append(image)
+    pane.setBackgroundImages(images)
+    nodegraphutils.saveBackgroundImages(pwd, images)
+
+
 def paste_clipboard_to_netview(kwargs):
     """Paste clipboard contents (text or image) into the network editor.
     """
@@ -553,10 +592,8 @@ def paste_clipboard_to_netview(kwargs):
             image_name += '.png'
 
             if ok==0:
-                category = hou.objNodeTypeCategory()
-                hda_typename = 'qLib::embedded_images'
-                embedded = 'Embedded'
-                hda_def = hou.hdaDefinition(category, hda_typename, embedded)
+                hda_typename = embedded_hda_typename()
+                hda_def = get_embedded_img_hdadef()
                 
                 # create hda definition if doesn't exist
                 if not hda_def:
@@ -564,7 +601,7 @@ def paste_clipboard_to_netview(kwargs):
                     hda_node = temp_node.createDigitalAsset(name=hda_typename, save_as_embedded=True)
                     hda_node.destroy()
         
-                hda_def = hou.hdaDefinition(category, hda_typename, embedded)
+                hda_def = get_embedded_img_hdadef()
         
                 # create an instance in /obj if doesn't exist
                 node = None
@@ -585,20 +622,39 @@ def paste_clipboard_to_netview(kwargs):
                 hda_def.addSection(image_name, str(buffer.data()))
                 
                 # add image to network view
-                image = hou.NetworkImage("opdef:/qLib::Object/embedded_images?%s" % image_name)
-                image.setBrightness(0.75)
-                #image.setRect(hou.BoundingRect(0, 0, 5, 2))
-                s = pane.visibleBounds()
-                center = s.center()
-                s.translate(-center)
-                s.scale((0.25, 0.25, ))
-                s.translate(center)
-                image.setRect(s)
+                add_image_to_netview(embedded_img_prefix(image_name), pane, pwd)
 
-                images = nodegraphutils.loadBackgroundImages(pwd)
-                images.append(image)
-                pane.setBackgroundImages(images)
-                nodegraphutils.saveBackgroundImages(pwd, images)
+
+def get_existing_images(kwargs):
+    """Return a list of paths (opdef:/...) for existing images in the hip file.
+    """
+    R = []
+    hda_def = get_embedded_img_hdadef()
+    if hda_def:
+        R = [ n for n in hda_def.sections() if n.endswith(".png") ]
+    return R
+
+
+def hip_has_pasted_images(kwargs):
+    """.
+    """
+    return len(get_existing_images(kwargs))>0
+
+
+def paste_existing_image(kwargs):
+    """.
+    """
+    images = sorted(get_existing_images(kwargs))
+    pane = kwargs.get('editor', None)
+    sel = hou.ui.selectFromList(images, exclusive=True,
+                                title="Paste Existing Image",
+                                message="Select Image to Paste")
+    if len(sel)>0 and pane:
+        image_name = images[sel[0]]
+        pwd = pane.pwd()
+        add_image_to_netview(embedded_img_prefix(image_name), pane, pwd)
+
+
 
 
 def embed_selected_hdas(kwargs):
@@ -679,12 +735,15 @@ def paste_clipboard_as_object_merge(kwargs):
 
         objm = None
         root = kwargs['editor'].pwd()
+        offset = (0, 0, )
 
         for node in nodes:
             if objm==None or not haz_shift:
                 objm = root.createNode("object_merge",
                     node_name="objm_%s" % node.name())
-                objm.moveToGoodPosition(move_unconnected=False)
+                objm.setPosition( kwargs['editor'].visibleBounds().center() )
+                objm.move(offset)
+                offset = ( offset[0]+1.0, offset[1]-1.0, )
                 objm.parm("numobj").set(0)
 
             if objm:
@@ -694,23 +753,4 @@ def paste_clipboard_as_object_merge(kwargs):
                 objm.parm("objpath%d" %i).set(objm.relativePathTo(node))
     except:
         print "ERROR: %s" % traceback.format_exc()
-
-
-def get_existing_images(kwargs):
-    """Return a list of paths (opdef:/...) for existing images in the hip file.
-    """
-    R = []
-    return R
-
-
-def hip_has_pasted_images(kwargs):
-    """.
-    """
-    return False
-
-
-def paste_existing_image(kwargs):
-    """.
-    """
-    pass
 
