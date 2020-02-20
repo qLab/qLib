@@ -78,14 +78,6 @@ qlibutils.select_netview_nodes(kwargs, lambda n: n.networkItemType().name()=="Su
 
             <separatorItem />
 
-            <scriptItem id="pane.wsheet.select_non_bypassed_ql">
-                <label>Non-Bypassed</label>
-                <scriptCode><![CDATA[
-import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: not n.isBypassed())
-                ]]></scriptCode>
-            </scriptItem>
-
             <scriptItem id="pane.wsheet.select_bypassed_ql">
                 <label>Bypassed</label>
                 <scriptCode><![CDATA[
@@ -94,39 +86,47 @@ qlibutils.select_netview_nodes(kwargs, lambda n: n.isBypassed())
                 ]]></scriptCode>
             </scriptItem>
 
-            <separatorItem />
-
-            <scriptItem id="pane.wsheet.select_non_frozen_ql">
-                <label>Non-Frozen (Non-Locked)</label>
+            <scriptItem id="pane.wsheet.select_non_bypassed_ql">
+                <label>Non-Bypassed</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: not qlibutils.is_node_locked(n))
+qlibutils.select_netview_nodes(kwargs, lambda n: not n.isBypassed())
                 ]]></scriptCode>
             </scriptItem>
 
+            <separatorItem />
+
             <scriptItem id="pane.wsheet.select_frozen_ql">
-                <label>Frozen (Locked)</label>
+                <label>Locked (Frozen)</label>
                 <scriptCode><![CDATA[
 import qlibutils
 qlibutils.select_netview_nodes(kwargs, lambda n: qlibutils.is_node_locked(n))
                 ]]></scriptCode>
             </scriptItem>
 
-            <separatorItem />
-
-            <scriptItem id="pane.wsheet.select_non_time_dependent_ql">
-                <label>Non-Time Dependent</label>
+            <scriptItem id="pane.wsheet.select_non_frozen_ql">
+                <label>Non-Locked (Non-Frozen)</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: not n.isTimeDependent())
+qlibutils.select_netview_nodes(kwargs, lambda n: not qlibutils.is_node_locked(n))
                 ]]></scriptCode>
             </scriptItem>
+
+            <separatorItem />
 
             <scriptItem id="pane.wsheet.select_time_dependent_ql">
                 <label>Time Dependent</label>
                 <scriptCode><![CDATA[
 import qlibutils
 qlibutils.select_netview_nodes(kwargs, lambda n: n.isTimeDependent())
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.select_non_time_dependent_ql">
+                <label>Non-Time Dependent</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, lambda n: not n.isTimeDependent())
                 ]]></scriptCode>
             </scriptItem>
 
