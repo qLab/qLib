@@ -1,0 +1,26 @@
+= qLib shelf tools =
+
+"""Shelf tools provided by qLib."""
+
+@subtopics General
+
+:: [Icon:NETWORKS/scene] [Access Shot Node(s)|/shelf/qLib::AccessShotNode]
+
+@subtopics Viewport
+
+:: [Icon:COP2/invert] [Cycle Background Color|/shelf/qLib::ToggleViewportBackgroundColor]
+:: [Icon:OBJ/camera] [VCamera Dolly/Zoom Tool ("Vertigo")|/shelf/qLib::camera_dolly_zoom_ql]
+:: [Icon:NODEFLAGS/template] [Toggle Templates|/shelf/qLib::ToggleViewportTemplates]
+:: [Icon:IMAGE/view_guides] [Toggle Guides|/shelf/qLib::ToggleViewportGuides]
+
+@subtopics Network Editor
+
+:: [Icon:BUTTONS/copy] [Node Reference Copy|/shelf/qLib::ReferenceCopy]
+:: [Icon:NETVIEW/time_dependent_badge_large] [Toggle Time Depencendy Display|/shelf/qLib::ToggleTimeDependencyDisplay]
+:: [Icon:SOP/color] [Color by Author|/shelf/qLib::ColorbyAuthor]
+
+@subtopics Miscellaneous
+
+:: [Icon:PLAYBAR/editable_keys] [Playbar: Toggle Integer Frames|/shelf/qLib::ToggleIntegerFrames]
+:: [Icon:SOP/cache] [Flush Caches|/shelf/qLib::FlushCaches]
+:: [Icon:MISC/satchel] [Recover Crash File|/shelf/qLib::CrashRecovery]

@@ -1,0 +1,106 @@
+= Main Menu =
+
+"""Additions to the main Houdini menu."""
+
+This page describes all the menu items provided by qLib.
+
+NOTE:
+    All provided items are marked with a `[qL]` label postfix
+    to be easily identifiable. This can be useful in a production
+    environment with heavily customized menus.
+
+== File ==
+#display: raised
+
+Revert to Last Saved (qL):
+    Reopens the last saved state of the current hip file.
+
+Hold Scene (qL):
+    Quick-save of the current hip file to a temporary location.
+
+Fetch Scene (qL):
+    Quick-restore hip file from _Hold Scene_'s temporary location.
+
+Crash Recovery (qL):
+    Dialog box for restoring previous emergency saves
+    from crashed sessions.
+
+
+== qLib ==
+#display: raised
+
+Open in File Browser:
+    Opens a file browser with specific locations.
+
+    :box:
+        #display: raised
+
+        $HIP: Current HIP Directory...:
+            The folder of the current hip file.
+        
+        $JOB: Jobs Root Directory...:
+            ...
+
+        Selected HDA Location(s)...:
+            Opens the folder(s) that contain the definitions
+            of the currently selected HDAs.
+
+        $HIH: User Config Files...:
+            Opens the user's preferences folder
+            (usually called _houdiniXX.X_).
+        
+        $HFS: Houdini Install Dir...:
+            Opens the Houdini installation folder.
+
+        $HOME: Home Directory...:
+            Opens the user's home folder.
+
+
+Copy to Clipboard:
+    Copies certain paths or locations to the system clipboard.
+    Useful to send certain paths over chat or email.
+
+    :box:
+        #display: raised
+
+        $HIPFILE: Full HIP Path/Name:
+            Copies the full path to the hip file.
+        
+        $HIP: Current HIP Directory:
+            Copies the folder of the current hip file.
+        
+        $JOB: Jobs Root Directory:
+            ...
+
+
+Misc:
+    Miscellaneous utility functions.
+
+    :box:
+        #display: raised
+
+        Uninstall Embedded HDAs...:
+            Removes all HDA definitions residing in the current hip file.
+
+            TIP:
+                To see these, open __Assets > Asset Manager__, _Operators_ tab
+                and expand _Current HIP File_ / _Embedded_ section
+                (at the top of the list).
+
+        Show Houdini Path Entries...:
+            Shows a dialog, listing the folders where Houdini looks for
+            modules to load (in that particular order).
+        
+        Show Set Env Variables (hconfig)...:
+            Shows all the defined environment variables.
+
+        Show Path Env Variables (hconfig -p)...:
+            Shows a more verbose report of the environment,
+            including descriptions of the various sections and variables.
+
+        Refresh Popup Menus:
+            Rereads all popup menu definition files
+            and updates the menus. Useful when editing
+            your own menu extension files.
+
+
