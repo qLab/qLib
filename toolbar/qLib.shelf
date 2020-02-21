@@ -9,19 +9,19 @@
     <memberTool name="qLib::AccessShotNode"/>
     <memberTool name="qLib::ToggleViewportBackgroundColor"/>
     <memberTool name="qLib::camera_dolly_zoom_ql"/>
-    <memberTool name="qLib::ToggleIntegerFrames"/>
-    <memberTool name="qLib::ReferenceCopy"/>
-    <memberTool name="qLib::AttribDisplayMarkers"/>
     <memberTool name="qLib::ToggleViewportTemplates"/>
     <memberTool name="qLib::ToggleViewportGuides"/>
+    <memberTool name="qLib::AttribDisplayMarkers"/>
+    <memberTool name="qLib::ReferenceCopy"/>
     <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
     <memberTool name="qLib::ColorByAuthor"/>
+    <memberTool name="qLib::ToggleIntegerFrames"/>
     <memberTool name="qLib::FlushCaches"/>
     <memberTool name="qLib::CrashRecovery"/>
   </toolshelf>
 
   <tool name="qLib::AccessShotNode" label="::shot::" icon="NETWORKS_scene">
-    <helpText><![CDATA[#icon: COP2/invert
+    <helpText><![CDATA[#icon: NETWORKS/scene
 #context: obj
 #type: tool
 
@@ -31,9 +31,9 @@
 
 """Opens a floating parameter panel for scene Shot qL node(s).
 ---
-LMB: All Shot and Environment nodes
-Shift-LMB: Only "active" Shot(s) (visible/selectable)
-Alt-LMB: Environment nodes only
+LMB: All Shot and Environment nodes.
+Shift-LMB: Only "active" Shot(s) (visible/selectable).
+Alt-LMB: Environment nodes only.
 """
 
 @bugs Limitations
@@ -113,10 +113,10 @@ show_parms(shots, title="Scene Global(s)", kwargs=kwargs)
 *version 1*
 
 """Cycles between viewport color schemes (dark, grey, light).
-----
-LMB: Cycle background color
-Ctrl-LMB: Reset to black
-Shift-LMB: Reset to grey
+---
+LMB: Cycle background color.
+Ctrl-LMB: Reset to black.
+Shift-LMB: Reset to grey.
 """
 
 @bugs Limitations
@@ -167,16 +167,16 @@ hou.ui.setStatusMessage("Cycled background to %s" % bgs[bg].upper() )]]></script
 *version 1*
 
 """Toggle non-integer frame values on the playbar.
-----
-LMB: Toggle non-integer frames
-Shift-LMB: Switch to integer frames
+---
+LMB: Toggle non-integer frames.
+Shift-LMB: Switch to integer frames.
 """
 
 @usage Usage
 
-((LMB)):
+- ((LMB)):
     Toggle non-integer frames
-((Shift + LMB)):
+- ((Shift + LMB)):
     Switch to integer frames
 
 
@@ -209,7 +209,8 @@ hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"
 
 """Creates a Reference Copy where the reference source is easy to replace.
 ---
-Alt-LMB: Use relative path for source operator.
+LMB: Create reference copy with a single link to the source node.
+Alt-LMB: Use relative path for source node.
 """
 
 This function is the same as the original _Reference Copy_ operation,
@@ -222,6 +223,7 @@ This way the reference source is easy to change.
 @usage Using Reference Copy
 
 Select node(s) and click the shelf button.
+
 
 @relnotes Release Notes
 
@@ -345,13 +347,13 @@ for S in sel:
 
 = Attrib Display Markers qL =
 
-*version 1*
+*version 1* (obsoleted by viewport visualizers)
 
 """Creates display markers for all the attributes present on the displayed operator.
-----
-Shift-LMB: Clear previously built
-Ctrl-LMB: Clear ALL markers then rebuild
-Ctrl+Shift-LMB: Clear ALL markers
+---
+Shift-LMB: Clear previously built.
+Ctrl-LMB: Clear ALL markers then rebuild.
+Ctrl+Shift-LMB: Clear ALL markers.
 """
 
 This function builds visual display markers for all the attributes
@@ -363,16 +365,16 @@ _Marker_ section.)
 
 @usage Usage
 
-((LMB)):
+- ((LMB)):
     Builds attribute markers for the current Display SOP.
     (Existing markers will also be rebuilt.)
-((Shift + LMB)):
+- ((Shift + LMB)):
     Clears previously built attribute markers.
     (Markers not built with this function will be preserved.)
-((Ctrl + LMB)):
+- ((Ctrl + LMB)):
     Clears _all_ markers (made by this tool or otherwise)
     and rebuilds the attribute marker list.
-((Ctrl + Shift + LMB)) . :
+- ((Ctrl + Shift + LMB)) . :
     Deletes _all_ display markers. _All of them._
 
 
@@ -599,19 +601,19 @@ if not shift:
 *version 1*
 
 """Toggles template geometry display in viewports.
-----
-LMB: Toggle template display
-Shift-LMB: Enable template display
-Ctrl-LMB: Clear display template flag on all (S)OPs
+---
+LMB: Toggle template display.
+Shift-LMB: Enable template display.
+Ctrl-LMB: Clear display template flag on all (S)OPs.
 """
 
 @usage Usage
 
-((LMB)):
+- ((LMB)):
     Toggles template display (Display Options -> Guides -> Templated geometry, Selectable templates)
-((Shift + LMB)):
+- ((Shift + LMB)):
     Enable template display
-((Ctrl + LMB)):
+- ((Ctrl + LMB)):
     Clears template flag on all (S)OPs within the currently displayed container
 
 
@@ -663,16 +665,16 @@ else:
 *version 1*
 
 """Toggles OP guide display in the viewports.
-----
-LMB: Toggle guide display
-Shift-LMB: Enable guide display
+---
+LMB: Toggle guide display.
+Shift-LMB: Enable guide display.
 """
 
 @usage Usage
 
-((LMB)):
+- ((LMB)):
     Toggles guides display (Display Options -> Guides -> Node guides)
-((Shift + LMB)):
+- ((Shift + LMB)):
     Enable guides display
 
 @bugs Limitations
@@ -723,19 +725,19 @@ hou.ui.setStatusMessage("Geometry guides are now %s" % ("DISPLAYED" if hou.sessi
 *version 1*
 
 """Toggles time dependency badge display in all network editors.
-----
-LMB: Toggle time dependency display (between normal and large)
-Shift-LMB: Turn on (large)
-Ctrl-LMB: Turn off (hide)
+---
+LMB: Toggle time dependency display (between normal and large).
+Shift-LMB: Turn on (large).
+Ctrl-LMB: Turn off (hide).
 """
 
 @usage Usage
 
-((LMB)):
+- ((LMB)):
     Toggle time dependency display
-((Shift + LMB)):
+- ((Shift + LMB)):
     Turn on display
-((Ctrl + LMB)):
+- ((Ctrl + LMB)):
     Turn off display
 
 @bugs Limitations
@@ -789,23 +791,25 @@ except:
 
 """Color nodes in a network based on their authors.
 Select node(s) in the network editor to specify network.
-(NOTE: Selection is also needed when restoring original colors!)
-----
-LMB: Apply coloring by author
+---
+LMB: Apply coloring by author.
 Shift-LMB: Restore original colors (requires node selection!)
 """
 
 Select node(s) in a network to specify network.
 All nodes from the authors of selected nodes will he highlighted.
 
-Use Shift-click to restore original color
-(you still have to select a node to specify the network to be restored).
+Use ((Shift + LMB)) to restore original colors.
+
+NOTE:
+    You still have to select a node to specify the network
+    where colors need to be restored.
 
 @usage Usage
 
-((LMB)):
+- ((LMB)):
     Apply color by node author
-((Shift + LMB)):
+- ((Shift + LMB)):
     Restore original node colors
 ]]></helpText>
     <script scriptType="python"><![CDATA[# color-code nodes based on author names
@@ -988,6 +992,11 @@ qlibutils.do_crash_recovery()
 *version 1*
 
 """Switches to the dolly/zoom ('vertigo') camera viewport state (H17.5+).
+---
+LMB: Dolly/Zoom ("Vertigo").
+MMB: Focal Length Zoom.
+RMB: Dolly.
+SPACE: Regular viewport navigation.
 """
 ]]></helpText>
     <script scriptType="python"><![CDATA[import qlibutils
