@@ -16,16 +16,19 @@ NOTE:
     This document is a work in progress.
     For help on individual nodes, please see their corresponding help cards.
 
+    Existing documentation might not be up to date (especially in User Interface),
+    please report any inconsistencies. Thank you!
+
 @subtopics
 #display: notitle
 
 :col:
     == User Interface Additions ==
     ~~~
-    ::[Main Menu|ui/mainmenu]
-    ::[Network View Menu|ui/networkviewmenu]
-    ::[Parameter RMB Menu|ui/parmmenu]
-    ::[qLib Shelf|ui/shelf]
+    ::[Main Menu|mainmenu/]
+    ::[Network View Menu|networkviewmenu/]
+    ::[Parameter RMB Menu|parmmenu/]
+    ::[qLib Shelf|shelf/]
 
     == Other ==
     ~~~
