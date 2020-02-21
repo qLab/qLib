@@ -738,7 +738,7 @@ def paste_clipboard_as_object_merge(kwargs):
         offset = (0, 0, )
 
         for node in nodes:
-            if objm==None or not haz_shift:
+            if objm==None or haz_shift:
                 objm = root.createNode("object_merge",
                     node_name="objm_%s" % node.name())
                 objm.setPosition( kwargs['editor'].visibleBounds().center() )
