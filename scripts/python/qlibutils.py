@@ -538,6 +538,22 @@ def get_embedded_img_hdadef():
     return hda_def
 
 
+def get_existing_images(kwargs):
+    """Return a list of paths (opdef:/...) for existing images in the hip file.
+    """
+    R = []
+    hda_def = get_embedded_img_hdadef()
+    if hda_def:
+        R = [ n for n in hda_def.sections() if n.endswith(".png") ]
+    return R
+
+
+def hip_has_pasted_images(kwargs):
+    """.
+    """
+    return len(get_existing_images(kwargs))>0
+
+
 def add_image_to_netview(image_path, pane, pwd):
     """.
     """
@@ -584,7 +600,24 @@ def paste_clipboard_to_netview(kwargs):
             # generate automatic name
             image_name = 'image_' + datetime.datetime.now().replace(microsecond=0).isoformat('_').replace(":", "")
 
-            ok, image_name = hou.ui.readInput('Enter name of image to be pasted:',
+            msg = [ "Enter name of image to be pasted:" ]
+
+            images = sorted(get_existing_images(kwargs))
+            if len(images)>0:
+                msg.append("\n(Existing images:")
+                c=0
+                for i in images:
+                    msg.append("   - %s" % i)
+                    c+=1
+                    if c>=20:
+                        break
+                if c<len(images):
+                    msg.append("   - (...)  ")
+                msg[-1] += ")"
+
+            msg = "\n".join(msg)
+
+            ok, image_name = hou.ui.readInput(msg,
                 buttons=('Ok', 'Cancel', ), close_choice=1,
                 initial_contents=image_name)
             if image_name=='':
@@ -623,22 +656,6 @@ def paste_clipboard_to_netview(kwargs):
                 
                 # add image to network view
                 add_image_to_netview(embedded_img_prefix(image_name), pane, pwd)
-
-
-def get_existing_images(kwargs):
-    """Return a list of paths (opdef:/...) for existing images in the hip file.
-    """
-    R = []
-    hda_def = get_embedded_img_hdadef()
-    if hda_def:
-        R = [ n for n in hda_def.sections() if n.endswith(".png") ]
-    return R
-
-
-def hip_has_pasted_images(kwargs):
-    """.
-    """
-    return len(get_existing_images(kwargs))>0
 
 
 def paste_existing_image(kwargs):
