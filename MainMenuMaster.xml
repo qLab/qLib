@@ -96,60 +96,6 @@ import qlibutils; qlibutils.to_clipboard(env="JOB")]]>
 
 		<separatorItem />
 
-		<subMenu id="ql_edit_submenu">
-		<label>[txt]: Edit File</label>
-
-			<scriptItem id="h.ql_edit_env">
-				<label>houdini.env...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix xdg-open $HIH/houdini.env '&'")]]>
-				</scriptCode>
-			</scriptItem>
-
-			<scriptItem id="h.ql_edit_display_opts">
-				<label>display_options.def...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix xdg-open $HIH/display_options.def '&'")]]>
-				</scriptCode>
-			</scriptItem>
-
-		</subMenu>
-
-		<subMenu id="ql_record_submenu">
-		<label>[rec]: Record</label>
-
-			<scriptItem id="h.ql_resize_window_home_large">
-				<label>Resize Window (HD 1080p)...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,1912,1080")]]>
-				</scriptCode>
-			</scriptItem>
-
-			<scriptItem id="h.ql_resize_window_work">
-				<label>Resize Window (HD 720p)...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,1280,720")]]>
-				</scriptCode>
-			</scriptItem>
-
-			<scriptItem id="h.ql_resize_window_small">
-				<label>Resize Window (small #1)...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,960,540")]]>
-				</scriptCode>
-			</scriptItem>
-
-			<scriptItem id="h.ql_resize_window_animgif">
-				<label>Resize Window (small #2)...</label>
-				<scriptCode><![CDATA[
-hou.hscript("unix wmctrl -r :ACTIVE: -e 0,0,64,800,640")]]>
-				</scriptCode>
-			</scriptItem>
-
-		</subMenu>
-
-		<separatorItem />
-
 		<subMenu id="ql_misc_submenu">
 		<label>Misc</label>
 
