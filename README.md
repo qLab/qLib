@@ -51,6 +51,7 @@ cinematics and commercials.
 - Download the latest version (see link above)
 - Extract and move it into the Houdini config folder in your home folder
 - Append provided houdini.env example file contents to your own houdini.env
+  - Alternatively, use a package json file (see below)
 
 
 ### Installation
@@ -69,6 +70,7 @@ revert to previous versions quick, etc.)
 
 - Create a folder called **packages** in your Houdini preferences folder (in your home dir)
 - Copy the **qLib_linux.json** (or **qLib_windows.json**) file into the **packages** folder
+- Edit the json file to point to the extracted qLib folder (edit the path in the "QLIB" line)
 
 [To read more on configuration, see the documentation on Packages](https://www.sidefx.com/docs/houdini/ref/plugins.html)
 
