@@ -448,6 +448,52 @@ def has_author(node, authors, username_only=False):
     return a in authors
 
 
+def parm_is_keyframed(parm):
+    """Checks if parm is keyframed.
+    A parm is considered keyframed if there's at least 2 keyframes,
+    or has a single one with a curve expression thing on it (ending with "()")
+
+    parm: a hou.Parm
+    """
+    num_keys = len(parm.keyframes())
+    if num_keys>1:
+        return True
+    if num_keys==1 and parm.keyframes()[0].expression().endswith("()"):
+        return True
+    return False
+
+
+def parm_is_time_dependent(parm):
+    """Checks if parm is time-dependent.
+    """
+    return parm.isTimeDependent()
+
+
+def has_parm_with_criteria(node, criteria):
+    """Returns True if the specified node has any parms
+    that match a given criteria.
+
+    criteria: (lambda) function with a hou.Parm as argument
+    """
+    parms = node.parms() # should it be parmTuples()?
+    for parm in parms:
+        if criteria(parm):
+            return True
+    return False
+
+
+def has_keyframed_parms(node):
+    """Check if a node has keyframed parms.
+    """
+    return has_parm_with_criteria(node, parm_is_keyframed)
+
+
+def has_time_dependent_parms(node):
+    """Check if a node has time-dependent parms.
+    """
+    return has_parm_with_criteria(node, parm_is_time_dependent)
+
+
 def add_to_selection(nodes, kwargs, selectMode=None):
     """Extends the current node selection with 'nodes', according to
     the modifier keys in kwargs.
