@@ -448,6 +448,52 @@ def has_author(node, authors, username_only=False):
     return a in authors
 
 
+def parm_is_keyframed(parm):
+    """Checks if parm is keyframed.
+    A parm is considered keyframed if there's at least 2 keyframes,
+    or has a single one with a curve expression thing on it (ending with "()")
+
+    parm: a hou.Parm
+    """
+    num_keys = len(parm.keyframes())
+    if num_keys>1:
+        return True
+    if num_keys==1 and parm.keyframes()[0].expression().endswith("()"):
+        return True
+    return False
+
+
+def parm_is_time_dependent(parm):
+    """Checks if parm is time-dependent.
+    """
+    return parm.isTimeDependent()
+
+
+def has_parm_with_criteria(node, criteria):
+    """Returns True if the specified node has any parms
+    that match a given criteria.
+
+    criteria: (lambda) function with a hou.Parm as argument
+    """
+    parms = node.parms() # should it be parmTuples()?
+    for parm in parms:
+        if criteria(parm):
+            return True
+    return False
+
+
+def has_keyframed_parms(node):
+    """Check if a node has keyframed parms.
+    """
+    return has_parm_with_criteria(node, parm_is_keyframed)
+
+
+def has_time_dependent_parms(node):
+    """Check if a node has time-dependent parms.
+    """
+    return has_parm_with_criteria(node, parm_is_time_dependent)
+
+
 def add_to_selection(nodes, kwargs, selectMode=None):
     """Extends the current node selection with 'nodes', according to
     the modifier keys in kwargs.
@@ -600,11 +646,11 @@ def paste_clipboard_to_netview(kwargs):
             # generate automatic name
             image_name = 'image_' + datetime.datetime.now().replace(microsecond=0).isoformat('_').replace(":", "")
 
-            msg = [ "Enter name of image to be pasted:" ]
+            msg = []
 
             images = sorted(get_existing_images(kwargs))
             if len(images)>0:
-                msg.append("\n(Existing images:")
+                msg.append("Existing images:")
                 c=0
                 for i in images:
                     msg.append("   - %s" % i)
@@ -613,12 +659,12 @@ def paste_clipboard_to_netview(kwargs):
                         break
                 if c<len(images):
                     msg.append("   - (...)  ")
-                msg[-1] += ")"
+                msg.append('\n(Images are stored in an embedded "qLib::embedded_images" /obj node).')
 
             msg = "\n".join(msg)
 
-            ok, image_name = hou.ui.readInput(msg,
-                buttons=('Ok', 'Cancel', ), close_choice=1,
+            ok, image_name = hou.ui.readInput("Enter name of image to be pasted",
+                buttons=('Ok', 'Cancel', ), close_choice=1, help=msg,
                 initial_contents=image_name)
             if image_name=='':
                 ok = 1
