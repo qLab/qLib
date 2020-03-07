@@ -646,11 +646,11 @@ def paste_clipboard_to_netview(kwargs):
             # generate automatic name
             image_name = 'image_' + datetime.datetime.now().replace(microsecond=0).isoformat('_').replace(":", "")
 
-            msg = [ "Enter name of image to be pasted:" ]
+            msg = []
 
             images = sorted(get_existing_images(kwargs))
             if len(images)>0:
-                msg.append("\n(Existing images:")
+                msg.append("Existing images:")
                 c=0
                 for i in images:
                     msg.append("   - %s" % i)
@@ -659,12 +659,12 @@ def paste_clipboard_to_netview(kwargs):
                         break
                 if c<len(images):
                     msg.append("   - (...)  ")
-                msg[-1] += ")"
+                msg.append('\n(Images are stored in an embedded "qLib::embedded_images" /obj node).')
 
             msg = "\n".join(msg)
 
-            ok, image_name = hou.ui.readInput(msg,
-                buttons=('Ok', 'Cancel', ), close_choice=1,
+            ok, image_name = hou.ui.readInput("Enter name of image to be pasted",
+                buttons=('Ok', 'Cancel', ), close_choice=1, help=msg,
                 initial_contents=image_name)
             if image_name=='':
                 ok = 1
