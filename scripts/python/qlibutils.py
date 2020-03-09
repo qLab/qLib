@@ -458,8 +458,12 @@ def parm_is_keyframed(parm):
     num_keys = len(parm.keyframes())
     if num_keys>1:
         return True
-    if num_keys==1 and parm.keyframes()[0].expression().endswith("()"):
-        return True
+    if num_keys==1:
+        k = parm.keyframes()[0]
+        # single keyframe: should be a hscript expression of "bezier()" or similar
+        return \
+            k.expressionLanguage() == hou.exprLanguage.Hscript and \
+            re.match("^[a-z]*\(\)$", k.expression())
     return False
 
 
