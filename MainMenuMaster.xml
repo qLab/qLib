@@ -131,6 +131,15 @@ import qlibutils; qlibutils.show_shellcmd_results(kwargs, cmd="hconfig -p", labe
 
 			<separatorItem />
 
+			<scriptItem id="h.ql_misc_refresh_gallery_items">
+				<label>Refresh Gallery Items</label>
+				<scriptCode><![CDATA[
+import qlibutils
+qlibutils.update_gallery_items()
+]]>
+				</scriptCode>
+			</scriptItem>
+
 			<scriptItem id="h.ql_misc_menurefresh">
 				<label>Refresh Popup Menus</label>
 				<scriptCode><![CDATA[

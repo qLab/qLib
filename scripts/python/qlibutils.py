@@ -821,3 +821,31 @@ def paste_clipboard_as_object_merge(kwargs):
     except:
         print "ERROR: %s" % traceback.format_exc()
 
+
+
+def update_gallery_items(kwargs=None):
+    """Reload all gallery items.
+    """
+    galleries = hou.galleries.galleries()
+    gal_files = set() # a set of all currently loaded gallery files
+
+    # collect all loaded galleries and remove them
+    for g in galleries:
+        try:
+            f = re.search('"([^\"]+)"', repr(g)).group(1)
+            gal_files.add(f)
+            #print "found:", f
+            hou.galleries.removeGallery(f)
+        except:
+            pass
+
+    # look for new gallery files in the paths, and collect them
+    paths = hou.houdiniPath("HOUDINI_GALLERY_PATH")
+    for path in paths:
+        files = glob.glob(path+"/*.gal")
+        gal_files.update(files)
+
+    # install all found gallery files
+    for file in gal_files:
+        #print "installing:", file
+        hou.galleries.installGallery(file)
