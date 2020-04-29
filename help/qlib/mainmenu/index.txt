@@ -98,6 +98,11 @@ Misc:
             Shows a more verbose report of the environment,
             including descriptions of the various sections and variables.
 
+        Refresh Gallery Items:
+            Reloads all galleries currently loaded in Houdini,
+            as well as any new gallery (`.gal`) files that can be found
+            in the `HOUDINI_GALLERY_PATH`.
+
         Refresh Popup Menus:
             Rereads all popup menu definition files
             and updates the menus. Useful when editing
