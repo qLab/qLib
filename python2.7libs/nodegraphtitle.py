@@ -1,3 +1,5 @@
+# NOTE: this file has to be checked against and updated for every new Houdini version!
+
 from __future__ import print_function
 import hou
 import nodegraphprefs as prefs
@@ -22,6 +24,33 @@ def networkEditorTitleLeft(editor):
 
     return title
 
+
+def add_extra_title_right_ql(editor, pwd, title):
+    """Add extra information based on selection, hidden nodes, etc.
+    """
+
+    try:
+        # show all/selected if something's selected
+        all_items = len(pwd.allItems())
+        selected = len(hou.selectedItems())
+        if selected>0:
+            title += "\n\nselected: %d\n(of %d)" % (selected, all_items, )
+
+        # show all/hidden if there's hidden
+        all_nodes = len(pwd.children())
+        hidden_nodes = len([ n for n in pwd.children() if n.isHidden() ])
+        if hidden_nodes>0:
+            title += "\n\nhidden: %d\n(of %d)" % (hidden_nodes, all_nodes, )
+
+        # TODO: show more info on the shift+Z panel thing?
+
+    except:
+        pass
+
+    return title
+
+
+
 def networkEditorTitleRight(editor):
     try:
         title = ''
@@ -31,5 +60,6 @@ def networkEditorTitleRight(editor):
     except:
         title = ''
 
-    return title
+    title = add_extra_title_right_ql(editor, pwd, title)
 
+    return title
