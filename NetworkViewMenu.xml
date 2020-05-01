@@ -66,6 +66,16 @@ qlibutils.add_to_selection(same, kwargs)
                 ]]></scriptCode>
             </scriptItem>
 
+            <scriptItem id="pane.wsheet.select_all_of_same_shape_ql">
+                <label>All of Same Shape</label>
+                <scriptCode><![CDATA[
+import qlibutils
+sel = hou.selectedItems()
+same = qlibutils.find_same_shape(sel)
+qlibutils.add_to_selection(same, kwargs)
+                ]]></scriptCode>
+            </scriptItem>
+
             <separatorItem />
 
             <scriptItem id="pane.wsheet.select_with_keyframed_parms_ql">
