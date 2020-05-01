@@ -389,6 +389,29 @@ def find_same_colored(nodes):
     return r
 
 
+def get_shape_name(node):
+    """Return shape name of the node.
+    """
+    #TODO: assert: node is a node object
+    return node.userData("nodeshape") or node.type().defaultShape()
+
+
+def find_same_shape(nodes):
+    """Find nodes with the same shape(s) as the specified node(s).
+    TODO:
+        - make sure there's no need for per-component floating point comparison
+    """
+    r = []
+    if len(nodes)>0:
+        shapes = set()
+        for n in nodes:
+            shapes.add(get_shape_name(n))
+
+        all = nodes[0].parent().allItems()
+        r = [ n for n in all if get_shape_name(n) in shapes ]
+    return r
+
+
 def get_netview_path(kwargs):
     """Finds the path of the current network view from kwargs.
     """
