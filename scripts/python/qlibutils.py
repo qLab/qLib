@@ -393,7 +393,12 @@ def get_shape_name(node):
     """Return shape name of the node.
     """
     #TODO: assert: node is a node object
-    return node.userData("nodeshape") or node.type().defaultShape()
+    shape = None
+    try:
+        shape = node.userData("nodeshape") or node.type().defaultShape()
+    except:
+        pass
+    return shape
 
 
 def find_same_shape(nodes):
