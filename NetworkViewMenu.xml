@@ -351,7 +351,8 @@ for s in sel:
                 <label>Hide Comment</label>
                 <scriptCode><![CDATA[
 sel = hou.selectedNodes()
-for s     try:
+for s in sel:
+    try:
         hou.hscript("opset -Y off %s" % s.path())
     except:
         pass
