@@ -11,16 +11,38 @@
 
 It's a collection of useful, general-purpose Houdini assets (or, a Houdini generalists' toolkit).
 
+=== Digital Assets (OTLs / HDAs) ===
+
 - Emphasis on
-    - Reliability, backwards compatibility
-    - Node help pages! (with pictures if possible), including change logs
     - Performance (see asset evolution below)
+    - Reliability, backwards compatibility
+    - Documentation (help pages with pictures if possible, change logs)
 - General purpose (i.e. not production specific)
 - Modular instead of monolithic: node combinations/chains instead of huge assets
-    - Example: velocity generation chain: Velocity (initial directions), Vector Jitter, (random angles/amplitudes), Attrib Shape qL (masking the amplitudes)
-- Exists / evolves since about H11
+    - Example: velocity generation chain
+      - Velocity (initial directions)
+      - Vector Jitter (random angles/amplitudes)
+      - Attrib Shape (masking amplitudes)
+- Exists / evolves since around Houdini 11 (2012-ish)
 - We provide example scenes (might be outdated ones, though)
 - Free to access, experiment, give feedback on or contribute
+
+=== Additional (non-HDA) components ===
+
+- Menu additions
+  - Main menu
+  - Network editor menu
+  - Parameter RMB menu
+- qLib node color scheme, providing color codes for
+  - Visualization nodes
+  - Dynamics and related (i.e. dynamics post process) nodes
+- Gallery items
+- VEXpression presets for existing (non-qLib) nodes
+
+NOTE:
+    In the UI, all qLib-related elements are marked with a `[qL]` prefix or postfix.
+    This helps identifying where these items come from in a more heavily "modded"
+    environment (such as a larger company).
 
 
 
