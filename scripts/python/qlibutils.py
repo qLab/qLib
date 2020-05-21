@@ -572,7 +572,10 @@ def add_to_selection(nodes, kwargs, selectMode=None):
             n.setSelected(True)
 
     # report back
-    statmsg("Select (%s) %d nodes: Now %d selected (was %d)" % \
+    statmsg("Select (%s) %d nodes: Now %d selected (was %d)"
+        "   (SHIFT/ALT: add to selection"
+        ", CTRL:remove from selecton"
+        ", CTRL+SHIFT:intersect with selection)" % \
         (selectMode.capitalize(), sel_length_old, len(sel), len(current), ) )
 
 
