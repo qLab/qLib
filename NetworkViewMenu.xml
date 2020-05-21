@@ -351,10 +351,21 @@ for s in sel:
                 <label>Hide Comment</label>
                 <scriptCode><![CDATA[
 sel = hou.selectedNodes()
-for s     try:
+for s in sel:
+    try:
         hou.hscript("opset -Y off %s" % s.path())
     except:
         pass
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
+            <scriptItem id="pane.wsheet.reset_node_color_shape_ql">
+                <label>Reset Node Color and Shape</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+import qlibutils; qlibutils.reset_nodes(kwargs, sel)
                 ]]></scriptCode>
             </scriptItem>
 

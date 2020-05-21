@@ -601,6 +601,19 @@ def set_netview_selection(kwargs, criteria, allItems=False):
 
 
 
+def reset_nodes(kwargs, nodes, resetColor=True, resetShape=True):
+    """.
+    """
+    for n in nodes:
+        if resetColor:
+            d = n.type().defaultColor()
+            if d!=n.color():
+                n.setColor(d)
+        if resetShape:
+            if "nodeshape" in n.userDataDict():
+                n.destroyUserData("nodeshape")
+
+
 
 def embedded_img_prefix(image_name):
     """.
