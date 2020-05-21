@@ -23,6 +23,10 @@ NOTE:
 #display: notitle
 
 :col:
+    == Introduction ==
+
+    ::[What is qLib|intro/]
+
     == User Interface Additions ==
     ~~~
     ::[Main Menu|mainmenu/]
