@@ -1,0 +1,375 @@
+
+= Introduction to qLib =
+
+"""A bullet points-ish introduction."""
+
+
+
+== What is qLib ==
+
+"The main goal of qLib is to provide a collection of reusable assets that makes the everyday work of the Houdini artist easier."
+
+It's a collection of useful, general-purpose Houdini assets (or, a Houdini generalists' toolkit).
+
+=== Digital Assets (OTLs / HDAs) ===
+
+- Emphasis on
+    - Performance (see asset evolution below)
+    - Reliability, backwards compatibility
+    - Documentation (help pages with pictures if possible, change logs)
+- General purpose (i.e. not production specific)
+- Modular instead of monolithic: node combinations/chains instead of huge assets
+    - Example: velocity generation chain
+      - Velocity (initial directions)
+      - Vector Jitter (random angles/amplitudes)
+      - Attrib Shape (masking amplitudes)
+- Exists / evolves since around Houdini 11 (2012-ish)
+- We provide example scenes (might be outdated ones, though)
+- Free to access, experiment, give feedback on or contribute
+
+=== Additional (non-HDA) components ===
+
+- Menu additions
+  - Main menu
+  - Network editor menu
+  - Parameter RMB menu
+- qLib node color scheme, providing color codes for
+  - Visualization nodes
+  - Dynamics and related (i.e. dynamics post process) nodes
+- Gallery items
+- VEXpression presets for existing (non-qLib) nodes
+
+NOTE:
+    In the UI, all qLib-related elements are marked with a `[qL]` prefix or postfix.
+    This helps identifying where these items come from in a more heavily "modded"
+    environment (such as a larger company).
+
+
+
+== Interwebs links ==
+
+- Main page: http://qlab.github.io/qLib/
+- Github: https://github.com/qLab/qLib
+    - Stats:
+        - we started in around 2013
+        - as of 2018: ~700 tickets overall, ~250 still unresolved
+        - as of 2020: ~970 tickets overall, ~250 still unresolved
+    - See commits and issues pages for more info if you're interested
+    - We do *rolling releases*
+        - Frequent version updates
+        - Easy to roll back to a previous version with minimal impact
+- Facenbuchen: https://www.facebook.com/qLibHoudini/ (there's useful tips too -- fb as a publishing platform sucks, though)
+
+
+
+== qLib assets ==
+
+qLib assets are usually provide one level higher functions than regular Houdini nodes, but they're still building blocks. You're still gonna create quite a few nodes, but not as many. Once you get the hang of it you can work way faster and more conveniently.
+
+Types of nodes:
+- General-purpose convenience nodes (quality of life)
+- Nodes for specific purposes (e.g. fracture, curve vectors generation, etc)
+- Enhanced versions of Houdini nodes (e.g. Fluid Source qL SOP, Exploded View qL SOP)
+    - Those are retired as soon as the original Houdini one is improved (e.g. Scatter qL SOP)
+
+The state and evolution of assets has the same nature as out-of-the-box Houdini ones --
+- The ones used most are the most polished
+- Some nodes become obsolete and eventually removed (some still hanging around)
+- There's always some of them that should be revised, then updated or retired
+
+qLib_SOP_nodes.png
+
+(we could probably dump 1/3-th of these :) turn them into gallery items)
+
+
+
+== Evolution of a qLib asset ==
+
+A qLib digital asset goes through the following phases --
+
+=== Starts out as "experimental" ===
+
+- Proposal / presentation of an idea
+- Anything can change (behaviour or parameters) "no guarantees"
+    - In practice both gets nailed down pretty quick (maybe parameter defaults change)
+    - Gets nailed down pretty quick because we aim to keep nodes relatively simple
+- Can be slow but it should do the job
+- Can be thrown away if the idea doesn't work out
+- Ideas can also become gallery items (see below)
+
+=== Next stage "future" ===
+
+- Intermediate stage between experimental and final
+  - This stage is from the time before Houdini supported asset namespaces/versions
+  - We might get rid of this stage actually
+- It means the asset passed initial production tests (==we used them for a while and seem to be working) and we should keep it long term in asset form
+
+=== Final stage "base" (part of the base library) ===
+
+- Assets in this stage should be fully reliable, without bugs, reasonably performant and fully backwards-compatible
+- Even if they're being edited/bugfixed
+    - ...same set of parameters should give the same results
+    - ...parameter defaults shouldn't change
+    - ...any new parms should be added with such defaults so they wouldn't change previous behaviour
+    - What happens if we can't pull this off? We version up! (see below)
+
+These phases made more sense when Houdini didn't have asset versioning, so we had to be extra careful (base was considered practically untouchable).
+
+
+
+== Asset versions ==
+
+operator_bar.png
+
+We use Houdini's asset namespace/versioning system to help us maintain backwards compatibility.
+
+A full node name looks like
+
+*qLib :: attrib_ramp_ql :: 2*
+
+Where qLib is the namespace, 2 is the version number.
+
+This way, if we need to add any change that breaks backward-compatibility, we just increase the version.
+
+Old scenes will still use the old versions, but newly created nodes will be the newer version -- and you can hand-update your old scenes if need be.
+
+Common scenarios where we version up:
+- An asset gives different results for the same parameter values after an update (e.g. a bug fix, etc)
+- An asset have a default parameter value changed
+- If there's even the slightest suspicion of backwards incompatibility, we version up
+- Versioning up can be used to avoid getting harmless warnings on scene open (e.g. deleting parameters, etc)
+
+
+
+== Help cards ==
+
+All assets come with help cards.
+- With illustrations if applicable -- a picture worth a thousand dollars
+- With mandatory change logs -- even the smallest changes are logged
+
+=== Help card example: Velocity qL SOP ===
+
+- Short description, pictures for extra clarity if possible
+- Help page is essential for everyone including the author
+- Note the Release Notes, dates/changes -- very important
+- Not all help have pictures, but all of them have release notes history
+
+velocity_ql_help.png
+
+velocity_ql_help_changelog.png
+
+
+
+== Gallery items ==
+
+qLib also comes with a large number of gallery items (or node presets)
+
+- You can access them from the node presets gearbox thing, or from the gallery
+- There are subnet types which contain entire node networks (debris, character proxy generation, ModelFactory /VFX presets, etc)
+- Sometimes assets are turned into gallery items and vice versa
+    - Subnet-type gallery items are useful as templates (where chances are you're gonna tweak/rewire it after creation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Node examples, with pictures ==
+
+- Because a picture worth a thousand dollars
+- No movies yet sorry :(
+= All of this and more you can find on the FB page, btw
+
+=== Assets (random highlights) ===
+
+attrib_shape_ql_1.png
+
+Attrib Shape qL SOP: generates attribute values based on a geometry shape (built-in primitives or connected input geometry or volume), with a falloff. It can also do a composite operation, so you can adjust velocity vector lengths with it for example.
+
+(For actual input shape geo, internally it uses VDBs and sets the bandwith right based on the falloff setting, etc)
+
+Group by Percent qL SOP: can group elements (points/prims) randomly or based on an attribute
+
+Group by Percent qL SOP: can group elements (points/prims) randomly or based on an attribute (on the right I used an Attrib Shape to define a spherical shape with a falloff as a 0..1 attribute on prims). With VEXpressions you can group-by-chance other stuff such as velocity magnitude.
+
+attrib_shape_group_by_percent.png
+
+Attrib Shape + Group by Percent combination to delete voronoi chunks based on soft-edged spherical shapes (takes about 2 minutes to set up)
+
+point_jitter_ql.png
+
+Point Jitter qL SOP: An enhanced version of the original, with more controls, VEXpressions, support for vector attributes to specify jitter axes, etc.
+
+point_jitter_emission_breakup.png
+
+An early version of Point Jitter qL being used to break up particle emission banding, by jittering along emission velocity vectors (yes that's an old-school popnet right in there)
+
+point_jitter_ql_prim_jitter_960.png
+
+Jittering primitives (VEXpression preset)
+
+point_jitter_ql_jitter_by_name_attrib_960.png
+
+Jittering fractured chunks by "name" attribute (VEXpression preset)
+
+attrib_ramp_ql.png
+
+Attrib Ramp qL SOP: Generates an attribute (color or float type) using a ramp from an input attribute or VEXpression. Pretty useful, I should do a separate session just on this, Attrib Shape and Velocity.
+
+noise_ql.png
+
+Noise qL SOP: The unified noise wrapped up in a SOP asset, with VEXpression support etc. (So you can also displace along normals, perturb velocity directions, etc)
+
+noise_ql_attrib_ramp_masked.png
+
+Noise qL:
+
+    20 copies of a circular arc
+    Attrib Ramp generates a weight attribute along the curve lengths
+    Noise qL applies noise, masked by weight, driver attribute (position) is offseted by primitive (curve) number (VEXpression preset)
+
+velocity_ql_1.png
+
+velocity_ql_2.png
+
+Velocity qL SOP: You can specify velocity vectors (both linear and angular) using a transformation, or a deformation. Very useful for easy emission directions.
+
+vector_jitter_ql_960.png
+
+Vector Jitter qL SOP: Jitter vector angles / lengths. Very useful, especially for emission shaping. (Note emission profile on the bottom particle emitter, 180 degrees wide with a small exponent giving an interesting shape)
+
+You can chain them up to get really cool emission shaping (but emission shaping is a topic in itself)
+
+deformer_suite.png
+
+Deformer suite: Bend, Twist (Twirl), Bias, Taper, Mountain.
+
+    The goal was to have the exact same thing as in Maya (easy placement, guides, consistent behaviour, etc)
+    Common deformer controls (envelope, weight attribute, transform parameters, etc)
+    Advanced options to extract transforms (could be replaced with CHOP constraint, though)
+    Convenience functions to snap/fit deformer guide around the actual geometry
+
+bend_ql.png
+
+Bend deformer, showing guides: deformer guide and original / deformed bbox guide.
+
+weighted_xform_ql.png
+
+Weighted Transform qL SOP: Regular transform with a deformer weight attrib support.
+
+curve_frame_ql.png
+
+Curve Frame qL SOP: Generates non-flipping tangents/normals/up vectors on curves. Interface version 2 is optimized to work on a large number of curves (replaced python with vex, resulted in crazy speedups).
+
+
+force_visualizer_ql_dop.png
+
+Force Visualizer qL DOP: this can be used to visualize those DOP forces you have no idea what they do otherwise (here the noise-fielded uniform force is being visualized)
+
+(We have other visualizers too -- attributes, groups, volumes)
+
+space_partition_ql.png
+
+Space Partition qL SOP: partition points or primitives based on a lattice-like grid, using groups and/or name attribute. VEX-optimized, so it should perform adequately with large data sets.
+
+deform_by_tetra_ql.png
+
+Deform by Tetra qL SOP: Deforms geometry and volumes using a tetramesh lattice. (Unfortunately the interpolation is still linear so you have to have a high res tet mesh)
+
+Looking for a non-linear deform-by-tets algorithm btw!! :D
+
+voronoi_vdb_fracture_ql.jpg
+
+Voronoi VDB Fracture SOP: A fracture asset using a mixed Voronoi/VDB technique
+
+    it converts geometry to VDBs for fracturing
+    faster than Voronoi on heavy meshes
+    geo doesn't have to be clean, just VDB-able (closed shells)
+    gives super nice interior details, no self-intersections, etc
+    transfers attributes
+    UVs? well..... the UV seam problem still have to be solved somehow (workaround is to crank up the vdb res :/)
+
+
+maze_ql.png
+
+Maze qL: A procedural maze-building algorithm. Looks cool but what's it good for?
+
+maze_ql_buildings.jpg
+
+Something like this -- procedural buildings, every floor is built using a "maze" (this is available as an example scene -- it's pretty old though so hopefully it still works)
+
+
+exploded_view_ql.png
+
+Exploded qL SOP: An improved version of the original, works exactly the same way but way faster (uses Transform Pieces instead of a for-loop internally), and has a few more bells and whistles (experimental)
+
+clip_by_bounds_ql.png
+
+Clip by Bounds qL SOP: clips input geometry using the bounding box or the actual polygons of the second input.
+
+camera_frustrum_ql.png
+
+Camera Frustrum qL SOP: generates frustrum geometry using all the camera parameters (including view window settings, etc).
+
+clip_by_bounds_camera_frustrum.png
+
+Combination of Camera Frustrum and Clip by Bounds: clipping stuff outside the camera view
+
+
+
+Gallery items / example scenes
+
+gallery_item_lichtenberg_figure.png
+
+Lichtenberg figure generation
+
+gallery_item_modelfactory_debris.png
+
+Procedural debris: rocks / small glass / general debris (depending on size)
+
+gallery_item_modelfactory_wood_planks.png
+
+Procedural debris: wood planks (from Daniel B)
+
+gallery_item_colorcorrect.png
+
+...
+
+    Color Correct AttribVOP network so you can color-correct your selfies before sending them to instagram
+    Color temperature, black/white points, gamma/gain/offset/etc controls for master/shadow/midtones/highlight components
+
+
+gallery_item_sdf_blending.png
+
+SDF blending: create bevel-like blending at intersection of objects (2 cubes in this case)
+
+wasserfall_example_scene.jpg
+
+"Waterfall" example scene (full procedural, I built this to test FLIP waterfall techniques) -- based on the "debris" gallery item
+
+
+And more
+
+There's much more and I could do entire sessions on various topics (procedural modeling, velocity generation for emissions (particle, RBD, smoke/fire), RBD activation, various methods to break up emission banding, etc) this is just a quick introduction.
+
+And again -- this is a totally open initiative, feel free to experiment, ask questions, give feedback.
+
+Feel free to contact Daniel Bukovec or myself for any questions!
+
+I'm also happy to take topic requests, like how qLib can be useful in various common scenarios, etc.
+
+I'm also happy to do more presentations on various topics, so I'm happy to take requests
+
+    how qLib nodes can be helpful in various workflows (particles, RBDs, smoke/fire/water, etc)
+    questions about individual qLib nodes (what is it good for? what scenarios I could use them in? etc)
+
+Cheers
+
