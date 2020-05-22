@@ -4,12 +4,40 @@
 """A bullet points-ish introduction."""
 
 
-
-== What is qLib ==
-
 "The main goal of qLib is to provide a collection of reusable assets that makes the everyday work of the Houdini artist easier."
 
 It's a collection of useful, general-purpose Houdini assets (or, a Houdini generalists' toolkit).
+
+
+
+=== Origins ===
+
+We started working on qLib around 2012 (it became a github repository in 2013).
+The creators and contributors were originally a group of friends working at various studios
+(doing commercial/movie VFX and game cinematics).
+
+We started using Houdini roughly at the same time. After the first realisation that Houdini was
+orders of magnitude more powerful than anything out there, we also realised that quite often
+we bump into obstacles at certain points when building stuff (and that all of us runs into
+the same obstacles).
+
+We realised that there was certain things just _missing_ and that rather than each one of
+us rolling their own otl variants, we could coordinate and work together and share the same
+tool set. This is the tool set that eventually became qLib.
+
+
+
+=== How this applies when you work in the VFX industry ===
+
+Later we found that a similar pattern exists in the VFX industry:
+people roll their own solutions for the common things that are missing from Houdini.
+However, because of firewalls and the restrictive NDA nature of the business,
+it's really hard to take away work (even though, say, a camera frustum otl is hardly
+falls into NDA category).
+
+
+
+== What is qLib ==
 
 === Digital Assets (OTLs / HDAs) ===
 
