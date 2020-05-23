@@ -166,3 +166,22 @@ popforce/localnoiseexpression
     // random magnitude from id        (exp,   min,   max)
     amp *= fit01( pow(rand(@id*12+34),  1.0),  0.25,  1.0 );
 
+
+popadvectbyvolumes/localexpression
+    [qL] Random Velocity Scale from id
+    //
+    velscale *= fit01( random(@id*12+34), 0.25, 1.0 );
+
+    // update velscale correctly for negative aged particles
+    //
+    if (@age<0.0) {
+        velscale *= (@age+@TimeInc) / @TimeInc;
+    }
+
+popadvectbyvolumes/localexpression
+    [qL] Update velscale correctly for negative aged particles
+    //
+    if (@age<0.0) {
+        velscale *= (@age+@TimeInc) / @TimeInc;
+    }
+
