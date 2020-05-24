@@ -7,10 +7,20 @@ This page describes all the menu items provided by qLib.
 NOTE:
     All provided items are marked with a `[qL]` label postfix
     to be easily identifiable. This can be useful in a production
-    environment with heavily customized menus.
+    environment with potentially heavily customized menu sets.
+
+[Image:../images/qLib_main_menu_and_shelf.png]
+* _Example of the Houdini main menu with qLib, and the qLib shelf._
 
 == File ==
 #display: raised
+
+Additional menu items for the main *File* menu.
+
+[Image:../images/qLib_main_menu_example.png]
+* _Example of the Houdini main File menu with additional qLib items._
+
+~~~
 
 Revert to Last Saved (qL):
     Reopens the last saved state of the current hip file.
@@ -28,6 +38,13 @@ Crash Recovery (qL):
 
 == qLib ==
 #display: raised
+
+Additional menu in the main menu bar.
+
+[Image:../images/qLib_menu_example.png]
+* _Accessing the qLib menu from the main menu bar._
+
+~~~
 
 Open in File Browser:
     Opens a file browser with specific locations.

@@ -1,0 +1,10 @@
+= Gallery Items (Node Presets) =
+
+"""Gallery items (node presets) provided with qLib."""
+
+qLib comes with a large number of gallery items. These also function as node presets
+and can be accessible through the gearbox menu ([Icon:BUTTONS/gear]) of the Parameter Editor.
+
+TODO: add Transform SOP example presets image, Null SOP example presets image
+
+TODO: write this document

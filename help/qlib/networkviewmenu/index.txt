@@ -1,0 +1,16 @@
+= Network View Menu =
+
+"""Additions to the network editor menu."""
+
+This page describes the qLib menu items for the network editor menu.
+
+NOTE:
+    This menu is still in active development and documentation might not
+    fully correspond with the actual state of menu items. Let us know
+    if you find any major discrepancy.
+
+[Image:../images/qLib_network_editor_menu_example.png]
+* _Example of the qLib network editor menu._
+
+
+TODO: write this document

@@ -1,0 +1,10 @@
+= BroTips =
+
+"""All sorts of tips from the friendly qLib people."""
+
+
+TODO: collect all brotips from the facebook page
+
+TODO: have links to the (soon to be) online version on github
+
+TODO: write this document

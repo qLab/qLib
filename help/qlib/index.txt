@@ -24,26 +24,33 @@ NOTE:
 
 :col:
     == Introduction ==
+    ~~~
 
-    ::[What is qLib|intro/]
+    :: [Icon:DIALOG/question] [Introduction to qLib|intro/]
 
     == User Interface Additions ==
     ~~~
-    ::[Main Menu|mainmenu/]
-    ::[Network View Menu|networkviewmenu/]
-    ::[Parameter RMB Menu|parmmenu/]
-    ::[qLib Shelf|shelf/]
+    :: [Icon:DESKTOP/application] [Main Menu|mainmenu/]
+    :: [Icon:BUTTONS/network_box] [Network View Menu|networkviewmenu/]
+    :: [Icon:PANETYPES/parameters] [Parameter RMB Menu|parmmenu/]
+    :: [Icon:MISC/shelf] [qLib Shelf|shelf/]
+    :: [Icon:NETWORKS/vop] [VEXpressions|vexpressions/]
+    :: [Icon:BUTTONS/gear] [Gallery Items (Node Presets)|galleries/]
+    :: [Icon:COMMON/opencolorio] [Color Schemes|colorschemes/]
 
     == Other ==
     ~~~
-    ::[Brotips|brotips/main]
-
-    == Docs shortcuts ==
-    ~~~
-    ::[/help/nodes]
-    ::[/help/format]
+    :: [Icon:COMMON/stash] [Brotips|brotips/]
 
 :col:
+    == Links ==
+    ~~~
+
+    :: [Icon:BUTTONS/internet] [Main Interwebs Page|http://qlab.github.io/qLib/]
+    :: [Icon:SOP/network] [Github Repository|https://github.com/qLab/qLib]
+    :: [Icon:MISC/present] [Releases|https://github.com/qLab/qLib/releases]
+    :: [Icon:MISC/database] [Insights (latest closed tickets and whatnot)|https://github.com/qLab/qLib/pulse]
+
     == Nodes ==
     ~~~
     For help on individual nodes please see their corresponding
@@ -53,6 +60,12 @@ NOTE:
 
     :list:
         #query: type:node title:ql
+
+    == Docs shortcuts ==
+    ~~~
+    ::[/help/nodes]
+    ::[/help/format]
+
 
 
 :box:

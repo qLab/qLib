@@ -1,0 +1,17 @@
+= Parameter RMB Menu =
+
+"""Additions to the network editor menu."""
+
+This page describes the qLib menu items for the parameter RMB (right-click) menu.
+
+NOTE:
+    All provided items are marked with a `[qL]` label postfix
+    to be easily identifiable. This can be useful in a production
+    environment with potentially heavily customized menu sets.
+
+The following is a list of all parameter menu items. Note that these are parameter
+type sensitive, so only a subset of these is usually visible, depending on the
+parameter type. (We include the corresponding types in each description.)
+
+
+TODO: write this document
