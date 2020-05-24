@@ -1,0 +1,13 @@
+= VEXpressions =
+
+"""qLib VEXpressions for existing Houdini nodes."""
+
+Many Houdini nodes support VEXpressions where you can use VEX snippets to
+extend certain aspects of a node's functionality.
+
+qLib provides extra convenience VEXpression presets for quite a few built-in
+nodes.
+
+For the full list, see the [VEXpressions file|/VEXpressions.txt].
+
+TODO: link the VEXpressions file here somehow
