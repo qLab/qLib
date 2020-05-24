@@ -1,0 +1,41 @@
+= Color Schemes =
+
+"""Various color schemes provided by qLib."""
+
+
+== UI Color Schemes ==
+
+qLib comes with a bunch of "complimentary" (as in, your mileage may vary) color schemes.
+As you can imagine this is not a particularly cornerstone feature and
+very ad-hoc maintained. Feel free to give it a try, though.
+
+[Image:../images/qLib_ui_color_themes.png]
+* _Selecting a qLib user interface color scheme._
+
+
+
+== Network Editor Color Theme ==
+
+For the Network Editor, a "qLib" node color theme is provided. As opposed to
+the UI color schemes, *we consider this theme very important* and it is actively
+maintained.
+
+Certain types of qLib nodes come with "default colors" (e.g. visualiser-type nodes
+are blue, etc). These nodes used to set their color when they were created, but
+we abandoned that in favour of our own node color scheme. This allows to create
+your own variant of you don't like the colors we provide.
+
+[Image:../images/qLib_network_editor_color_theme.png]
+* _Selecting the qLib node color theme in the Network Editor Display Options._
+
+
+
+=== Node types and colors ===
+
+TODO: more description, description of colors
+
+
+
+=== Example network with and without the color theme ===
+
+TODO: example production network with / without the qLib color theme
