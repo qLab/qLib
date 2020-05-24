@@ -2,6 +2,9 @@
 
 """Shelf tools provided by qLib."""
 
+[Image:../images/qLib_main_menu_and_shelf.png]
+* _Example of the Houdini main menu with qLib, and the qLib shelf._
+
 @subtopics General
 
 :: [Icon:NETWORKS/scene] [Access Shot Node(s)|/shelf/qLib::AccessShotNode]
