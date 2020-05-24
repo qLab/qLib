@@ -417,14 +417,5 @@ There's much more and I could do entire sessions on various topics (procedural m
 
 And again -- this is a totally open initiative, feel free to experiment, ask questions, give feedback.
 
-Feel free to contact Daniel Bukovec or myself for any questions!
 
-I'm also happy to take topic requests, like how qLib can be useful in various common scenarios, etc.
-
-I'm also happy to do more presentations on various topics, so I'm happy to take requests
-
-    how qLib nodes can be helpful in various workflows (particles, RBDs, smoke/fire/water, etc)
-    questions about individual qLib nodes (what is it good for? what scenarios I could use them in? etc)
-
-Cheers
 
