@@ -12,7 +12,7 @@ It is a collection of useful, general-purpose Houdini assets (or, a Houdini gene
 
 === Origins ===
 
-We started working on qLib around 2012 (it became a github repository in 2013).
+We started working on qLib around 2012 (?) (it became a github repository in 2013).
 The creators and contributors were originally a group of friends working at various studios
 (doing commercial/movie VFX and game cinematics).
 
