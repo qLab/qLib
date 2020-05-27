@@ -20,6 +20,8 @@ import traceback
 from hutil import Qt
 import nodegraphutils
 
+FLASH_SECONDS = 6.0
+
 
 # TODO: msg functions with exception handling
 
@@ -572,11 +574,16 @@ def add_to_selection(nodes, kwargs, selectMode=None):
             n.setSelected(True)
 
     # report back
-    statmsg("Select (%s) %d nodes: Now %d selected (was %d)"
-        "   (SHIFT/ALT: add to selection"
+
+    msg0 = "Select (%s) %d matches: Now %d selected (was %d)" \
+        % ( selectMode.lower(), sel_length_old, len(sel), len(current), )
+
+    if "editor" in kwargs:
+        kwargs["editor"].flashMessage("BUTTONS_reselect", msg0, FLASH_SECONDS)
+
+    statmsg("%s   (SHIFT/ALT: add to selection"
         ", CTRL:remove from selecton"
-        ", CTRL+SHIFT:intersect with selection)" % \
-        (selectMode.capitalize(), sel_length_old, len(sel), len(current), ) )
+        ", CTRL+SHIFT:intersect with selection)" % msg0)
 
 
 def select_netview_nodes(kwargs, criteria, allItems=False, selectMode=None):
