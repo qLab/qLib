@@ -1,6 +1,6 @@
 = Color Schemes =
 
-"""Various color schemes provided by qLib."""
+"""Various color schemes and themes provided by qLib."""
 
 
 == UI Color Schemes ==
@@ -28,9 +28,15 @@ your own variant of you don't like the colors we provide.
 [Image:../images/qLib_network_editor_color_theme.png]
 * _Selecting the qLib node color theme in the Network Editor Display Options._
 
-
+:compare_images:
+    #image1: ../images/qLib_node_color_theme_off.png
+    #image2: ../images/qLib_node_color_theme_on.png
+* _Comparison between the default and the qLib node color theme.
+  (Slide red arrow left/right to compare.)_
 
 === Node types and colors ===
+
+
 
 TODO: more description, description of colors
 

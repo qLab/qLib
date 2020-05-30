@@ -36,7 +36,7 @@ NOTE:
     :: [Icon:MISC/shelf] [qLib Shelf|shelf/]
     :: [Icon:NETWORKS/vop] [VEXpressions|vexpressions/]
     :: [Icon:BUTTONS/gear] [Gallery Items (Node Presets)|galleries/]
-    :: [Icon:COMMON/opencolorio] [Color Schemes|colorschemes/]
+    :: [Icon:COMMON/opencolorio] [Color Schemes / Node Color Theme|colorschemes/]
 
     == Other ==
     ~~~
