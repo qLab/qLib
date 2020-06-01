@@ -49,7 +49,7 @@ cinematics and commercials.
 ### Quick Installation
 
 - Download the latest version (see link above)
-- Extract and move it into the Houdini config folder in your home folder
+- Extract and move it into the Houdini preferences folder in your home folder
 - Append provided houdini.env example file contents to your own houdini.env
   - Alternatively, use a package json file (see below)
 
