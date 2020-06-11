@@ -153,7 +153,9 @@ except:
 bgs = { 'wb':'dark', 'bw':'grey', 'light':'light' }
 
 hou.hscript("viewdisplay -B %s *" % bg)
-hou.ui.setStatusMessage("Cycled background to %s" % bgs[bg].upper() )]]></script>
+msg = "Cycled background to %s" % bgs[bg].upper()
+hou.ui.setStatusMessage(msg)
+]]></script>
   </tool>
 
   <tool name="qLib::ToggleIntegerFrames" label="int.frames" icon="PLAYBAR_editable_keys">
@@ -376,9 +378,10 @@ ctrl  = kwargs['ctrlclick']
 alt   = kwargs['altclick']
 
 
+v = toolutils.sceneViewer()
+
 if ctrl:
-    n = toolutils.sceneViewer()
-    n = n.pwd() # container node
+    n = v.pwd() # container node
 
     for c in n.children():
         try:
@@ -399,7 +402,10 @@ else:
 
     t = 'on' if hou.session.templates else 'off'
     hou.hscript("viewdisplay -T %s -i %s *" % (t, t, ))
-    hou.ui.setStatusMessage("Templates are now %s" % ("DISPLAYED" if hou.session.templates else "OFF") )
+    msg = "Templates are now %s" % ("DISPLAYED" if hou.session.templates else "OFF")
+    hou.ui.setStatusMessage(msg)
+    v.clearPromptMessage()
+    v.setPromptMessage(msg, hou.promptMessageType.Warning)
 ]]></script>
   </tool>
 
@@ -446,6 +452,7 @@ _version 1_ ---
 shift = kwargs['shiftclick']
 
 v = toolutils.sceneViewer()
+
 w = "%s.%s.world" % \
         (v.pane().desktop().name(), \
         v.name() )
@@ -460,7 +467,11 @@ if shift:
 hou.session.guides = not hou.session.guides
 #hou.hscript("viewdisplay -g %s %s" % ("on" if hou.session.guides else "off", w, ))
 hou.hscript("viewdisplay -g %s *" % ("on" if hou.session.guides else "off", ))
-hou.ui.setStatusMessage("Geometry guides are now %s" % ("DISPLAYED" if hou.session.guides else "OFF") )]]></script>
+msg = "Geometry guides are now %s" % ("DISPLAYED" if hou.session.guides else "OFF")
+hou.ui.setStatusMessage(msg)
+v.clearPromptMessage()
+v.setPromptMessage(msg, hou.promptMessageType.Warning)
+]]></script>
   </tool>
 
   <tool name="qLib::ToggleTimeDependencyDisplay" label="/time dep/" icon="NETVIEW_time_dependent_badge_large">
@@ -506,6 +517,8 @@ _version 1_ ---
     <script scriptType="python"><![CDATA[# toggle time-dependency display in network editor(s)
 # in H16.5 the relevant preference is called "badgetimedep", which can be set to "hide", "normal" or "large". "showtimedep" is no longer used
 
+import toolutils
+
 shift = kwargs['shiftclick']
 ctrl  = kwargs['ctrlclick']
 
@@ -513,6 +526,7 @@ D = 'badgetimedep'
 ns = [ t for t in hou.ui.paneTabs() if type(t) is hou.NetworkEditor ]
 
 try:
+    e = toolutils.networkEditor()
     b = ns[0].getPref(D)
     b = 'normal' if b=='large' else 'large'
     
@@ -524,6 +538,10 @@ try:
     for n in ns:
         n.setPref('showtimedep', '1') # make it compatible w/ 16.0
         n.setPref(D, b) # use the 16.5+ way
+
+    msg = "Time-Dependent Badges: %s" % b.capitalize()
+    hou.ui.setStatusMessage(msg)
+    e.flashMessage("NETVIEW_time_dependent_badge_large", msg, 3.0)
 
 except:
     hou.ui.setStatusMessage("Couldn't toggle time-dependency badge", hou.severityType.Warning)]]></script>
