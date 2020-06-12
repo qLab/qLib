@@ -190,10 +190,16 @@ _version 1_ ---
 
 shift = kwargs['shiftclick']
 
+fr = hou.playbar.frameRange()
+pr = hou.playbar.playbackRange()
+
 m = not hou.playbar.usesIntegerFrames()
 if shift:
     m = True
 hou.playbar.setUseIntegerFrames(m)
+
+hou.playbar.setFrameRange(fr[0], fr[1])
+hou.playbar.setPlaybackRange(pr[0], pr[1])
 
 hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"))
 ]]></script>
