@@ -396,9 +396,12 @@ if ctrl:
         except:
             pass
 
-    hou.ui.setStatusMessage("Cleared all display template flags")
-else:
+    msg = "Cleared all display template flags"
+    hou.ui.setStatusMessage(msg)
+    v.clearPromptMessage()
+    v.setPromptMessage(msg, hou.promptMessageType.Warning)
 
+else:
     if not hasattr(hou.session, "templates"):
         hou.session.templates = True
 
