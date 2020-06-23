@@ -56,6 +56,10 @@ groupexpression/snippet
     [qL] Group by Normal/Lookat Point
     degrees( acos(dot(@N, normalize(chv("position")-@P))) ) < chf("angle")
 
+groupexpression/snippet
+    [qL] Group by Same ids as in Second Input
+    findattribval(1, chs("grouptype"), "id", @id)>=0
+
 
 
 attribexpression/snippet
