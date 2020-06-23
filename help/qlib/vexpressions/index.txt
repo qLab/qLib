@@ -64,6 +64,11 @@ Node Type ||
         Groups primitives with normals pointing to a specific 3d point
         (within an angle tolerance)
 
+    *Group by Same ids as in Second Input*:
+        Given two sets of points or primitives, it groups elements from
+        the first input with the same `id` attribute values
+        as any component from the second input.
+
 
 [Icon:SOP/attribexpression] Attrib Expression SOP |
     *Element number*:
