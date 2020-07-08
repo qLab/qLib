@@ -581,9 +581,9 @@ def add_to_selection(nodes, kwargs, selectMode=None):
     if "editor" in kwargs:
         kwargs["editor"].flashMessage("BUTTONS_reselect", msg0, FLASH_SECONDS)
 
-    statmsg("%s   (SHIFT/ALT: add to selection"
+    statmsg("%s   (ALT: add to selection"
         ", CTRL:remove from selecton"
-        ", CTRL+SHIFT:intersect with selection)" % msg0)
+        ", CTRL+ALT:intersect with selection)" % msg0)
 
 
 def select_netview_nodes(kwargs, criteria, allItems=False, selectMode=None):
