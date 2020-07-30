@@ -19,8 +19,8 @@
 @subtopics Network Editor
 
 :: [Icon:BUTTONS/copy] [Node Reference Copy|/shelf/qLib::ReferenceCopy]
-:: [Icon:NETVIEW/time_dependent_badge_large] [Toggle Time Depencendy Display|/shelf/qLib::ToggleTimeDependencyDisplay]
-:: [Icon:SOP/color] [Color by Author|/shelf/qLib::ColorbyAuthor]
+:: [Icon:NETVIEW/time_dependent_badge_large] [Toggle Time Dependency Display|/shelf/qLib::ToggleTimeDependencyDisplay]
+:: [Icon:SOP/color] [Color by Author|/shelf/qLib::ColorByAuthor]
 
 @subtopics Miscellaneous
 

@@ -576,6 +576,11 @@ All nodes from the authors of selected nodes will he highlighted.
 
 Use ((Shift + LMB)) to restore original colors.
 
+WARNING:
+    Coloring of the network will change per-node modification
+    dates. It's recommended to restore original colors by
+    *undoing* this operation.
+
 NOTE:
     You still have to select a node to specify the network
     where colors need to be restored.
