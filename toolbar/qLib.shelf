@@ -701,6 +701,11 @@ if len(sel)>0:
             set_node_visu(c, color=color, comment=author)
             if author in hilite_authors:
                 c.setSelected(True)
+        try:
+            toolutils.networkEditor().flashMessage("COP2_mosaic",
+                "Nodes colored by author (UNDO recommended to restore colors)", 8.0)
+        except:
+            pass
 else:
     hou.ui.setStatusMessage("Select node(s) to specify network to color (shift-click to restore)", hou.severityType.Warning)
 
