@@ -100,7 +100,7 @@ qlibutils.select_netview_nodes(kwargs, qlibutils.has_time_dependent_parms)
                 <label>Bypassed</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: n.isBypassed())
+qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isBypassed") and n.isBypassed())
                 ]]></scriptCode>
             </scriptItem>
 
@@ -108,7 +108,7 @@ qlibutils.select_netview_nodes(kwargs, lambda n: n.isBypassed())
                 <label>Non-Bypassed</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: not n.isBypassed())
+qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isBypassed") and not n.isBypassed())
                 ]]></scriptCode>
             </scriptItem>
 
@@ -136,7 +136,7 @@ qlibutils.select_netview_nodes(kwargs, lambda n: not qlibutils.is_node_locked(n)
                 <label>Time Dependent</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: n.isTimeDependent())
+qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isTimeDependent") and n.isTimeDependent())
                 ]]></scriptCode>
             </scriptItem>
 
@@ -144,7 +144,7 @@ qlibutils.select_netview_nodes(kwargs, lambda n: n.isTimeDependent())
                 <label>Non-Time Dependent</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: not n.isTimeDependent())
+qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isTimeDependent") and not n.isTimeDependent())
                 ]]></scriptCode>
             </scriptItem>
 
@@ -154,7 +154,7 @@ qlibutils.select_netview_nodes(kwargs, lambda n: not n.isTimeDependent())
                 <label>With Template Flag</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: n.isTemplateFlagSet())
+qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isTemplateFlagSet") and n.isTemplateFlagSet())
                 ]]></scriptCode>
             </scriptItem>
 
@@ -162,7 +162,7 @@ qlibutils.select_netview_nodes(kwargs, lambda n: n.isTemplateFlagSet())
                 <label>With Display Flag</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: n.isDisplayFlagSet())
+qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isDisplayFlagSet") and n.isDisplayFlagSet())
                 ]]></scriptCode>
             </scriptItem>
 
@@ -170,7 +170,7 @@ qlibutils.select_netview_nodes(kwargs, lambda n: n.isDisplayFlagSet())
                 <label>With Render Flag</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: n.isRenderFlagSet())
+qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isRenderFlagSet") and n.isRenderFlagSet())
                 ]]></scriptCode>
             </scriptItem>
 
