@@ -15,7 +15,6 @@
     <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
     <memberTool name="qLib::ColorByAuthor"/>
     <memberTool name="qLib::ToggleIntegerFrames"/>
-    <memberTool name="qLib::FlushCaches"/>
     <memberTool name="qLib::CrashRecovery"/>
   </toolshelf>
 
@@ -710,41 +709,6 @@ else:
     hou.ui.setStatusMessage("Select node(s) to specify network to color (shift-click to restore)", hou.severityType.Warning)
 
 #
-]]></script>
-  </tool>
-
-  <tool name="qLib::FlushCaches" label="flush caches" icon="SOP_cache">
-    <helpText><![CDATA[#icon: SOP/cache
-#type: tool
-
-= Flush Caches qL =
-
-*version 1*
-
-"""Flush various memory caches and unloads all geometry.
-"""
-
-
-]]></helpText>
-    <script scriptType="python"><![CDATA[
-r = hou.ui.displayMessage(
-        'Flush all caches? This is a non-undoable operation which might flush locked SOP geometry.',
-        buttons=('Ok', 'Cancel',),
-        default_choice=1, close_choice=1,
-    )
-
-if r==0:
-    cmds = [
-            "opunload -R /*",
-            "geocache -c",
-            "objcache -c",
-            "sopcache -c",
-            "texcache -c"
-        ]
-
-    for cmd in cmds:
-        print " --- ", cmd
-        hou.hscript(cmd)
 ]]></script>
   </tool>
 
