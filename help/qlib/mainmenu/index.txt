@@ -90,6 +90,34 @@ Copy to Clipboard:
             ...
 
 
+Clear Caches:
+    Clears various Houdini internal memory caches.
+
+    :box:
+        #display: raised
+
+        Unload All SOP Nodes:
+            ...
+
+        Texture Cache:
+            ...
+
+        VEX Geometry Cache:
+            ...
+
+        Cached OBJ Transforms:
+            ...
+
+        SOP Cache:
+            ...
+
+        OpenGL Cache:
+            ...
+
+        Clear All Caches:
+            Clear all of the above caches.
+
+
 Misc:
     Miscellaneous utility functions.
 

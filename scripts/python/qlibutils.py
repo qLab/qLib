@@ -900,3 +900,41 @@ def update_gallery_items(kwargs=None):
     for file in gal_files:
         #print "installing:", file
         hou.galleries.installGallery(file)
+
+
+
+def clear_caches(kwargs=None, caches="all"):
+    """Flush various Houdini cache(s).
+    """
+    if caches.lower()=="all":
+        caches = ["opunload", "geocache", "objcache", "sopcache", "texcache", "glcache", ]
+
+    if type(caches) is not list:
+        caches = [ str(caches) ]
+
+    cmds = {
+        "opunload": "opunload -R /*",   # unload all SOP nodes
+        "geocache": "geocache -c -p",   # clear VEX geometry caches
+        "objcache": "objcache -c",      # clear cached OBJ transforms
+        "sopcache": "sopcache -c",      # clear SOP cache
+        "texcache": "texcache -c",      # clear texture cache
+        "glcache": "glcache -c",        # clear GL cache
+    }
+
+    msg = \
+        "Clearing caches is a non-undoable operation that might flush locked SOP geometry.\n" \
+        "Clear the following cache(s)?\n\n%s" % (" ".join(caches))
+
+    if ynreq(msg):
+
+        for cache in caches:
+            c=cache.lower()
+            print "Flushing cache: %s" % c
+
+            if c in cmds:
+                cmd = cmds[c]
+                print " - running %s" % cmd
+                r = hou.hscript(cmd)
+                print " - result: %s" % str(r[0])
+
+

@@ -96,6 +96,66 @@ import qlibutils; qlibutils.to_clipboard(env="JOB")]]>
 
 		<separatorItem />
 
+
+		<subMenu id="ql_cache_submenu">
+		<label>Clear Caches</label>
+
+			<scriptItem id="h.ql_cache_clear_opunload">
+				<label>Unload all SOP Nodes...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.clear_caches(kwargs, "opunload")]]>
+				</scriptCode>
+			</scriptItem>
+
+		<separatorItem />
+
+			<scriptItem id="h.ql_cache_clear_texcache">
+				<label>Texture Cache...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.clear_caches(kwargs, "texcache")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.ql_cache_clear_geocache">
+				<label>VEX Geometry Cache...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.clear_caches(kwargs, "geocache")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.ql_cache_clear_objcache">
+				<label>Cached OBJ Transforms...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.clear_caches(kwargs, "objcache")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.ql_cache_clear_sopcache">
+				<label>SOP Cache...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.clear_caches(kwargs, "sopcache")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<scriptItem id="h.ql_cache_clear_glcache">
+				<label>OpenGL Caches...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.clear_caches(kwargs, "glcache")]]>
+				</scriptCode>
+			</scriptItem>
+
+			<separatorItem />
+
+			<scriptItem id="h.ql_cache_clear_all">
+				<label>Clear All Caches...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.clear_caches(kwargs, "all")]]>
+				</scriptCode>
+			</scriptItem>
+
+		</subMenu>
+
+
 		<subMenu id="ql_misc_submenu">
 		<label>Misc</label>
 
