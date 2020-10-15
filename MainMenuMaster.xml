@@ -299,7 +299,7 @@ import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
 
 		<scriptItem id="h.ql_hip_revert">
 			<modifyItem><insertAfter>file_menu_sep_ql_save_pre</insertAfter></modifyItem>
-			<label>Revert to Last Saved [qL]</label>
+			<label>Revert to Last Saved [qL]...</label>
 			<scriptCode><![CDATA[
 import os.path
 import qlibutils
