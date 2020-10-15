@@ -607,6 +607,21 @@ def set_netview_selection(kwargs, criteria, allItems=False):
     select_netview_nodes(kwargs, criteria, allItems=allItems, selectMode="replace")
 
 
+def select_ropnet_input_depdendents(kwargs):
+    """Select ROP network input dependents.
+    """
+    sel = hou.selectedNodes()
+    deps = []
+
+    for node in sel:
+        if hasattr(node, "inputDependencies"):
+            deps = deps + [ d[0] for d in node.inputDependencies() ]
+
+    # select dependencies
+    add_to_selection(deps, kwargs)
+    # select original selection
+    add_to_selection(sel, kwargs, selectMode="add")
+
 
 def reset_nodes(kwargs, nodes, resetColor=True, resetShape=True):
     """.
@@ -732,7 +747,9 @@ def paste_clipboard_to_netview(kwargs):
                 # create hda definition if doesn't exist
                 if not hda_def:
                     temp_node = hou.node('/obj').createNode('subnet')
-                    hda_node = temp_node.createDigitalAsset(name=hda_typename, save_as_embedded=True)
+                    hda_node = temp_node.createDigitalAsset(name=hda_typename,
+                        description="qLib: Embedded Images",
+                        save_as_embedded=True)
                     hda_node.destroy()
         
                 hda_def = get_embedded_img_hdadef()
@@ -856,7 +873,7 @@ def paste_clipboard_as_object_merge(kwargs):
         offset = (0, 0, )
 
         for node in nodes:
-            if objm==None or haz_shift:
+            if objm==None or not haz_shift:
                 objm = root.createNode("object_merge",
                     node_name="objm_%s" % node.name())
                 objm.setPosition( kwargs['editor'].visibleBounds().center() )

@@ -138,7 +138,7 @@ import qlibutils; qlibutils.clear_caches(kwargs, "sopcache")]]>
 			</scriptItem>
 
 			<scriptItem id="h.ql_cache_clear_glcache">
-				<label>OpenGL Caches...</label>
+				<label>OpenGL Cache...</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.clear_caches(kwargs, "glcache")]]>
 				</scriptCode>
@@ -238,55 +238,12 @@ qlibutils.displayHelpPath("/qlib")
 
 	<subMenu id = "file_menu">
 
-		<separatorItem id="file_menu_sep_ql_holdfetch">
+		<separatorItem id="file_menu_sep_ql_recover">
 			<modifyItem><insertAfter>export_files</insertAfter></modifyItem>
 		</separatorItem>
 
-		<scriptItem id="h.ql_hip_hold">
-			<modifyItem><insertAfter>file_menu_sep_ql_holdfetch</insertAfter></modifyItem>
-			<label>Hold Scene [qL]...</label>
-			<scriptCode><![CDATA[
-import os, tempfile
-tmp = os.path.join(tempfile.gettempdir(), 'qLib_hold-fetch.hip')
-if hou.ui.displayMessage('Hold scene? (to %s)' % tmp, ('Yes', 'No'))==0:
-	hou.ui.setStatusMessage('Holding scene (%s)...' % tmp, hou.severityType.ImportantMessage)
-	F = hou.hipFile
-	p = F.path()
-	hou.hscript('setenv HIP_HELD = "%s"' % p)
-	F.save(tmp, False)
-	hou.hscript('setenv -u HIP_HELD')
-	F.setName(p)
-]]>
-			</scriptCode>
-		</scriptItem>
-
-		<scriptItem id="h.ql_hip_fetch">
-			<modifyItem><insertAfter>h.ql_hip_hold</insertAfter></modifyItem>
-			<label>Fetch Scene [qL]...</label>
-			<scriptCode><![CDATA[
-import os, tempfile
-tmp = os.path.join(tempfile.gettempdir(), 'qLib_hold-fetch.hip')
-if hou.ui.displayMessage('Fetch scene? (from %s)' % tmp, ('Yes', 'No'))==0:
-	hou.ui.setStatusMessage('Fetching scene (%s)...' % tmp, hou.severityType.ImportantMessage)
-	try:
-		F = hou.hipFile
-		F.load(tmp, True)
-		#if kwargs['shiftclick']: hou.setUpdateMode(hou.updateMode.Manual)
-		p = str(hou.getenv("HIP_HELD"))
-		hou.hscript('setenv -u HIP_HELD')
-		F.setName(p)
-	except:
-		pass
-]]>
-			</scriptCode>
-		</scriptItem>
-
-		<separatorItem id="file_menu_sep_ql_holdfetch_post">
-			<modifyItem><insertAfter>h.ql_hip_fetch</insertAfter></modifyItem>
-		</separatorItem>
-
 		<scriptItem id="h.ql_hip_recover">
-			<modifyItem><insertAfter>file_menu_sep_ql_holdfetch_post</insertAfter></modifyItem>
+			<modifyItem><insertAfter>file_menu_sep_ql_recover</insertAfter></modifyItem>
 			<label>Crash Recovery [qL]...</label>
 			<scriptCode><![CDATA[
 import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
@@ -299,7 +256,7 @@ import qlibutils; qlibutils.do_crash_recovery(calledFromUI=True)]]>
 
 		<scriptItem id="h.ql_hip_revert">
 			<modifyItem><insertAfter>file_menu_sep_ql_save_pre</insertAfter></modifyItem>
-			<label>Revert to Last Saved [qL]</label>
+			<label>Revert to Last Saved [qL]...</label>
 			<scriptCode><![CDATA[
 import os.path
 import qlibutils
