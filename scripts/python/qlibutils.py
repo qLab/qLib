@@ -747,7 +747,9 @@ def paste_clipboard_to_netview(kwargs):
                 # create hda definition if doesn't exist
                 if not hda_def:
                     temp_node = hou.node('/obj').createNode('subnet')
-                    hda_node = temp_node.createDigitalAsset(name=hda_typename, save_as_embedded=True)
+                    hda_node = temp_node.createDigitalAsset(name=hda_typename,
+                        description="qLib: Embedded Images",
+                        save_as_embedded=True)
                     hda_node.destroy()
         
                 hda_def = get_embedded_img_hdadef()
