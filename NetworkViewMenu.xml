@@ -176,6 +176,16 @@ qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isRenderFlagSet") a
 
             <separatorItem />
 
+            <scriptItem id="pane.wsheet.select_ropnet_inputs_ql">
+                <label>ROP Input Dependencies</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_ropnet_input_depdendents(kwargs)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
             <scriptItem id="pane.wsheet.select_same_author_ql">
                 <label>By Same Author</label>
                 <scriptCode><![CDATA[
