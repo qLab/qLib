@@ -138,7 +138,7 @@ import qlibutils; qlibutils.clear_caches(kwargs, "sopcache")]]>
 			</scriptItem>
 
 			<scriptItem id="h.ql_cache_clear_glcache">
-				<label>OpenGL Caches...</label>
+				<label>OpenGL Cache...</label>
 				<scriptCode><![CDATA[
 import qlibutils; qlibutils.clear_caches(kwargs, "glcache")]]>
 				</scriptCode>
