@@ -623,6 +623,23 @@ def select_ropnet_input_depdendents(kwargs):
     add_to_selection(sel, kwargs, selectMode="add")
 
 
+def select_dependencies_same_network(kwargs):
+    """Select dependents/references that are in the same network as current selection.
+    """
+    sel = hou.selectedNodes()
+    parents = [ n.parent() for n in sel ]
+    deps = []
+
+    for node in sel:
+        linked = node.dependents(include_children=False) + node.references(include_children=False)
+        deps = deps + [ l for l in linked if l.parent() in parents ]
+
+    # select dependencies
+    add_to_selection(deps, kwargs)
+    # select original selection
+    add_to_selection(sel, kwargs, selectMode="add")
+
+
 def reset_nodes(kwargs, nodes, resetColor=True, resetShape=True):
     """.
     """
