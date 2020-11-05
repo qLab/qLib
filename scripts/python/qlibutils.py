@@ -613,9 +613,21 @@ def select_ropnet_input_depdendents(kwargs):
     sel = hou.selectedNodes()
     deps = []
 
-    for node in sel:
-        if hasattr(node, "inputDependencies"):
-            deps = deps + [ d[0] for d in node.inputDependencies() ]
+    if len(sel)>0:
+        # find dependencies
+        deps0 = []
+        for node in sel:
+                if hasattr(node, "inputDependencies"):
+                    deps0 = deps0 + [ d[0] for d in node.inputDependencies() ]
+
+        # find nodes of dependencies that are in the same network
+        # as the initial selection (dependencies might return subnet contents)
+        pp = "^"+sel[0].parent().path()+"/[^/]+"
+        deps = []
+        for node in deps0:
+            m = re.search(pp, node.path())
+            if m:
+                deps.append(hou.node(m.group(0)))
 
     # select dependencies
     add_to_selection(deps, kwargs)
