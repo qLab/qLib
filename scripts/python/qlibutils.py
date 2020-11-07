@@ -70,6 +70,43 @@ def ynreq(text="Are you sure?",
     return do_it==0
 
 
+def date_string(timestamp):
+    '''Returns an informal file date string (absolute/relative).
+
+    timestamp:      can be a timestamp or a datetime.datetime
+    '''
+    r = "(?)"
+    assert type(timestamp) in [ float, datetime.datetime ]
+
+    file_t = timestamp \
+        if type(timestamp) is datetime.datetime \
+        else datetime.datetime.fromtimestamp(timestamp)
+
+    now_t = datetime.datetime.now(file_t.tzinfo) # NOTE: tzinfo is important for doing date diff!
+
+    dt = now_t - file_t # date difference (timedelta)
+    # TODO: format human-readable timedelta
+
+    ago = str(dt)
+    #ago = ago.split('.')[0] # chop off fractional seconds
+    ago = re.sub(":[^:]+$", "", ago)    # chop off seconds
+
+    r = "%s (%s ago)" % (file_t.strftime("%Y-%m-%d %H:%M:%S"), ago, )
+    return r
+
+
+def sizeof_fmt(num, suffix='B'):
+    """Converts storage space in bytes to a human-readable format (e.g. 1.3MiB).
+    https://stackoverflow.com/questions/1094841/reusable-library-to-get-human-readable-version-of-file-size
+
+    num:            size in bytes
+    """
+    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Yi', suffix)
+
 
 def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
     """Defines (non-)namespaced aliases for operators with a particular namespace prefix.
@@ -163,9 +200,12 @@ def do_crash_recovery(calledFromUI=False):
     if hou.isUIAvailable() and len(files) > 0:
 
         td = os.path.join(tmpdir, '')  # dir with '/'
-        files = [(f, os.path.getmtime(f), ) for f in files]
+        files = [ (f, os.path.getmtime(f), os.path.getsize(f), ) for f in files ]
         files = sorted(files, key=lambda f: f[1], reverse=True)
-        files = [str(re.sub('^%s' % td, '', f[0])) for f in files]
+
+        # filename + date_string + file size
+        files = [ str(re.sub('^%s' % td, '', f[0]))+" -- "+ sizeof_fmt(f[2])+", "+date_string(f[1]) \
+            for f in files ]
 
         sel = hou.ui.selectFromList(files, exclusive=True,
                                     title="Crash Recovery",
@@ -173,7 +213,7 @@ def do_crash_recovery(calledFromUI=False):
 
         recovered = False
         if len(sel) > 0:
-            f = files[sel[0]]
+            f = files[sel[0]].split()[0]
             fn = os.path.join(tmpdir, f)
 
             # extract HIPNAME
