@@ -8,6 +8,7 @@
 
 import hou
 
+import collections
 import datetime
 import glob
 import os
@@ -15,6 +16,7 @@ import sys
 import re
 import subprocess
 import traceback
+from operator import itemgetter
 
 # for paste_clipboard_to_netview()
 from hutil import Qt
@@ -1022,5 +1024,75 @@ def clear_caches(kwargs=None, caches="all"):
                 print " - running %s" % cmd
                 r = hou.hscript(cmd)
                 print " - result: %s" % str(r[0])
+
+
+
+def show_hip_stats(kwargs):
+    """Displays some hip file statistics.
+    """
+    R = []
+    A = R.append
+    hipfile = hou.hipFile.path()
+
+    A("HIP file:  %s\n" % hipfile)
+
+    if os.path.exists(hipfile):
+        cre = os.path.getctime(hipfile)
+        mod = os.path.getmtime(hipfile)
+        acc = os.path.getatime(hipfile)
+        size = os.path.getsize(hipfile)
+        
+        A("Last accessed:  %s" % date_string(acc))
+        A("Modified time:  %s" % date_string(mod))
+        A("Creation time:  %s" % date_string(cre))
+        A("File Size: %s (%d bytes)" % (sizeof_fmt(size), size, ) )
+    else:
+        A("(file doesn't exist)")
+
+
+    nodes = hou.node("/").allSubChildren(recurse_in_locked_nodes=True)
+    # NOTE: this filter could be improved?
+    nodes = [ c for c in nodes if c.isEditable() and not c.isInsideLockedHDA() ]
+
+    A("\nContains %d editable nodes." % len(nodes))
+
+    # ( path, cre, mod, author, )
+    nodes = [ (n.path(), n.creationTime(), n.modificationTime(), get_node_author(n), ) for n in nodes ]
+
+    # { "author":node_count, }
+    authors_nc = collections.Counter([ n[3] for n in nodes ])
+
+    A("\nAuthors:")
+    for a in sorted(authors_nc):
+        A("  - %s (%d nodes)" % (a, authors_nc[a], ))
+
+    nodes = sorted(nodes, key=itemgetter(2), reverse=True)
+    A("\nLatest Modified:")
+    for n in nodes[:6]:
+        A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
+        
+    nodes = sorted(nodes, key=itemgetter(1), reverse=True)
+    A("Latest Created:")
+    for n in nodes[:6]:
+        A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
+        
+    nodes = sorted(nodes, key=itemgetter(1), reverse=False)
+    A("\nOldest Modified:")
+    for n in nodes[:6]:
+        A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
+        
+    nodes = sorted(nodes, key=itemgetter(2), reverse=False)
+    A("Oldest Created:")
+    for n in nodes[:6]:
+        A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
+
+    R = "\n".join(R)
+
+    print(R)
+
+    hou.ui.displayMessage(
+        "Current Hip File Statistics",
+        details = R,
+        details_expanded=True)
 
 
