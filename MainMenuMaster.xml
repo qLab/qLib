@@ -213,6 +213,15 @@ hou.hscript("menurefresh")]]>
 
 		<!-- this should be added to the regular Houdini prefs submenu once it's finished -->
 
+		<scriptItem id="h.ql_hip_stats">
+			<label>Current Hip File Stats...</label>
+			<scriptCode><![CDATA[
+import qlibutils
+qlibutils.show_hip_stats(kwargs)
+]]>
+			</scriptCode>
+		</scriptItem>
+
 		<scriptItem id="h.ql_prefs_window">
 			<label>Preferences...</label>
 			<scriptCode><![CDATA[
