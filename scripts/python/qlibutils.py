@@ -1059,32 +1059,43 @@ def show_hip_stats(kwargs):
     # ( path, cre, mod, author, )
     nodes = [ (n.path(), n.creationTime(), n.modificationTime(), get_node_author(n), ) for n in nodes ]
 
+    # authors related info
+
     # { "author":node_count, }
     authors_nc = collections.Counter([ n[3] for n in nodes ])
 
-    A("\nAuthors:")
+    A("\nAuthors (alphabetical, %d):" % len(authors_nc))
     for a in sorted(authors_nc):
         A("  - %s (%d nodes)" % (a, authors_nc[a], ))
 
-    nodes = sorted(nodes, key=itemgetter(2), reverse=True)
-    A("\nLatest Modified:")
-    for n in nodes[:6]:
-        A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
-        
+    top_dogs = sorted([ (i, authors_nc[i], ) for i in authors_nc ], key=itemgetter(1), reverse=True)
+    A("\nTop authors (by node count):")
+    for a in top_dogs[:5]:
+        A("  - %s (%d nodes)" % (a[0], a[1], ))
+
+    # created/modified nodes info
+
     nodes = sorted(nodes, key=itemgetter(1), reverse=True)
-    A("Latest Created:")
+    A("\nLatest Created: (*)")
     for n in nodes[:6]:
         A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
         
-    nodes = sorted(nodes, key=itemgetter(1), reverse=False)
-    A("\nOldest Modified:")
+    nodes = sorted(nodes, key=itemgetter(2), reverse=True)
+    A("Latest Modified:")
     for n in nodes[:6]:
-        A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
+        A(" %s  %s" % (date_string(n[2]), n[0], ) )
         
     nodes = sorted(nodes, key=itemgetter(2), reverse=False)
-    A("Oldest Created:")
+    A("\nOldest Created: (*)")
     for n in nodes[:6]:
         A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
+
+    nodes = sorted(nodes, key=itemgetter(1), reverse=False)
+    A("Oldest Modified:")
+    for n in nodes[:6]:
+        A(" %s  %s" % (date_string(n[2]), n[0], ) )
+
+    A("\n(*): Author information might not be fully accurate (e.g. copy/pasted nodes)")
 
     R = "\n".join(R)
 
