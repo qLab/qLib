@@ -223,7 +223,7 @@ hou.ui.displayMessage("- i don't wanna do my honework!!\n- whoa whoa whoa whoa w
 
 		<separatorItem />
 
-		<scriptItem id="h.ql_prefs_window">
+		<scriptItem id="h.ql_help_contents">
 			<label>Help: Contents</label>
 			<scriptCode><![CDATA[
 import qlibutils
