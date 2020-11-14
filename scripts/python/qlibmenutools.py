@@ -267,7 +267,7 @@ def set_ramp_basis(kwargs, ramp_basis):
         v = p.eval()
         num_keys = len(v.basis())
         new_basis = (ramp_basis, ) * num_keys
-        new_ramp = hou.Ramp(new_basis, v.keys(), v.values())
+        new_ramp = hou.Ramp(new_basis, list(v.keys()), list(v.values()))
         p.set(new_ramp)
     except:
         hou.ui.setStatusMessage("couldn't set ramp interpolation type on %s" % p.path(),

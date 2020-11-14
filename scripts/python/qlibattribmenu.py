@@ -130,7 +130,7 @@ def buildAttribMenu(
 
     # auto-detect geometry input if necessary
     #
-    if not inputGeo and kwargs and kwargs.has_key("node"):
+    if not inputGeo and kwargs and "node" in kwargs:
         i = kwargs["node"].inputs()
         if len(i):
             inputGeo = i[0].geometry()
@@ -182,7 +182,7 @@ def buildAttribMenu(
 
         # filter them if required
         if filter:
-            attribs = [ a for a in attribs if filter(a) ]
+            attribs = [ a for a in attribs if list(filter(a)) ]
 
         # sort 'em alphabetically
         attribs = sorted(attribs, key = lambda a: a.name().lower())
