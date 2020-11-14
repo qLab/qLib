@@ -1054,7 +1054,7 @@ def show_hip_stats(kwargs):
     # NOTE: this filter could be improved?
     nodes = [ c for c in nodes if c.isEditable() and not c.isInsideLockedHDA() ]
 
-    A("\nContains %d editable nodes." % len(nodes))
+    A("\nContains %d editable nodes. (estimated *)" % len(nodes))
 
     # ( path, cre, mod, author, )
     nodes = [ (n.path(), n.creationTime(), n.modificationTime(), get_node_author(n), ) for n in nodes ]
@@ -1064,7 +1064,7 @@ def show_hip_stats(kwargs):
     # { "author":node_count, }
     authors_nc = collections.Counter([ n[3] for n in nodes ])
 
-    A("\nAuthors (alphabetical, %d):" % len(authors_nc))
+    A("\nAuthors (%d, alphabetical):" % len(authors_nc))
     for a in sorted(authors_nc):
         A("  - %s (%d nodes)" % (a, authors_nc[a], ))
 
@@ -1073,29 +1073,41 @@ def show_hip_stats(kwargs):
     for a in top_dogs[:5]:
         A("  - %s (%d nodes)" % (a[0], a[1], ))
 
+    # root contexts overview
+
+    contexts = sorted([ n.path() for n in hou.node("/").children() ])
+
+    A("\nRoot contexts (node counts / last modified dates):")
+    for c in contexts:
+        n = hou.node(c)
+        num_children = len( n.children() )
+        if num_children>0:
+            A("  - %s:   %d nodes,   %s" % ( c, num_children, date_string(n.modificationTime()), ) )
+
     # created/modified nodes info
 
     nodes = sorted(nodes, key=itemgetter(1), reverse=True)
     A("\nLatest Created: (*)")
-    for n in nodes[:6]:
+    for n in nodes[:8]:
         A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
         
     nodes = sorted(nodes, key=itemgetter(2), reverse=True)
     A("Latest Modified:")
-    for n in nodes[:6]:
+    for n in nodes[:8]:
         A(" %s  %s" % (date_string(n[2]), n[0], ) )
         
     nodes = sorted(nodes, key=itemgetter(2), reverse=False)
     A("\nOldest Created: (*)")
-    for n in nodes[:6]:
+    for n in nodes[:8]:
         A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
 
     nodes = sorted(nodes, key=itemgetter(1), reverse=False)
     A("Oldest Modified:")
-    for n in nodes[:6]:
+    for n in nodes[:8]:
         A(" %s  %s" % (date_string(n[2]), n[0], ) )
 
-    A("\n(*): Author information might not be fully accurate (e.g. copy/pasted nodes)")
+    A("\n(*):\n  Author information might not be fully representative (e.g. copy/pasted nodes)")
+    A("  Node counts might include internal nodes, open HDA contents, etc")
 
     R = "\n".join(R)
 
