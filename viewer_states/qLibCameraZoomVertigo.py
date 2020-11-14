@@ -52,7 +52,7 @@ class State(object):
 
             if device.isShiftKey():
                 prim = viewport.queryPrimAtPixel(None, int(x), int(y))
-                print "prim:", prim
+                print("prim:", prim)
 
             if not self._undo:
                 self._undo = True
