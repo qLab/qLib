@@ -68,7 +68,7 @@ def ynreq(text="Are you sure?",
             buttons=buttons,
             default_choice=1, close_choice=1)
     except:
-        print "ERROR: %s" % traceback.format_exc()
+        print("ERROR: %s" % traceback.format_exc())
     return do_it==0
 
 
@@ -161,15 +161,15 @@ def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
 
                 if cmd not in cmds:
                     if verbose:
-                        print cmd
+                        print(cmd)
                     if alias:
                         hou.hscript(cmd)
                     cmds.append(cmd)
                 else:
-                    print "# ALREADY ALIASED: %s (%s)" % (cmd, file)
+                    print("# ALREADY ALIASED: %s (%s)" % (cmd, file))
 
             except:
-                print "ERROR: %s" % traceback.format_exc()
+                print("ERROR: %s" % traceback.format_exc())
 
 
 def to_clipboard(contents="", env=None):
@@ -231,7 +231,7 @@ def do_crash_recovery(calledFromUI=False):
             except:
                 hou.ui.setStatusMessage(
                     "error while recovering file %s" % fn, hou.severityType.Error)
-                print "ERROR: %s" % traceback.format_exc()
+                print("ERROR: %s" % traceback.format_exc())
 
             hou.hipFile.setName(f)
 
@@ -911,7 +911,7 @@ def show_shellcmd_results(kwargs, cmd, label):
         )
 
     except:
-        print "ERROR: %s" % traceback.format_exc()
+        print("ERROR: %s" % traceback.format_exc())
 
 
 def displayHelpPath(path):
@@ -958,7 +958,7 @@ def paste_clipboard_as_object_merge(kwargs):
                 n.set(i)
                 objm.parm("objpath%d" %i).set(objm.relativePathTo(node))
     except:
-        print "ERROR: %s" % traceback.format_exc()
+        print("ERROR: %s" % traceback.format_exc())
 
 
 
@@ -1017,13 +1017,13 @@ def clear_caches(kwargs=None, caches="all"):
 
         for cache in caches:
             c=cache.lower()
-            print "Flushing cache: %s" % c
+            print("Flushing cache: %s" % c)
 
             if c in cmds:
                 cmd = cmds[c]
-                print " - running %s" % cmd
+                print(" - running %s" % cmd)
                 r = hou.hscript(cmd)
-                print " - result: %s" % str(r[0])
+                print(" - result: %s" % str(r[0]))
 
 
 
