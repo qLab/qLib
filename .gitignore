@@ -11,6 +11,7 @@ gallery/backup
 
 # backup files
 *_bak*.hip
+*.bak
 
 # pycharm workspace stuff
 .idea/*
