@@ -182,7 +182,7 @@ def buildAttribMenu(
 
         # filter them if required
         if filter:
-            attribs = [ a for a in attribs if list(filter(a)) ]
+            attribs = [ a for a in attribs if filter(a) ]
 
         # sort 'em alphabetically
         attribs = sorted(attribs, key = lambda a: a.name().lower())
