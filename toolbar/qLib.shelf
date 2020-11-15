@@ -283,7 +283,7 @@ def postproc_refcopy(nodepath, srcpath):
                         p.setKeyframe(k)
 
             except Exception as e:
-                print "failed for param '%s'" % p.name()
+                print("failed for param '%s'" % p.name())
 
         # store typename of the creator tool
         #
@@ -302,7 +302,7 @@ def fixum(node, mode):
         # hackish workaround: apply to all qLib nodes
         #
         if 'qLib::' in tn and '_ql' in tn:
-            #print "(applying %s to %s)" % (mode, n.path(), )
+            #print("(applying %s to %s)" % (mode, n.path(), ))
 
             if mode=='open':
                 n.allowEditingOfContents()
@@ -315,7 +315,7 @@ def fixum(node, mode):
             #print "(skipping %s)" % (n.path(), )
             pass
     except:
-        print "oops #1"
+        print("oops #1")
         pass
 
 # main
@@ -334,7 +334,7 @@ for S in sel:
         fixum(S, 'close') # "Match Current Definition" for S and T
         fixum(T, 'close')
     except:
-        print "oops #2, %s" % S
+        print("oops #2, %s" % S)
         pass
 
     if True:
