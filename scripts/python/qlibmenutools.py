@@ -35,7 +35,7 @@ def parm_is_string(kwargs):
     try:
         r = get_all_parms(kwargs)[0].parmTemplate().type()==hou.parmTemplateType.String
     except:
-        print "ERROR: %s" % traceback.format_exc()
+        print("ERROR: %s" % traceback.format_exc())
     return r
 
 
@@ -47,7 +47,7 @@ def parm_is_float(kwargs):
     try:
         r = get_all_parms(kwargs)[0].parmTemplate().type()==hou.parmTemplateType.Float
     except:
-        print "ERROR: %s" % traceback.format_exc()
+        print("ERROR: %s" % traceback.format_exc())
     return r
 
 
@@ -59,7 +59,7 @@ def parm_is_ramp(kwargs):
     try:
         r = get_all_parms(kwargs)[0].parmTemplate().type()==hou.parmTemplateType.Ramp
     except:
-        print "ERROR: %s" % traceback.format_exc()
+        print("ERROR: %s" % traceback.format_exc())
     return r
 
 
@@ -74,7 +74,7 @@ def parm_is_fspath(kwargs):
         v = p.evalAsString().strip()
         r = p.parmTemplate().type()==hou.parmTemplateType.String and v!=""
     except:
-        print "ERROR: %s" % traceback.format_exc()
+        print("ERROR: %s" % traceback.format_exc())
     return r
 
 
@@ -87,7 +87,7 @@ def parm_has_target_node(kwargs):
         p = get_all_parms(kwargs)[0]
         r = len(p.node().glob(p.evalAsString())) > 0
     except:
-        print "ERROR: %s" % traceback.format_exc()
+        print("ERROR: %s" % traceback.format_exc())
     return r
 
 
@@ -267,7 +267,7 @@ def set_ramp_basis(kwargs, ramp_basis):
         v = p.eval()
         num_keys = len(v.basis())
         new_basis = (ramp_basis, ) * num_keys
-        new_ramp = hou.Ramp(new_basis, v.keys(), v.values())
+        new_ramp = hou.Ramp(new_basis, list(v.keys()), list(v.values()))
         p.set(new_ramp)
     except:
         hou.ui.setStatusMessage("couldn't set ramp interpolation type on %s" % p.path(),
@@ -298,8 +298,8 @@ def build_upstream_channel_refs_menu(kwargs):
                     and s!="" and "/" not in s \
                     and not p.isDisabled() and p.isVisible()
         except:
-            print pt
-            print "ERROR: %s" % traceback.format_exc()
+            print(pt)
+            print("ERROR: %s" % traceback.format_exc())
         return r
 
     for n in nodes:

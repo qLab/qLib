@@ -130,7 +130,7 @@ def buildAttribMenu(
 
     # auto-detect geometry input if necessary
     #
-    if not inputGeo and kwargs and kwargs.has_key("node"):
+    if not inputGeo and kwargs and "node" in kwargs:
         i = kwargs["node"].inputs()
         if len(i):
             inputGeo = i[0].geometry()

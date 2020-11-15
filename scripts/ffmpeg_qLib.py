@@ -59,7 +59,7 @@ def encode(kwargs):
         cmd.extend(audioFlags)
 
     cmd.append(kwargs['outputfile'])
-    print subprocess.list2cmdline(cmd)
+    print((subprocess.list2cmdline(cmd)))
 
     env = os.environ.copy()
     setpkg.setpkg('ffmpeg', environ=env, quiet=True)
