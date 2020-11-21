@@ -727,7 +727,7 @@ else:
 ]]></helpText>
     <script scriptType="python"><![CDATA[import qlibutils
 
-qlibutils.do_crash_recovery()
+qlibutils.do_crash_recovery(calledFromUI=True)
 
 ]]></script>
   </tool>
