@@ -773,7 +773,7 @@ else:
 ]]></script>
   </tool>
 
-  <tool name="qLib::ResizeStickyNotes" label="- sticky +" icon="BUTTONS_network_sticky">
+  <tool name="qLib::ResizeStickyNotes" label="-/sticky/+" icon="BUTTONS_network_sticky">
     <helpText><![CDATA[#icon: BUTTONS/network_sticky
 #type: tool
 
