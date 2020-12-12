@@ -5,5 +5,50 @@
  Note, that two definitions of the same element are not allowed in
  a single file. -->
 
-  <toolshelf name="qLib-PDG" label="qLib-PDG"/>
+  <toolshelf name="qLib-PDG" label="qLib-PDG">
+    <memberTool name="qLib::ResizeTaskGraph"/>
+  </toolshelf>
+
+  <tool name="qLib::ResizeTaskGraph" label="-/tasks/+" icon="IMAGE_zoom_out">
+    <helpText><![CDATA[#icon: IMAGE/zoom_out
+#type: tool
+
+= Resize Task Graph qL =
+
+*version 1*
+
+"""Increases/decreases the number of work items shown.
+---
+LMB: More work items shown
+Shift-LMB: Less work items shown
+Ctrl-LMB: Reset to default
+"""]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+import nodegraphprefs as prefs
+
+editor = toolutils.networkEditor()
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+m = 1.5
+
+if shift or alt:
+    m = 1.0/m;
+
+rows = max(2, int(int(prefs.maxTaskGraphRows(editor))*m))
+items = max(2, int(int(prefs.maxWorkItemsPerRow(editor))*m))
+
+if ctrl:
+    rows = 14
+    items = 10
+
+prefs.setMaxTaskGraphRows(editor, str(rows))
+prefs.setMaxWorkItemsPerRow(editor, str(items))
+
+editor.redraw()
+
+]]></script>
+  </tool>
 </shelfDocument>
