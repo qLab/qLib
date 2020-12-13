@@ -144,6 +144,24 @@ qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isRenderFlagSet") a
 
             <separatorItem />
 
+            <scriptItem id="pane.wsheet.select_subnet_inputs_ql">
+                <label>All Subnet Inputs</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, lambda n: n.networkItemType().name()=="SubnetIndirectInput", allItems=True)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.select_outputs_ql">
+                <label>All Outputs</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, lambda n: n.type().name()=="output")
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
             <scriptItem id="pane.wsheet.select_embedded_ql">
                 <label>Embedded HDAs</label>
                 <scriptCode><![CDATA[
@@ -152,13 +170,6 @@ qlibutils.select_netview_nodes(kwargs, lambda n: qlibutils.has_embedded_def(n))
                 ]]></scriptCode>
             </scriptItem>
 
-            <scriptItem id="pane.wsheet.select_subnet_inputs_ql">
-                <label>All Subnet Inputs</label>
-                <scriptCode><![CDATA[
-import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: n.networkItemType().name()=="SubnetIndirectInput", allItems=True)
-                ]]></scriptCode>
-            </scriptItem>
 <!--
             <separatorItem />
 

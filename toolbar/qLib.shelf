@@ -14,6 +14,7 @@
     <memberTool name="qLib::ReferenceCopy"/>
     <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
     <memberTool name="qLib::ColorByAuthor"/>
+    <memberTool name="qLib::ResizeStickyNotes"/>
     <memberTool name="qLib::ToggleIntegerFrames"/>
     <memberTool name="qLib::CrashRecovery"/>
   </toolshelf>
@@ -769,6 +770,48 @@ if v>=17.5:
         pass
 else:
     hou.ui.displayMessage("This requires Houdini 17.5 or higher")
+]]></script>
+  </tool>
+
+  <tool name="qLib::ResizeStickyNotes" label="-/sticky/+" icon="BUTTONS_network_sticky">
+    <helpText><![CDATA[#icon: BUTTONS/network_sticky
+#type: tool
+
+= Grow/Shrink Sticky Notes qL =
+
+*version 1*
+
+"""Increases/decreases the size of selected sticky notes.
+---
+LMB: Increase sticky note size
+Shift-LMB: Decrease sticky note size
+Ctrl-LMB: Reset size to default
+"""
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+notes = [ n for n in hou.selectedItems() if type(n)==hou.StickyNote ]
+
+m = 2.0
+
+if shift or alt:
+    m = 1.0/m;
+
+for n in notes:
+
+    ts = n.textSize()
+    if ts==0: ts=0.225
+    
+    if ctrl:
+        m = 0.225/ts;
+
+    n.setSize( n.size()*m )
+    n.setTextSize( ts*m )
+
 ]]></script>
   </tool>
 </shelfDocument>
