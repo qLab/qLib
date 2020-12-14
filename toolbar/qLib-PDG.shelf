@@ -7,9 +7,11 @@
 
   <toolshelf name="qLib-PDG" label="qLib-PDG">
     <memberTool name="qLib::ResizeTaskGraph"/>
+    <memberTool name="qLib::FitWorkItemsToTaskGraph"/>
+    <memberTool name="qLib::SelectCookedPdgNodes"/>
   </toolshelf>
 
-  <tool name="qLib::ResizeTaskGraph" label="-/tasks/+" icon="IMAGE_zoom_out">
+  <tool name="qLib::ResizeTaskGraph" label="-/tasks/+" icon="IMAGE_zoom_in">
     <helpText><![CDATA[#icon: IMAGE/zoom_out
 #type: tool
 
@@ -19,9 +21,9 @@
 
 """Increases/decreases the number of work items shown.
 ---
-LMB: More work items shown
-Shift-LMB: Less work items shown
-Ctrl-LMB: Reset to default
+LMB: More work items shown.
+Shift-LMB: Less work items shown.
+Ctrl-LMB: Reset to default.
 """]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
 import nodegraphprefs as prefs
@@ -34,7 +36,7 @@ alt   = kwargs['altclick']
 
 m = 1.5
 
-if shift or alt:
+if not (shift or alt):
     m = 1.0/m;
 
 rows = max(2, int(int(prefs.maxTaskGraphRows(editor))*m))
@@ -49,6 +51,82 @@ prefs.setMaxWorkItemsPerRow(editor, str(items))
 
 editor.redraw()
 
+]]></script>
+  </tool>
+
+  <tool name="qLib::SelectCookedPdgNodes" label="Select Cooked" icon="TOP_pdg_done">
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+
+editor = toolutils.networkEditor()
+nodes = editor.pwd().children()
+
+hou.clearAllSelected()
+
+for node in nodes:
+    try:
+        pdgnode = node.getPDGNode() if hasattr(node, "getPDGNode") else None
+        if pdgnode and hasattr(pdgnode, "isCooked") and pdgnode.isCooked:
+            node.setSelected(True)
+    except:
+        pass]]></script>
+  </tool>
+
+  <tool name="qLib::FitWorkItemsToTaskGraph" label="/fit w.items/" icon="IMAGE_inspect_styles">
+    <helpText><![CDATA[#icon: IMAGE/inspect_styles
+#type: tool
+
+= Fit Work Items to Task Graph qL =
+
+*version 1*
+
+"""Resizes the task graph so all work items for the selected node(s) will fit.
+---
+LMB: Resize task graph to show all workitems for selected node.
+Ctrl-LMB: Reset task graph to default
+"""]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+import nodegraphprefs as prefs
+
+editor = toolutils.networkEditor()
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+sel = [ n.getPDGNode() for n in hou.selectedNodes() if hasattr(n, "getPDGNode") ]
+items = [ len(n.workItems) for n in sel if hasattr(n, "workItems") ]
+
+if len(items)>0:
+    items = sorted(items)[-1]
+    print("max work items: %d" % items)
+    # round up to 10
+    items = ((items/40)+1)*40
+    # some min/max limits for item count
+    items = max(200, items)
+    items = min(16000, items)
+    #print("max work items: %d" % items)
+
+    # find divisors
+    d = [ (n, items/n) for n in range(2, items) if items%n==0 ]
+    #print("divisors: %s" % str(d))
+    d = d[ len(d)/2 ]
+    #print("divisor: %s" % str(d))
+    if d[0]>d[1]:
+        d = ( d[1], d[0], )
+    #print("divisor: %s" % str(d))
+    d = ( max(8, d[0]), max(8, d[1]) )
+
+    items = d[0]
+    rows = d[1]
+    if ctrl:
+        rows = 14
+        items = 10
+
+    prefs.setMaxTaskGraphRows(editor, str(rows))
+    prefs.setMaxWorkItemsPerRow(editor, str(items))
+    
+    editor.redraw()
 ]]></script>
   </tool>
 </shelfDocument>
