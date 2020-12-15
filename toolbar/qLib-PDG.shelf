@@ -10,6 +10,7 @@
     <memberTool name="qLib::FitWorkItemsToTaskGraph"/>
     <memberTool name="qLib::SelectCookedPdgNodes"/>
     <memberTool name="qLib::SelectErroredPdgNodes"/>
+    <memberTool name="qLib::SelectPdgCookSet"/>
   </toolshelf>
 
   <tool name="qLib::ResizeTaskGraph" label="-/tasks/+" icon="IMAGE_zoom_in">
@@ -56,6 +57,15 @@ editor.redraw()
   </tool>
 
   <tool name="qLib::SelectCookedPdgNodes" label="sel: cooked" icon="TOP_status_cooked">
+    <helpText><![CDATA[#icon: TOP/status_cooked
+#type: tool
+
+= Select Cooked qL =
+
+*version 1*
+
+"""Selects nodes the PDG network considers as cooked.
+"""]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 
@@ -64,13 +74,18 @@ nodes = editor.pwd().children()
 
 hou.clearAllSelected()
 
+sel=0
 for node in nodes:
     try:
         pdgnode = node.getPDGNode() if hasattr(node, "getPDGNode") else None
         if pdgnode and hasattr(pdgnode, "isCooked") and pdgnode.isCooked:
             node.setSelected(True)
+            sel += 1
     except:
-        pass]]></script>
+        pass
+
+editor.flashMessage("TOP_status_cooked", "Select Cooked: %d node(s)" % sel, 3.0)
+]]></script>
   </tool>
 
   <tool name="qLib::FitWorkItemsToTaskGraph" label="/fit w.items/" icon="IMAGE_inspect_styles">
@@ -128,6 +143,15 @@ if len(items)>0:
   </tool>
 
   <tool name="qLib::SelectErroredPdgNodes" label="sel: errored" icon="TOP_status_error">
+    <helpText><![CDATA[#icon: TOP/status_error
+#type: tool
+
+= Select Errored qL =
+
+*version 1*
+
+"""Selects PDG nodes with errors.
+"""]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 
@@ -136,12 +160,54 @@ nodes = editor.pwd().children()
 
 hou.clearAllSelected()
 
+sel=0
 for node in nodes:
     try:
         pdgnode = node.getPDGNode() if hasattr(node, "getPDGNode") else None
         if pdgnode and hasattr(pdgnode, "hasErrors") and pdgnode.hasErrors:
             node.setSelected(True)
+            sel += 1
     except:
-        pass]]></script>
+        pass
+
+msg = "%s node(s)" % sel if sel>0 else "no errors"
+editor.flashMessage("TOP_status_error", "Select Errored: %s" % msg, 3.0)
+]]></script>
+  </tool>
+
+  <tool name="qLib::SelectPdgCookSet" label="sel: cook set" icon="PANETYPES_network">
+    <helpText><![CDATA[#icon: PANETYPES/network
+#type: tool
+
+= Select Cook Set qL =
+
+*version 1*
+
+"""Selects PDG nodes involved in the currently running cook.
+"""]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+
+editor = toolutils.networkEditor()
+nodes = editor.pwd().children()
+
+try:
+    ctx = editor.pwd().getPDGGraphContext()
+    
+    cookset = ctx.cookSet
+    cookset = [ n.topNode() for n in cookset ]
+    
+    hou.clearAllSelected()
+    for n in cookset:
+        n.setSelected(True)
+
+except:
+    pass
+
+sel = len(hou.selectedNodes())
+if True or sel>0:
+    editor.flashMessage("PANETYPES_network", "Select Cook Set: %d node(s) involved in current cook" % sel, 3.0)
+
+]]></script>
   </tool>
 </shelfDocument>
