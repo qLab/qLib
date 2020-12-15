@@ -9,6 +9,7 @@
     <memberTool name="qLib::ResizeTaskGraph"/>
     <memberTool name="qLib::FitWorkItemsToTaskGraph"/>
     <memberTool name="qLib::SelectCookedPdgNodes"/>
+    <memberTool name="qLib::SelectErroredPdgNodes"/>
   </toolshelf>
 
   <tool name="qLib::ResizeTaskGraph" label="-/tasks/+" icon="IMAGE_zoom_in">
@@ -54,7 +55,7 @@ editor.redraw()
 ]]></script>
   </tool>
 
-  <tool name="qLib::SelectCookedPdgNodes" label="Select Cooked" icon="TOP_pdg_done">
+  <tool name="qLib::SelectCookedPdgNodes" label="sel: cooked" icon="TOP_status_cooked">
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 
@@ -99,22 +100,17 @@ items = [ len(n.workItems) for n in sel if hasattr(n, "workItems") ]
 
 if len(items)>0:
     items = sorted(items)[-1]
-    print("max work items: %d" % items)
     # round up to 10
     items = ((items/40)+1)*40
     # some min/max limits for item count
     items = max(200, items)
     items = min(16000, items)
-    #print("max work items: %d" % items)
 
     # find divisors
     d = [ (n, items/n) for n in range(2, items) if items%n==0 ]
-    #print("divisors: %s" % str(d))
     d = d[ len(d)/2 ]
-    #print("divisor: %s" % str(d))
     if d[0]>d[1]:
         d = ( d[1], d[0], )
-    #print("divisor: %s" % str(d))
     d = ( max(8, d[0]), max(8, d[1]) )
 
     items = d[0]
