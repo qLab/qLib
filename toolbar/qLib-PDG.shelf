@@ -125,4 +125,22 @@ if len(items)>0:
     editor.redraw()
 ]]></script>
   </tool>
+
+  <tool name="qLib::SelectErroredPdgNodes" label="sel: errored" icon="TOP_status_error">
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+
+editor = toolutils.networkEditor()
+nodes = editor.pwd().children()
+
+hou.clearAllSelected()
+
+for node in nodes:
+    try:
+        pdgnode = node.getPDGNode() if hasattr(node, "getPDGNode") else None
+        if pdgnode and hasattr(pdgnode, "hasErrors") and pdgnode.hasErrors:
+            node.setSelected(True)
+    except:
+        pass]]></script>
+  </tool>
 </shelfDocument>
