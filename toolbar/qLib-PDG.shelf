@@ -104,11 +104,12 @@ if len(items)>0:
     items = ((items/40)+1)*40
     # some min/max limits for item count
     items = max(200, items)
-    items = min(16000, items)
+    items = min(8000, items)
+    items = int(items)
 
     # find divisors
     d = [ (n, items/n) for n in range(2, items) if items%n==0 ]
-    d = d[ len(d)/2 ]
+    d = d[ int(len(d)/2) ]
     if d[0]>d[1]:
         d = ( d[1], d[0], )
     d = ( max(8, d[0]), max(8, d[1]) )
