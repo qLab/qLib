@@ -74,18 +74,24 @@ nodes = editor.pwd().children()
 
 hou.clearAllSelected()
 
-sel=0
-for node in nodes:
-    try:
-        pdgnode = node.getPDGNode() if hasattr(node, "getPDGNode") else None
-        if pdgnode and hasattr(pdgnode, "isCooked") and pdgnode.isCooked:
-            node.setSelected(True)
-            sel += 1
-    except:
-        pass
+if True: #try
+    ctx = editor.pwd().getPDGGraphContext()
+    is_cooking = ctx.cooking
 
-editor.flashMessage("TOP_status_cooked", "Select Cooked: %d node(s)" % sel, 3.0)
-]]></script>
+    sel=0
+    for node in nodes:
+        try:
+            pdgnode = node.getPDGNode() if hasattr(node, "getPDGNode") else None
+            if pdgnode and hasattr(pdgnode, "isCooked") and pdgnode.isCooked:
+                node.setSelected(True, sel==0) # deselect all on first node
+                sel += 1
+        except:
+            pass
+
+    editor.flashMessage("TOP_status_cooked", "Select Cooked: %d node(s)" % sel, 3.0)
+
+#except:
+#    pass]]></script>
   </tool>
 
   <tool name="qLib::FitWorkItemsToTaskGraph" label="/fit w.items/" icon="IMAGE_inspect_styles">
