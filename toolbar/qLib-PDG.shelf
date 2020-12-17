@@ -8,6 +8,7 @@
   <toolshelf name="qLib-PDG" label="qLib  |  PDG">
     <memberTool name="qLib::ResizeTaskGraph"/>
     <memberTool name="qLib::FitWorkItemsToTaskGraph"/>
+    <memberTool name="qLib::PdgGraphStatus"/>
     <memberTool name="qLib::SelectCookedPdgNodes"/>
     <memberTool name="qLib::SelectErroredPdgNodes"/>
     <memberTool name="qLib::SelectPdgCookSet"/>
@@ -221,6 +222,28 @@ msg = "Select Cook Set: %d node(s) %s " % \
 
 if True or sel>0:
     editor.flashMessage("PANETYPES_network", msg, 3.0)
+
+]]></script>
+  </tool>
+
+  <tool name="qLib::PdgGraphStatus" label="status" icon="DIALOG_info">
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+
+editor = toolutils.networkEditor()
+
+if True: #try:
+    ctx = editor.pwd().getPDGGraphContext()
+    is_cooking = ctx.cooking
+
+    # there's also TOP_status_canceled, TOP_status_waiting
+    icon = "TOP_status_cooking" if is_cooking else "TOP_status_unstarted"
+    msg = "cooking" if is_cooking else "not cooking"
+
+    editor.flashMessage(icon, msg, 3.0)
+
+#except:
+#    pass
 
 ]]></script>
   </tool>
