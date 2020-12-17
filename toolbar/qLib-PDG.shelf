@@ -45,7 +45,7 @@ rows = max(2, int(int(prefs.maxTaskGraphRows(editor))*m))
 items = max(2, int(int(prefs.maxWorkItemsPerRow(editor))*m))
 
 if ctrl:
-    rows = 14
+    rows = 11
     items = 10
 
 prefs.setMaxTaskGraphRows(editor, str(rows))
@@ -53,7 +53,7 @@ prefs.setMaxWorkItemsPerRow(editor, str(items))
 
 editor.redraw()
 
-]]></script>
+editor.flashMessage("IMAGE_zoom_in", "%sx%s" % (items, rows, ), 3.0)]]></script>
   </tool>
 
   <tool name="qLib::SelectCookedPdgNodes" label="sel: cooked" icon="TOP_status_cooked">
@@ -125,20 +125,21 @@ if len(items)>0:
     # find divisors
     d = [ (n, items/n) for n in range(2, items) if items%n==0 ]
     d = d[ int(len(d)/2) ]
-    if d[0]>d[1]:
+    if d[0]<d[1]:
         d = ( d[1], d[0], )
     d = ( max(8, d[0]), max(8, d[1]) )
 
     items = d[0]
     rows = d[1]
     if ctrl:
-        rows = 14
+        rows = 11
         items = 10
 
     prefs.setMaxTaskGraphRows(editor, str(rows))
     prefs.setMaxWorkItemsPerRow(editor, str(items))
-    
+
     editor.redraw()
+    editor.flashMessage("IMAGE_inspect_styles", "%sx%s" % (items, rows, ), 3.0)
 ]]></script>
   </tool>
 
