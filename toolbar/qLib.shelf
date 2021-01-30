@@ -557,7 +557,7 @@ except:
   </tool>
 
   <tool name="qLib::ColorByAuthor" label="/color by author/" icon="COP2_mosaic">
-    <helpText><![CDATA[#icon: SOP/color
+    <helpText><![CDATA[#icon: COP2/mosaic
 #type: tool
 
 = Color by Author qL =
@@ -670,6 +670,7 @@ if len(sel)>0:
 
     netw = sel[0].parent()
     hilite_authors = [ get_node_author(n) for n in sel ]
+    hilite_authors = list(set(hilite_authors))
     
     # collect author names
     #
@@ -703,7 +704,8 @@ if len(sel)>0:
                 c.setSelected(True)
         try:
             toolutils.networkEditor().flashMessage("COP2_mosaic",
-                "Nodes colored by author (UNDO recommended to restore colors)", 8.0)
+                "Nodes colored by author (selected: %s) (UNDO recommended to restore colors)" % " ".join(hilite_authors), 8.0)
+            hou.ui.setStatusMessage("Nodes colored by author. Selected nodes by:  %s" % ", ".join(hilite_authors) )
         except:
             pass
 else:
@@ -787,7 +789,12 @@ LMB: Increase sticky note size
 Shift-LMB: Decrease sticky note size
 Ctrl-LMB: Reset size to default
 """
-]]></helpText>
+
+Select sticky note(s) to resize. Use one of the following ways to resize:
+
+- ((LMB)) to increase sticky note (and font) size
+- ((Shift + LMB)) to decrease note size
+- ((Ctrl + LMB)) to reset to default size]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
 
 shift = kwargs['shiftclick']

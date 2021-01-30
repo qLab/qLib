@@ -1,4 +1,4 @@
-= qLib shelf tools =
+= qLib Shelf Tools =
 
 """Shelf tools provided by qLib."""
 
@@ -20,10 +20,10 @@
 
 :: [Icon:BUTTONS/copy] [Node Reference Copy|/shelf/qLib::ReferenceCopy]
 :: [Icon:NETVIEW/time_dependent_badge_large] [Toggle Time Dependency Display|/shelf/qLib::ToggleTimeDependencyDisplay]
-:: [Icon:SOP/color] [Color by Author|/shelf/qLib::ColorByAuthor]
+:: [Icon:COP2/mosaic] [Color by Author|/shelf/qLib::ColorByAuthor]
+:: [Icon:BUTTONS/network_sticky] [Resize Sticky Notes|/shelf/qLib::ResizeStickyNotes]
 
 @subtopics Miscellaneous
 
 :: [Icon:PLAYBAR/editable_keys] [Playbar: Toggle Integer Frames|/shelf/qLib::ToggleIntegerFrames]
-:: [Icon:SOP/cache] [Flush Caches|/shelf/qLib::FlushCaches]
 :: [Icon:MISC/satchel] [Recover Crash File|/shelf/qLib::CrashRecovery]
