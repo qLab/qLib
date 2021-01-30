@@ -33,10 +33,14 @@ NOTE:
     :: [Icon:DESKTOP/application] [Main Menu|mainmenu/]
     :: [Icon:BUTTONS/network_box] [Network View Menu|networkviewmenu/]
     :: [Icon:PANETYPES/parameters] [Parameter RMB Menu|parmmenu/]
-    :: [Icon:MISC/shelf] [qLib Shelf|shelf/]
     :: [Icon:NETWORKS/vop] [VEXpressions|vexpressions/]
     :: [Icon:BUTTONS/gear] [Gallery Items (Node Presets)|galleries/]
     :: [Icon:COMMON/opencolorio] [Color Schemes / Node Color Theme|colorschemes/]
+
+    == Shelves ==
+    ~~~
+    :: [Icon:MISC/shelf] [qLib|shelf/]
+    :: [Icon:MISC/shelf] [qLib: PDG|shelf_pdg/]
 
     == Other ==
     ~~~

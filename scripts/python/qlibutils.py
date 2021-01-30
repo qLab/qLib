@@ -570,7 +570,7 @@ def has_time_dependent_parms(node):
     return has_parm_with_criteria(node, parm_is_time_dependent)
 
 
-def add_to_selection(nodes, kwargs, selectMode=None):
+def add_to_selection(nodes, kwargs, selectMode=None, statMsg=None):
     """Extends the current node selection with 'nodes', according to
     the modifier keys in kwargs.
 
@@ -620,15 +620,18 @@ def add_to_selection(nodes, kwargs, selectMode=None):
     msg0 = "Select (%s) %d matches: Now %d selected (was %d)" \
         % ( selectMode.lower(), sel_length_old, len(sel), len(current), )
 
+    if statMsg:
+        msg0 = msg0 + " " + str(statMsg)
+
     if "editor" in kwargs:
         kwargs["editor"].flashMessage("BUTTONS_reselect", msg0, FLASH_SECONDS)
 
-    statmsg("%s   (ALT: add to selection"
+    statmsg("%s    (ALT: add to selection"
         ", CTRL:remove from selecton"
         ", CTRL+ALT:intersect with selection)" % msg0)
 
 
-def select_netview_nodes(kwargs, criteria, allItems=False, selectMode=None):
+def select_netview_nodes(kwargs, criteria, allItems=False, selectMode=None, statMsg=None):
     """Select nodes.
     """
     path = get_netview_path(kwargs)
@@ -640,7 +643,7 @@ def select_netview_nodes(kwargs, criteria, allItems=False, selectMode=None):
         statmsg("Couldn't select / Selection criteria not applicable", warn=True)
 
     if sel is not None:
-        add_to_selection(sel, kwargs, selectMode=selectMode)
+        add_to_selection(sel, kwargs, selectMode=selectMode, statMsg=statMsg)
 
 
 def set_netview_selection(kwargs, criteria, allItems=False):

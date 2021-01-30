@@ -8,9 +8,12 @@
   <toolshelf name="qLib-PDG" label="qLib  |  PDG">
     <memberTool name="qLib::ResizeTaskGraph"/>
     <memberTool name="qLib::FitWorkItemsToTaskGraph"/>
-    <memberTool name="qLib::SelectCookedPdgNodes"/>
-    <memberTool name="qLib::SelectErroredPdgNodes"/>
+    <memberTool name="qLib::PdgGraphStatus"/>
     <memberTool name="qLib::SelectPdgCookSet"/>
+    <memberTool name="qLib::SelectCookedPdgNodes"/>
+    <memberTool name="qLib::SelectCanceledPdgNodes"/>
+    <memberTool name="qLib::SelectFailedPdgNodes"/>
+    <memberTool name="qLib::SelectErroredPdgNodes"/>
   </toolshelf>
 
   <tool name="qLib::ResizeTaskGraph" label="-/tasks/+" icon="IMAGE_zoom_in">
@@ -23,10 +26,18 @@
 
 """Increases/decreases the number of work items shown.
 ---
-LMB: More work items shown.
-Shift-LMB: Less work items shown.
+LMB: Less work items shown (zoom in).
+Shift-LMB: More work items shown (zoom out).
 Ctrl-LMB: Reset to default.
-"""]]></helpText>
+"""
+
+This shelf button changes the number of work items shown in each PDG
+node (in other words, resizes or zooms in/out in the task graphs).
+
+- ((LMB)): Zoom in (less work items shown)
+- ((Shift + LMB)): Zoom out (more work items shown)
+- ((Ctrl + LMB)): Reset to default
+]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
 import nodegraphprefs as prefs
 
@@ -37,15 +48,18 @@ ctrl  = kwargs['ctrlclick']
 alt   = kwargs['altclick']
 
 m = 1.5
+mode = "Zoom Out (-)"
 
 if not (shift or alt):
+    mode = "Zoom In (+)"
     m = 1.0/m;
 
 rows = max(2, int(int(prefs.maxTaskGraphRows(editor))*m))
 items = max(2, int(int(prefs.maxWorkItemsPerRow(editor))*m))
 
 if ctrl:
-    rows = 14
+    mode = "Reset Zoom:"
+    rows = 11
     items = 10
 
 prefs.setMaxTaskGraphRows(editor, str(rows))
@@ -53,10 +67,10 @@ prefs.setMaxWorkItemsPerRow(editor, str(items))
 
 editor.redraw()
 
-]]></script>
+editor.flashMessage("IMAGE_zoom_in", "%s %sx%s" % (mode, items, rows, ), 3.0)]]></script>
   </tool>
 
-  <tool name="qLib::SelectCookedPdgNodes" label="sel: cooked" icon="TOP_status_cooked">
+  <tool name="qLib::SelectCookedPdgNodes" label="cooked" icon="TOP_status_cooked">
     <helpText><![CDATA[#icon: TOP/status_cooked
 #type: tool
 
@@ -65,27 +79,52 @@ editor.redraw()
 *version 1*
 
 """Selects nodes the PDG network considers as cooked.
-"""]]></helpText>
+"""
+
+Selects nodes with the PDG network considers as cooked.]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 
 editor = toolutils.networkEditor()
 nodes = editor.pwd().children()
 
-hou.clearAllSelected()
+if True: #try
+    ctx = editor.pwd().getPDGGraphContext()
+    is_cooking = ctx.cooking
+    mode = "Cooking" if is_cooking else "(Not cooking)"
 
-sel=0
-for node in nodes:
-    try:
-        pdgnode = node.getPDGNode() if hasattr(node, "getPDGNode") else None
-        if pdgnode and hasattr(pdgnode, "isCooked") and pdgnode.isCooked:
-            node.setSelected(True)
-            sel += 1
-    except:
-        pass
+    # collect cooked nodes
+    cooked = []
+    for node in nodes:
+        try:
+            pdgnode = node.getPDGNode() if hasattr(node, "getPDGNode") else None
+            if pdgnode and hasattr(pdgnode, "isCooked") and pdgnode.isCooked:
+                cooked.append(node)
+        except:
+            pass
 
-editor.flashMessage("TOP_status_cooked", "Select Cooked: %d node(s)" % sel, 3.0)
-]]></script>
+    # cooking: show cooked nodes only from the current cook set
+    cookset_size = 0
+    if is_cooking:
+        cookset = [ n.topNode() for n in ctx.cookSet ]
+        cookset_size = len(cookset)
+        cooked = list(set(cooked) & set(cookset))
+        # TODO: compute percent of cook set
+
+    sel = len(cooked)
+    if sel>0:
+        hou.clearAllSelected()
+        for n in cooked:
+            n.setSelected(True)
+
+    msg = "%d node(s) cooked" % sel
+    if cookset_size:
+        msg = "%d cooked (from a cook set of %d) (%.1f%%)" % (sel, cookset_size, sel*100.0/float(cookset_size), )
+    
+    editor.flashMessage("TOP_status_cooked", "%s: %s" % (mode, msg, ), 3.0)
+
+#except:
+#    pass]]></script>
   </tool>
 
   <tool name="qLib::FitWorkItemsToTaskGraph" label="/fit w.items/" icon="IMAGE_inspect_styles">
@@ -100,7 +139,17 @@ editor.flashMessage("TOP_status_cooked", "Select Cooked: %d node(s)" % sel, 3.0)
 ---
 LMB: Resize task graph to show all workitems for selected node.
 Ctrl-LMB: Reset task graph to default
-"""]]></helpText>
+"""
+
+This shelf button resizes the PDG task graphs so all workitems for the selected node(s)
+will fit (within certain limits).
+
+NOTE:
+    The current limits are a minimum of 80 and a maximum of 8000 work items.
+
+- ((LMB)): Resize task graphs to accomodate all work items for the selected node
+- ((Ctrl + LMB)): Reset task graphs to default
+]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
 import nodegraphprefs as prefs
 
@@ -113,36 +162,37 @@ alt   = kwargs['altclick']
 sel = [ n.getPDGNode() for n in hou.selectedNodes() if hasattr(n, "getPDGNode") ]
 items = [ len(n.workItems) for n in sel if hasattr(n, "workItems") ]
 
-if len(items)>0:
-    items = sorted(items)[-1]
-    # round up to 10
-    items = ((items/40)+1)*40
-    # some min/max limits for item count
-    items = max(200, items)
-    items = min(8000, items)
-    items = int(items)
-
-    # find divisors
-    d = [ (n, items/n) for n in range(2, items) if items%n==0 ]
-    d = d[ int(len(d)/2) ]
-    if d[0]>d[1]:
-        d = ( d[1], d[0], )
-    d = ( max(8, d[0]), max(8, d[1]) )
-
-    items = d[0]
-    rows = d[1]
-    if ctrl:
-        rows = 14
-        items = 10
+if len(items)>0 or ctrl:
+    mode = "Reset Zoom"
+    rows = 11
+    cols = 10
+    if not ctrl:
+        items = sorted(items)[-1]
+        mode = "Zoom to Fit (%d items)" % items
+        # round up to 10
+        items = ((items/40)+1)*40
+        # some min/max limits for item count
+        items = max(80, items)
+        items = min(8000, items)
+        items = int(items)
+        # find divisors
+        d = [ (n, items/n) for n in range(2, items) if items%n==0 ]
+        d = d[ int(len(d)/2) ]
+        if d[0]<d[1]:
+            d = ( d[1], d[0], )
+        d = ( max(8, d[0]), max(8, d[1]) )
+        cols = d[0]
+        rows = d[1]
 
     prefs.setMaxTaskGraphRows(editor, str(rows))
-    prefs.setMaxWorkItemsPerRow(editor, str(items))
-    
+    prefs.setMaxWorkItemsPerRow(editor, str(cols))
+
     editor.redraw()
+    editor.flashMessage("IMAGE_inspect_styles", "%s: %sx%s" % (mode, cols, rows, ), 3.0)
 ]]></script>
   </tool>
 
-  <tool name="qLib::SelectErroredPdgNodes" label="sel: errored" icon="TOP_status_error">
+  <tool name="qLib::SelectErroredPdgNodes" label="errored" icon="DIALOG_error">
     <helpText><![CDATA[#icon: TOP/status_error
 #type: tool
 
@@ -151,7 +201,12 @@ if len(items)>0:
 *version 1*
 
 """Selects PDG nodes with errors.
-"""]]></helpText>
+"""
+
+Select PDG nodes with errors.
+
+NOTE:
+    This refers to errors on the node itself, not individual work items' statuses.]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 
@@ -171,11 +226,11 @@ for node in nodes:
         pass
 
 msg = "%s node(s)" % sel if sel>0 else "no errors"
-editor.flashMessage("TOP_status_error", "Select Errored: %s" % msg, 3.0)
+editor.flashMessage("DIALOG_error", "Select Errored: %s" % msg, 3.0)
 ]]></script>
   </tool>
 
-  <tool name="qLib::SelectPdgCookSet" label="sel: cook set" icon="PANETYPES_network">
+  <tool name="qLib::SelectPdgCookSet" label="s: cookSet" icon="PANETYPES_network">
     <helpText><![CDATA[#icon: PANETYPES/network
 #type: tool
 
@@ -184,7 +239,14 @@ editor.flashMessage("TOP_status_error", "Select Errored: %s" % msg, 3.0)
 *version 1*
 
 """Selects PDG nodes involved in the currently running cook.
-"""]]></helpText>
+"""
+
+Selects PDG nodes involved in the current cook.
+(This includes nodes that are already cooked, are cooking, or will be cooked
+for the current run.)
+
+Very useful for inspecting which nodes (branches of the graph) will be run
+for the cook in progress.]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 
@@ -215,6 +277,148 @@ msg = "Select Cook Set: %d node(s) %s " % \
 if True or sel>0:
     editor.flashMessage("PANETYPES_network", msg, 3.0)
 
+]]></script>
+  </tool>
+
+  <tool name="qLib::PdgGraphStatus" label="status" icon="DIALOG_info">
+    <helpText><![CDATA[#icon: DIALOG/info
+#type: tool
+
+= PDG Graph Status qL =
+
+*version 1*
+
+"""Reports the current status of a PDG graph.
+"""
+
+This shelf button reports the current status of a PDG graph.
+It can be one of the following:
+
+- *Not cooking*: the current graph is not running
+- *Cooking*: the current graph is being run (also returns the number of nodes that will be run)
+- *Canceling*: the current graph running is being cancelled]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+
+editor = toolutils.networkEditor()
+
+try:
+    ctx = editor.pwd().getPDGGraphContext()
+
+    # there's also TOP_status_canceled, TOP_status_waiting
+    icon, msg = ("TOP_status_unstarted", "Not cooking", )
+    if ctx.cooking:
+        icon, msg = ("TOP_status_cooking", "Cooking", )
+        msg = "cooking (cook set: %d nodes)" % len(ctx.cookSet)
+
+    elif ctx.canceling:
+        msg = ("TOP_status_canceled", "Canceling", )
+
+    editor.flashMessage(icon, "Status: %s" % msg, 3.0)
+
+except:
+    pass
+
+]]></script>
+  </tool>
+
+  <tool name="qLib::SelectFailedPdgNodes" label="failed" icon="TOP_status_error">
+    <helpText><![CDATA[#icon: TOP/status_error
+#type: tool
+
+= Select Failed qL =
+
+*version 1*
+
+"""Selects PDG nodes with failed work items or errors.
+"""
+
+Selects PDG nodes where there's either failed work items, or error(s) on the node itself.
+]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+import pdg
+
+editor = toolutils.networkEditor()
+nodes = editor.pwd().children()
+
+hou.clearAllSelected()
+
+sel = 0
+failed = 0 # number of failed work items
+errors = 0 # number of node errors
+for node in nodes:
+    try:
+        pdgnode = node.getPDGNode() if hasattr(node, "getPDGNode") else None
+        if pdgnode and hasattr(pdgnode, "workItems"):
+            f = 0
+            errored = False
+            # check for regular errored nodes
+            if hasattr(pdgnode, "hasErrors"):
+                errored = pdgnode.hasErrors
+                if errored:
+                    errors += 1
+
+            # look through all workItems for errors
+            if hasattr(pdgnode, "workItems"):
+                f=len([ True for i in pdgnode.workItems \
+                    if i.state==pdg.workItemState.CookedFail ])
+
+            if f>0 or errored:
+                node.setSelected(True)
+                failed += f
+                sel += 1
+    except:
+        pass
+
+msg = "%d node(s) (%d work items, %d node errors)" % (sel, failed, errors, ) \
+    if sel>0 else "no failed workitems or errors"
+editor.flashMessage("TOP_status_error", "Select Failed: %s" % msg, 3.0)
+]]></script>
+  </tool>
+
+  <tool name="qLib::SelectCanceledPdgNodes" label="canceled" icon="TOP_status_canceled">
+    <helpText><![CDATA[#icon: TOP/status_cooked
+#type: tool
+
+= Select Canceled qL =
+
+*version 1*
+
+"""Selects nodes with work items the PDG network considers as canceled.
+"""
+
+Selects nodes with work items the PDG network considers as canceled.]]></helpText>
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+import pdg
+
+editor = toolutils.networkEditor()
+nodes = editor.pwd().children()
+
+hou.clearAllSelected()
+
+sel = 0
+failed = 0 # number of failed work items
+for node in nodes:
+    try:
+        pdgnode = node.getPDGNode() if hasattr(node, "getPDGNode") else None
+        if pdgnode and hasattr(pdgnode, "workItems"):
+            f = 0
+            # look through all workItems for errors
+            if hasattr(pdgnode, "workItems"):
+                f=len([ True for i in pdgnode.workItems \
+                    if i.state==pdg.workItemState.CookedCancel ])
+            if f>0:
+                node.setSelected(True)
+                failed += f
+                sel += 1
+    except:
+        pass
+
+msg = "%d node(s) (%d work items)" % (sel, failed, ) \
+    if sel>0 else "no canceled workitems"
+editor.flashMessage("TOP_status_canceled", "Select Canceled: %s" % msg, 3.0)
 ]]></script>
   </tool>
 </shelfDocument>

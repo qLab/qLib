@@ -1,0 +1,28 @@
+= qLib | PDG Shelf Tools =
+
+"""Shelf tools provided by qLib for PDG."""
+
+[Image:../images/qLib_shelf_pdg.png]
+* _Example of the qLib PDG shelf._
+
+@subtopics View
+Easily set up how many work items to be shown.
+
+:: [Icon:IMAGE/zoom_in] [Resize Task Graph|/shelf/qLib::ResizeTaskGraph]
+:: [Icon:IMAGE/inspect_styles] [Fit Work Items to Task Graph|/shelf/qLib::FitWorkItemsToTaskGraph]
+
+@subtopics Status
+:: [Icon:DIALOG/info] [PDG Graph Status|/shelf/qLib::PdgGraphStatus] -- quick flash-message info on the current PDG graph
+
+@subtopics Select
+
+Select PDG nodes based on various criteria.
+These selection tools are especially useful for large PDG networks.
+
+:: [Icon:PANETYPES/network] [Select Cook Set|/shelf/qLib::SelectPdgCookSet] -- all nodes that are or will be run in the current cook
+:: [Icon:TOP/status_cooked] [Select: Cooked|/shelf/qLib::SelectCookedPdgNodes] -- nodes PDG considers as cooked
+:: [Icon:TOP/status_canceled] [Select: Canceled|/shelf/qLib::SelectFailedPdgNodes] -- nodes with canceled work items
+:: [Icon:TOP/status_error] [Select: Failed|/shelf/qLib::SelectFailedPdgNodes] -- nodes with failed work items or node errors
+:: [Icon:DIALOG/error] [Select: Errored|/shelf/qLib::SelectErroredPdgNodes] -- nodes with errors
+
+
