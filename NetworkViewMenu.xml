@@ -273,8 +273,8 @@ import qlibutils
 sel = hou.selectedNodes()
 authors = qlibutils.get_node_authors(sel)
 if len(authors)>0:
-    qlibutils.statmsg("Selecting nodes by author(s): %s" % ",  ".join(authors))
-    qlibutils.select_netview_nodes(kwargs, lambda n: qlibutils.has_author(n, authors))
+    statmsg = "Selecting by author(s): %s" % ",  ".join(authors)
+    qlibutils.select_netview_nodes(kwargs, lambda n: qlibutils.has_author(n, authors), statMsg=statmsg)
                 ]]></scriptCode>
             </scriptItem>
 
@@ -285,8 +285,8 @@ import qlibutils
 sel = hou.selectedNodes()
 authors = qlibutils.get_node_authors(sel, username_only=True)
 if len(authors)>0:
-    qlibutils.statmsg("Selecting nodes by author(s): %s" % ",  ".join(authors))
-    qlibutils.select_netview_nodes(kwargs, lambda n: qlibutils.has_author(n, authors, username_only=True))
+    statmsg = "Selecting by author(s): %s" % ",  ".join(authors)
+    qlibutils.select_netview_nodes(kwargs, lambda n: qlibutils.has_author(n, authors, username_only=True), statMsg=statmsg)
                 ]]></scriptCode>
             </scriptItem>
 
