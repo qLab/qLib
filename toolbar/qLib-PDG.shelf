@@ -26,10 +26,18 @@
 
 """Increases/decreases the number of work items shown.
 ---
-LMB: More work items shown.
-Shift-LMB: Less work items shown.
+LMB: Less work items shown (zoom in).
+Shift-LMB: More work items shown (zoom out).
 Ctrl-LMB: Reset to default.
-"""]]></helpText>
+"""
+
+This shelf button changes the number of work items shown in each PDG
+node (in other words, resizes or zooms in/out in the task graphs).
+
+- ((LMB)): Zoom in (less work items shown)
+- ((Shift + LMB)): Zoom out (more work items shown)
+- ((Ctrl + LMB)): Reset to default
+]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
 import nodegraphprefs as prefs
 
@@ -71,7 +79,9 @@ editor.flashMessage("IMAGE_zoom_in", "%s %sx%s" % (mode, items, rows, ), 3.0)]]>
 *version 1*
 
 """Selects nodes the PDG network considers as cooked.
-"""]]></helpText>
+"""
+
+Selects nodes with the PDG network considers as cooked.]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 
@@ -129,7 +139,17 @@ if True: #try
 ---
 LMB: Resize task graph to show all workitems for selected node.
 Ctrl-LMB: Reset task graph to default
-"""]]></helpText>
+"""
+
+This shelf button resizes the PDG task graphs so all workitems for the selected node(s)
+will fit (within certain limits).
+
+NOTE:
+    The current limits are a minimum of 80 and a maximum of 8000 work items.
+
+- ((LMB)): Resize task graphs to accomodate all work items for the selected node
+- ((Ctrl + LMB)): Reset task graphs to default
+]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
 import nodegraphprefs as prefs
 
@@ -181,7 +201,12 @@ if len(items)>0 or ctrl:
 *version 1*
 
 """Selects PDG nodes with errors.
-"""]]></helpText>
+"""
+
+Select PDG nodes with errors.
+
+NOTE:
+    This refers to errors on the node itself, not individual work items' statuses.]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 
@@ -214,7 +239,14 @@ editor.flashMessage("DIALOG_error", "Select Errored: %s" % msg, 3.0)
 *version 1*
 
 """Selects PDG nodes involved in the currently running cook.
-"""]]></helpText>
+"""
+
+Selects PDG nodes involved in the current cook.
+(This includes nodes that are already cooked, are cooking, or will be cooked
+for the current run.)
+
+Very useful for inspecting which nodes (branches of the graph) will be run
+for the cook in progress.]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 
@@ -249,27 +281,43 @@ if True or sel>0:
   </tool>
 
   <tool name="qLib::PdgGraphStatus" label="status" icon="DIALOG_info">
+    <helpText><![CDATA[#icon: DIALOG/info
+#type: tool
+
+= PDG Graph Status qL =
+
+*version 1*
+
+"""Reports the current status of a PDG graph.
+"""
+
+This shelf button reports the current status of a PDG graph.
+It can be one of the following:
+
+- *Not cooking*: the current graph is not running
+- *Cooking*: the current graph is being run (also returns the number of nodes that will be run)
+- *Canceling*: the current graph running is being cancelled]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 
 editor = toolutils.networkEditor()
 
-if True: #try:
+try:
     ctx = editor.pwd().getPDGGraphContext()
 
     # there's also TOP_status_canceled, TOP_status_waiting
-    icon, msg = ("TOP_status_unstarted", "not cooking", )
+    icon, msg = ("TOP_status_unstarted", "Not cooking", )
     if ctx.cooking:
-        icon, msg = ("TOP_status_cooking", "cooking", )
+        icon, msg = ("TOP_status_cooking", "Cooking", )
         msg = "cooking (cook set: %d nodes)" % len(ctx.cookSet)
 
     elif ctx.canceling:
-        msg = ("TOP_status_canceled", "canceling", )
+        msg = ("TOP_status_canceled", "Canceling", )
 
     editor.flashMessage(icon, "Status: %s" % msg, 3.0)
 
-#except:
-#    pass
+except:
+    pass
 
 ]]></script>
   </tool>
@@ -283,7 +331,10 @@ if True: #try:
 *version 1*
 
 """Selects PDG nodes with failed work items or errors.
-"""]]></helpText>
+"""
+
+Selects PDG nodes where there's either failed work items, or error(s) on the node itself.
+]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 import pdg
@@ -327,6 +378,17 @@ editor.flashMessage("TOP_status_error", "Select Failed: %s" % msg, 3.0)
   </tool>
 
   <tool name="qLib::SelectCanceledPdgNodes" label="canceled" icon="TOP_status_canceled">
+    <helpText><![CDATA[#icon: TOP/status_cooked
+#type: tool
+
+= Select Canceled qL =
+
+*version 1*
+
+"""Selects nodes with work items the PDG network considers as canceled.
+"""
+
+Selects nodes with work items the PDG network considers as canceled.]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 import pdg
