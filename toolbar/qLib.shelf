@@ -651,6 +651,9 @@ def set_node_visu(node, color=None, comment=None):
     if color:
         node.setColor(hou.Color(color))
     if comment:
+        toolid = node.userData("___toolid___")
+        if toolid:
+            comment = "%s\n(toolid: %s)" % (comment, toolid, )
         node.setComment(comment)
         # turn on "show comment in network view"
         hou.hscript('opset -Y on %s' % node.path())
