@@ -383,23 +383,32 @@ shift = kwargs['shiftclick']
 ctrl  = kwargs['ctrlclick']
 alt   = kwargs['altclick']
 
-
 v = toolutils.sceneViewer()
+e = None
+try:
+    e = toolutils.networkEditor()
+except:
+    pass
 
 if ctrl:
     n = v.pwd() # container node
+    ts = 0
 
     for c in n.children():
         try:
+            if c.isTemplateFlagSet() or c.isSelectableTemplateFlagSet():
+                ts += 1
             c.setTemplateFlag(0)
             c.setSelectableTemplateFlag(0)
         except:
             pass
 
-    msg = "Cleared all display template flags"
+    msg = "Cleared all display template flags (%d nodes)" % ts
     hou.ui.setStatusMessage(msg)
     v.clearPromptMessage()
     v.setPromptMessage(msg, hou.promptMessageType.Warning)
+    if e:
+        e.flashMessage("NODEFLAGS_template", msg, 8)
 
 else:
     if not hasattr(hou.session, "templates"):
@@ -415,6 +424,8 @@ else:
     hou.ui.setStatusMessage(msg)
     v.clearPromptMessage()
     v.setPromptMessage(msg, hou.promptMessageType.Warning)
+    if e:
+        e.flashMessage("NODEFLAGS_template", msg, 8)
 ]]></script>
   </tool>
 
