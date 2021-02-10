@@ -14,6 +14,7 @@
     <memberTool name="qLib::ReferenceCopy"/>
     <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
     <memberTool name="qLib::ColorByAuthor"/>
+    <memberTool name="qLib::AddStickyNote"/>
     <memberTool name="qLib::ResizeStickyNotes"/>
     <memberTool name="qLib::ToggleIntegerFrames"/>
     <memberTool name="qLib::CrashRecovery"/>
@@ -789,7 +790,7 @@ else:
 ]]></script>
   </tool>
 
-  <tool name="qLib::ResizeStickyNotes" label="-/sticky/+" icon="BUTTONS_network_sticky">
+  <tool name="qLib::ResizeStickyNotes" label="- /note/ +" icon="IMAGE_zoom_in">
     <helpText><![CDATA[#icon: BUTTONS/network_sticky
 #type: tool
 
@@ -832,6 +833,37 @@ for n in notes:
 
     n.setSize( n.size()*m )
     n.setTextSize( ts*m )
+
+]]></script>
+  </tool>
+
+  <tool name="qLib::AddStickyNote" label="Sticky Note" icon="BUTTONS_network_sticky">
+    <toolMenuContext name="network">
+      <contextNetType>OBJ</contextNetType>
+      <contextNetType>SOP</contextNetType>
+      <contextNetType>CHOP</contextNetType>
+      <contextNetType>ROP</contextNetType>
+      <contextNetType>SHOP</contextNetType>
+      <contextNetType>COP2</contextNetType>
+      <contextNetType>VOP</contextNetType>
+      <contextNetType>VOPNET</contextNetType>
+      <contextNetType>DOP</contextNetType>
+      <contextNetType>TOP</contextNetType>
+      <contextNetType>LOP</contextNetType>
+    </toolMenuContext>
+    <toolSubmenu>qLib Shelf</toolSubmenu>
+    <script scriptType="python"><![CDATA[import toolutils
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+print kwargs
+
+# order to pick up current node context path --
+# - parent of first selected node
+# - kwargs['pane']
+# - toolutils.networkEditor()
 
 ]]></script>
   </tool>
