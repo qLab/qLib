@@ -848,6 +848,7 @@ def paste_clipboard_to_netview(kwargs):
                 
                 # add image to network view
                 add_image_to_netview(embedded_img_prefix(image_name), pane, pwd)
+                pane.flashMessage("COP2_still", "Pasted new image:  %s  (Ctrl+I to edit)" % image_name, 8)
 
 
 def paste_existing_image(kwargs):
@@ -862,6 +863,8 @@ def paste_existing_image(kwargs):
         image_name = images[sel[0]]
         pwd = pane.pwd()
         add_image_to_netview(embedded_img_prefix(image_name), pane, pwd)
+        pane.flashMessage("COP2_still", "Pasted existing image:  %s  (Ctrl+I to edit)" % image_name, 8)
+
 
 
 
