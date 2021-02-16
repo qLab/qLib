@@ -865,6 +865,18 @@ print kwargs
 # - kwargs['pane']
 # - toolutils.networkEditor()
 
+# get current pane
+pane = kwargs['pane']
+if not pane:
+    pane = toolutils.networkEditor()
+
+# first selected node
+node = hou.selectedNodes()
+node = node[0] if len(node)>0 else None
+
+# any selected (existing) sticky notes (to be updated)
+notes = [ n for n in hou.selectedItems() if type(n)==hou.StickyNode ]
+
 ]]></script>
   </tool>
 </shelfDocument>
