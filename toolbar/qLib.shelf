@@ -838,6 +838,36 @@ for n in notes:
   </tool>
 
   <tool name="qLib::AddStickyNote" label="Sticky Note" icon="BUTTONS_network_sticky">
+    <helpText><![CDATA[#icon: BUTTONS/network_sticky
+#type: tool
+
+= Add Sticky Note qL =
+
+*version 1*
+
+"""Creates a sticky note, adds it next to the selected node, or update selected sticky notes.
+"""
+
+This shelf button creates or updates sticky notes. Sticky notes will have a header
+containing the user name and the current date.
+
+It does the following, based on the current selection:
+
+Sticky note(s) selected --:
+    Notes with existing header will be updated with current user name and date.
+    Notes without a header will have the header added.
+
+Node selected --:
+    A new sticky note will be added with the username/timestamp header. It
+    will be placed next to the node, will mention the node name, and will inherit
+    the node's color.
+
+Nothing selected --:
+    A new sticky note with the username/timestamp header will be created.
+
+
+
+]]></helpText>
     <toolMenuContext name="network">
       <contextNetType>OBJ</contextNetType>
       <contextNetType>SOP</contextNetType>
@@ -853,12 +883,16 @@ for n in notes:
     </toolMenuContext>
     <toolSubmenu>qLib Shelf</toolSubmenu>
     <script scriptType="python"><![CDATA[import toolutils
+import datetime
+import getpass
+import socket
+import re
 
 shift = kwargs['shiftclick']
 ctrl  = kwargs['ctrlclick']
 alt   = kwargs['altclick']
 
-print kwargs
+#print kwargs
 
 # order to pick up current node context path --
 # - parent of first selected node
@@ -875,8 +909,72 @@ node = hou.selectedNodes()
 node = node[0] if len(node)>0 else None
 
 # any selected (existing) sticky notes (to be updated)
-notes = [ n for n in hou.selectedItems() if type(n)==hou.StickyNode ]
+notes = [ n for n in hou.selectedItems() if type(n)==hou.StickyNote ]
 
+# parent container for new sticky note
+path = None
+if node or len(notes):
+    path = ( notes + [ node ] )[0].parent()
+    #print "path 1:", path
+elif pane:
+    path = pane.pwd()
+    #print "path 2:", path
+
+#print "path:", path
+#print "pane:", pane
+
+date = datetime.datetime.now().replace(second=0, microsecond=0).isoformat(' ')
+date = re.sub(":00$", "", date) # strip seconds
+username = getpass.getuser()
+user = '%s@%s' % (username, socket.getfqdn(), )
+notename = "%s_%s_1" % (username, re.sub("[^0-9]+", "_", date), )
+notetext = "[%s, %s]" % (user, date, )
+
+#print "notename:", notename
+
+if path:
+    if len(notes):
+        # has sticky notes selected? update them (or add timestamp)
+        for note in notes:
+            t = note.text()
+            t = re.sub("\[[^\]]+\]", notetext, t)
+            if notetext not in t:
+                t = notetext+" -- \n"+t
+            note.setText(t)
+        if pane:
+            pane.flashMessage("BUTTONS_network_sticky", "Updated %d note(s)" % len(notes), 8)
+
+    else:
+        # nothing or regular node selected? create sticky note
+
+        msg = "New sticky note:"
+        if node:
+            msg +=" for %s" % node.name()
+        msg += " %s" % notetext
+
+        note = path.createStickyNote(notename)
+        notetext += " --\n"
+        if node:
+            notetext += "%s: " % node.name()
+        notetext += "..."
+        note.setText(notetext)
+        s = note.size()
+        note.setSize(hou.Vector2(s[0]*2.0, s[0]*0.5))
+        note.setSelected(True)
+
+        if node:
+            # move sticky next to node
+            p = node.position()
+            note.move(hou.Vector2(p.x()+2.0, p.y()-0.8, ))
+            note.setColor(node.color())
+        elif pane:
+            # move sticky to pane center
+            note.move(pane.visibleBounds().center())
+
+        if pane:
+            pane.flashMessage("BUTTONS_network_sticky", msg, 8)
+else:
+    hou.ui.setStatusMessage("Couldn't determine context for sticky note")
 ]]></script>
   </tool>
 </shelfDocument>
