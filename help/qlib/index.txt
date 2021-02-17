@@ -39,8 +39,8 @@ NOTE:
 
     == Shelves ==
     ~~~
-    :: [Icon:MISC/shelf] [qLib|shelf/]
-    :: [Icon:MISC/shelf] [qLib: PDG|shelf_pdg/]
+    :: [Icon:MISC/shelf] [qLib Shelf|shelf/]
+    :: [Icon:MISC/shelf] [qLib--PDG Shelf |shelf_pdg/]
 
     == Other ==
     ~~~
