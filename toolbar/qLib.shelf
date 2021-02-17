@@ -791,7 +791,7 @@ else:
   </tool>
 
   <tool name="qLib::ResizeStickyNotes" label="- /note/ +" icon="IMAGE_zoom_in">
-    <helpText><![CDATA[#icon: BUTTONS/network_sticky
+    <helpText><![CDATA[#icon: IMAGE/zoom_in
 #type: tool
 
 = Grow/Shrink Sticky Notes qL =
