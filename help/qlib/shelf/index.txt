@@ -7,21 +7,22 @@
 
 @subtopics General
 
-:: [Icon:NETWORKS/scene] [Access Shot Node(s)|/shelf/qLib::AccessShotNode]
+:: [Icon:NETWORKS/scene] [Access Shot Node(s)|/shelf/qLib::AccessShotNode] -- Opens a floating Parameter Editor for Shot qL OBJ node(s)
 
 @subtopics Viewport
 
-:: [Icon:COP2/invert] [Cycle Background Color|/shelf/qLib::ToggleViewportBackgroundColor]
-:: [Icon:OBJ/camera] [VCamera Dolly/Zoom Tool ("Vertigo")|/shelf/qLib::camera_dolly_zoom_ql]
-:: [Icon:NODEFLAGS/template] [Toggle Templates|/shelf/qLib::ToggleViewportTemplates]
-:: [Icon:IMAGE/view_guides] [Toggle Guides|/shelf/qLib::ToggleViewportGuides]
+:: [Icon:COP2/invert] [Cycle Background Color|/shelf/qLib::ToggleViewportBackgroundColor] -- Cycle background color of viewports
+:: [Icon:OBJ/camera] [VCamera Dolly/Zoom Tool ("Vertigo")|/shelf/qLib::camera_dolly_zoom_ql] -- A viewport perspective adjustment tool
+:: [Icon:NODEFLAGS/template] [Toggle Templates|/shelf/qLib::ToggleViewportTemplates] -- Toggle Template geo display ( ((Ctrl + LMB)) to clear template flags)
+:: [Icon:IMAGE/view_guides] [Toggle Guides|/shelf/qLib::ToggleViewportGuides] -- Toggle Guide geometry display
 
 @subtopics Network Editor
 
 :: [Icon:BUTTONS/copy] [Node Reference Copy|/shelf/qLib::ReferenceCopy]
 :: [Icon:NETVIEW/time_dependent_badge_large] [Toggle Time Dependency Display|/shelf/qLib::ToggleTimeDependencyDisplay]
-:: [Icon:COP2/mosaic] [Color by Author|/shelf/qLib::ColorByAuthor]
-:: [Icon:BUTTONS/network_sticky] [Resize Sticky Notes|/shelf/qLib::ResizeStickyNotes]
+:: [Icon:COP2/mosaic] [Color by Author|/shelf/qLib::ColorByAuthor] -- Color nodes by authors and indicate them with labels
+:: [Icon:BUTTONS/network_sticky] [Add Sticky Note|/shelf/qLib::AddStickyNote] -- Adds sticky notes with an user/timestamp header
+:: [Icon:IMAGE/zoom_in] [Resize Sticky Notes|/shelf/qLib::ResizeStickyNotes] -- Enlarge/shrink selected sticky notes
 
 @subtopics Miscellaneous
 
