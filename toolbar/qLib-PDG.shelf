@@ -81,7 +81,12 @@ editor.flashMessage("IMAGE_zoom_in", "%s %sx%s" % (mode, items, rows, ), 3.0)]]>
 """Selects nodes the PDG network considers as cooked.
 """
 
-Selects nodes with the PDG network considers as cooked.]]></helpText>
+Selects nodes with the PDG network considers as cooked
+(i.e. where all workitems are cooked).
+
+If a cook is in progress, only nodes in the current cook set
+will be considered, and a progress percentage will also be
+reported (e.g. "2 cooked from a cook set of 3 (66.7%)").]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 

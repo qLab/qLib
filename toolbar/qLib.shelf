@@ -851,22 +851,22 @@ for n in notes:
 This shelf button creates or updates sticky notes. Sticky notes will have a header
 containing the user name and the current date.
 
-It does the following, based on the current selection:
+Supported keyboard modifiers:
+- ((LMB)) to create/add/update sticky notes
+- ((Shift + LMB)) to use "username@hostname" unstead of plain user name
+- ((Ctrl + LMB)) to remove headers from sticky notes
 
-Sticky note(s) selected --:
+The tool performs different actions, based on the current selection --
+
+If sticky note(s) are selected:
     Notes with existing header will be updated with current user name and date.
     Notes without a header will have the header added.
-
-Node selected --:
+If a node is selected:
     A new sticky note will be added with the username/timestamp header. It
     will be placed next to the node, will mention the node name, and will inherit
     the node's color.
-
-Nothing selected --:
+If nothing selected:
     A new sticky note with the username/timestamp header will be created.
-
-
-
 ]]></helpText>
     <toolMenuContext name="network">
       <contextNetType>OBJ</contextNetType>
@@ -926,7 +926,8 @@ elif pane:
 date = datetime.datetime.now().replace(second=0, microsecond=0).isoformat(' ')
 date = re.sub(":00$", "", date) # strip seconds
 username = getpass.getuser()
-user = '%s@%s' % (username, socket.getfqdn(), )
+hostname = socket.gethostname() # socket.getfqdn() gives full name
+user = '%s@%s' % (username, hostname, ) if (shift or alt) else username
 notename = "%s_%s_1" % (username, re.sub("[^0-9]+", "_", date), )
 notetext = "[%s, %s]" % (user, date, )
 
@@ -935,12 +936,21 @@ notetext = "[%s, %s]" % (user, date, )
 if path:
     if len(notes):
         # has sticky notes selected? update them (or add timestamp)
+        
         for note in notes:
-            t = note.text()
-            t = re.sub("\[[^\]]+\]", notetext, t)
-            if notetext not in t:
-                t = notetext+" -- \n"+t
-            note.setText(t)
+        
+            if not ctrl:
+                t = note.text()
+                t = re.sub("\[[^\]]+\]", notetext, t)
+                if notetext not in t:
+                    t = notetext+" -- \n"+t
+                note.setText(t)
+            else:
+                # ctrl-click: remove header
+                t = note.text()
+                t = re.sub("\[[^\]]+\][ -]*[\n]*", "", t)
+                note.setText(t)
+
         if pane:
             pane.flashMessage("BUTTONS_network_sticky", "Updated %d note(s)" % len(notes), 8)
 
@@ -960,6 +970,7 @@ if path:
         note.setText(notetext)
         s = note.size()
         note.setSize(hou.Vector2(s[0]*2.0, s[0]*0.5))
+        hou.clearAllSelected()
         note.setSelected(True)
 
         if node:
