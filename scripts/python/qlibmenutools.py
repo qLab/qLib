@@ -188,7 +188,7 @@ def toggle_abs_rel_path(kwargs):
 
                 # decide if we want to convert all to abs or rel
                 if to_abs is None:
-                    to_abs = path!=path_abs
+                    to_abs = re.sub("[/]+$", "", path)!=path_abs # (strip trailing slashes for comparison)
 
                 paths_out.append( (path_abs if to_abs else path_rel) + parmname )
             else:
