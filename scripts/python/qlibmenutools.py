@@ -307,8 +307,8 @@ def build_upstream_channel_refs_menu(kwargs):
         parms += [ pt[0] for pt in n.parmTuples() if iz_good(pt) ]
 
     parms = [ p.path() for p in parms ]
+    parms = parms[:10] # limit number of menu items
 
-    # TODO: limit menu items?
     menu_items = []
     for pn in parms:
         p = hou.parm(pn)
