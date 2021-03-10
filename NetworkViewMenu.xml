@@ -463,6 +463,19 @@ import qlibutils; qlibutils.hdapath_to_clipboard()
         <subMenu id = "paste_from_clipboard_submenu_ql">
             <label>Paste</label>
 
+            <scriptItem id="pane.wsheet.paste_path_as_objectmerge_ql">
+                <label>Copied Node(s) as Object Merge SOP...</label>
+                <expression>
+                    import qlibutils
+                    return qlibutils.clipboard_has_node_paths(kwargs)
+                </expression>
+                <scriptCode><![CDATA[
+import qlibutils; qlibutils.paste_clipboard_as_object_merge(kwargs)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
             <scriptItem id="pane.wsheet.paste_from_clipboard_ql">
                 <label>Clipboard as Text/Image...</label>
                 <scriptCode><![CDATA[
@@ -478,19 +491,6 @@ import qlibutils; qlibutils.paste_clipboard_to_netview(kwargs)
                 </expression>
                 <scriptCode><![CDATA[
 import qlibutils; qlibutils.paste_existing_image(kwargs)
-                ]]></scriptCode>
-            </scriptItem>
-
-            <separatorItem />
-
-            <scriptItem id="pane.wsheet.paste_path_as_objectmerge_ql">
-                <label>Copied Node(s) as Object Merge SOP...</label>
-                <expression>
-                    import qlibutils
-                    return qlibutils.clipboard_has_node_paths(kwargs)
-                </expression>
-                <scriptCode><![CDATA[
-import qlibutils; qlibutils.paste_clipboard_as_object_merge(kwargs)
                 ]]></scriptCode>
             </scriptItem>
 

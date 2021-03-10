@@ -10,8 +10,10 @@ import hou
 
 import collections
 import datetime
+import getpass
 import glob
 import os
+import socket
 import sys
 import re
 import subprocess
@@ -772,16 +774,32 @@ def paste_clipboard_to_netview(kwargs):
     text = clipboard.text()
     pane = kwargs.get('editor', None)
 
+    shift = kwargs.get('shiftclick', None)
+    ctrl  = kwargs.get('ctrlclick', None)
+    alt   = kwargs.get('altclick', None)
+
     if pane:
         pwd = pane.pwd()
 
         if image.isNull():
             # paste text (if any)
             if text!="":
+
+                # copy/pasted from the "add sticky note" shelf button
+                # TODO: refactor this into a proper function that can be called from both
+                date = datetime.datetime.now().replace(second=0, microsecond=0).isoformat(' ')
+                date = re.sub(":00$", "", date) # strip seconds
+                username = getpass.getuser()
+                hostname = socket.gethostname() # socket.getfqdn() gives full name
+                user = '%s@%s' % (username, hostname, ) if (shift or alt) else username
+                notename = "%s_%s_1" % (username, re.sub("[^0-9]+", "_", date), )
+                notetext = "[%s, %s]" % (user, date, )
+
                 note = pwd.createStickyNote()
                 note.move(pane.visibleBounds().center())
                 s = note.size()
                 s = hou.Vector2((s.x()*1.5, s.y()*0.5, ))
+                text = "%s --\n%s" % (notetext, text, )
                 note.setText(text)
                 note.setSize(s)
         else:
