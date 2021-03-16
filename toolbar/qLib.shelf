@@ -16,6 +16,7 @@
     <memberTool name="qLib::ColorByAuthor"/>
     <memberTool name="qLib::AddStickyNote"/>
     <memberTool name="qLib::ResizeStickyNotes"/>
+    <memberTool name="qLib::AddStash"/>
     <memberTool name="qLib::ToggleIntegerFrames"/>
     <memberTool name="qLib::CrashRecovery"/>
   </toolshelf>
@@ -994,5 +995,59 @@ if path:
 else:
     hou.ui.setStatusMessage("Couldn't determine context for sticky note")
 ]]></script>
+  </tool>
+
+  <tool name="qLib::AddStash" label="stash" icon="SOP_stash">
+    <helpText><![CDATA[#icon: SOP/stash
+#type: tool
+
+= Add Stash qL =
+
+*version 1*
+
+"""Add a Stash qL SOP to selected node(s), and stash them.
+---
+LMB: Add Stash qL SOP
+Shift-LMB: Add Cache SOP
+Ctrl-LMB: Reset size to default
+"""
+
+This shelf button attaches a Stash qL SOP to the selected nodes, and
+stash their results. Alternatively it can create Cache SOP nodes.
+
+NOTE:
+    Stash nodes will lock their stashed geometry which will be saved
+    into the hip file. A single geometry is stored (no animation).
+    
+    Cache nodes will cache their inputs in memory (can be animated
+    over a frame range) but it won't be saved in the hip file.
+
+Supported keyboard modifiers:
+- ((LMB)) to attach Stash qL SOPs to selected nodes
+- ((Alt + LMB)) to attach Cache SOPs to selected nodes
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+e = toolutils.networkEditor()
+
+# get selected SOP nodes
+#
+sel = [ n for n in hou.selectedNodes() if type(n) is hou.SopNode ]
+alt = kwargs['shiftclick'] or kwargs['altclick'] or kwargs['ctrlclick']
+
+r = []
+
+for s in sel:
+    stash = s.createOutputNode("stash_ql" if not alt else "cache")
+    if not alt:
+        stash.parm("stashinput").pressButton()
+    stash.move(hou.Vector2(1.0, 0.0))
+    r.append(stash)
+
+if len(r)>0:
+    hou.clearAllSelected()
+    for s in r:
+        s.setSelected(True)
+    if e:
+        e.flashMessage("SOP_stash", "created %d stash/cache nodes" % len(r), 8.0)]]></script>
   </tool>
 </shelfDocument>
