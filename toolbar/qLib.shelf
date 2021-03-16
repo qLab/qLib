@@ -326,6 +326,8 @@ sel = [ n.path() for n in hou.selectedNodes() ]
 
 alt = kwargs['shiftclick'] or kwargs['altclick'] or kwargs['ctrlclick']
 
+copies = []
+
 for S in sel:
     c = len( hou.hscript( 'opls -d %s*' % S )[0].split() )
     T = '%s_copy%d' % (S, c)
@@ -344,7 +346,12 @@ for S in sel:
         if alt:
             srcpath = hou.node(T).relativePathTo(hou.node(S))
         postproc_refcopy(T, srcpath)
+        copies.append(T)
 
+if len(copies)>0:
+    hou.clearAllSelected()
+    for c in copies:
+        hou.node(c).setSelected(True)
 ]]></script>
   </tool>
 
