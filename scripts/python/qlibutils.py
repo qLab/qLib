@@ -964,7 +964,8 @@ def paste_clipboard_as_object_merge(kwargs):
         haz_shift = kwargs["shiftclick"] or kwargs['altclick']
 
         objm = None
-        root = kwargs['editor'].pwd()
+        editor = kwargs['editor']
+        root = editor.pwd()
         offset = (0, 0, )
 
         for node in nodes:
@@ -981,6 +982,14 @@ def paste_clipboard_as_object_merge(kwargs):
                 i = n.eval()+1
                 n.set(i)
                 objm.parm("objpath%d" %i).set(objm.relativePathTo(node))
+        pass
+
+        msg = ("Pasted %d merges (as single node)" if haz_shift \
+                else "Pasted %d nodes (press alt for single-node merge)") \
+                % len(nodes)
+
+        editor.flashMessage("SOP_object_merge", msg, 8.0)
+
     except:
         print("ERROR: %s" % traceback.format_exc())
 
