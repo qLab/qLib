@@ -412,7 +412,7 @@ if ctrl:
         except:
             pass
 
-    msg = "Cleared all display template flags (%d nodes)" % ts
+    msg = "CLEARED all Display Template flags (%d nodes)" % ts
     hou.ui.setStatusMessage(msg)
     v.clearPromptMessage()
     v.setPromptMessage(msg, hou.promptMessageType.Warning)
@@ -1009,7 +1009,6 @@ else:
 ---
 LMB: Add Stash qL SOP
 Shift-LMB: Add Cache SOP
-Ctrl-LMB: Reset size to default
 """
 
 This shelf button attaches a Stash qL SOP to the selected nodes, and
@@ -1048,6 +1047,8 @@ if len(r)>0:
     for s in r:
         s.setSelected(True)
     if e:
-        e.flashMessage("SOP_stash", "created %d stash/cache nodes" % len(r), 8.0)]]></script>
+        e.flashMessage("SOP_stash",
+            "created %d %s SOP(s)" % (len(r), "Cache" if alt else "Stash", ),
+            8.0)]]></script>
   </tool>
 </shelfDocument>
