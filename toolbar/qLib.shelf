@@ -412,7 +412,7 @@ if ctrl:
         except:
             pass
 
-    msg = "Cleared all display template flags (%d nodes)" % ts
+    msg = "CLEARED all Display Template flags (%d nodes)" % ts
     hou.ui.setStatusMessage(msg)
     v.clearPromptMessage()
     v.setPromptMessage(msg, hou.promptMessageType.Warning)
