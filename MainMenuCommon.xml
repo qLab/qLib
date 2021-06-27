@@ -32,6 +32,13 @@ import qlibutils; qlibutils.open_dir(env="JOB")]]>
 
 		<separatorItem />
 
+			<scriptItem id="h.ql_browse_clipboard_as_path">
+				<label>Clipboard Contents as File Path...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.open_clipboard_as_dir()]]>
+				</scriptCode>
+			</scriptItem>
+
 			<scriptItem id="h.ql_browse_HDALocation">
 				<label>Selected HDA Location(s)...</label>
 				<scriptCode><![CDATA[
