@@ -296,6 +296,16 @@ def open_dir(dir="", env=None):
         subprocess.call(["open", dir])
 
 
+def open_clipboard_as_dir():
+    """Opens the clipboard contents as a folder in the file browser.
+    """
+    path = hou.ui.getTextFromClipboard()
+    path = hou.text.expandString(path) # substitute variables
+    if not os.path.isdir(path):
+        path = os.path.dirname(path)
+    open_dir(path)
+
+
 def get_hda_paths(nodes):
     """Finds filesystem paths for specified HDAs.
     """
