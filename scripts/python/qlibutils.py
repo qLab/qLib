@@ -16,8 +16,8 @@ import os
 import socket
 import sys
 import re
-import subprocess
 import traceback
+import webbrowser
 from operator import itemgetter
 
 # for paste_clipboard_to_netview()
@@ -270,30 +270,19 @@ def do_crash_recovery(calledFromUI=False):
             pass
 
 
-def open_dir(dir="", env=None):
+def open_dir(directory="", env=None):
     """Opens the specified directory in the system file browser.
     """
-    dir = str(dir)
+    directory = str(directory)
 
     if env:
-        dir = str(hou.getenv(env))
+        directory = str(hou.getenv(env))
 
-    if not os.path.exists(dir):
-        statmsg("Directory doesn't exist (%s)" % dir, warn=True)
+    if not os.path.exists(directory):
+        statmsg("Directory doesn't exist (%s)" % directory, warn=True)
         return
 
-    if is_linux():
-        statmsg("(linux) xdg-open %s" % dir)
-        subprocess.call(["xdg-open", dir])
-
-    if is_windows():
-        dir = dir.replace('/', '\\')
-        statmsg("(windows) start %s" % dir)
-        subprocess.call(["start", dir])
-
-    if is_mac():
-        statmsg("(mac) open %s" % dir)
-        subprocess.call(["open", dir])
+    webbrowser.open("file://" + directory.replace("\\", "/"))
 
 
 def open_clipboard_as_dir():
@@ -1160,5 +1149,3 @@ def show_hip_stats(kwargs):
         "Current Hip File Statistics",
         details = R,
         details_expanded=True)
-
-
