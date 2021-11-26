@@ -811,13 +811,15 @@ else:
 LMB: Increase sticky note size
 Shift-LMB: Decrease sticky note size
 Ctrl-LMB: Reset size to default
+Ctrl+Shift-LMB: Toggle draw background
 """
 
 Select sticky note(s) to resize. Use one of the following ways to resize:
 
 - ((LMB)) to increase sticky note (and font) size
 - ((Shift + LMB)) to decrease note size
-- ((Ctrl + LMB)) to reset to default size]]></helpText>
+- ((Ctrl + LMB)) to reset to default size
+- ((Ctrl + Shift + LMB)) to toggle drawing of background]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
 
 shift = kwargs['shiftclick']
@@ -828,19 +830,30 @@ notes = [ n for n in hou.selectedItems() if type(n)==hou.StickyNote ]
 
 m = 2.0
 
+toggle_bg = False
+if shift and ctrl:
+    shift, alt, ctrl = [ False ] * 3
+    toggle_bg = True
+
+
 if shift or alt:
     m = 1.0/m;
 
-for n in notes:
-
-    ts = n.textSize()
-    if ts==0: ts=0.225
+if len(notes)>0:
+    bg = notes[0].drawBackground()
+    for n in notes:
     
-    if ctrl:
-        m = 0.225/ts;
-
-    n.setSize( n.size()*m )
-    n.setTextSize( ts*m )
+        if not toggle_bg:
+            ts = n.textSize()
+            if ts==0: ts=0.225
+            
+            if ctrl:
+                m = 0.225/ts;
+        
+            n.setSize( n.size()*m )
+            n.setTextSize( ts*m )
+        else:
+            n.setDrawBackground(not bg)
 
 ]]></script>
   </tool>
@@ -854,6 +867,11 @@ for n in notes:
 *version 1*
 
 """Creates a sticky note, adds it next to the selected node, or update selected sticky notes.
+---
+LMB: create/add/update sticky notes
+Alt-LMB: Use alt "username@hostname" format
+Ctrl-LMB: Remove headers from sticky notes
+Shift-LMB: Toggle draw background
 """
 
 This shelf button creates or updates sticky notes. Sticky notes will have a header
@@ -861,8 +879,9 @@ containing the user name and the current date.
 
 Supported keyboard modifiers:
 - ((LMB)) to create/add/update sticky notes
-- ((Shift + LMB)) to use "username@hostname" unstead of plain user name
+- ((Alt + LMB)) to use "username@hostname" instead of plain user name
 - ((Ctrl + LMB)) to remove headers from sticky notes
+- ((Shift + LMB)) to toggle drawing of background
 
 The tool performs different actions, based on the current selection --
 
@@ -935,7 +954,7 @@ date = datetime.datetime.now().replace(second=0, microsecond=0).isoformat(' ')
 date = re.sub(":00$", "", date) # strip seconds
 username = getpass.getuser()
 hostname = socket.gethostname() # socket.getfqdn() gives full name
-user = '%s@%s' % (username, hostname, ) if (shift or alt) else username
+user = '%s@%s' % (username, hostname, ) if alt else username
 notename = "%s_%s_1" % (username, re.sub("[^0-9]+", "_", date), )
 notetext = "[%s, %s]" % (user, date, )
 
@@ -944,10 +963,13 @@ notetext = "[%s, %s]" % (user, date, )
 if path:
     if len(notes):
         # has sticky notes selected? update them (or add timestamp)
-        
+
+        draw_bg = notes[0].drawBackground()
         for note in notes:
-        
-            if not ctrl:
+
+            if shift:
+                note.setDrawBackground(not draw_bg)
+            elif not ctrl:
                 t = note.text()
                 t = re.sub("\[[^\]]+\]", notetext, t)
                 if notetext not in t:
