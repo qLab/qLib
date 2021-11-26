@@ -153,4 +153,13 @@ Misc:
             and updates the menus. Useful when editing
             your own menu extension files.
 
+Current Hip File Stats...:
+    Various detailed information about the current file, including
+    - File path and size, creation/modification/last access times
+    - Number of nodes
+    - List of node authors, alphabetically sorted
+    - A "top list" of authors, sorted by node count
+    - Information about all root contexts (number of nodes, last modified dates)
+    - A "top list" of last created and modified nodes
+    - A "top list" of the oldest created and modified nodes
 

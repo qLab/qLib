@@ -1,7 +1,7 @@
 = qLib =
 #display: inverted notoc
 
-"""A procedural digital asset library for Houdini. Copyright (c) 2008-2020, qLab"""
+"""A procedural digital asset library for Houdini. Copyright (c) 2008-2021, qLab"""
 
 qLib is a procedural digital asset library for SideFX's Houdini.
 It is a collection of tools designed to work in accordance with Houdini's native toolset.

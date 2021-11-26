@@ -23,6 +23,7 @@
 :: [Icon:COP2/mosaic] [Color by Author|/shelf/qLib::ColorByAuthor] -- Color nodes by authors and indicate them with labels
 :: [Icon:BUTTONS/network_sticky] [Add Sticky Note|/shelf/qLib::AddStickyNote] -- Adds sticky notes with an user/timestamp header
 :: [Icon:IMAGE/zoom_in] [Resize Sticky Notes|/shelf/qLib::ResizeStickyNotes] -- Enlarge/shrink selected sticky notes
+:: [Icon:SOP/stash] [Stash (SOP)|/shelf/qLib::AddStash] -- Add a Stash qL (or Cache) SOP to selected SOP node(s)
 
 @subtopics Miscellaneous
 
