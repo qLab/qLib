@@ -41,6 +41,9 @@ GraphDependencyCountFont:	NetworkFont
 GraphDependencyCountSize:	0.14
 
 GraphPreSelectionAlpha:		0.8            
+GraphLayerColorAlpha:		0.3
+GraphLayerColorWireWidth:	0.24
+GraphLayerColorOutlineDist:	0.17
 
 GraphItemNameFont:		NetworkFont
 GraphItemNameSize:		0.225
@@ -178,6 +181,7 @@ GraphPerfGlowMaxOverviewSizeInches:	0.2
 GraphPerfGlowMinOverviewSizeInches:	0.1
 
 GraphNetworkBoxOffset:		0.15
+GraphNetworkBoxSpaceForNames:	1.0
 GraphNetworkBoxMinWidth:	2.5
 GraphNetworkBoxTitleHeight:	0.3
 GraphNetworkBoxTitleIndent:	0.05
@@ -216,6 +220,7 @@ GraphTaskGraphMaxWires:         10
 
 NodePopupBG:                    #494B55
 NodePopupBasicBG:               #3F414B
+NodePopupListBG:                #3F414B
 NodePopupNeedsRefreshBG:        #46474B
 
 TaskPopupBG:                    #495555
