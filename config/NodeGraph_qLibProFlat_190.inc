@@ -30,6 +30,7 @@ GraphContextOptionDepsText:	#236569
 GraphLopLastModifiedPrimText:	#236569
 GraphLopLayerCountText:		#236569
 GraphOutputForViewText:		#236569
+GraphDetailIdText:		            #236569
 GraphNetworkBoxText:		WHITE
 GraphNetworkBoxTextDark:	BLACK
 GraphNetworkBoxNameText:	#76A8E1
@@ -72,6 +73,9 @@ GraphDopSolverData:		0.35	0.25	0.45
 GraphDopAnyData:		0.9	0.9	0.9
 GraphSopHeightfield:		0.145 0.667 0.557
 GraphSopConstraints:		0.9	0.6	0.3
+GraphSopRestGeometry:		0.584   0.776   1.0
+GraphSopCapturePose:		0.6     0.6     0.6
+GraphSopAnimatedPose:		1.0     0.725   0.0
 
 GraphConnector:			#616D76
 GraphConnectorLabel:		#616D76
@@ -89,7 +93,10 @@ GraphWireStub:			GREY(0.70)
 GraphWireStubSelection:		YELLOW
 GraphWireCut:			RED
 GraphWireCutPath:		#802000 
-GraphSpareWire:			#5F 31 CC
+GraphWireStitchStart:		#B8E986
+GraphWireStitchEnd:		#B8E986
+GraphSpareWire:			#5F31CC
+GraphParmOverrideWire:		#FFA500
 
 GraphDependency:		#EF8FA9
 GraphDependencyEndAffector:	#668E4A
@@ -130,7 +137,9 @@ GraphSubnetShadow2:		WHITE
 GraphSubnetShadowBlend2:	0.3
 
 GraphErrorBadgeDot:		1.00 0.00 0.00
+GraphChildErrorBadgeDot:	1.00 0.00 0.00
 GraphWarningBadgeDot:		0.77 0.60 0.04
+GraphMessageBadgeDot:		0.05 0.45 1.00
 GraphCommentBadgeDot:		0.15 0.67 0.64
 GraphNodeLockedBadgeDot:	1.00 0.35 0.43
 GraphNodeUnloadBadgeDot:	0.60 0.65 0.73
@@ -147,13 +156,19 @@ GraphKinematicsBadgeDot:	#FF9370
 GraphHasTakeDataBadgeDot:	#979797
 GraphNodeUnloadBadgeDot:        #D19F9F
 GraphNodeHasDataBadgeDot:       #9FABD1
+Graph64bitBadgeDot:       	#AC68CC
+GraphPdgDynamicBadgeDot:	#E5C8FF
+GraphUnloadedPayloadsBadgeDot:	#EDC486
+GraphPopulationMaskBadgeDot:	#A06B9A
+GraphDiveableBadgeDot:		#73d216
+GraphLoadFromDiskBadgeDot:		#dceefaff
 
 GraphPdgProgressOutline:	WHITE
 GraphPdgProgressPrecook:	#324D59
 GraphPdgProgressCooking:	#B8E986
 GraphPdgProgressCooked:		#4D8C2f
 GraphPdgProgressWarning:	#EBF802
-GraphPdgProgressError:		WHITE
+GraphPdgProgressError:		#FF3300
 GraphPdgProgressIncomplete: #5D8642
 
 GraphPdgProgressErrorCircle: #D0021B
@@ -162,17 +177,18 @@ GraphPdgProgressNormalFill:  #232323
 
 GraphPdgSummaryBackground:  GREY(0.1)
 GraphPdgSummaryFilterOn:    #FFD42A
-GraphPdgSummaryWorkItemCooked:		GREY(0.9)
-GraphPdgSummaryWorkItemCooking:		GREY(0.45)
-GraphTaskGraphWorkItemWaiting:		GREY(0.45)
-GraphPdgSummaryWorkItemUncooked:	GREY(0.45)
-GraphPdgSummaryWorkItemFailed:		#FF0000
+GraphPdgSummaryWorkItemCooked:		#73945D
+GraphPdgSummaryWorkItemCooking:		#B8E986
+GraphPdgSummaryWorkItemWaiting:		#879889
+GraphPdgSummaryWorkItemUncooked:	GREY(0.5)
+GraphPdgSummaryWorkItemFailed:		#EE5A6C
 GraphPdgSummaryWorkItemCancelled:	#EBB502
 
 GraphTaskGraphBackground:			GREY(0.1)
 GraphTaskGraphBorder:				GREY(0.7)
 GraphTaskGraphSeeMore:				GREY(0.9)
 GraphTaskGraphWorkItemCooked:		#529232
+GraphTaskGraphWorkItemCached:		#529232
 GraphTaskGraphWorkItemCooking:		#ADFF49
 GraphTaskGraphWorkItemWaiting:		#354B60
 GraphTaskGraphWorkItemUncooked:		GREY(0.45)
@@ -189,6 +205,31 @@ GraphTaskGraphIndirectWire:			#D9DD70
 GraphTaskGraphWorkItemPerfFast:     #316D09
 GraphTaskGraphWorkItemPerfMed:      #E89904
 GraphTaskGraphWorkItemPerfSlow:     #FF0909
+GraphTaskGraphWorkItemPerfNA:		GREY(0.35)
+
+GraphTaskGraphStatusBarFailed:	    #FF9C9C
+GraphTaskGraphStatusBarCancelled:   #F7DF1B
+GraphTaskGraphStatusBarCooked:	    #529232
+GraphTaskGraphStatusBarCooking:	    #B7DF86
+GraphTaskGraphStatusBarWaiting:	    GREY(0.6)
+GraphTaskGraphStatusBarEmpty:	    GREY(0.2)
+
+GraphTaskGraphLogError:		    #D04548
+GraphTaskGraphLogWarning:	    #B8B834
+
+GraphTaskPageRect:              #D8D8D8
 
 GraphTopBottomButtonEnabled:	GREY(0.1)
 GraphTopBottomButtonDisabled:	GREY(0.6)
+
+GraphLopLayerOutline:		GREY(0.6)
+GraphLopLayerColor1:		0.30 0.70 0.20
+GraphLopLayerColor2:		0.60 0.40 0.20
+GraphLopLayerColor3:		0.90 0.10 0.20
+GraphLopLayerColor4:		0.30 0.20 0.30
+GraphLopLayerColor5:		0.60 0.20 0.60
+GraphLopLayerColor6:		0.90 0.20 0.90
+GraphLopLayerColor7:		0.20 0.70 0.30
+GraphLopLayerColor8:		0.20 0.40 0.60
+GraphLopLayerColor9:		0.20 0.10 0.90
+
