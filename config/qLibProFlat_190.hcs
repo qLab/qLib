@@ -6,6 +6,9 @@ Scheme:	Houdini qLib Pro Flat (19.0)
 // Color Palette
 #define BACKGROUND	GREY(0.58)
 
+#define DRKBASE		GREY(0.1794127)
+#define DRKGRADHIGH	GREY(0.287843)
+
 #define TEXT	BLACK
 #define LIGHT_BASE	GREY(0.7)
 #define TEXT_HIGHLIGHT	BLACK
@@ -58,6 +61,12 @@ IconSaturation:	0.9
 
 // New UI Resources ----------------------------------------------------------
 
+//
+// Watch out when adjusting BackColor.  If white lines appear in the UI, you
+//  may need to adjust the BorderDark as well due to automatic contrast code
+//   which flips the foreground color from dark to light when the
+//    contrast between the foreground and background is too low.
+//
 BackColor:	BACKGROUND
 
 ButtonGradHi:	HIGHLIGHT2
@@ -67,6 +76,7 @@ ButtonNonActiveGradLow:	BACKGROUND
 
 TextColor:	grey18
 HiliteTextColor:		TEXT_HIGHLIGHT
+HiliteTextBG: #454B50
 
 // These are used for tons of borders all over the place, but
 // NOT for buttons >:-(
@@ -98,6 +108,7 @@ ButtonMenuArrow:	GREY(0.7)
 ButtonArrow:	TEXT
 ButtonArrowDisabled:	HIGHLIGHT1
 ButtonArrowPressed:	PRESSED_TEXT
+ButtonArrowModified:	SHADOW1
 
 SecondaryText:      GREY(0.5)
 LinkText:           0.0 0.0 1.0
@@ -149,6 +160,9 @@ TextboxError:	ERROR
 TextboxGutter:	EDIT_BG_ALT
 TextboxDropMarker: #00 00 66
 
+TextboxLineNumberFG:	TEXT
+TextboxLineNumberBG:	DRKBASE
+TextboxLineNumberHighlight:	DRKGRADHIGH
 
 TextboxFeedbackFG:	GREY(0.5)
 TextboxFeedbackBG:	LIGHT_BASE
@@ -163,6 +177,7 @@ SliderAdvancedGroove:	0.090 0.356 0.639 // blue sliders
 SliderRemainingBevel:	SHADOW4
 SliderRemainingGroove:	SHADOW1
 SliderTick:	SHADOW3
+SliderTickLabel:    GREY(0.3)
 SliderRangeBrackets:	SHADOW5
 
 SliderThumbGradHi:		GRADIENT_HIGH
@@ -257,8 +272,12 @@ ListTitleGradHi:	HIGHLIGHT3
 ListTitleGradLow:	BACKGROUND
 ListTitleHighlightGradHi:	SELECTION_HIGHLIGHT2
 ListTitleHighlightGradLow:	SELECTION_BASE
+ListTitleFilteredText:		SELECTION_BASE
 ListText:		TEXT
 ListAltText:		0.68 0.33 0
+
+GalleryBackground: GREY(0.15)
+SnapshotGalleryBackground: BLACK
 
 SwitchButtonSelected: GREY(0.5)
 SwitchButtonLocated: GREY(0.2)
@@ -279,6 +298,46 @@ SSHeader:	GREY(0.29)
 
 GroupBorder:	BORDERBASE
 
+GroupHeader0:           GREY(0.20)
+GroupHeaderTop0:        GREY(0.20)
+GroupHeaderHi0:         GREY(0.32)
+GroupHeaderHiTop0:      GREY(0.32)
+GroupHeaderOpen0:       GREY(0.31)
+GroupHeaderOpenTop0:    GREY(0.31)
+GroupHeaderDisabled0:   GREY(0.20)
+GroupHeaderDisabledTop0:GREY(0.20)
+GroupBody0:             GREY(0.24)
+
+GroupHeader1:           GREY(0.20)
+GroupHeaderTop1:        GREY(0.20)
+GroupHeaderHi1:         GREY(0.31)
+GroupHeaderHiTop1:      GREY(0.31)
+GroupHeaderOpen1:       GREY(0.30)
+GroupHeaderOpenTop1:    GREY(0.30)
+GroupHeaderDisabled1:   GREY(0.20)
+GroupHeaderDisabledTop1:GREY(0.20)
+GroupBody1:             GREY(0.21)
+
+GroupHeader2:           GREY(0.18)
+GroupHeaderTop2:        GREY(0.18)
+GroupHeaderHi2:         GREY(0.30)
+GroupHeaderHiTop2:      GREY(0.30)
+GroupHeaderOpen2:       GREY(0.29)
+GroupHeaderOpenTop2:    GREY(0.29)
+GroupHeaderDisabled2:   GREY(0.18)
+GroupHeaderDisabledTop2:GREY(0.18)
+GroupBody2:             GREY(0.19)
+
+GroupHeader3:           GREY(0.16)
+GroupHeaderTop3:        GREY(0.16)
+GroupHeaderHi3:         GREY(0.29)
+GroupHeaderHiTop3:      GREY(0.29)
+GroupHeaderOpen3:       GREY(0.28)
+GroupHeaderOpenTop3:    GREY(0.28)
+GroupHeaderDisabled3:   GREY(0.16)
+GroupHeaderDisabledTop3:GREY(0.16)
+GroupBody3:             GREY(0.17)
+
 InfoBG:	HELP_BG
 InfoText:	TEXT
 
@@ -294,7 +353,7 @@ ShelfGradMidLow:	GREY(0.63)
 ShelfGradLow:	GREY(0.7)
 
 // This does not appear to be used
-//ShelfBG:	0.5 1 0
+ShelfBG:	DIM_BG
 
 ShelfEmptyBG:	DIM_BG
 ShelfTabActiveHi:	HIGHLIGHT1
@@ -353,11 +412,15 @@ TreeNodeAlternateBG:	EDIT_BG_ALT
 TreeNodeSelectedBG:	SELECTION_BASE
 TreeNodeSelectedFG:	SELECTED_TEXT
 TreeNodeReservedParmFG:	SHADOW3
+TreeNodeInvisibleParmFG:		TEXT
+TreeNodeInvisibleReservedParmFG:	SHADOW3
 TreeLine:	GREY(0.5)
 
 PerformanceGood: 0.45 0.82 0.08
 PerformanceBad: 0.8 0 0
 PerformanceWarn: #F8 74 31
+
+RecordBtnFlash: #E6 17 17
 
 NetworkPerformanceGood: #95 A0 84
 NetworkPerformanceBad: #D4 AA 9E 
@@ -634,6 +697,7 @@ PreEditUnderlineColor:	SELECTION_BASE
 ForegroundColor:	grey80
 BackgroundColor:	grey62
 PaperColor:	EDIT_BG
+TextHighlightColor:		TEXT_HIGHLIGHT
 
 ButtonColor:	BACKGROUND
 ButtonStripColor:	BACKGROUND
@@ -735,16 +799,16 @@ ExposeOnColor:	1 0 0
 ExposeOffColor:	0.6 0 0
 CurrentColor:	0.25 0.85 0.25
 
-SplitBarColor:	
-
 SplitBarBackground:	GREY(0.5)
-SplitBarBaseColor:	GREY(0.55)
+#SplitBarBaseColor:	GREY(0.55)
 SplitBarEdgeColor:	GREY(0.29)
 SplitBarLightColor:	GREY(0.6)
 SplitBarDarkColor:	GREY(0.145)
 SplitBarPaneOutline: 	GREY(0.4)
 SplitBarGrippyColor:	0.08 0.08 0.08
 SplitBarHighlight:	0.590 0.756 0.939 // blue splitbar
+// SplitBarBackground + SplitBarHighlight*0.2 TODO: update this
+SplitBarHighlight2:	0.432861 0.392920 0.313208
 
 
 PlayBarOnColor:	0.05 0.8 0.05
@@ -804,6 +868,8 @@ VopInOutStructColor:		#DE796E
 VopInOutMethodColor:		#FF9900
 VopInOutMultiColor:		#E5E5E5
 VopErrorColor:			ERROR
+VopInOutDictColor:		#D29628
+VopInOutDictArrayColor:		#B5700A
 
 // The colors for SHOP input output labels
 ShopInOutSurfaceColor:	0.9	0.7	0.6
@@ -935,10 +1001,29 @@ CmdKeyHilite: #DBCB48
 
 // Scene Graph Panes --------------------------------------------
 
-UsdLocationHasArcs	#3E9E2E
-UsdLocationIsInstance	#87CEFA
-UsdLocationInMaster	#7688D9
-UsdLocationUnloaded	#5E2E15
-UsdLocationLoaded	#DE9E2E
-UsdLayerMuted		#9090E0
+UsdLocationHasArcs	        #3E9E2E
+UsdLocationIsInstance	        #87CEFA
+UsdLocationInPrototype	        #7688D9
+UsdLocationUnloaded	        #5E2E15
+UsdLocationLoaded	        #DE9E2E
+UsdLayerMuted		        #9090E0
+UsdLayerHasOpinion	        #E07000
+UsdLayerChildHasOpinion         #A04000
+UsdLayerModifiedByCurrentLop	#40A000
 
+UsdAttrResolveFallback:		#DE9E2E
+UsdAttrResolveDefault:		#87CEFA
+UsdAttrResolveValueClips:	#E696E6
+UsdAttrResolveTimeSamples:	#B1CF99
+UsdAttrResolveNone:		grey50
+UsdRelationship:		#E68484
+UsdComputed:			#8484E6
+
+UsdPrimSelected:		SELECTION_BASE
+UsdPrimSelectedAlpha:		0.4
+UsdChildPrimSelected:           0.44 0.22 0.11
+UsdChildPrimSelectedAlpha:      0.4
+UsdPrimModified:                0.30 0.80 0.80
+UsdPrimModifiedAlpha:           0.4
+UsdChildPrimModified:           0.15 0.40 0.40
+UsdChildPrimModifiedAlpha:      0.4
