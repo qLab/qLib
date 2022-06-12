@@ -8,6 +8,8 @@
   <toolshelf name="qLib-PDG" label="qLib  |  PDG">
     <memberTool name="qLib::ResizeTaskGraph"/>
     <memberTool name="qLib::FitWorkItemsToTaskGraph"/>
+    <memberTool name="qLib::SelectPrevWorkItem"/>
+    <memberTool name="qLib::SelectNextWorkItem"/>
     <memberTool name="qLib::PdgGraphStatus"/>
     <memberTool name="qLib::SelectPdgCookSet"/>
     <memberTool name="qLib::SelectCookedPdgNodes"/>
@@ -96,7 +98,7 @@ nodes = editor.pwd().children()
 if True: #try
     ctx = editor.pwd().getPDGGraphContext()
     is_cooking = ctx.cooking
-    mode = "Cooking" if is_cooking else "(Not cooking)"
+    mode = "COOKING" if is_cooking else "(Not cooking)"
 
     # collect cooked nodes
     cooked = []
@@ -313,8 +315,8 @@ try:
     # there's also TOP_status_canceled, TOP_status_waiting
     icon, msg = ("TOP_status_unstarted", "Not cooking", )
     if ctx.cooking:
-        icon, msg = ("TOP_status_cooking", "Cooking", )
-        msg = "cooking (cook set: %d nodes)" % len(ctx.cookSet)
+        icon, msg = ("TOP_status_cooking", "COOKING", )
+        msg = "COOKING (cook set: %d nodes)" % len(ctx.cookSet)
 
     elif ctx.canceling:
         msg = ("TOP_status_canceled", "Canceling", )
@@ -424,6 +426,60 @@ for node in nodes:
 msg = "%d node(s) (%d work items)" % (sel, failed, ) \
     if sel>0 else "no canceled workitems"
 editor.flashMessage("TOP_status_canceled", "Select Canceled: %s" % msg, 3.0)
+]]></script>
+  </tool>
+
+  <tool name="qLib::SelectNextWorkItem" label="next &gt;&gt;" icon="BUTTONS_forward">
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+import pdg
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+item = pdg.workItem()
+dir = 1 # -1 for prev
+
+if shift or ctrl or alt:
+    dir = -dir
+
+if item:
+    node = item.node
+    topnode = node.topNode()
+    items = node.workItems
+    num_items = len(items)
+    index = items.index(item)
+    index = (index+dir) % num_items
+    id = items[index].id
+    topnode.setSelectedWorkItem(id)
+]]></script>
+  </tool>
+
+  <tool name="qLib::SelectPrevWorkItem" label="&lt;&lt; prev" icon="BUTTONS_back">
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+import pdg
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+item = pdg.workItem()
+dir = -1 # -1 for prev
+
+if shift or ctrl or alt:
+    dir = -dir
+
+if item:
+    node = item.node
+    topnode = node.topNode()
+    items = node.workItems
+    num_items = len(items)
+    index = items.index(item)
+    index = (index+dir) % num_items
+    id = items[index].id
+    topnode.setSelectedWorkItem(id)
 ]]></script>
   </tool>
 </shelfDocument>
