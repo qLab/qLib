@@ -434,8 +434,15 @@ editor.flashMessage("TOP_status_canceled", "Select Canceled: %s" % msg, 3.0)
 import toolutils
 import pdg
 
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
 item = pdg.workItem()
 dir = 1 # -1 for prev
+
+if shift or ctrl or alt:
+    dir = -dir
 
 if item:
     node = item.node
@@ -454,8 +461,15 @@ if item:
 import toolutils
 import pdg
 
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
 item = pdg.workItem()
 dir = -1 # -1 for prev
+
+if shift or ctrl or alt:
+    dir = -dir
 
 if item:
     node = item.node
