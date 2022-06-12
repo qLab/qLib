@@ -96,7 +96,7 @@ nodes = editor.pwd().children()
 if True: #try
     ctx = editor.pwd().getPDGGraphContext()
     is_cooking = ctx.cooking
-    mode = "Cooking" if is_cooking else "(Not cooking)"
+    mode = "COOKING" if is_cooking else "(Not cooking)"
 
     # collect cooked nodes
     cooked = []
@@ -313,8 +313,8 @@ try:
     # there's also TOP_status_canceled, TOP_status_waiting
     icon, msg = ("TOP_status_unstarted", "Not cooking", )
     if ctx.cooking:
-        icon, msg = ("TOP_status_cooking", "Cooking", )
-        msg = "cooking (cook set: %d nodes)" % len(ctx.cookSet)
+        icon, msg = ("TOP_status_cooking", "COOKING", )
+        msg = "COOKING (cook set: %d nodes)" % len(ctx.cookSet)
 
     elif ctx.canceling:
         msg = ("TOP_status_canceled", "Canceling", )
