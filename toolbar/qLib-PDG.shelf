@@ -8,6 +8,8 @@
   <toolshelf name="qLib-PDG" label="qLib  |  PDG">
     <memberTool name="qLib::ResizeTaskGraph"/>
     <memberTool name="qLib::FitWorkItemsToTaskGraph"/>
+    <memberTool name="qLib::SelectPrevWorkItem"/>
+    <memberTool name="qLib::SelectNextWorkItem"/>
     <memberTool name="qLib::PdgGraphStatus"/>
     <memberTool name="qLib::SelectPdgCookSet"/>
     <memberTool name="qLib::SelectCookedPdgNodes"/>
@@ -424,6 +426,46 @@ for node in nodes:
 msg = "%d node(s) (%d work items)" % (sel, failed, ) \
     if sel>0 else "no canceled workitems"
 editor.flashMessage("TOP_status_canceled", "Select Canceled: %s" % msg, 3.0)
+]]></script>
+  </tool>
+
+  <tool name="qLib::SelectNextWorkItem" label="next &gt;&gt;" icon="BUTTONS_forward">
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+import pdg
+
+item = pdg.workItem()
+dir = 1 # -1 for prev
+
+if item:
+    node = item.node
+    topnode = node.topNode()
+    items = node.workItems
+    num_items = len(items)
+    index = items.index(item)
+    index = (index+dir) % num_items
+    id = items[index].id
+    topnode.setSelectedWorkItem(id)
+]]></script>
+  </tool>
+
+  <tool name="qLib::SelectPrevWorkItem" label="&lt;&lt; prev" icon="BUTTONS_back">
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+import pdg
+
+item = pdg.workItem()
+dir = -1 # -1 for prev
+
+if item:
+    node = item.node
+    topnode = node.topNode()
+    items = node.workItems
+    num_items = len(items)
+    index = items.index(item)
+    index = (index+dir) % num_items
+    id = items[index].id
+    topnode.setSelectedWorkItem(id)
 ]]></script>
   </tool>
 </shelfDocument>
