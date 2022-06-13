@@ -40,7 +40,7 @@ NOTE:
     == Shelves ==
     ~~~
     :: [Icon:MISC/shelf] [qLib Shelf|shelf/]
-    :: [Icon:MISC/shelf] [qLib--PDG Shelf |shelf_pdg/]
+    :: [Icon:MISC/shelf] [qLib--TOPs (PDG) Shelf |shelf_pdg/]
 
     == Other ==
     ~~~

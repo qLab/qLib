@@ -5,19 +5,6 @@
  Note, that two definitions of the same element are not allowed in
  a single file. -->
 
-  <toolshelf name="qLib-PDG" label="qLib  |  PDG">
-    <memberTool name="qLib::ResizeTaskGraph"/>
-    <memberTool name="qLib::FitWorkItemsToTaskGraph"/>
-    <memberTool name="qLib::SelectPrevWorkItem"/>
-    <memberTool name="qLib::SelectNextWorkItem"/>
-    <memberTool name="qLib::PdgGraphStatus"/>
-    <memberTool name="qLib::SelectPdgCookSet"/>
-    <memberTool name="qLib::SelectCookedPdgNodes"/>
-    <memberTool name="qLib::SelectCanceledPdgNodes"/>
-    <memberTool name="qLib::SelectFailedPdgNodes"/>
-    <memberTool name="qLib::SelectErroredPdgNodes"/>
-  </toolshelf>
-
   <tool name="qLib::ResizeTaskGraph" label="-/tasks/+" icon="IMAGE_zoom_in">
     <helpText><![CDATA[#icon: IMAGE/zoom_out
 #type: tool
@@ -430,6 +417,27 @@ editor.flashMessage("TOP_status_canceled", "Select Canceled: %s" % msg, 3.0)
   </tool>
 
   <tool name="qLib::SelectNextWorkItem" label="next &gt;&gt;" icon="BUTTONS_forward">
+    <helpText><![CDATA[#icon: BUTTONS/forward
+#type: tool
+
+= Select Next Work Item qL =
+
+*version 1*
+
+"""Selects the work item next to the current one.
+---
+LMB: Select next work item.
+Shift-LMB: Select previous work item
+"""
+
+Selects the work item next to the current one.
+
+NOTE:
+    "Next" and "previous" are assumed based on default workitem sorting.
+
+- ((LMB)): Select next work item
+- ((Shift + LMB)): Select previous work item
+]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 import pdg
@@ -457,6 +465,27 @@ if item:
   </tool>
 
   <tool name="qLib::SelectPrevWorkItem" label="&lt;&lt; prev" icon="BUTTONS_back">
+    <helpText><![CDATA[#icon: BUTTONS/back
+#type: tool
+
+= Select Previous Work Item qL =
+
+*version 1*
+
+"""Selects the work item previous to the current one.
+---
+LMB: Select previous work item.
+Shift-LMB: Select next work item
+"""
+
+Selects the work item previous to the current one.
+
+NOTE:
+    "Next" and "previous" are assumed based on default workitem sorting.
+
+- ((LMB)): Select previous work item
+- ((Shift + LMB)): Select next work item
+]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 import pdg
@@ -482,4 +511,17 @@ if item:
     topnode.setSelectedWorkItem(id)
 ]]></script>
   </tool>
+
+  <toolshelf name="qLib-TOPs" label="qLib  |  TOPs">
+    <memberTool name="qLib::ResizeTaskGraph"/>
+    <memberTool name="qLib::FitWorkItemsToTaskGraph"/>
+    <memberTool name="qLib::SelectPrevWorkItem"/>
+    <memberTool name="qLib::SelectNextWorkItem"/>
+    <memberTool name="qLib::PdgGraphStatus"/>
+    <memberTool name="qLib::SelectPdgCookSet"/>
+    <memberTool name="qLib::SelectCookedPdgNodes"/>
+    <memberTool name="qLib::SelectCanceledPdgNodes"/>
+    <memberTool name="qLib::SelectFailedPdgNodes"/>
+    <memberTool name="qLib::SelectErroredPdgNodes"/>
+  </toolshelf>
 </shelfDocument>
