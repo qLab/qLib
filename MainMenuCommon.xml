@@ -214,6 +214,17 @@ hou.hscript("menurefresh")]]>
 				</scriptCode>
 			</scriptItem>
 
+			<separatorItem />
+
+			<scriptItem id="h.ql_misc_setmainwindowtitle">
+				<label>Set Main Window Title...</label>
+				<scriptCode><![CDATA[
+import qlibutils
+qlibutils.set_main_window_title()
+]]>
+				</scriptCode>
+			</scriptItem>
+
 		</subMenu>
 
 		<separatorItem />

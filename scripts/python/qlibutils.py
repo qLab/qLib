@@ -1162,3 +1162,19 @@ def show_hip_stats(kwargs):
         details_expanded=True)
 
 
+
+def set_main_window_title():
+    """Set the title of the main Houdini window.
+    """
+    w = hou.qt.mainWindow()
+    title = w.windowTitle()
+
+    ok, title = hou.ui.readInput("Enter new title for the main Houdini window",
+        buttons=('Ok', 'Cancel', ), close_choice=1, #help=msg,
+        initial_contents=title)
+    if title=='':
+        ok = 1
+
+    if ok==0:
+        w.setWindowTitle(title)
+        w.setWindowIconText(title)
