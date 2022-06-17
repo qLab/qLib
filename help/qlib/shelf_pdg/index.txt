@@ -1,9 +1,9 @@
-= qLib | PDG Shelf Tools =
+= qLib | TOPs Shelf Tools (PDG) =
 
-"""Shelf tools provided by qLib for PDG."""
+"""Shelf tools provided by qLib for TOPs."""
 
 [Image:../images/qLib_shelf_pdg.png]
-* _Example of the qLib PDG shelf._
+* _Example of the qLib TOPs shelf._
 
 @subtopics View
 Easily set up how many work items to be shown, or navigate between work items.
@@ -13,6 +13,9 @@ Easily set up how many work items to be shown, or navigate between work items.
 :: [Icon:BUTTONS/back] [Select Previous Work Item|/shelf/qLib::SelectPrevWorkItem]
 :: [Icon:BUTTONS/forward] [Select Next Work Item|/shelf/qLib::SelectNextWorkItem]
 
+TIP:
+    The Select Previous / Next Work Item buttons work in other contexts,
+    as long as a work item was selected in a TOP context first.
 
 @subtopics Status
 :: [Icon:DIALOG/info] [PDG Graph Status|/shelf/qLib::PdgGraphStatus] -- quick flash-message info on the current PDG graph
