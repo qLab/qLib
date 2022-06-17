@@ -189,3 +189,23 @@ popadvectbyvolumes/localexpression
         velscale *= (@age+@TimeInc) / @TimeInc;
     }
 
+
+popwrangle/snippet
+[qL] Snap to 2nd Input SDF Boundary
+// [qL] Snap to 2nd Input SDF Boundary
+// Snaps points of 1st input to the SDF boundary of 2nd input
+// 1st input: geometry
+// 2nd input: SDF volume to snap to
+// NOTE: make sure the exterior voxel band is large enough
+//       on the 2nd SDF volume
+vector
+    d = volumegradient(1, 0, v@P),
+    v = 0;
+float
+    sdf = volumesample(1, 0, v@P);
+//if (sdf<0)
+{
+    v = normalize(d) * -sdf;
+}
+v@P += v;
+

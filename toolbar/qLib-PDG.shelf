@@ -435,6 +435,10 @@ Selects the work item next to the current one.
 NOTE:
     "Next" and "previous" are assumed based on default workitem sorting.
 
+TIP:
+    The Select Previous / Next Work Item buttons work in other contexts,
+    as long as a work item was selected in a TOP context first.
+
 - ((LMB)): Select next work item
 - ((Shift + LMB)): Select previous work item
 ]]></helpText>
@@ -442,15 +446,19 @@ NOTE:
 import toolutils
 import pdg
 
+editor = toolutils.networkEditor()
+
 shift = kwargs['shiftclick']
 ctrl  = kwargs['ctrlclick']
 alt   = kwargs['altclick']
 
 item = pdg.workItem()
 dir = 1 # -1 for prev
+icon, msg = ("BUTTONS_forward", "next", )
 
 if shift or ctrl or alt:
     dir = -dir
+    icon, msg = ("BUTTONS_back", "prev", )
 
 if item:
     node = item.node
@@ -459,8 +467,11 @@ if item:
     num_items = len(items)
     index = items.index(item)
     index = (index+dir) % num_items
-    id = items[index].id
+    item = items[index]
+    id = item.id
     topnode.setSelectedWorkItem(id)
+
+    editor.flashMessage(icon, "%d/%d %s  %s" % (index, num_items, item.name, str(item.data.allDataMap), ), 5.0)
 ]]></script>
   </tool>
 
@@ -483,6 +494,11 @@ Selects the work item previous to the current one.
 NOTE:
     "Next" and "previous" are assumed based on default workitem sorting.
 
+TIP:
+    The Select Previous / Next Work Item buttons work in other contexts,
+    as long as a work item was selected in a TOP context first.
+
+    
 - ((LMB)): Select previous work item
 - ((Shift + LMB)): Select next work item
 ]]></helpText>
@@ -490,15 +506,19 @@ NOTE:
 import toolutils
 import pdg
 
+editor = toolutils.networkEditor()
+
 shift = kwargs['shiftclick']
 ctrl  = kwargs['ctrlclick']
 alt   = kwargs['altclick']
 
 item = pdg.workItem()
 dir = -1 # -1 for prev
+icon, msg = ("BUTTONS_back", "prev", )
 
 if shift or ctrl or alt:
     dir = -dir
+    icon, msg = ("BUTTONS_forward", "next", )
 
 if item:
     node = item.node
@@ -507,8 +527,11 @@ if item:
     num_items = len(items)
     index = items.index(item)
     index = (index+dir) % num_items
-    id = items[index].id
+    item = items[index]
+    id = item.id
     topnode.setSelectedWorkItem(id)
+
+    editor.flashMessage(icon, "%d/%d %s  %s" % (index, num_items, item.name, str(item.data.allDataMap), ), 5.0)
 ]]></script>
   </tool>
 
