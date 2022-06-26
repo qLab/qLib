@@ -13,6 +13,7 @@
     <memberTool name="qLib::ToggleViewportGuides"/>
     <memberTool name="qLib::ReferenceCopy"/>
     <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
+    <memberTool name="qLib::SelectExpandByDate"/>
     <memberTool name="qLib::ColorByAuthor"/>
     <memberTool name="qLib::AddStickyNote"/>
     <memberTool name="qLib::ResizeStickyNotes"/>
@@ -1072,5 +1073,62 @@ if len(r)>0:
         e.flashMessage("SOP_stash",
             "created %d %s SOP(s)" % (len(r), "Cache" if alt else "Stash", ),
             8.0)]]></script>
+  </tool>
+
+  <tool name="qLib::SelectExpandByDate" label="select modified" icon="SHOP_select">
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+import qlibutils
+
+e = toolutils.networkEditor()
+sel = hou.selectedNodes()
+
+num_sel = len(sel)
+haz_sel = num_sel>0
+parent = sel[0].parent() if haz_sel else e.pwd()
+nodes = parent.children()
+
+nodes_dates = [ (n, n.modificationTime()) for n in nodes ]
+#print([ n[1] for n in nodes_dates ])
+
+if len(nodes_dates)==0:
+    e.flashMessage("SHOP_select", "Empty node network", 3.0)
+
+else:
+
+    nodes_dates = sorted(nodes_dates, key=lambda nd: nd[1], reverse=True)
+    #print("\n".join([ str(n[1]) for n in nodes_dates ]))
+
+    new_nodes_dates = []
+
+    if not haz_sel:
+        # start
+        hou.clearAllSelected()
+        nodes_dates[0][0].setSelected(True)
+        new_nodes_dates = [ nodes_dates[0] ]
+    else:
+        nodes = [ n[0] for n in nodes_dates ]
+        for s in sel:
+            try:
+                index = nodes.index(s)
+                n = min(index+1, len(nodes)-1)
+                if n<len(nodes):
+                    nodes[n].setSelected(True)
+                    new_nodes_dates.append(nodes_dates[n])
+            except:
+                print("OOOPS")
+                pass # index out of range
+
+    # display nodes/dates info
+
+    num_sel_after = len(hou.selectedNodes())
+    new_nodes_dates = sorted(new_nodes_dates, key=lambda nd: nd[1], reverse=True)
+    oldest_date = new_nodes_dates[-1][1]
+    author = qlibutils.get_node_author(new_nodes_dates[-1][0])
+
+    e.flashMessage("SHOP_select", "%d selected (was %d) oldest: %s creator: %s" %
+        (num_sel_after, num_sel, qlibutils.date_string(oldest_date), author, ),
+        8.0)
+]]></script>
   </tool>
 </shelfDocument>
