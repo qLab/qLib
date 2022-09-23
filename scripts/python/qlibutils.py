@@ -6,6 +6,7 @@
         @brief      qLib-related utility functions.
 """
 
+import string
 import hou
 
 import collections
@@ -18,6 +19,7 @@ import sys
 import re
 import subprocess
 import traceback
+import urllib
 from operator import itemgetter
 
 # for paste_clipboard_to_netview()
@@ -110,6 +112,19 @@ def sizeof_fmt(num, suffix='B'):
             return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Yi', suffix)
+
+
+def uri_to_path(uri):
+    """Converts URI paths to regular filesystem paths.
+    https://stackoverflow.com/questions/5977576/is-there-a-convenient-way-to-map-a-file-uri-to-os-path
+
+    uri:            URI path (string)
+    """
+    assert type(uri) is string
+    p = urllib.parse.urlparse(uri)
+    path = os.path.abspath(os.path.join(p.netloc, p.path))
+    return path
+
 
 
 def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
@@ -300,6 +315,7 @@ def open_clipboard_as_dir():
     """Opens the clipboard contents as a folder in the file browser.
     """
     path = hou.ui.getTextFromClipboard()
+    path = uri_to_path(path) # convert URI (e.g. pdg paths) to regular filesystem path
     path = hou.text.expandString(path) # substitute variables
     if not os.path.isdir(path):
         path = os.path.dirname(path)
