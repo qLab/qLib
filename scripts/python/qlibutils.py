@@ -6,6 +6,7 @@
         @brief      qLib-related utility functions.
 """
 
+import string
 import hou
 
 import collections
@@ -18,6 +19,7 @@ import sys
 import re
 import subprocess
 import traceback
+import urllib
 from operator import itemgetter
 
 # for paste_clipboard_to_netview()
@@ -110,6 +112,19 @@ def sizeof_fmt(num, suffix='B'):
             return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Yi', suffix)
+
+
+def uri_to_path(uri):
+    """Converts URI paths to regular filesystem paths.
+    https://stackoverflow.com/questions/5977576/is-there-a-convenient-way-to-map-a-file-uri-to-os-path
+
+    uri:            URI path (string)
+    """
+    assert type(uri) is string
+    p = urllib.parse.urlparse(uri)
+    path = os.path.abspath(os.path.join(p.netloc, p.path))
+    return path
+
 
 
 def set_namespace_aliases(prefix="qLib::", alias=True, verbose=False):
@@ -300,6 +315,7 @@ def open_clipboard_as_dir():
     """Opens the clipboard contents as a folder in the file browser.
     """
     path = hou.ui.getTextFromClipboard()
+    path = uri_to_path(path) # convert URI (e.g. pdg paths) to regular filesystem path
     path = hou.text.expandString(path) # substitute variables
     if not os.path.isdir(path):
         path = os.path.dirname(path)
@@ -1129,24 +1145,26 @@ def show_hip_stats(kwargs):
 
     # created/modified nodes info
 
+    num_nodes_to_show = 20
+
     nodes = sorted(nodes, key=itemgetter(1), reverse=True)
     A("\nLatest Created: (*)")
-    for n in nodes[:8]:
+    for n in nodes[:num_nodes_to_show]:
         A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
         
     nodes = sorted(nodes, key=itemgetter(2), reverse=True)
     A("Latest Modified:")
-    for n in nodes[:8]:
+    for n in nodes[:num_nodes_to_show]:
         A(" %s  %s" % (date_string(n[2]), n[0], ) )
         
     nodes = sorted(nodes, key=itemgetter(2), reverse=False)
     A("\nOldest Created: (*)")
-    for n in nodes[:8]:
+    for n in nodes[:num_nodes_to_show]:
         A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
 
     nodes = sorted(nodes, key=itemgetter(1), reverse=False)
     A("Oldest Modified:")
-    for n in nodes[:8]:
+    for n in nodes[:num_nodes_to_show]:
         A(" %s  %s" % (date_string(n[2]), n[0], ) )
 
     A("\n(*):\n  Author information might not be fully representative (e.g. copy/pasted nodes)")
