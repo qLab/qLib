@@ -56,6 +56,20 @@ import qlibmenutools; qlibmenutools.toggle_abs_rel_path(kwargs)
 ]]></scriptCode>
 		</scriptItem>
 
+		<scriptItem id="switch_spaces_newlines_ql">
+			<label>Switch Spaces/Newlines [qL]</label>
+			<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_is_string(kwargs)
+					</expression>
+			</context>
+			<modifyItem><insertAfter>toggle_abs_rel_path_ql</insertAfter></modifyItem>
+			<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.switch_spaces_newlines(kwargs)
+]]></scriptCode>
+		</scriptItem>
+
 
 
 		<subMenu id="qlib_more_menu">
