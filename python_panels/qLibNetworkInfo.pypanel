@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pythonPanelDocument>
+  <!-- This file contains definitions of Python interfaces and the
+ interfaces menu.  It should not be hand-edited when it is being
+ used by the application.  Note, that two definitions of the
+ same interface or of the interfaces menu are not allowed
+ in a single file. -->
+  <interface name="networkInfo_qL" label="qLib Network Info [qL]" icon="MISC_python" showNetworkNavigationBar="true" help_url="">
+    <script><![CDATA[from PySide2 import QtWidgets
+import qlibutils
+
+"""
+w=hou.ui.findPaneTab('FloatingPanel').activeInterfaceRootWidget()
+w.findChild(QtWidgets.QPlainTextEdit).appendPlainText("this is\n\njust a")
+"""
+
+def onCreateInterface():
+    print("onCreateInterface()")
+    #title = QtWidgets.QLabel("Network Info [qL]")
+    logfield = QtWidgets.QPlainTextEdit()
+    logfield.setReadOnly(True)
+    logfield.setLineWrapMode(QtWidgets.QPlainTextEdit.NoWrap)
+    logfield.setObjectName("logfield")
+    
+    # Create a widget with a vertical box layout.
+    # Add the label and calendar to the layout.
+    root_widget = QtWidgets.QWidget()
+    layout = QtWidgets.QVBoxLayout()
+    #layout.addWidget(title)
+    layout.addWidget(logfield)
+    
+    buttons = QtWidgets.QHBoxLayout()
+    refresh = QtWidgets.QPushButton("Refresh")
+    buttons.addWidget(refresh)
+    layout.addLayout(buttons)
+    
+    root_widget.setLayout(layout)
+    
+    # Return the top-level widget.
+    #refresh_ui()
+    return root_widget
+
+
+def refresh_ui():
+    #print("refresh()")
+    #print(kwargs)
+    pane = kwargs["paneTab"]
+    path = pane.pwd().path()
+    stats = qlibutils.build_hip_stats(kwargs, path=path)
+    try:
+        root = pane.activeInterfaceRootWidget()
+        root.findChild(QtWidgets.QPlainTextEdit).setPlainText(stats)
+    except:
+        pass
+    #print("hoyyy")
+     
+
+def onNodePathChanged(node):
+    #print("onNodePathChanged()")
+    #print("node: "+str(node))
+    #pane = kwargs["paneTab"]
+    #path = pane.pwd()
+    #root = pane.activeInterfaceRootWidget()
+    #root.findChild(QtWidgets.QPlainTextEdit).appendPlainText(path.path())
+    refresh_ui()
+    
+    #global theLightLinker
+    #theLightLinker.setSourceNode(node)
+]]></script>
+    <includeInPaneTabMenu menu_position="0" create_separator="false"/>
+    <includeInToolbarMenu menu_position="105" create_separator="false"/>
+    <help><![CDATA[]]></help>
+  </interface>
+</pythonPanelDocument>
