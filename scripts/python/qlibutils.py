@@ -120,8 +120,8 @@ def uri_to_path(uri):
 
     uri:            URI path (string)
     """
-    assert type(uri) is string
-    p = urllib.parse.urlparse(uri)
+    #assert type(uri) is str
+    p = urllib.parse.urlparse(str(uri))
     path = os.path.abspath(os.path.join(p.netloc, p.path))
     return path
 
