@@ -120,8 +120,8 @@ def uri_to_path(uri):
 
     uri:            URI path (string)
     """
-    assert type(uri) is string
-    p = urllib.parse.urlparse(uri)
+    #assert type(uri) is str
+    p = urllib.parse.urlparse(str(uri))
     path = os.path.abspath(os.path.join(p.netloc, p.path))
     return path
 
@@ -1086,37 +1086,57 @@ def clear_caches(kwargs=None, caches="all"):
 
 
 
-def show_hip_stats(kwargs):
-    """Displays some hip file statistics.
+def build_hip_stats(kwargs=None, path="/"):
+    """Builds hip/network stats as an user-readable string.
     """
     R = []
     A = R.append
     hipfile = hou.hipFile.path()
 
-    A("HIP file:  %s\n" % hipfile)
+    is_root = path=="/"
+    root = hou.node(path)
+    # TODO: error checking here, if path exists
 
-    if os.path.exists(hipfile):
-        cre = os.path.getctime(hipfile)
-        mod = os.path.getmtime(hipfile)
-        acc = os.path.getatime(hipfile)
-        size = os.path.getsize(hipfile)
-        
-        A("Last accessed:  %s" % date_string(acc))
-        A("Modified time:  %s" % date_string(mod))
-        A("Creation time:  %s" % date_string(cre))
-        A("File Size: %s (%d bytes)" % (sizeof_fmt(size), size, ) )
+    if not root:
+        return ("path '%s' doesn't exist" % path)
+
+    # general hip file info (include only if building stats from root)
+    #
+    if is_root:
+        A("HIP file:  %s\n" % hipfile)
+
+        if os.path.exists(hipfile):
+            cre = os.path.getctime(hipfile)
+            mod = os.path.getmtime(hipfile)
+            acc = os.path.getatime(hipfile)
+            size = os.path.getsize(hipfile)
+
+            A("Last accessed:  %s" % date_string(acc))
+            A("Modified time:  %s" % date_string(mod))
+            A("Creation time:  %s" % date_string(cre))
+            A("File Size: %s (%d bytes)" % (sizeof_fmt(size), size, ) )
+        else:
+            A("(file doesn't exist)")
     else:
-        A("(file doesn't exist)")
+        A("path: %s" % path)
 
 
-    nodes = hou.node("/").allSubChildren(recurse_in_locked_nodes=True)
+    # get child nodes (recurse if it's root "/")
+    nodes = root.allSubChildren(recurse_in_locked_nodes=True) if is_root else root.children()
+
     # NOTE: this filter could be improved?
-    nodes = [ c for c in nodes if c.isEditable() and not c.isInsideLockedHDA() ]
+    if is_root:
+        nodes = [ c for c in nodes if c.isEditable() and not c.isInsideLockedHDA() ]
 
-    A("\nContains %d editable nodes. (estimated *)" % len(nodes))
+    if is_root:
+        A("\nContains %d editable nodes. (estimated *)" % len(nodes))
 
     # ( path, cre, mod, author, )
-    nodes = [ (n.path(), n.creationTime(), n.modificationTime(), get_node_author(n), ) for n in nodes ]
+    nodes = [
+        (n.path() if is_root else root.relativePathTo(n),
+        n.creationTime(),
+        n.modificationTime(),
+        get_node_author(n), ) for n in nodes ]
 
     # authors related info
 
@@ -1127,24 +1147,26 @@ def show_hip_stats(kwargs):
     for a in sorted(authors_nc):
         A("  - %s (%d nodes)" % (a, authors_nc[a], ))
 
-    top_dogs = sorted([ (i, authors_nc[i], ) for i in authors_nc ], key=itemgetter(1), reverse=True)
-    A("\nTop authors (by node count):")
-    for a in top_dogs[:5]:
-        A("  - %s (%d nodes)" % (a[0], a[1], ))
+    if is_root:
+        top_dogs = sorted([ (i, authors_nc[i], ) for i in authors_nc ], key=itemgetter(1), reverse=True)
+        A("\nTop authors (by node count):")
+        for a in top_dogs[:5]:
+            A("  - %s (%d nodes)" % (a[0], a[1], ))
 
-    # root contexts overview
+    # root contexts overview (only when doing stats from root)
+    #
+    if is_root:
+        contexts = sorted([ n.path() for n in hou.node("/").children() ])
 
-    contexts = sorted([ n.path() for n in hou.node("/").children() ])
-
-    A("\nRoot contexts (node counts / last modified dates):")
-    for c in contexts:
-        n = hou.node(c)
-        num_children = len( n.children() )
-        if num_children>0:
-            A("  - %s:   %d nodes,   %s" % ( c, num_children, date_string(n.modificationTime()), ) )
+        A("\nRoot contexts (node counts / last modified dates):")
+        for c in contexts:
+            n = hou.node(c)
+            num_children = len( n.children() )
+            if num_children>0:
+                A("  - %s:   %d nodes,   %s" % ( c, num_children, date_string(n.modificationTime()), ) )
 
     # created/modified nodes info
-
+    #
     num_nodes_to_show = 20
 
     nodes = sorted(nodes, key=itemgetter(1), reverse=True)
@@ -1171,7 +1193,14 @@ def show_hip_stats(kwargs):
     A("  Node counts might include internal nodes, open HDA contents, etc")
 
     R = "\n".join(R)
+    return R
 
+
+
+def show_hip_stats(kwargs):
+    """Displays some hip file statistics.
+    """
+    R = build_hip_stats(kwargs)
     print(R)
 
     hou.ui.displayMessage(

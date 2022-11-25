@@ -200,6 +200,24 @@ def toggle_abs_rel_path(kwargs):
         parm.set(path)
 
 
+def switch_spaces_newlines(kwargs):
+    """Converts between spaces and newlines in a string parm.
+    (Called from PARMmenu.xml)
+    """
+    parms = get_all_parms(kwargs)
+    to_newlines = None
+
+    for parm in parms:
+        v = parm.evalAsString()
+
+        if to_newlines is None:
+            to_newlines = "\n" not in v
+
+        v = re.sub("[\n ]+", "\n" if to_newlines else " ", v)
+        reset_parm(parm)
+        parm.set(v)
+
+
 def add_parm_value_multiplier(kwargs, add_exponent=False):
     """Adds a value/multipler parameter pair to the specified parameter.
     (Called from PARMmenu.xml)

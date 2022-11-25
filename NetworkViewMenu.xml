@@ -589,16 +589,28 @@ if d == 0:
             <scriptItem id="pane.wsheet.embed_selected_hdas_ql">
                 <label>Embed Selected HDAs...</label>
                 <scriptCode><![CDATA[
-import qlibutils; reload(qlibutils); qlibutils.embed_selected_hdas(kwargs)
+import qlibutils; qlibutils.embed_selected_hdas(kwargs)
 ]]></scriptCode>
             </scriptItem>
 
         </subMenu>
 
 
-<!--
         <separatorItem />
 
+        <scriptItem id="pane.wsheet.network_info_ql">
+            <label>Network Info...</label>
+            <scriptCode><![CDATA[
+print(kwargs)
+t=hou.ui.curDesktop().createFloatingPaneTab(hou.paneTabType.PythonPanel, python_panel_interface="networkInfo_qL")
+t.setPin(True)
+t.floatingPanel().setName("Network Info [qL]")
+path = kwargs["editor"].pwd().path()
+t.cd(path)
+]]></scriptCode>
+        </scriptItem>
+
+<!--
         <scriptItem id="pane.wsheet.tmp_show_kwargs_ql">
             <label>debug: show kwargs [qL]</label>
             <scriptCode><![CDATA[
@@ -607,7 +619,6 @@ hou.ui.displayMessage(str(kwargs))
         </scriptItem>
 -->
     </subMenu>
-
 
     </menuBar>
 </mainMenu>
