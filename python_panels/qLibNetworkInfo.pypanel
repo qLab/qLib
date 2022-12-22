@@ -31,6 +31,7 @@ def onCreateInterface():
     
     buttons = QtWidgets.QHBoxLayout()
     refresh = QtWidgets.QPushButton("Refresh")
+    refresh.clicked.connect(lambda: refresh_ui())
     buttons.addWidget(refresh)
     layout.addLayout(buttons)
     

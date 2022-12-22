@@ -1172,19 +1172,19 @@ def build_hip_stats(kwargs=None, path="/"):
     nodes = sorted(nodes, key=itemgetter(1), reverse=True)
     A("\nLatest Created: (*)")
     for n in nodes[:num_nodes_to_show]:
-        A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
+        A(" %s  %s  (%s)" % (date_string(n[1]), n[0], n[3], ) )
         
     nodes = sorted(nodes, key=itemgetter(2), reverse=True)
     A("Latest Modified:")
     for n in nodes[:num_nodes_to_show]:
         A(" %s  %s" % (date_string(n[2]), n[0], ) )
         
-    nodes = sorted(nodes, key=itemgetter(2), reverse=False)
+    nodes = sorted(nodes, key=itemgetter(1), reverse=False)
     A("\nOldest Created: (*)")
     for n in nodes[:num_nodes_to_show]:
-        A(" %s  %s  (%s)" % (date_string(n[2]), n[0], n[3], ) )
+        A(" %s  %s  (%s)" % (date_string(n[1]), n[0], n[3], ) )
 
-    nodes = sorted(nodes, key=itemgetter(1), reverse=False)
+    nodes = sorted(nodes, key=itemgetter(2), reverse=False)
     A("Oldest Modified:")
     for n in nodes[:num_nodes_to_show]:
         A(" %s  %s" % (date_string(n[2]), n[0], ) )
