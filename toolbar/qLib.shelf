@@ -664,6 +664,8 @@ def set_node_visu(node, color=None, comment=None):
         toolid = node.userData("___toolid___")
         if toolid:
             comment = "%s\n(toolid: %s)" % (comment, toolid, )
+        if node.type().source().name() not in ['Subnet', 'Internal']:
+            comment = "%s\nsrc: %s" % (comment, node.type().sourcePath(), )
         node.setComment(comment)
         # turn on "show comment in network view"
         hou.hscript('opset -Y on %s' % node.path())
