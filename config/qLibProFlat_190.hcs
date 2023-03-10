@@ -1,7 +1,7 @@
 Scheme:	Houdini qLib Pro Flat (19.0)
 
 #include "$HFS/houdini/config/basic_colors.inc"
-#include "NodeGraph_qLibProFlat_195.inc"
+#include "NodeGraph_qLibProFlat_190.inc"
 
 // Color Palette
 #define BACKGROUND	GREY(0.58)
