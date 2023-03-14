@@ -73,6 +73,7 @@ GraphDopSolverData:		0.35	0.25	0.45
 GraphDopAnyData:		0.9	0.9	0.9
 GraphSopHeightfield:		0.145 0.667 0.557
 GraphSopConstraints:		0.9	0.6	0.3
+GraphSopDomain:		        #6bcae2
 GraphSopRestGeometry:		0.584   0.776   1.0
 GraphSopCapturePose:		0.6     0.6     0.6
 GraphSopAnimatedPose:		1.0     0.725   0.0
@@ -147,6 +148,7 @@ GraphNodeHasDataBadgeDot:	0.45 0.75 0.45
 GraphNeedsCookBadgeDot:		0.97 0.91 0.11
 GraphHdaLockedBadgeDot:		0.43 0.47 0.48
 GraphHdaUnlockedBadgeDot:	0.98 0.49 0.55
+GraphHdaDelaySyncBadgeDot:	0.30 0.30 0.30
 GraphTimeDependentBadgeDot:	0.72 0.91 0.53
 GraphVexCachedBadgeDot:		#FF5AD2
 GraphVexCachableBadgeDot:	#AA3E8C
