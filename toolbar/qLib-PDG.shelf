@@ -539,6 +539,7 @@ if item:
     <memberTool name="qLib::ResizeTaskGraph"/>
     <memberTool name="qLib::FitWorkItemsToTaskGraph"/>
     <memberTool name="qLib::SelectPrevWorkItem"/>
+    <memberTool name="qLib::SelectCurrentWorkItem"/>
     <memberTool name="qLib::SelectNextWorkItem"/>
     <memberTool name="qLib::PdgGraphStatus"/>
     <memberTool name="qLib::SelectPdgCookSet"/>
@@ -547,4 +548,33 @@ if item:
     <memberTool name="qLib::SelectFailedPdgNodes"/>
     <memberTool name="qLib::SelectErroredPdgNodes"/>
   </toolshelf>
+
+  <tool name="qLib::SelectCurrentWorkItem" label="current" icon="COMMON_null">
+    <script scriptType="python"><![CDATA[import hou
+import toolutils
+import pdg
+
+editor = toolutils.networkEditor()
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+item = pdg.workItem()
+icon, msg = ("COMMON_null", "current", )
+
+if item:
+    node = item.node
+    topnode = node.topNode()
+    items = node.workItems
+    num_items = len(items)
+    index = items.index(item)
+    #index = (index+dir) % num_items
+    item = items[index]
+    id = item.id
+    topnode.setSelectedWorkItem(id)
+
+    editor.flashMessage(icon, "%d/%d %s  %s" % (index, num_items, item.name, str(item.data.allDataMap), ), 5.0)
+]]></script>
+  </tool>
 </shelfDocument>
