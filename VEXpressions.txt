@@ -135,9 +135,16 @@ attribwrangle/snippet
     v@P += v;
 
 attribwrangle/snippet
-    [qL] Extract packed prim full transform
+    [qL] Extract packed prim full transform (Transform-by-Attrib)
     // Use the 'xform' attribute with a Transform by Attrib SOP
     4@xform = primintrinsic(0, "packedfulltransform", @primnum);
+
+attribwrangle/snippet
+    [qL] Extract packed prim full transform (Copy-to-Points)
+    // "transform" the full transformation attribute supported by Copy to Points SOP
+    4@transform = primintrinsic(0, "packedfulltransform", @primnum);
+    // P is zeroed out as "transform" already contains the transformation
+    v@P = 0;
 
 attribwrangle/snippet
     [qL] id attribute to name ("pieceNNN")
