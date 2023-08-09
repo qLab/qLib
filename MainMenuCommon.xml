@@ -62,6 +62,13 @@ import qlibutils; qlibutils.open_dir(env="HFS")]]>
 				</scriptCode>
 			</scriptItem>
 
+			<scriptItem id="h.ql_browse_QLIB">
+				<label>$QLIB: qLib Package Location...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.open_dir(env="QLIB")]]>
+				</scriptCode>
+			</scriptItem>
+
 			<separatorItem />
 
 			<scriptItem id="h.ql_browse_HOME">
