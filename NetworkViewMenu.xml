@@ -118,14 +118,6 @@ qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isTimeDependent") a
 
             <separatorItem />
 
-            <scriptItem id="pane.wsheet.select_template_ql">
-                <label>With Template Flag</label>
-                <scriptCode><![CDATA[
-import qlibutils
-qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isTemplateFlagSet") and n.isTemplateFlagSet())
-                ]]></scriptCode>
-            </scriptItem>
-
             <scriptItem id="pane.wsheet.select_display_ql">
                 <label>With Display Flag</label>
                 <scriptCode><![CDATA[
@@ -139,6 +131,14 @@ qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isDisplayFlagSet") 
                 <scriptCode><![CDATA[
 import qlibutils
 qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isRenderFlagSet") and n.isRenderFlagSet())
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.select_template_ql">
+                <label>With Template Flag</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, lambda n: hasattr(n, "isTemplateFlagSet") and n.isTemplateFlagSet())
                 ]]></scriptCode>
             </scriptItem>
 
