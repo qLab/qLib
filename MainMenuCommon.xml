@@ -78,6 +78,15 @@ import qlibutils; qlibutils.open_dir(env="HOME")]]>
 				</scriptCode>
 			</scriptItem>
 
+			<separatorItem />
+
+			<scriptItem id="h.ql_browse_recovery_dir">
+				<label>Crash Recovery hip Files Location...</label>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.open_dir(qlibutils.get_recovery_dir())]]>
+				</scriptCode>
+			</scriptItem>
+
 		</subMenu>
 
 		<subMenu id="ql_clipboard_submenu">

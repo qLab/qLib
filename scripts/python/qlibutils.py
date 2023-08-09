@@ -208,10 +208,15 @@ def to_clipboard(contents="", env=None):
         pass
 
 
+def get_recovery_dir():
+    tmpdir = str(hou.getenv("HOUDINI_TEMP_DIR") or hou.getenv("TEMP"))
+    return tmpdir
+
+
 def do_crash_recovery(calledFromUI=False):
     """Performs crash recovery from an emergency-saved file.
     """
-    tmpdir = str(hou.getenv("HOUDINI_TEMP_DIR") or hou.getenv("TEMP"))
+    tmpdir = get_recovery_dir()
     files = glob.glob(os.path.join(tmpdir, '*.hip'))
 
     uicall = calledFromUI
