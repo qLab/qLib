@@ -231,6 +231,16 @@ def isInt(hou_attrib):
 
 
 
+def isFloat(hou_attrib):
+    """Convenience filter function for integer attributes.
+    """
+    assert type(hou_attrib) is hou.Attrib, "invalid argument"
+    return \
+        hou_attrib.dataType()==hou.attribData.Float and \
+        hou_attrib.size()==1
+
+
+
 def isString(hou_attrib):
     """Convenience filter function for string attributes.
     """
