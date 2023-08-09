@@ -254,27 +254,28 @@ def do_crash_recovery(calledFromUI=False):
 
         # delete crash file(s)
 
-        msg = 'Cleanup: Delete all crash recovery hip files?'
-        if recovered:
-            msg = \
-                'File recovered. Make sure to save it to a safe location.\n' \
-                'NOTE: Update mode is set to "Manual" to avoid potential re-crashes.\n' \
-                '\n%s' % msg
+        if False:
+            msg = 'Cleanup: Delete all crash recovery hip files?'
+            if recovered:
+                msg = \
+                    'File recovered. Make sure to save it to a safe location.\n' \
+                    'NOTE: Update mode is set to "Manual" to avoid potential re-crashes.\n' \
+                    '\n%s' % msg
 
-        if ynreq(msg, buttons=("DELETE", "Skip", )):
-            files = \
-                glob.glob(os.path.join(tmpdir, 'crash.*')) + \
-                glob.glob(os.path.join(tmpdir, '*.hip'))
-            for f in files:
-                try:
-                    os.remove(f)
-                except:
-                    pass
+            if ynreq(msg, buttons=("DELETE", "Skip", )):
+                files = \
+                    glob.glob(os.path.join(tmpdir, 'crash.*')) + \
+                    glob.glob(os.path.join(tmpdir, '*.hip'))
+                for f in files:
+                    try:
+                        os.remove(f)
+                    except:
+                        pass
 
-            hou.ui.setStatusMessage(
-                "crash recovery cleanup: deleted %d files" % len(files))
-        else:
-            pass  # user cancelled
+                hou.ui.setStatusMessage(
+                    "crash recovery cleanup: deleted %d files" % len(files))
+            else:
+                pass  # user cancelled
 
     else:
         # no crash files found
