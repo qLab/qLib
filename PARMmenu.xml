@@ -43,7 +43,7 @@
 	<menu>
 
 		<scriptItem id="toggle_abs_rel_path_ql">
-			<label>Toggle Absolute/Relative Path(s) [qL]</label>
+			<label>Toggle Absolute/Relative OP Path(s) [qL]</label>
 			<context>
 					<expression>
 						import qlibmenutools
