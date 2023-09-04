@@ -524,6 +524,31 @@ def has_embedded_def(node):
     return r
 
 
+def is_hda_open_for_edit(node):
+    """Check if HDA is editable (unlocked).
+    Code based on Houdini OPmenu.xml / "Match Current Definition"
+    """
+    if node.matchesCurrentDefinition():
+        return False
+    if not node.isNetwork():
+        return False
+    hda_def = node.type().definition()
+    if not hda_def:
+        return False
+    options = hda_def.options()
+    if not options.lockContents():
+        return False
+    if node.isInsideLockedHDA() and not node.isEditableInsideLockedHDA():
+        return False
+    if hou.hda.safeguardHDAs():
+        return False
+    if not node.type().isWritable():
+        return False
+    if not node.type().areContentsViewable():
+        return False
+    return True
+
+
 def get_node_author(node, username_only=False):
     """Returns the author of the specified node.
     """

@@ -170,6 +170,14 @@ qlibutils.select_netview_nodes(kwargs, lambda n: qlibutils.has_embedded_def(n))
                 ]]></scriptCode>
             </scriptItem>
 
+            <scriptItem id="pane.wsheet.select_hdas_unlocked_for_edit_ql">
+                <label>Unlocked HDAs</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, lambda n: qlibutils.is_hda_open_for_edit(n))
+                ]]></scriptCode>
+            </scriptItem>
+
 <!--
             <separatorItem />
 
