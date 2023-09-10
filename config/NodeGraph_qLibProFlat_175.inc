@@ -163,8 +163,8 @@ GraphPdgProgressNormalFill:  #232323
 GraphPdgSummaryBackground:  GREY(0.1)
 GraphPdgSummaryFilterOn:    #FFD42A
 GraphPdgSummaryWorkItemCooked:		GREY(0.9)
-GraphPdgSummaryWorkItemCooking:		GREY(0.45)
-GraphTaskGraphWorkItemWaiting:		GREY(0.45)
+GraphPdgSummaryWorkItemCooking:		GREY(0.33)
+GraphTaskGraphWorkItemWaiting:		GREY(0.25)
 GraphPdgSummaryWorkItemUncooked:	GREY(0.45)
 GraphPdgSummaryWorkItemFailed:		#FF0000
 GraphPdgSummaryWorkItemCancelled:	#EBB502
