@@ -917,9 +917,9 @@ def paste_clipboard_to_netview(kwargs):
                 ba = Qt.QtCore.QByteArray();
                 buffer = Qt.QtCore.QBuffer(ba)
                 buffer.open(Qt.QtCore.QIODevice.WriteOnly)
-                image.save(buffer, "png")       
+                image.save(buffer, "png")
                 buffer.close()
-                hda_def.addSection(image_name, str(buffer.data()))
+                hda_def.addSection(image_name, buffer.data().data())
                 
                 # add image to network view
                 add_image_to_netview(embedded_img_prefix(image_name), pane, pwd)
