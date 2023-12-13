@@ -1,7 +1,12 @@
 
 #opdefaultshape Sop qLib::switch_by_string_ql::1 'diamond'
 
-opalias Sop qLib::camera_frustum_ql::3 qLib::camera_frustrum_ql::3
-ophide Sop qLib::camera_frustrum_ql::2
-ophide Sop qLib::camera_frustrum_ql::1
-opdeprecate -r "Use Camera Frustum OP (fixed spelling)" 1.0 Sop qLib::camera_frustrum_ql::2
+# not ready for frustrum -> frustum yet...
+#
+ophide Sop qLib::camera_frustum_ql::3
+#
+#opalias Sop qLib::camera_frustum_ql::3 qLib::camera_frustrum_ql::3
+#ophide Sop qLib::camera_frustrum_ql::2
+#ophide Sop qLib::camera_frustrum_ql::1
+#opdeprecate -r "Use Camera Frustum OP (fixed spelling)" 1.0 Sop qLib::camera_frustrum_ql::2
+
