@@ -14,6 +14,7 @@
 :: [Icon:COP2/invert] [Cycle Background Color|/shelf/qLib::ToggleViewportBackgroundColor] -- Cycle background color of viewports
 :: [Icon:OBJ/camera] [VCamera Dolly/Zoom Tool ("Vertigo")|/shelf/qLib::camera_dolly_zoom_ql] -- A viewport perspective adjustment tool
 :: [Icon:NODEFLAGS/template] [Toggle Templates|/shelf/qLib::ToggleViewportTemplates] -- Toggle Template geo display ( ((Ctrl + LMB)) to clear template flags)
+:: [Icon:BUTTONS/materials_assigned] [Toggle Current Geometry|/shelf/qLib::ToggleViewportCurrentGeometry] -- Toggle Current Geometry display
 :: [Icon:IMAGE/view_guides] [Toggle Guides|/shelf/qLib::ToggleViewportGuides] -- Toggle Guide geometry display
 
 @subtopics Network Editor

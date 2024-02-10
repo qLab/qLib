@@ -10,6 +10,7 @@
     <memberTool name="qLib::ToggleViewportBackgroundColor"/>
     <memberTool name="qLib::camera_dolly_zoom_ql"/>
     <memberTool name="qLib::ToggleViewportTemplates"/>
+    <memberTool name="qLib::ToggleViewportCurrentGeometry"/>
     <memberTool name="qLib::ToggleViewportGuides"/>
     <memberTool name="qLib::ReferenceCopy"/>
     <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
@@ -1131,6 +1132,69 @@ else:
     e.flashMessage("SHOP_select", "%d selected (was %d) oldest: %s creator: %s" %
         (num_sel_after, num_sel, qlibutils.date_string(oldest_date), author, ),
         8.0)
+]]></script>
+  </tool>
+
+  <tool name="qLib::ToggleViewportCurrentGeometry" label="/current geo/" icon="BUTTONS_materials_assigned">
+    <helpText><![CDATA[#icon: BUTTONS/materials_assigned
+#context: obj
+#type: tool
+
+= Toggle Viewport Current Geometry qL =
+
+*version 1*
+
+"""Toggles current geometry display in the viewports.
+---
+LMB: Toggle current geometry display.
+Shift-LMB: Enable current geometry display.
+"""
+
+Current geometry is drawing the geometry contained in the selected geometry node
+(when itâs different from the display node).
+
+@usage Usage
+
+- ((LMB)):
+    Toggles current geometry display (Display Options -> Guides -> Node guides)
+- ((Shift + LMB)):
+    Enable current geometry display
+
+@bugs Limitations
+
+- It might behave inconsistently between viewports (and needs to be clicked twice)
+
+
+@relnotes Release Notes
+
+_version 1_ ---
+
+2024-02-10:
+    - First version.
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+shift = kwargs['shiftclick']
+
+v = toolutils.sceneViewer()
+
+w = "%s.%s.world" % \
+        (v.pane().desktop().name(), \
+        v.name() )
+#print "view:", w
+
+if not hasattr(hou.session, "currentgeo"):
+    hou.session.currentgeo = True
+
+if shift:
+    hou.session.currentgeo = False
+
+hou.session.currentgeo = not hou.session.currentgeo
+hou.hscript("viewdisplay -R %s *" % ("on" if hou.session.currentgeo else "off", ))
+msg = "Current geometry display %s" % ("ON" if hou.session.currentgeo else "OFF")
+hou.ui.setStatusMessage(msg)
+v.clearPromptMessage()
+v.setPromptMessage(msg, hou.promptMessageType.Warning)
 ]]></script>
   </tool>
 </shelfDocument>
