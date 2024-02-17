@@ -1094,6 +1094,33 @@ if len(r)>0:
   </tool>
 
   <tool name="qLib::SelectExpandByDate" label="select modified" icon="SHOP_select">
+    <helpText><![CDATA[#icon: SHOP/select
+#type: tool
+
+= Select Expand by (Modified) Date =
+
+*version 1*
+
+"""Selects node with newest modified date, or keep selecting older ones.
+"""
+
+This is a prototype tool for attempting to detect which node(s) changed
+recently in the current network.
+
+- If no nodes are selected, it will select the node that has the newest
+  modification date (the node last changed)
+
+- If there are node(s) selected, it'll select the node that's the next
+  older to the oldest selected
+
+Repeatedly clicking this tool will keep selecting nodes with newer->older
+modification dates, therefore giving a rough idea of changed parts of
+a network.
+
+NOTE:
+    There are certain "non-changes" that will also update node modification
+    dates (such as just moving a node), so there's limits to the reliability
+    of this tool.]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
 import qlibutils
