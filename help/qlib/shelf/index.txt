@@ -21,6 +21,7 @@
 
 :: [Icon:BUTTONS/copy] [Node Reference Copy|/shelf/qLib::ReferenceCopy]
 :: [Icon:NETVIEW/time_dependent_badge_large] [Toggle Time Dependency Display|/shelf/qLib::ToggleTimeDependencyDisplay]
+:: [Icon:SHOP/select] [Expand Selection by Modified Date|/shelf/qLib::SelectExpandByDate] -- Select or expand selection by node modification date/time
 :: [Icon:COP2/mosaic] [Color by Author|/shelf/qLib::ColorByAuthor] -- Color nodes by authors and indicate them with labels
 :: [Icon:BUTTONS/network_sticky] [Add Sticky Note|/shelf/qLib::AddStickyNote] -- Adds sticky notes with an user/timestamp header
 :: [Icon:IMAGE/zoom_in] [Resize Sticky Notes|/shelf/qLib::ResizeStickyNotes] -- Enlarge/shrink selected sticky notes

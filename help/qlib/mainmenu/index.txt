@@ -58,9 +58,9 @@ Open in File Browser:
         $JOB: Jobs Root Directory...:
             ...
 
-        Selected HDA Location(s)...:
+        Selected HDA/DSO Location(s)...:
             Opens the folder(s) that contain the definitions
-            of the currently selected HDAs.
+            of the currently selected HDAs or complied plug-in DSOs (DLLs).
 
         $HIH: User Config Files...:
             Opens the user's preferences folder
