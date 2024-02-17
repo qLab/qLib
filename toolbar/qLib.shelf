@@ -138,27 +138,42 @@ _version 1_ ---
     - First version (in qLib).
 ]]></helpText>
     <script scriptType="python"><![CDATA[import toolutils
+import re
 
-bg = None
+# H19.5- compatible way of getting all scene viewers
+viewers = [ t for t in hou.ui.paneTabs() if type(t)==hou.SceneViewer ]
+viewports = sum([ list(v.viewports()) for v in viewers ], [])
 
-try:
-    # cycle next bg
-    if kwargs['ctrlclick']: raise
-    bgs = hou.session.bg[:]
-    bgs = bgs[1:]+bgs[:1]
-    if kwargs['shiftclick']: bgs = ['bw', 'light', 'wb']
-    bg = bgs[0]
-    hou.session.bg = bgs
-except:
-    # set up default bg vars
-    hou.session.bg = ['wb', 'bw', 'light']
-    bg = hou.session.bg[0]
+schemes = [
+            hou.viewportColorScheme.Dark,
+            hou.viewportColorScheme.Grey,
+            hou.viewportColorScheme.Light,
+        ]
 
-bgs = { 'wb':'dark', 'bw':'grey', 'light':'light' }
+# adding H20+ new mode
+# there's probably a more elegant way of doing this?
+if hou.applicationVersion()[0]>=20:
+    schemes.append( hou.viewportColorScheme.DarkGrey )
 
-hou.hscript("viewdisplay -B %s *" % bg)
-msg = "Cycled background to %s" % bgs[bg].upper()
-hou.ui.setStatusMessage(msg)
+if len(viewports)>0:
+
+    vs = viewports[0].settings()
+    s = vs.colorScheme()
+
+    i = schemes.index(s) # uh oh exception schmechekption!
+    i = (i+1) % len(schemes)
+
+    if kwargs['ctrlclick']:
+        i = 0
+    if kwargs['shiftclick']:
+        i = 1
+
+    s = schemes[i]
+    for v in viewports:
+        v.settings().setColorScheme(s)
+
+    msg = "Cycled background to %s" % re.search("[^.]+$", str(s))[0].upper()
+    hou.ui.setStatusMessage(msg)
 ]]></script>
   </tool>
 
