@@ -322,20 +322,29 @@ def open_clipboard_as_dir():
 
 
 def get_hda_paths(nodes):
-    """Finds filesystem paths for specified HDAs.
+    """Finds filesystem paths for specified HDAs or compiled DSOs.
     """
     hdas = []
     for node in nodes:
-        d = node.type().definition()
-        if d:
-            path = d.libraryFilePath()
-            if path != 'Embedded':
-                hdas.append(path)
+        t = node.type()
+        s = t.source()
+
+        if s==hou.nodeTypeSource.CompiledCode:
+            # it's a compiled DSO
+            path = t.sourcePath()
+            hdas.append(path)
+        else:
+            # assume it's a HDA
+            d = t.definition()
+            if d:
+                path = d.libraryFilePath()
+                if path != 'Embedded':
+                    hdas.append(path)
     return hdas
 
 
 def open_hda_dirs():
-    """Opens folders for the selected HDAs.
+    """Opens folders for the selected HDAs or DSOs.
     """
     hdas = get_hda_paths(hou.selectedNodes())
     dirs = set()
