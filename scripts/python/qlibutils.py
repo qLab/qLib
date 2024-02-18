@@ -296,18 +296,23 @@ def open_dir(dir="", env=None):
         statmsg("Directory doesn't exist (%s)" % dir, warn=True)
         return
 
+    oss, cmd = None, None
+
     if is_linux():
-        statmsg("(linux) xdg-open %s" % dir)
-        subprocess.call(["xdg-open", dir])
+        oss, cmd = "linux", "xdg-open"
 
     if is_windows():
-        dir = dir.replace('/', '\\')
-        statmsg("(windows) start %s" % dir)
-        subprocess.call(["start", dir])
+        dir = dir.replace('/', '\\') # of course
+        oss, cmd = "windows", "start"
 
     if is_mac():
-        statmsg("(mac) open %s" % dir)
-        subprocess.call(["open", dir])
+        oss, cmd = "macos", "open"
+
+    if oss and cmd:
+        statmsg("(%s) %s %s" % (oss, cmd, dir, ) )
+        r = subprocess.call([cmd, dir])
+        if r!=0:
+            statmsg("(%s) FAILED: %s %s" % (oss, cmd, dir, ), warn=True)
 
 
 def open_clipboard_as_dir():
