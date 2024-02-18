@@ -29,21 +29,41 @@ More (qL):
     :box:
         Open as Path in File Browser...:
             If the parameter is a filesystem path, opens the path in the OS default file browser.
+
+        Open in MPlay...:
+            Open an image or image sequence in the mplay viewer.
+
         Select/Add Target Node(s):
             If the string parameter refers to another node, adds the specified node to the current selection.
+
         Expand Target Node Path Wildcards:
             Replaces a wildcard-based node pattern to its expanded node list
             (e.g. /obj/geo* will become "/obj/geo1 /obj/geo2" if you have those nodes in the scene.)
+
         (subnet): Parent Network, Input #1-4 (0-3):
-            ...
+            Sets an expression that will give the node path connected to the container node's n-th input
+            (`opinputpath("..", n)`). Useful for nodes in DOP networks that don't have the convenience "n-th input"
+            option.
+
         Add Value/Multiplier to Parameter:
-            ...
+            For a numeric (float) type parameter it creates a value ("v") + multiplier ("%") parameter pair,
+            and sets up an expression on the original parameter.
+
+            This is useful for driving particle emission amount or scatter density values with an
+            amount + percentage combination.
+
         Add Value/Multiplier + Exponent:
-            ...
+            Same as the above function, but also provides an exponent value for the 0..1 multiplier.
+
+            This is useful for scenarios where linear 0..1 values don't scale "visually" linearly, e.g. a surface
+            scatter density animation, where an exponent of 2 gives more "visually linear" changes.
+
         Set Ramp To:
             For ramp parameters, it sets the interpolation of all ramp points to the chosen type.
             NOTE:
                 Obsoleted by H20 (ramp control has an icon for this from that version).
 
 Reference Upstream Parm (qL):
-    ...
+    Gives a list of upstream string parameters to link to. This is useful to quickly establish expression-based relationships
+    between nodes, rather than using hardcoded names, e.g. instead of typing in group names, linking to the group name attribute
+    of an upstream node.
