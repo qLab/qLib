@@ -29,6 +29,8 @@ More (qL):
     :box:
         Open as Path in File Browser...:
             If the parameter is a filesystem path, opens the path in the OS default file browser.
+        Open in MPlay...:
+            Open an image or image sequence in the mplay viewer.
         Select/Add Target Node(s):
             If the string parameter refers to another node, adds the specified node to the current selection.
         Expand Target Node Path Wildcards:
