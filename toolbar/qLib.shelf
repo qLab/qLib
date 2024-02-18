@@ -131,6 +131,10 @@ Shift-LMB: Reset to grey.
 
 _version 1_ ---
 
+2024-02-18:
+    - Added support for new H20 background color (dark grey) ([#1407|https://github.com/qLab/qLib/issues/1407])
+    - Now disables Environment Lights as Background when cycling ([#1262|https://github.com/qLab/qLib/issues/1262])
+
 2015-02-24:
     - Added dark/grey/light cycle (H14)
 
@@ -170,7 +174,9 @@ if len(viewports)>0:
 
     s = schemes[i]
     for v in viewports:
-        v.settings().setColorScheme(s)
+        settings = v.settings()
+        settings.setColorScheme(s)
+        settings.setDisplayEnvironmentBackgroundImage(False)
 
     msg = "Cycled background to %s" % re.search("[^.]+$", str(s))[0].upper()
     hou.ui.setStatusMessage(msg)
