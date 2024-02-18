@@ -12,6 +12,7 @@ import traceback
 import hou
 import qlibutils
 import re
+import subprocess
 
 
 def get_all_parms(kwargs, unlocked_only=False):
@@ -363,3 +364,14 @@ def open_as_fs_path(kwargs):
     for dir in dirs:
         qlibutils.open_dir(dir)
 
+
+def open_in_mplay(kwargs):
+    """Considers parm value as an FS path and opens it in mplay.
+    """
+    dirs = [ p.unexpandedString() for p in get_all_parms(kwargs) ]
+    dirs = list(set(dirs)) # don't open anything twice
+    if len(dirs)>0:
+        qlibutils.statmsg("mplay %s" % dirs[0])
+        r=subprocess.call(["mplay", dirs[0]])
+        if r!=0:
+            qlibutils.statmsg("ERROR while calling mplay %s" % dirs[0], warn=True)
