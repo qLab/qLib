@@ -90,6 +90,19 @@ import qlibmenutools; qlibmenutools.open_as_fs_path(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 
+			<scriptItem id="ql_open_in_mplay">
+				<label>Open in MPlay...</label>
+				<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_is_fspath(kwargs)
+					</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.open_in_mplay(kwargs)
+]]></scriptCode>
+			</scriptItem>
+
 			<separatorItem/>
 
 			<scriptItem id="ql_select_target_op">
