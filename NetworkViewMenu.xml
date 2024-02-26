@@ -609,7 +609,7 @@ import qlibutils; qlibutils.embed_selected_hdas(kwargs)
         <scriptItem id="pane.wsheet.network_info_ql">
             <label>Network Info...</label>
             <scriptCode><![CDATA[
-print(kwargs)
+#print(kwargs)
 t=hou.ui.curDesktop().createFloatingPaneTab(hou.paneTabType.PythonPanel, python_panel_interface="networkInfo_qL")
 t.setPin(True)
 t.floatingPanel().setName("Network Info [qL]")
