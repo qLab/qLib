@@ -1181,15 +1181,16 @@ def build_hip_stats(kwargs=None, path="/"):
     # { "author":node_count, }
     authors_nc = collections.Counter([ n[3] for n in nodes ])
 
+    # authors, sorted by node count
+    top_dogs = sorted([ (i, authors_nc[i], ) for i in authors_nc ], key=itemgetter(1), reverse=True)
+    A("\nTop authors (by node count):")
+    for a in top_dogs[:5]:
+        A("  - %s (%d nodes)" % (a[0], a[1], ))
+
+    # authors, alphabetical
     A("\nAuthors (%d, alphabetical):" % len(authors_nc))
     for a in sorted(authors_nc):
         A("  - %s (%d nodes)" % (a, authors_nc[a], ))
-
-    if is_root:
-        top_dogs = sorted([ (i, authors_nc[i], ) for i in authors_nc ], key=itemgetter(1), reverse=True)
-        A("\nTop authors (by node count):")
-        for a in top_dogs[:5]:
-            A("  - %s (%d nodes)" % (a[0], a[1], ))
 
     # root contexts overview (only when doing stats from root)
     #
