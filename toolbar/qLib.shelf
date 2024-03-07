@@ -9,8 +9,9 @@
     <memberTool name="qLib::AccessShotNode"/>
     <memberTool name="qLib::ToggleViewportBackgroundColor"/>
     <memberTool name="qLib::camera_dolly_zoom_ql"/>
-    <memberTool name="qLib::ToggleViewportTemplates"/>
     <memberTool name="qLib::ToggleViewportCurrentGeometry"/>
+    <memberTool name="qLib::ToggleViewportTemplates"/>
+    <memberTool name="qLib::ToggleViewportTemplatesShading"/>
     <memberTool name="qLib::ToggleViewportGuides"/>
     <memberTool name="qLib::ReferenceCopy"/>
     <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
@@ -1021,7 +1022,7 @@ if path:
         notetext += " --\n"
         if node:
             notetext += "%s: " % node.name()
-        notetext += "..."
+        #notetext += "..."
         note.setText(notetext)
         s = note.size()
         note.setSize(hou.Vector2(s[0]*2.0, s[0]*0.5))
@@ -1183,7 +1184,7 @@ else:
 ]]></script>
   </tool>
 
-  <tool name="qLib::ToggleViewportCurrentGeometry" label="/current geo/" icon="BUTTONS_materials_assigned">
+  <tool name="qLib::ToggleViewportCurrentGeometry" label="/current geo/" icon="PARTS_polygon_sphere">
     <helpText><![CDATA[#icon: BUTTONS/materials_assigned
 #context: obj
 #type: tool
@@ -1243,6 +1244,42 @@ msg = "Current geometry display %s" % ("ON" if hou.session.currentgeo else "OFF"
 hou.ui.setStatusMessage(msg)
 v.clearPromptMessage()
 v.setPromptMessage(msg, hou.promptMessageType.Warning)
+]]></script>
+  </tool>
+
+  <tool name="qLib::ToggleViewportTemplatesShading" label="templ w/s" icon="VIEW_smooth_wireframe">
+    <script scriptType="python"><![CDATA[import toolutils
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+# H19.5- compatible way of getting all scene viewers
+viewers = [ t for t in hou.ui.paneTabs() if type(t)==hou.SceneViewer ]
+viewports = sum([ list(v.viewports()) for v in viewers ], [])
+
+if len(viewports)>0:
+
+    s = viewports[0].settings()
+    tmpl = s.displaySet(hou.displaySetType.TemplateModel)
+    m = tmpl.shadedMode()
+    is_wire = m==hou.glShadingType.Wire
+    is_ghosted = tmpl.isUsingGhostedLook()
+    m = hou.glShadingType.FlatWire \
+        if is_wire else hou.glShadingType.Wire
+    tmpl.setShadedMode(m)
+    tmpl.useGhostedLook(is_wire)
+
+    for v in viewports:
+        s = v.settings()
+        tmpl = s.displaySet(hou.displaySetType.TemplateModel)
+        tmpl.setShadedMode(m)
+
+    v = toolutils.sceneViewer()
+    msg = "Template Shaded Mode: %s" % str(m)
+    hou.ui.setStatusMessage(msg)
+    v.clearPromptMessage()
+    v.setPromptMessage(msg, hou.promptMessageType.Warning)
 ]]></script>
   </tool>
 </shelfDocument>
