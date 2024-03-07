@@ -1021,7 +1021,7 @@ if path:
         notetext += " --\n"
         if node:
             notetext += "%s: " % node.name()
-        notetext += "..."
+        #notetext += "..."
         note.setText(notetext)
         s = note.size()
         note.setSize(hou.Vector2(s[0]*2.0, s[0]*0.5))
