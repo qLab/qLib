@@ -1183,7 +1183,7 @@ else:
 ]]></script>
   </tool>
 
-  <tool name="qLib::ToggleViewportCurrentGeometry" label="/current geo/" icon="BUTTONS_materials_assigned">
+  <tool name="qLib::ToggleViewportCurrentGeometry" label="/current geo/" icon="PARTS_polygon_sphere">
     <helpText><![CDATA[#icon: BUTTONS/materials_assigned
 #context: obj
 #type: tool
