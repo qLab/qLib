@@ -9,9 +9,9 @@
     <memberTool name="qLib::AccessShotNode"/>
     <memberTool name="qLib::ToggleViewportBackgroundColor"/>
     <memberTool name="qLib::camera_dolly_zoom_ql"/>
-    <memberTool name="qLib::ToggleViewportCurrentGeometry"/>
     <memberTool name="qLib::ToggleViewportTemplates"/>
     <memberTool name="qLib::ToggleViewportTemplatesShading"/>
+    <memberTool name="qLib::ToggleViewportCurrentGeometry"/>
     <memberTool name="qLib::ToggleViewportGuides"/>
     <memberTool name="qLib::ReferenceCopy"/>
     <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
