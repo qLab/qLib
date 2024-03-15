@@ -115,6 +115,15 @@ import qlibutils; qlibutils.to_clipboard(env="JOB")]]>
 				</scriptCode>
 			</scriptItem>
 
+		<separatorItem />
+
+			<scriptItem id="h.ql_clipboard_shruggie">
+				<labelExpression>b'\xc2\xaf\\_(\xe3\x83\x84)_/\xc2\xaf'.decode()</labelExpression>
+				<scriptCode><![CDATA[
+import qlibutils; qlibutils.to_clipboard(b'\xc2\xaf\\_(\xe3\x83\x84)_/\xc2\xaf'.decode())]]>
+				</scriptCode>
+			</scriptItem>
+
 		</subMenu>
 
 		<separatorItem />
