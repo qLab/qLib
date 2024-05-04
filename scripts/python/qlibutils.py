@@ -51,6 +51,22 @@ def houVersionAsFloat():
     return float( "%d.%d" % (v[0], v[1], ) )
 
 
+def get_current_user_name(username_only=False):
+    """Get name of the current user.
+    """
+    username = getpass.getuser()
+    if username_only:
+        username = username.split("@")[0]
+    return username
+
+
+def get_current_host_name():
+    """Get the current host (computer) name.
+    """
+    hostname = socket.gethostname() # socket.getfqdn() gives full name
+    return hostname
+
+
 def statmsg(msg, warn=False):
     """.
     """
@@ -830,6 +846,7 @@ def add_image_to_netview(image_path, pane, pwd):
     nodegraphutils.saveBackgroundImages(pwd, images)
 
 
+
 def paste_clipboard_to_netview(kwargs):
     """Paste clipboard contents (text or image) into the network editor.
     """
@@ -853,8 +870,8 @@ def paste_clipboard_to_netview(kwargs):
                 # TODO: refactor this into a proper function that can be called from both
                 date = datetime.datetime.now().replace(second=0, microsecond=0).isoformat(' ')
                 date = re.sub(":00$", "", date) # strip seconds
-                username = getpass.getuser()
-                hostname = socket.gethostname() # socket.getfqdn() gives full name
+                username = get_current_user_name()
+                hostname = get_current_host_name()
                 user = '%s@%s' % (username, hostname, ) if (shift or alt) else username
                 notename = "%s_%s_1" % (username, re.sub("[^0-9]+", "_", date), )
                 notetext = "[%s, %s]" % (user, date, )
