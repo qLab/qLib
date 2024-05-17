@@ -921,19 +921,6 @@ If a node is selected:
 If nothing selected:
     A new sticky note with the username/timestamp header will be created.
 ]]></helpText>
-    <toolMenuContext name="network">
-      <contextNetType>OBJ</contextNetType>
-      <contextNetType>SOP</contextNetType>
-      <contextNetType>CHOP</contextNetType>
-      <contextNetType>ROP</contextNetType>
-      <contextNetType>SHOP</contextNetType>
-      <contextNetType>COP2</contextNetType>
-      <contextNetType>VOP</contextNetType>
-      <contextNetType>VOPNET</contextNetType>
-      <contextNetType>DOP</contextNetType>
-      <contextNetType>TOP</contextNetType>
-      <contextNetType>LOP</contextNetType>
-    </toolMenuContext>
     <toolSubmenu>qLib Shelf</toolSubmenu>
     <script scriptType="python"><![CDATA[import toolutils
 import datetime
