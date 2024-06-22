@@ -852,7 +852,8 @@ shift = kwargs['shiftclick']
 ctrl  = kwargs['ctrlclick']
 alt   = kwargs['altclick']
 
-notes = [ n for n in hou.selectedItems() if type(n)==hou.StickyNote ]
+t = hou.__dict__.get("OpStickyNote") or hou.StickyNote # H20+ type for sticky note :|
+notes = [ n for n in hou.selectedItems() if type(n) == t ]
 
 m = 2.0
 
@@ -949,7 +950,8 @@ node = hou.selectedNodes()
 node = node[0] if len(node)>0 else None
 
 # any selected (existing) sticky notes (to be updated)
-notes = [ n for n in hou.selectedItems() if type(n)==hou.StickyNote ]
+t = hou.__dict__.get("OpStickyNote") or hou.StickyNote # H20+ type for sticky note :|
+notes = [ n for n in hou.selectedItems() if type(n) == t ]
 
 # parent container for new sticky note
 path = None
