@@ -163,8 +163,8 @@ if len(items)>0 or ctrl:
     if not ctrl:
         items = sorted(items)[-1]
         mode = "Zoom to Fit (%d items)" % items
-        # round up to 10
-        items = ((items/40)+1)*40
+        # round up to 40
+        items = (int(items/40)+1)*40
         # some min/max limits for item count
         items = max(80, items)
         items = min(8000, items)

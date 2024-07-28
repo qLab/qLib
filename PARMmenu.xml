@@ -76,6 +76,46 @@ import qlibmenutools; qlibmenutools.switch_spaces_newlines(kwargs)
 			<label>More [qL]</label>
 			<modifyItem><insertAfter>motion_effects_menu</insertAfter></modifyItem>
 
+			<scriptItem id="ql_set_as_playback_start_frame">
+				<label>Set as Playback Start Frame</label>
+				<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_is_framenum(kwargs)
+					</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.set_as_playback_range(kwargs)
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_set_as_playback_end_frame">
+				<label>Set as Playback End Frame</label>
+				<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_is_framenum(kwargs)
+					</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.set_as_playback_range(kwargs, startFrame=False)
+]]></scriptCode>
+			</scriptItem>
+
+			<scriptItem id="ql_set_as_playback_frame_range">
+				<label>Set as Playback Frame Range</label>
+				<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_is_framerange(kwargs)
+					</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.set_as_playback_range(kwargs)
+]]></scriptCode>
+			</scriptItem>
+
+			<separatorItem/>
 
 			<scriptItem id="ql_open_in_file_browser">
 				<label>Open as Path in File Browser...</label>

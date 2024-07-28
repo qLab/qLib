@@ -18,6 +18,9 @@ Toggle Absolute/Relative OP Path(s) (qL):
     Switches between absolute and relative representation of a node path.
     (E.g. "../../geo1" could become "/obj/geo1" and vice versa.)
 
+    NOTE:
+        This also expands expressions and/or environment variables.
+
 Switch Spaces/Newlines (qL):
     For string parameters with space-separated names, replaces spaces with newlines
     or vice versa (if names are currently separated by newlines).
@@ -27,6 +30,11 @@ Switch Spaces/Newlines (qL):
 
 More (qL):
     :box:
+        Set as Playback Start Frame / End Frame / Frame Range:
+            If the parameter is a frame number (integer and has "frame" in the name) or looks like
+            a frame range (integer or float and more than one components), these can set the frame
+            or range according to the value.
+
         Open as Path in File Browser...:
             If the parameter is a filesystem path, opens the path in the OS default file browser.
 
@@ -60,6 +68,7 @@ More (qL):
 
         Set Ramp To:
             For ramp parameters, it sets the interpolation of all ramp points to the chosen type.
+
             NOTE:
                 Obsoleted by H20 (ramp control has an icon for this from that version).
 
