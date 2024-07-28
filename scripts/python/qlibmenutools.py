@@ -259,8 +259,13 @@ def add_parm_value_multiplier(kwargs, add_exponent=False):
         t = p.parmTemplate()
         g = n.parmTemplateGroup()
 
-        pn = t.name()
+        ptn = t.name()
+        pn = p.name()
         pl = t.label()
+
+        if t.numComponents()>1:
+            pl = "%s %d" % (pl, p.componentIndex()+1, )
+
         pvn = '%s_value' % pn
         pmn = '%s_mult' % pn
         pxn = '%s_exp' % pn
@@ -273,7 +278,7 @@ def add_parm_value_multiplier(kwargs, add_exponent=False):
             t.setName(pvn)
             t.setLabel('%s (v)' % pl)
             t.setDefaultValue( (v, ) )
-            g.insertAfter(pn, t)
+            g.insertAfter(ptn, t)
             # mult
             t.setName(pmn)
             t.setLabel('%s (%%)' % pl)
@@ -303,6 +308,7 @@ def add_parm_value_multiplier(kwargs, add_exponent=False):
     except:
         hou.ui.setStatusMessage("couldn't set up value/multiplier parameters on %s" % p.path(),
             severity=hou.severityType.Error)
+        print("ERROR: %s" % traceback.format_exc())
 
 
 def set_ramp_basis(kwargs, ramp_basis):
