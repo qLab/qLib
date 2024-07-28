@@ -30,6 +30,11 @@ Switch Spaces/Newlines (qL):
 
 More (qL):
     :box:
+        Set as Playback Start Frame / End Frame / Frame Range:
+            If the parameter is a frame number (integer and has "frame" in the name) or looks like
+            a frame range (integer or float and more than one components), these can set the frame
+            or range according to the value.
+
         Open as Path in File Browser...:
             If the parameter is a filesystem path, opens the path in the OS default file browser.
 
