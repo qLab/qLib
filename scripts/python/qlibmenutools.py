@@ -53,6 +53,34 @@ def parm_is_float(kwargs):
 
 
 
+def parm_is_framenum(kwargs):
+    """Determines if the (first) RMB-clicked parameter describes a frame number (e.g. startframe).
+    """
+    r = False
+    try:
+        p = get_all_parms(kwargs)[0]
+        r = p.parmTemplate().type()==hou.parmTemplateType.Int \
+            and "frame" in p.name().lower()
+    except:
+        print("ERROR: %s" % traceback.format_exc())
+    return r
+
+
+
+def parm_is_framerange(kwargs):
+    """Determines if the (first) RMB-clicked parameter describes a frame range.
+    """
+    r = False
+    try:
+        t = get_all_parms(kwargs)[0].parmTemplate()
+        r = t.type() in (hou.parmTemplateType.Int, hou.parmTemplateType.Float, ) \
+            and t.numComponents()>1
+    except:
+        print("ERROR: %s" % traceback.format_exc())
+    return r
+
+
+
 def parm_is_ramp(kwargs):
     """Determines if the (first) RMB-clicked parameter is a float.
     """
@@ -375,3 +403,26 @@ def open_in_mplay(kwargs):
         r=subprocess.call(["mplay", dirs[0]])
         if r!=0:
             qlibutils.statmsg("ERROR while calling mplay %s" % dirs[0], warn=True)
+
+
+
+def set_as_playback_range(kwargs, startFrame=True):
+    """Set up playback range based on the parameter passed on in kwargs.
+    """
+    parm = get_all_parms(kwargs)[0]
+    t = parm.parmTemplate()
+
+    # playback range as integers
+    r = list(hou.playbar.playbackRange())
+    r = [ int(r[0]), int(r[1]), ]
+
+    if t.numComponents()>1:
+        print(parm)
+        r = parm.tuple().eval()
+        r = [ int(r[0]), int(r[1]), ]
+    else:
+        # one component: either start or end frame
+        r[ 0 if startFrame else 1 ] = parm.evalAsInt()
+
+    hou.playbar.setRestrictRange(False)
+    hou.playbar.setPlaybackRange(r[0], r[1])
