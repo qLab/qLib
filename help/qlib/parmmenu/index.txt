@@ -68,6 +68,7 @@ More (qL):
 
         Set Ramp To:
             For ramp parameters, it sets the interpolation of all ramp points to the chosen type.
+
             NOTE:
                 Obsoleted by H20 (ramp control has an icon for this from that version).
 
