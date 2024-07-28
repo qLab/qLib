@@ -212,7 +212,7 @@ def switch_spaces_newlines(kwargs):
         v = parm.evalAsString()
 
         if to_newlines is None:
-            to_newlines = "\n" not in v
+            to_newlines = " " in v
 
         v = re.sub("[\n ]+", "\n" if to_newlines else " ", v)
         reset_parm(parm)
