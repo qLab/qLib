@@ -93,6 +93,14 @@ def parm_is_ramp(kwargs):
 
 
 
+def parm_is_copyable(kwargs):
+    """Determines if the (first) RMB-clicked parameter is of a type that can be copied to the system clipboard.
+    """
+    # TODO: this can probably be improved
+    return not parm_is_ramp(kwargs)
+
+
+
 def parm_is_fspath(kwargs):
     """Checks if the (first) RMB-clicked parm is a filesystem path.
     (Currently it just checks against empty strings)
@@ -432,3 +440,17 @@ def set_as_playback_range(kwargs, startFrame=True):
 
     hou.playbar.setRestrictRange(False)
     hou.playbar.setPlaybackRange(r[0], r[1])
+
+
+def copy_all_parm_values_to_clipboard(kwargs):
+    """.
+    """
+    parms = get_all_parms(kwargs)
+    R = []
+    for parm in parms:
+        try:
+            R.append(str(parm.eval()))
+        except:
+            pass
+    R = "\n".join(R)
+    hou.ui.copyTextToClipboard(R)
