@@ -1256,13 +1256,10 @@ def build_hip_stats(kwargs=None, path="/"):
 def show_hip_stats(kwargs):
     """Displays some hip file statistics.
     """
-    R = build_hip_stats(kwargs)
-    print(R)
-
-    hou.ui.displayMessage(
-        "Current Hip File Statistics",
-        details = R,
-        details_expanded=True)
+    t=hou.ui.curDesktop().createFloatingPaneTab(hou.paneTabType.PythonPanel, python_panel_interface="networkInfo_qL")
+    t.setPin(True)
+    t.floatingPanel().setName("Current HIP File Info [qL]")
+    t.cd("/")
 
 
 
