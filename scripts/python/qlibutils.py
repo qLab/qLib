@@ -13,6 +13,7 @@ import collections
 import datetime
 import getpass
 import glob
+import json
 import os
 import socket
 import sys
@@ -1244,6 +1245,18 @@ def build_hip_stats(kwargs=None, path="/"):
     A("Oldest Modified:")
     for n in nodes[:num_nodes_to_show]:
         A(" %s  %s" % (date_string(n[2]), n[0], ) )
+
+    # embedded images
+    #
+    nodes = root.allSubChildren(recurse_in_locked_nodes=False) if is_root else [ root ]
+    nodes = [ n for n in nodes if n.isNetwork() and n.userDataDict().get("backgroundimages") ]
+
+    if len(nodes):
+        A("\n\nBackground Images:")
+        for n in nodes:
+            A(n.path())
+            bgs = [ "    "+i["path"] for i in json.loads(n.userData("backgroundimages")) ]
+            A("\n".join(bgs))
 
     A("\n\n(*):\n  Author information might not be fully representative (e.g. copy/pasted nodes)")
     A("  Node counts might include internal nodes, open HDA contents, etc")
