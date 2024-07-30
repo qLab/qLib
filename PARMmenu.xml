@@ -171,6 +171,19 @@ import qlibmenutools; qlibmenutools.expand_target_wildcards(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 
+			<scriptItem id="ql_copy_all_values_to_clipboard">
+				<label>Copy All Parm Values to Clipboard</label>
+				<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_is_copyable(kwargs)
+					</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.copy_all_parm_values_to_clipboard(kwargs)
+]]></scriptCode>
+			</scriptItem>
+
 			<separatorItem/>
 
 

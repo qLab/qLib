@@ -48,6 +48,10 @@ More (qL):
             Replaces a wildcard-based node pattern to its expanded node list
             (e.g. /obj/geo* will become "/obj/geo1 /obj/geo2" if you have those nodes in the scene.)
 
+        Copy All Parm Values to Clipboard:
+            Copies all values of the same parameter from multiple selected nodes to the clipboard
+            as a newline-separated string.
+
         (subnet): Parent Network, Input #1-4 (0-3):
             Sets an expression that will give the node path connected to the container node's n-th input
             (`opinputpath("..", n)`). Useful for nodes in DOP networks that don't have the convenience "n-th input"

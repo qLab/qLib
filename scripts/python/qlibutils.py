@@ -13,6 +13,7 @@ import collections
 import datetime
 import getpass
 import glob
+import json
 import os
 import socket
 import sys
@@ -796,7 +797,7 @@ def reset_nodes(kwargs, nodes, resetColor=True, resetShape=True):
 def embedded_img_prefix(image_name):
     """.
     """
-    return "opdef:/qLib::Object/embedded_images?%s" % image_name
+    return "opdef:/qLib::Object/embedded_images?%s" % image_name if not "/" in image_name else image_name
 
 
 def embedded_hda_typename():
@@ -812,6 +813,7 @@ def get_embedded_img_hdadef():
 
 def get_existing_images(kwargs):
     """Return a list of paths (opdef:/...) for existing images in the hip file.
+    (Coming from the embedded qLib image container hda)
     """
     R = []
     hda_def = get_embedded_img_hdadef()
@@ -820,10 +822,26 @@ def get_existing_images(kwargs):
     return R
 
 
+def get_existing_hip_images(kwargs=None, skipEmbedded=True):
+    """Return a list of paths for all network editor background images in the hip file.
+    """
+    R = set()
+    nodes = hou.node("/").allSubChildren(recurse_in_locked_nodes=False)
+    nodes = [ n for n in nodes if n.isNetwork() and n.userDataDict().get("backgroundimages") ]
+
+    cond = lambda p: "opdef:" not in p if skipEmbedded else True
+
+    for n in nodes:
+        paths = [ i["path"] for i in json.loads(n.userData("backgroundimages")) if cond(i["path"]) ]
+        paths = set(paths)
+        R = R.union(paths)
+    return sorted(list(R))
+
+
 def hip_has_pasted_images(kwargs):
     """.
     """
-    return len(get_existing_images(kwargs))>0
+    return len(get_existing_images(kwargs))>0 or len(get_existing_hip_images(kwargs))>0
 
 
 def add_image_to_netview(image_path, pane, pwd):
@@ -953,7 +971,7 @@ def paste_clipboard_to_netview(kwargs):
 def paste_existing_image(kwargs):
     """.
     """
-    images = sorted(get_existing_images(kwargs))
+    images = sorted(get_existing_images(kwargs)) + sorted(get_existing_hip_images(kwargs))
     pane = kwargs.get('editor', None)
     sel = hou.ui.selectFromList(images, exclusive=True,
                                 title="Paste Existing Image",
@@ -1226,7 +1244,7 @@ def build_hip_stats(kwargs=None, path="/"):
     num_nodes_to_show = 20
 
     nodes = sorted(nodes, key=itemgetter(1), reverse=True)
-    A("\nLatest Created: (*)")
+    A("\n\nLatest Created: (*)")
     for n in nodes[:num_nodes_to_show]:
         A(" %s  %s  (%s)" % (date_string(n[1]), n[0], n[3], ) )
         
@@ -1245,7 +1263,19 @@ def build_hip_stats(kwargs=None, path="/"):
     for n in nodes[:num_nodes_to_show]:
         A(" %s  %s" % (date_string(n[2]), n[0], ) )
 
-    A("\n(*):\n  Author information might not be fully representative (e.g. copy/pasted nodes)")
+    # embedded images
+    #
+    nodes = root.allSubChildren(recurse_in_locked_nodes=False) if is_root else [ root ]
+    nodes = [ n for n in nodes if n.isNetwork() and n.userDataDict().get("backgroundimages") ]
+
+    if len(nodes):
+        A("\n\nBackground Images:")
+        for n in nodes:
+            A(n.path())
+            bgs = [ "    "+i["path"] for i in json.loads(n.userData("backgroundimages")) ]
+            A("\n".join(bgs))
+
+    A("\n\n(*):\n  Author information might not be fully representative (e.g. copy/pasted nodes)")
     A("  Node counts might include internal nodes, open HDA contents, etc")
 
     R = "\n".join(R)
@@ -1256,13 +1286,10 @@ def build_hip_stats(kwargs=None, path="/"):
 def show_hip_stats(kwargs):
     """Displays some hip file statistics.
     """
-    R = build_hip_stats(kwargs)
-    print(R)
-
-    hou.ui.displayMessage(
-        "Current Hip File Statistics",
-        details = R,
-        details_expanded=True)
+    t=hou.ui.curDesktop().createFloatingPaneTab(hou.paneTabType.PythonPanel, python_panel_interface="networkInfo_qL")
+    t.setPin(True)
+    t.floatingPanel().setName("Current HIP File Info [qL]")
+    t.cd("/")
 
 
 

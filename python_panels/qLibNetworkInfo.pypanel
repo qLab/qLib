@@ -15,7 +15,7 @@ w.findChild(QtWidgets.QPlainTextEdit).appendPlainText("this is\n\njust a")
 """
 
 def onCreateInterface():
-    print("onCreateInterface()")
+    #print("onCreateInterface()")
     #title = QtWidgets.QLabel("Network Info [qL]")
     logfield = QtWidgets.QPlainTextEdit()
     logfield.setReadOnly(True)
