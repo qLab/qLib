@@ -797,7 +797,7 @@ def reset_nodes(kwargs, nodes, resetColor=True, resetShape=True):
 def embedded_img_prefix(image_name):
     """.
     """
-    return "opdef:/qLib::Object/embedded_images?%s" % image_name
+    return "opdef:/qLib::Object/embedded_images?%s" % image_name if not "/" in image_name else image_name
 
 
 def embedded_hda_typename():
@@ -813,6 +813,7 @@ def get_embedded_img_hdadef():
 
 def get_existing_images(kwargs):
     """Return a list of paths (opdef:/...) for existing images in the hip file.
+    (Coming from the embedded qLib image container hda)
     """
     R = []
     hda_def = get_embedded_img_hdadef()
@@ -821,10 +822,26 @@ def get_existing_images(kwargs):
     return R
 
 
+def get_existing_hip_images(kwargs=None, skipEmbedded=True):
+    """Return a list of paths for all network editor background images in the hip file.
+    """
+    R = set()
+    nodes = hou.node("/").allSubChildren(recurse_in_locked_nodes=False)
+    nodes = [ n for n in nodes if n.isNetwork() and n.userDataDict().get("backgroundimages") ]
+
+    cond = lambda p: "opdef:" not in p if skipEmbedded else True
+
+    for n in nodes:
+        paths = [ i["path"] for i in json.loads(n.userData("backgroundimages")) if cond(i["path"]) ]
+        paths = set(paths)
+        R = R.union(paths)
+    return sorted(list(R))
+
+
 def hip_has_pasted_images(kwargs):
     """.
     """
-    return len(get_existing_images(kwargs))>0
+    return len(get_existing_images(kwargs))>0 or len(get_existing_hip_images(kwargs))>0
 
 
 def add_image_to_netview(image_path, pane, pwd):
@@ -954,7 +971,7 @@ def paste_clipboard_to_netview(kwargs):
 def paste_existing_image(kwargs):
     """.
     """
-    images = sorted(get_existing_images(kwargs))
+    images = sorted(get_existing_images(kwargs)) + sorted(get_existing_hip_images(kwargs))
     pane = kwargs.get('editor', None)
     sel = hou.ui.selectFromList(images, exclusive=True,
                                 title="Paste Existing Image",
