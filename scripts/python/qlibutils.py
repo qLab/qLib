@@ -1272,7 +1272,9 @@ def build_hip_stats(kwargs=None, path="/"):
         A("\n\nBackground Images:")
         for n in nodes:
             A(n.path())
-            bgs = [ "    "+i["path"] for i in json.loads(n.userData("backgroundimages")) ]
+            bgs = set([ i["path"] for i in json.loads(n.userData("backgroundimages")) ])
+            bgs = sorted(list(bgs))
+            bgs = [ "    "+i for i in bgs ]
             A("\n".join(bgs))
 
     A("\n\n(*):\n  Author information might not be fully representative (e.g. copy/pasted nodes)")
