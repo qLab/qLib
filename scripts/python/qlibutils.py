@@ -1226,7 +1226,7 @@ def build_hip_stats(kwargs=None, path="/"):
     num_nodes_to_show = 20
 
     nodes = sorted(nodes, key=itemgetter(1), reverse=True)
-    A("\nLatest Created: (*)")
+    A("\n\nLatest Created: (*)")
     for n in nodes[:num_nodes_to_show]:
         A(" %s  %s  (%s)" % (date_string(n[1]), n[0], n[3], ) )
         
@@ -1245,7 +1245,7 @@ def build_hip_stats(kwargs=None, path="/"):
     for n in nodes[:num_nodes_to_show]:
         A(" %s  %s" % (date_string(n[2]), n[0], ) )
 
-    A("\n(*):\n  Author information might not be fully representative (e.g. copy/pasted nodes)")
+    A("\n\n(*):\n  Author information might not be fully representative (e.g. copy/pasted nodes)")
     A("  Node counts might include internal nodes, open HDA contents, etc")
 
     R = "\n".join(R)
