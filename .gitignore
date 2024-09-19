@@ -20,3 +20,4 @@ gallery/backup
 .lock*
 build/*
 
+.DS_Store

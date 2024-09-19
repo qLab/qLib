@@ -1,0 +1,24 @@
+{
+    "path": "$QLIB",
+    "load_package_once": true,
+    "recommends": "houdini_version >= '17.5.321'",
+
+    "env": [
+        {
+            "QLIB": "$HOME/Library/Preferences/houdini/qLib-master"
+        },
+        {
+            "QOTL": "$QLIB/otls"
+        },
+        {
+            "var": "HOUDINI_OTLSCAN_PATH",
+            "value": [
+                "$QOTL/base",
+                "$QOTL/future",
+                "$QOTL/experimental"
+            ],
+            "method": "append"
+        }
+    ]
+}
+
