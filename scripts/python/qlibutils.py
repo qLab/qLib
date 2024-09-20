@@ -327,7 +327,7 @@ def open_dir(dir="", env=None):
 
     if oss and cmd:
         statmsg("(%s) %s %s" % (oss, cmd, dir, ) )
-        r = subprocess.call([cmd, dir])
+        r = subprocess.call(' '.join([cmd, dir]), shell=True)
         if r!=0:
             statmsg("(%s) FAILED: %s %s" % (oss, cmd, dir, ), warn=True)
 
