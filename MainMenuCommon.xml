@@ -49,9 +49,9 @@ import qlibutils; qlibutils.open_hda_dirs()]]>
 			<separatorItem />
 
 			<scriptItem id="h.ql_browse_HIH_root">
-				<label>$HIH: User Config Files...</label>
+				<label>$HOUDINI_USER_PREF_DIR: User Config Files...</label>
 				<scriptCode><![CDATA[
-import qlibutils; qlibutils.open_dir(env="HIH")]]>
+import qlibutils; qlibutils.open_dir(env="HOUDINI_USER_PREF_DIR")]]>
 				</scriptCode>
 			</scriptItem>
 

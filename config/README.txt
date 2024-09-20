@@ -5,7 +5,7 @@ Configuration-related files
 install location:
 
 	$HOME/houdiniXX.X/config
-	$HIH/config
+	$HOUDINI_USER_PREF_DIR/config
 
 
 
