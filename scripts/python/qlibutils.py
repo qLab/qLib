@@ -243,7 +243,7 @@ def do_crash_recovery(calledFromUI=False):
 
         sel = hou.ui.selectFromList(files, exclusive=True,
                                     title="Crash Recovery",
-                                    message="Select .hip File to Recover")
+                                    message="Select .hip File to Recover\n(from: %s)" % tmpdir)
 
         recovered = False
         if len(sel) > 0:

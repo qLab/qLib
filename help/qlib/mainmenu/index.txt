@@ -62,7 +62,7 @@ Open in File Browser:
             Opens the folder(s) that contain the definitions
             of the currently selected HDAs or complied plug-in DSOs (DLLs).
 
-        $HIH: User Config Files...:
+        $HOUDINI_USER_PREF_DIR: User Config Files...:
             Opens the user's preferences folder
             (usually called _houdiniXX.X_).
         
