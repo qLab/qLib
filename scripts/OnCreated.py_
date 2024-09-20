@@ -7,7 +7,7 @@
 
 		@brief		Automatic coloring of newly created nodes.
 
-		Location: $HIH/scripts/
+		Location: $HOUDINI_USER_PREF_DIR/scripts/
 
 		Note: this script is automatically reloaded on each node creation!
 

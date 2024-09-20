@@ -5,7 +5,7 @@
 
     "env": [
         {
-            "QLIB": "$HOME/Library/Preferences/houdini/qLib-master"
+            "QLIB": "$HOUDINI_USER_PREF_DIR/qLib-master"
         },
         {
             "QOTL": "$QLIB/otls"
