@@ -345,21 +345,23 @@ def fixum(node, mode):
         print("oops #1")
         pass
 
+
 # main
 #
-sel = [ n.path() for n in hou.selectedNodes() ]
-
 alt = kwargs['shiftclick'] or kwargs['altclick'] or kwargs['ctrlclick']
 
 copies = []
 
-for S in sel:
+for n in hou.selectedNodes():
+    S = n.path()
     c = len( hou.hscript( 'opls -d %s*' % S )[0].split() )
     T = '%s_copy%d' % (S, c)
 
     try:
         fixum(S, 'open') # "Allow Editing of Contents" for S
-        hou.hscript('opcp -c %s %s' % (S, T))
+        c = n.parent().copyItems([n], channel_reference_originals=True)[0]
+        c.setName("%s_copy1" % c.name(), unique_name=True)
+        T = c.path()
         fixum(S, 'close') # "Match Current Definition" for S and T
         fixum(T, 'close')
     except:
