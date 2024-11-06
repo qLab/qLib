@@ -243,14 +243,16 @@ Very useful for inspecting which nodes (branches of the graph) will be run
 for the cook in progress.]]></helpText>
     <script scriptType="python"><![CDATA[import hou
 import toolutils
+import re
 
 editor = toolutils.networkEditor()
-nodes = editor.pwd().children()
+topnet = editor.pwd()
+nodes = topnet.children()
 
 is_cooking = False
 
 try:
-    ctx = editor.pwd().getPDGGraphContext()
+    ctx = topnet.getPDGGraphContext()
     is_cooking = ctx.cooking
 
     cookset = ctx.cookSet
@@ -259,6 +261,11 @@ try:
     hou.clearAllSelected()
     for n in cookset:
         n.setSelected(True)
+        # also select container node on the topnet level for subnets
+        rp = topnet.relativePathTo(n)
+        rp = re.search("^[^/]+", rp).group(0)
+        p = topnet.node(rp)
+        p.setSelected(True)
 
 except:
     pass
