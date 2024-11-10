@@ -163,8 +163,8 @@ if len(items)>0 or ctrl:
     if not ctrl:
         items = sorted(items)[-1]
         mode = "Zoom to Fit (%d items)" % items
-        # round up to 40
-        items = (int(items/40)+1)*40
+        # round up to 80
+        items = (int(items/80)+1)*80
         # some min/max limits for item count
         items = max(80, items)
         items = min(8000, items)
@@ -177,6 +177,9 @@ if len(items)>0 or ctrl:
         d = ( max(8, d[0]), max(8, d[1]) )
         cols = d[0]
         rows = d[1]
+        # prefer taller than wider
+        if cols>rows:
+            cols, rows = rows, cols
 
     prefs.setMaxTaskGraphRows(editor, str(rows))
     prefs.setMaxWorkItemsPerRow(editor, str(cols))
