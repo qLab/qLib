@@ -275,6 +275,7 @@ import qlibmenutools; qlibmenutools.add_parm_value_multiplier(kwargs, add_expone
 ]]></scriptCode>
 			</scriptItem>
 
+
 			<scriptItem id="ql_set_rampbasis_label">
 				<label>Set Ramp to...</label>
 				<context>
@@ -378,6 +379,22 @@ import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Hermite
 ]]></scriptCode>
 			</scriptItem>
 
+			<separatorItem/>
+
+			<scriptItem id="ql_use_as_descriptive_parm">
+				<label>Use as Descriptive Parm</label>
+				<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_is_descriptive(kwargs)
+					</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.use_as_descriptive_parm(kwargs)
+]]></scriptCode>
+			</scriptItem>
+
+
 		</subMenu>
 
 		<subMenu id="qlib_string_rel_ref_menu">
@@ -400,7 +417,6 @@ import qlibmenutools; qlibmenutools.set_upstream_channel_ref_value(kwargs)
 	</scriptMenuStripDynamic>
 
 		</subMenu>
-
 
 
 	</menu>
