@@ -391,6 +391,18 @@ for s in sel:
                 ]]></scriptCode>
             </scriptItem>
 
+            <scriptItem id="pane.wsheet.display_clear_user_desc_parm_ql">
+                <label>Clear User Descriptive Parm</label>
+                <scriptCode><![CDATA[
+sel = hou.selectedNodes()
+for s in sel:
+    try:
+        s.destroyUserData("descriptiveparm")
+    except:
+        pass
+                ]]></scriptCode>
+            </scriptItem>
+
             <separatorItem />
 
             <scriptItem id="pane.wsheet.display_show_comment_ql">

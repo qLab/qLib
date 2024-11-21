@@ -76,6 +76,10 @@ More (qL):
             NOTE:
                 Obsoleted by H20 (ramp control has an icon for this from that version).
 
+        Use as Descriptive Parm:
+            The parameter value will be displayed next to the node in the network editor ("descriptive parm").
+            Use the network editor `qLib -> Display -> Clear User Descriptive Parm` menu item to remove.
+
 Reference Upstream Parm (qL):
     Gives a list of upstream string parameters to link to. This is useful to quickly establish expression-based relationships
     between nodes, rather than using hardcoded names, e.g. instead of typing in group names, linking to the group name attribute

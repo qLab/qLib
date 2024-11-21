@@ -81,6 +81,19 @@ def parm_is_framerange(kwargs):
 
 
 
+def parm_is_single(kwargs):
+    """Determines if the parm is a single value.
+    """
+    r = False
+    try:
+        t = get_all_parms(kwargs)[0].parmTemplate()
+        r = t.numComponents()==1
+    except:
+        print("ERROR: %s" % traceback.format_exc())
+    return r
+
+
+
 def parm_is_ramp(kwargs):
     """Determines if the (first) RMB-clicked parameter is a float.
     """
@@ -99,6 +112,11 @@ def parm_is_copyable(kwargs):
     # TODO: this can probably be improved
     return not parm_is_ramp(kwargs)
 
+
+def parm_is_descriptive(kwargs):
+    """Determines if a parm could work as a descriptive parm. CBB
+    """
+    return parm_is_single(kwargs) and not parm_is_ramp(kwargs)
 
 
 def parm_is_fspath(kwargs):
@@ -253,6 +271,17 @@ def switch_spaces_newlines(kwargs):
         v = re.sub("[\n ]+", "\n" if to_newlines else " ", v)
         reset_parm(parm)
         parm.set(v)
+
+
+def use_as_descriptive_parm(kwargs):
+    """Use the specified parm on all the selected nodes as descriptive parm.
+    """
+    parms = get_all_parms(kwargs)
+    parm_name = parms[0].name()
+    for p in parms:
+        p.node().setUserData("descriptiveparm", parm_name)
+        hou.hscript("opset -P on %s" % p.node().path()) # enable descriptive parm display
+
 
 
 def add_parm_value_multiplier(kwargs, add_exponent=False):
