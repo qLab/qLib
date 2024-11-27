@@ -153,7 +153,21 @@ shift = kwargs['shiftclick']
 ctrl  = kwargs['ctrlclick']
 alt   = kwargs['altclick']
 
-sel = [ n.getPDGNode() for n in hou.selectedNodes() if hasattr(n, "getPDGNode") ]
+# try to find a top node selection first
+sel = [ tp for n in hou.selectedNodes() if hasattr(n, "getPDGNode") and (tp:=n.getPDGNode()) ]
+
+# try finding non-top nodes with a linkage to a top node
+if len(sel)==0:
+    print("SEL 2")
+    sel = [ tp for n in hou.selectedNodes() \
+        if (p:=n.parm("targettopnetwork")) and (t:=p.evalAsNode()) and (tp:=t.getPDGNode()) ]
+
+# try finding a topnet container node
+if len(sel)==0:
+    print("SEL 3")
+    sel = [ n.outputNode().getPDGNode() for n in hou.selectedNodes() \
+        if hasattr(n, "getPDGGraphContext") and hasattr(n, "outputNode") ]
+
 items = [ len(n.workItems) for n in sel if hasattr(n, "workItems") ]
 
 if len(items)>0 or ctrl:
