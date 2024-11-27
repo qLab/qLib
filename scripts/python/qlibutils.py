@@ -315,6 +315,13 @@ def open_dir(dir="", env=None):
 
     oss, cmd = None, None
 
+    if hasattr(hou.ui, "showInFileBrowser"):
+        statmsg("hou.ui.showInFileBrowser(): %s" % dir)
+        hou.ui.showInFileBrowser(dir)
+        return
+
+    # legacy code for before the aforementioned function existed
+    #
     if is_linux():
         oss, cmd = "linux", "xdg-open"
 
