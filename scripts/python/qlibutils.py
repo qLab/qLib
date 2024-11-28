@@ -317,6 +317,8 @@ def open_dir(dir="", env=None):
 
     if hasattr(hou.ui, "showInFileBrowser"):
         statmsg("hou.ui.showInFileBrowser(): %s" % dir)
+        if not dir.endswith("/"):
+            dir += "/"
         hou.ui.showInFileBrowser(dir)
         return
 

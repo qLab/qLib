@@ -20,6 +20,7 @@
     <memberTool name="qLib::AddStickyNote"/>
     <memberTool name="qLib::ResizeStickyNotes"/>
     <memberTool name="qLib::AddStash"/>
+    <memberTool name="qLib::AddCompiledBlock"/>
     <memberTool name="qLib::ToggleIntegerFrames"/>
     <memberTool name="qLib::CrashRecovery"/>
   </toolshelf>
@@ -1271,6 +1272,85 @@ if len(viewports)>0:
     hou.ui.setStatusMessage(msg)
     v.clearPromptMessage()
     v.setPromptMessage(msg, hou.promptMessageType.Warning)
+]]></script>
+  </tool>
+
+  <tool name="qLib::AddCompiledBlock" label="c-block" icon="SOP_compile_end">
+    <helpText><![CDATA[#icon: SOP/compile_end
+#type: tool
+
+= Add Compiled Block qL =
+
+*version 1*
+
+"""Build a compiled block around either a for-each loop or a bunch of connected nodes.
+Select either some For Each loop components, or a bunch of connected nodes
+to wrap them in a compiled block membrane.
+---
+LMB: Add compiled block
+"""
+
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+e = toolutils.networkEditor()
+
+# get selected SOP nodes
+#
+sel = [ n for n in hou.selectedNodes() if type(n) is hou.SopNode ]
+
+# filter for foreach components (block_begin, block_end)
+#
+sel_fe = [ n for n in sel if n.type().name().startswith("block_") ]
+
+if len(sel_fe)>0:
+    # we're doing for-each loops
+    #
+    block_ends = set()
+    for n in sel_fe:
+        t = n.type().name()
+        if t=="block_end":
+            block_ends.add(n)
+        if t=="block_begin":
+            e=n.parm("blockpath").evalAsNode()
+            if e:
+                block_ends.add(e)
+    
+    for be in block_ends:
+        # try to find existing compile end
+        ce = [ n for n in be.outputs() if n.type().name()=="compile_end" ]
+        ce = ce[0] if ce else None
+        
+        ce_rel_path = ""
+
+        # create new compile end if not found
+        if not ce:
+            outcs = be.outputConnections()
+            ce = be.createOutputNode("compile_end")
+            for c in outcs:
+                c.outputItem().setInput(c.inputIndex(), ce)
+
+        if ce:
+            ce_rel_path = be.relativePathTo(ce)
+
+        be.parm("multithread").set(1)
+        
+        # find all block begins
+        block_begins = [ n for n in be.dependents() if n.type().name()=="block_begin" ]
+            
+        for bb in block_begins:
+            if bb.parm("method").evalAsString() not in ("metadata", ):
+                i = bb.input(0)
+                cb = None
+                if not i or i.type().name()!="compile_begin":
+                    cb = bb.createInputNode(0, "compile_begin")
+                    if i:
+                        cb.setInput(0, i)
+
+                cb = bb.input(0) # this should be a compile begin at this point
+                if cb and cb.type().name()=="compile_begin":
+                    cb.parm("blockpath").set(ce_rel_path)
+else:
+    pass # TODO: implement compiled-block wrapping around a bunch of nodes
 ]]></script>
   </tool>
 </shelfDocument>
