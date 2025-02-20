@@ -41,6 +41,16 @@ def parm_is_string(kwargs):
 
 
 
+def parm_has_spaces_newlines(kwargs):
+    """Determines if at least some of the specified parms have spaces/newlines in them.
+    """
+    v = [ p.evalAsString() for p in get_all_parms(kwargs) \
+        if p.parmTemplate().type()==hou.parmTemplateType.String ]
+    v = ",".join(v)
+    return " " in v or "\n" in v
+
+
+
 def parm_is_float(kwargs):
     """Determines if the (first) RMB-clicked parameter is a float.
     """
@@ -262,11 +272,11 @@ def switch_spaces_newlines(kwargs):
     parms = get_all_parms(kwargs)
     to_newlines = None
 
+    all_strings = ",".join( [ p.evalAsString() for p in parms ] )
+    to_newlines = " " in all_strings
+
     for parm in parms:
         v = parm.evalAsString()
-
-        if to_newlines is None:
-            to_newlines = " " in v
 
         v = re.sub("[\n ]+", "\n" if to_newlines else " ", v)
         reset_parm(parm)

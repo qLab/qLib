@@ -61,7 +61,7 @@ import qlibmenutools; qlibmenutools.toggle_abs_rel_path(kwargs)
 			<context>
 					<expression>
 						import qlibmenutools
-						return qlibmenutools.parm_is_string(kwargs)
+						return qlibmenutools.parm_has_spaces_newlines(kwargs)
 					</expression>
 			</context>
 			<modifyItem><insertAfter>toggle_abs_rel_path_ql</insertAfter></modifyItem>

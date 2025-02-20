@@ -252,7 +252,7 @@ def do_crash_recovery(calledFromUI=False):
 
             # extract HIPNAME
             f = re.sub('^crash.', '', f)
-            f = re.sub('\..+_[0-9]+\.hip', '.hip', f)
+            f = re.sub('[.].+_[0-9]+[.]hip', '.hip', f)
 
             # do recovery
             try:
@@ -631,7 +631,7 @@ def parm_is_keyframed(parm):
         # single keyframe: should be a hscript expression of "bezier()" or similar
         return \
             k.expressionLanguage() == hou.exprLanguage.Hscript and \
-            re.match("^[a-z]*\(\)$", k.expression())
+            re.match("^[a-z]*[(][)]$", k.expression())
     return False
 
 
