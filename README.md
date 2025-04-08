@@ -5,7 +5,8 @@ A procedural asset library for SideFX Houdini.
 
 - http://qlab.github.io/qLib/
 - https://github.com/qLab/qLib
-- https://www.facebook.com/qLibHoudini
+- 
+https://www.facebook.com /1Aaf100066559967833
 
 Download the **latest version** here:
 https://github.com/qLab/qLib/archive/master.zip
@@ -30,7 +31,7 @@ license](https://github.com/qLab/qLib/blob/master/LICENCE). It's developed by
 VFX professionals from several studios working on feature films, game
 cinematics and commercials.
 
-[qLib Summary / Highlights (facebook)](https://www.facebook.com/notes/qlib/qlib-summary-highlights/726676570699463)
+[qLib Summary /(facebook)](https://www.facebook.com/notes/qlib/qlib-summary-hig(100066559967833)
 
 
 ### Tools
