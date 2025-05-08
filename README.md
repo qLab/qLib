@@ -26,7 +26,7 @@ Strong emphasis on the following things:
 - **Usability**: our tools try to avoid the "in-house" look-and-feel
 
 qLib is **open source software** licensed under the [New BSD
-license](https://github.com/qLab/qLib/blob/master/LICENCE). It's developed by
+license](https://github.com/qLab/qLib/blob/master/LICENSE). It's developed by
 VFX professionals from several studios working on feature films, game
 cinematics and commercials.
 
