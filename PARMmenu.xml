@@ -171,6 +171,19 @@ import qlibmenutools; qlibmenutools.expand_target_wildcards(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 
+			<scriptItem id="ql_toggle_abs_rel_path_expressions">
+				<label>Toggle Absolute/Relative Paths in Expressions</label>
+				<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_is_copyable(kwargs)
+					</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.toggle_abs_rel_path_expressions(kwargs)
+]]></scriptCode>
+			</scriptItem>
+
 			<scriptItem id="ql_copy_all_values_to_clipboard">
 				<label>Copy All Parm Values to Clipboard</label>
 				<context>

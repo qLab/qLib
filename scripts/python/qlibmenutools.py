@@ -265,6 +265,20 @@ def toggle_abs_rel_path(kwargs):
         parm.set(path)
 
 
+def toggle_abs_rel_path_expressions(kwargs):
+    """Converts between absolute and relative paths in parm expressions.
+    (Called from PARMmenu.xml)
+    """
+    parms = get_all_parms(kwargs)
+    to_abs = None # None=yet to be decided, True=convert to abs 1=to rel
+
+    for parm in parms:
+        pnode = parm.node()
+        pass
+        #parm.keyframes() -> haz keyframes with potentially expressions
+        #parm.eval() != parm.rawValue() -> haz (backtick) expression
+
+
 def switch_spaces_newlines(kwargs):
     """Converts between spaces and newlines in a string parm.
     (Called from PARMmenu.xml)
