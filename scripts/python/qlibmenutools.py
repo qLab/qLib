@@ -269,14 +269,59 @@ def toggle_abs_rel_path_expressions(kwargs):
     """Converts between absolute and relative paths in parm expressions.
     (Called from PARMmenu.xml)
     """
+    #print("TOGGLE")
     parms = get_all_parms(kwargs)
     to_abs = None # None=yet to be decided, True=convert to abs 1=to rel
 
+    """Convert a parm path to relative/absolute."""
+    def parm_path_rel_to(parm, node, to_abs=True):
+        if not to_abs:
+            return "%s/%s" % ( node.relativePathTo(parm.node()), parm.name(), )
+        else:
+            return parm.path()
+
+    to_abs = None
     for parm in parms:
+        #print(parm)
         pnode = parm.node()
-        pass
-        #parm.keyframes() -> haz keyframes with potentially expressions
-        #parm.eval() != parm.rawValue() -> haz (backtick) expression
+
+        keyframes = parm.keyframes()
+        raw_value = len(keyframes)==0 # if no keyframes, work with the raw value
+
+        if raw_value:
+            keyframes = [ parm.rawValue() ] # ummmmm mixing hou.keyframes and strings :(
+
+        for k in keyframes:
+            expr = k.expression() if not raw_value else keyframes[0]
+
+            # find paths in quotes in expression
+            matches = \
+                re.findall('"([^"]+)"', expr) + \
+                re.findall("'([^']+)'", expr)
+
+            #print("matches:")
+            #print(matches)
+
+            # remove refs to current node parms
+            matches = [ m for m in matches if "/" in m ]
+
+            if len(matches)>0:
+                if to_abs is None:
+                    to_abs = not matches[0].startswith("/")
+                #print("to_abs: %s" % to_abs)
+                for m in matches:
+                    p2 = pnode.parm(m)
+                    if p2:
+                        expr = expr.replace(m, parm_path_rel_to(p2, pnode, to_abs=to_abs))
+                #print("expr: '%s'" % expr)
+
+                if not raw_value:
+                    k.setExpression(expr)
+                    parm.setKeyframe(k)
+                else:
+                    # TODO: error handling for locked parms, etc
+                    parm.revertToDefaults()
+                    parm.set(expr)
 
 
 def switch_spaces_newlines(kwargs):
