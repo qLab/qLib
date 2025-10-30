@@ -64,6 +64,24 @@ qlibutils.select_netview_nodes(kwargs, qlibutils.has_time_dependent_parms)
 
             <separatorItem />
 
+            <scriptItem id="pane.wsheet.select_with_expressions_variables_ql">
+                <label>With Expressions/Variables</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, qlibutils.has_expressions_variables)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.select_with_at_variables_ql">
+                <label>With @-Variable(s)</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, qlibutils.has_at_variables)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
             <scriptItem id="pane.wsheet.select_bypassed_ql">
                 <label>Bypassed</label>
                 <scriptCode><![CDATA[
