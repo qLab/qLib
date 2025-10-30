@@ -635,6 +635,38 @@ def parm_is_keyframed(parm):
     return False
 
 
+def parm_has_expressions_variables(parm):
+    """Check if parm has expressions or variables.
+    Expression(s) assumed is raw value doesn't equal evaluated value,
+    or it has keyframes with expressions that aren't simple anim curve interpolation types.
+    """
+    if parm.rawValue()!=parm.evalAsString():
+        return True
+
+    keyframes = parm.keyframes()
+    for k in keyframes:
+        if k.expressionLanguage() == hou.exprLanguage.Hscript and \
+            not re.match("^[a-z]*[(][)]$", k.expression()):
+            return True
+
+    return False
+
+
+def parm_has_at_variables(parm, prefix=""):
+    """Check if parm has an @-variable(s) (can be optionally prefixed with [G]eometry, [P]DG or [C]ontext option).
+    Both raw value and potential keyframe expression(s) are evaluated.
+    """
+    values = [ parm.rawValue() ]
+
+    for k in parm.keyframes():
+        if k.expressionLanguage() == hou.exprLanguage.Hscript:
+            values.append(k.expression())
+
+    values = " ".join(values)
+
+    return ( "%s@" % prefix ) in values
+
+
 def parm_is_time_dependent(parm):
     """Checks if parm is time-dependent.
     """
@@ -658,6 +690,18 @@ def has_keyframed_parms(node):
     """Check if a node has keyframed parms.
     """
     return has_parm_with_criteria(node, parm_is_keyframed)
+
+
+def has_expressions_variables(node):
+    """Check if a node has parms with expressions/variables.
+    """
+    return has_parm_with_criteria(node, parm_has_expressions_variables)
+
+
+def has_at_variables(node):
+    """Check if a node has parms with expressions/variables.
+    """
+    return has_parm_with_criteria(node, parm_has_at_variables)
 
 
 def has_time_dependent_parms(node):

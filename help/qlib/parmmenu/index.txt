@@ -25,8 +25,12 @@ Switch Spaces/Newlines (qL):
     For string parameters with space-separated names, replaces spaces with newlines
     or vice versa (if names are currently separated by newlines).
 
-    This is useful to get a more readable list when opening a string parameter using
-    the multi-line parameter expression editor (Expression -> Edit String).
+    TIP:
+        This is useful to get a more readable list when opening a string parameter using
+        the multi-line parameter expression editor (Expression -> Edit String).
+
+        It is also useful in the LOPs context, for nodes with multi-line selection list parameters
+        (e.g. Collection LOP).
 
 More (qL):
     :box:
@@ -47,6 +51,19 @@ More (qL):
         Expand Target Node Path Wildcards:
             Replaces a wildcard-based node pattern to its expanded node list
             (e.g. /obj/geo* will become "/obj/geo1 /obj/geo2" if you have those nodes in the scene.)
+
+        Toggle Absolute/Relative Paths in Expressions:
+            Switches between absolute and relative node/parameter references in expression(s) on the parameter
+            of the currently selected node(s). It ignores any parm references that don't have any absolute/relative
+            paths (pointing to another parm on the current node, e.g. `ch("other_parm")`).
+
+            NOTE:
+                This is implemented as a simple search/replace function that looks for absolute/relative path
+                names in quotes, but not capable of interpreting context (and the intention is to work with very
+                simple ch()-style parm linking).
+
+                It will also process python expressions, but for more complex expressions and/or python code
+                it might not be successful.
 
         Copy All Parm Values to Clipboard:
             Copies all values of the same parameter from multiple selected nodes to the clipboard
