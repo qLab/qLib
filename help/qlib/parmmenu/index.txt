@@ -25,8 +25,12 @@ Switch Spaces/Newlines (qL):
     For string parameters with space-separated names, replaces spaces with newlines
     or vice versa (if names are currently separated by newlines).
 
-    This is useful to get a more readable list when opening a string parameter using
-    the multi-line parameter expression editor (Expression -> Edit String).
+    TIP:
+        This is useful to get a more readable list when opening a string parameter using
+        the multi-line parameter expression editor (Expression -> Edit String).
+
+        It is also useful in the LOPs context, for nodes with multi-line selection list parameters
+        (e.g. Collection LOP).
 
 More (qL):
     :box:
