@@ -315,13 +315,15 @@ def toggle_abs_rel_path_expressions(kwargs):
                         expr = expr.replace(m, parm_path_rel_to(p2, pnode, to_abs=to_abs))
                 #print("expr: '%s'" % expr)
 
-                if not raw_value:
-                    k.setExpression(expr)
-                    parm.setKeyframe(k)
-                else:
-                    # TODO: error handling for locked parms, etc
-                    parm.revertToDefaults()
-                    parm.set(expr)
+                try:
+                    if not raw_value:
+                        k.setExpression(expr)
+                        parm.setKeyframe(k)
+                    else:
+                        parm.revertToDefaults()
+                        parm.set(expr)
+                except:
+                    pass # TODO: send a warning?
 
 
 def switch_spaces_newlines(kwargs):
