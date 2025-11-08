@@ -46,42 +46,6 @@ qlibutils.set_netview_selection(kwargs, lambda n: not n.isSelected(), allItems=T
 
             <separatorItem />
 
-            <scriptItem id="pane.wsheet.select_with_keyframed_parms_ql">
-                <label>Animated (Keyframed)</label>
-                <scriptCode><![CDATA[
-import qlibutils
-qlibutils.select_netview_nodes(kwargs, qlibutils.has_keyframed_parms)
-                ]]></scriptCode>
-            </scriptItem>
-
-            <scriptItem id="pane.wsheet.select_with_time_dependent_parms_ql">
-                <label>With Time-Dependent Parms</label>
-                <scriptCode><![CDATA[
-import qlibutils
-qlibutils.select_netview_nodes(kwargs, qlibutils.has_time_dependent_parms)
-                ]]></scriptCode>
-            </scriptItem>
-
-            <separatorItem />
-
-            <scriptItem id="pane.wsheet.select_with_expressions_variables_ql">
-                <label>With Expressions/Variables</label>
-                <scriptCode><![CDATA[
-import qlibutils
-qlibutils.select_netview_nodes(kwargs, qlibutils.has_expressions_variables)
-                ]]></scriptCode>
-            </scriptItem>
-
-            <scriptItem id="pane.wsheet.select_with_at_variables_ql">
-                <label>With @-Variable(s)</label>
-                <scriptCode><![CDATA[
-import qlibutils
-qlibutils.select_netview_nodes(kwargs, qlibutils.has_at_variables)
-                ]]></scriptCode>
-            </scriptItem>
-
-            <separatorItem />
-
             <scriptItem id="pane.wsheet.select_bypassed_ql">
                 <label>Bypassed</label>
                 <scriptCode><![CDATA[
@@ -239,6 +203,74 @@ hou.ui.displayMessage(str(kwargs))
         </subMenu>
 
 
+
+        <subMenu id = "select_with_parms_submenu_ql">
+            <label>Select with Parms</label>
+
+            <scriptItem id="pane.wsheet.select_with_keyframed_parms_ql">
+                <label>Animated (Keyframed)</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, qlibutils.has_keyframed_parms)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.select_with_time_dependent_parms_ql">
+                <label>With Time-Dependent Parms</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, qlibutils.has_time_dependent_parms)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
+            <scriptItem id="pane.wsheet.select_with_expressions_variables_ql">
+                <label>With Expressions/Variables</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, qlibutils.has_expressions_variables)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.select_with_at_variables_ql">
+                <label>With @-Variable(s)</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, qlibutils.has_at_variables)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <separatorItem />
+
+            <scriptItem id="pane.wsheet.select_with_at_variables_c_ql">
+                <label>With C@ (Context Options)</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, qlibutils.has_at_C_variables)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.select_with_at_variables_g_ql">
+                <label>With G@ (Geometry)</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, qlibutils.has_at_G_variables)
+                ]]></scriptCode>
+            </scriptItem>
+
+            <scriptItem id="pane.wsheet.select_with_at_variables_p_ql">
+                <label>With P@ (PDG/TOPs)</label>
+                <scriptCode><![CDATA[
+import qlibutils
+qlibutils.select_netview_nodes(kwargs, qlibutils.has_at_P_variables)
+                ]]></scriptCode>
+            </scriptItem>
+
+       </subMenu>
+
+
+
         <subMenu id = "select_related_submenu_ql">
             <label>Select Related</label>
 
@@ -332,7 +364,9 @@ qlibutils.select_netview_nodes(kwargs, lambda n: qlibutils.has_author(n, [ autho
         </subMenu>
 
 
+
         <separatorItem />
+
 
 
         <subMenu id = "display_submenu_ql">
@@ -460,7 +494,9 @@ import qlibutils; qlibutils.reset_nodes(kwargs, sel)
         </subMenu>
 
 
+
         <separatorItem />
+
 
 
         <subMenu id = "copy_to_clipboard_submenu_ql">
@@ -509,6 +545,7 @@ import qlibutils; qlibutils.hdapath_to_clipboard()
         </subMenu>
 
 
+
         <subMenu id = "paste_from_clipboard_submenu_ql">
             <label>Paste</label>
 
@@ -546,7 +583,9 @@ import qlibutils; qlibutils.paste_existing_image(kwargs)
         </subMenu>
 
 
+
         <separatorItem />
+
 
 
         <subMenu id = "comment_submenu_ql">

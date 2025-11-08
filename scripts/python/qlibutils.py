@@ -666,6 +666,18 @@ def parm_has_at_variables(parm, prefix=""):
 
     return ( "%s@" % prefix ) in values
 
+# these should be some closure or lambda-somethings or whatever but ¯\_(ツ)_/¯
+#
+def parm_has_at_C_variables(parm):
+    return parm_has_at_variables(parm, prefix="C")
+
+def parm_has_at_G_variables(parm):
+    return parm_has_at_variables(parm, prefix="G")
+
+def parm_has_at_P_variables(parm):
+    return parm_has_at_variables(parm, prefix="P")
+
+
 
 def parm_is_time_dependent(parm):
     """Checks if parm is time-dependent.
@@ -702,6 +714,16 @@ def has_at_variables(node):
     """Check if a node has parms with expressions/variables.
     """
     return has_parm_with_criteria(node, parm_has_at_variables)
+
+def has_at_C_variables(node):
+    return has_parm_with_criteria(node, parm_has_at_C_variables)
+
+def has_at_G_variables(node):
+    return has_parm_with_criteria(node, parm_has_at_G_variables)
+
+def has_at_P_variables(node):
+    return has_parm_with_criteria(node, parm_has_at_P_variables)
+
 
 
 def has_time_dependent_parms(node):
