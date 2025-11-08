@@ -666,6 +666,18 @@ def parm_has_at_variables(parm, prefix=""):
 
     return ( "%s@" % prefix ) in values
 
+# these should be some closure or lambda-somethings or whatever but ¯\_(ツ)_/¯
+#
+def parm_has_at_C_variables(parm):
+    return parm_has_at_variables(parm, prefix="C")
+
+def parm_has_at_G_variables(parm):
+    return parm_has_at_variables(parm, prefix="G")
+
+def parm_has_at_P_variables(parm):
+    return parm_has_at_variables(parm, prefix="P")
+
+
 
 def parm_is_time_dependent(parm):
     """Checks if parm is time-dependent.
@@ -702,6 +714,16 @@ def has_at_variables(node):
     """Check if a node has parms with expressions/variables.
     """
     return has_parm_with_criteria(node, parm_has_at_variables)
+
+def has_at_C_variables(node):
+    return has_parm_with_criteria(node, parm_has_at_C_variables)
+
+def has_at_G_variables(node):
+    return has_parm_with_criteria(node, parm_has_at_G_variables)
+
+def has_at_P_variables(node):
+    return has_parm_with_criteria(node, parm_has_at_P_variables)
+
 
 
 def has_time_dependent_parms(node):
@@ -1367,3 +1389,49 @@ def set_main_window_title():
     if ok==0:
         w.setWindowTitle(title)
         w.setWindowIconText(title)
+
+
+
+def jump_to_path_on_clipboard(kwargs):
+    """Jump to an OP path stored on the clipboard.
+    - path can be absolute or relative
+    - could point to a container, a node, or a node parm
+    - if node or node parm, also fit the node in the NE view
+    """
+    #hou.ui.displayMessage(str(kwargs))
+
+    editor = kwargs.get("editor")
+    target = None
+    msg = None
+    if editor:
+        parent = editor.pwd()
+        path = hou.ui.getTextFromClipboard()
+        path = path.replace("../", "", 1) # replace one level-up in potentially relative paths
+        # hackety hacky somewhat
+
+        # trying to find the valid path for both the absolute or relative case
+        target = \
+            hou.parm(path) or hou.node(path) or \
+            parent.parm(path) or parent.node(path)
+
+        if target:
+            path = target.path() # text version of full node or parm path
+
+            if type(target) is hou.Parm:
+                target = target.node()
+
+            # at this point we should have a node
+            if target and issubclass(type(target), hou.Node):
+                parent = target.parent()
+                editor.cd(parent.path())
+                hou.clearAllSelected()
+                target.setSelected(True)
+                editor.homeToSelection()
+
+            msg = "Jumping to: %s" % path
+        else:
+            # no valid target found
+            msg = "No valid path from '%s'" % path
+
+        if msg:
+            editor.flashMessage("BUTTONS_jump", msg, FLASH_SECONDS)
