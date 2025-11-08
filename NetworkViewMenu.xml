@@ -33,6 +33,18 @@
         <modifyItem><insertBefore>help_menu</insertBefore></modifyItem>
         <label>qLib</label>
 
+        <scriptItem id="pane.wsheet.go_to_oppath_on_clipboard_ql">
+            <label>Jump to Path on Clipboard</label>
+            <scriptCode><![CDATA[
+import qlibutils
+qlibutils.jump_to_path_on_clipboard(kwargs)
+            ]]></scriptCode>
+        </scriptItem>
+
+
+        <separatorItem />
+
+
         <subMenu id = "select_submenu_ql">
             <label>Select</label>
 
