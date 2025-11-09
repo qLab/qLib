@@ -6,11 +6,73 @@ This page describes the qLib menu items for the network editor menu.
 
 NOTE:
     This menu is still in active development and documentation might not
-    fully correspond with the actual state of menu items. Let us know
-    if you find any major discrepancy.
+    fully correspond with the actual state of menu items.
 
 [Image:../images/qLib_network_editor_menu_example.png]
 * _Example of the qLib network editor menu._
 
 
-TODO: write this document
+Jump to Path on Clipboard:
+    After copying a path (absolute or relative) from a `ch()`-expression of a parameter,
+    this function can be used to jump to the node pointed to the copied path.
+
+    This will only work if the jump is done from the same context where the path from
+    the expression was copied from.
+
+Select:
+    Select nodes based on their various states or properties.
+
+Select with Parms:
+    Select nodes with parameters matching various criteria.
+
+    Animated (Keyframed):
+        Select nodes that has parameters that have at least two keyframes.
+        This will not select nodes with one keyframes or expressions.
+
+    With Time-Dependent Parms:
+        Select nodes that have parameters that change over time.
+
+    With Expressions/Variables:
+        Select nodes with parameters that have expressions or variables.
+
+    With @-Variable(s):
+        Select nodes that have parameters using any @-variables (see below).
+
+        TIP:
+            This can be very handy to find nodes in a network that are driven by
+            LOPs context options, or PDG/TOPs.
+
+    With C@ (Context Options):
+        Select nodes that have parameters that use C@-prefixed variables
+        (LOPs context options).
+
+    With G@ (Geometry):
+        Select nodes that have parameters that use G@-prefixed variables (geometry).
+
+    With P@ (PDG/TOPs):
+        Select noes that have parameters that use P@-prefixed variables (PDG/TOPs).
+
+
+Select Related:
+    Select nodes that related to the currently selected node(s) in
+    some ways.
+
+Display:
+    ...
+
+Copy:
+    ...
+
+Paste:
+    ...
+
+Comment:
+    Node-comment related operations.
+
+    ...
+
+Misc:
+    ...
+
+Network Info...:
+    Displays information and stats about the current network.

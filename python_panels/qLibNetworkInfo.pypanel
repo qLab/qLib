@@ -6,7 +6,12 @@
  same interface or of the interfaces menu are not allowed
  in a single file. -->
   <interface name="networkInfo_qL" label="qLib Network Info [qL]" icon="MISC_python" showNetworkNavigationBar="true" help_url="">
-    <script><![CDATA[from PySide2 import QtWidgets
+    <script><![CDATA[import hou
+if hou.applicationVersion()[0]>=20:
+    from hutil.PySide import QtWidgets
+else:
+    from PySide2 import QtWidgets
+
 import qlibutils
 
 """
