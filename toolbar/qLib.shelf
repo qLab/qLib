@@ -21,7 +21,6 @@
     <memberTool name="qLib::ResizeStickyNotes"/>
     <memberTool name="qLib::AddStash"/>
     <memberTool name="qLib::AddCompiledBlock"/>
-    <memberTool name="qLib::ToggleIntegerFrames"/>
     <memberTool name="qLib::CrashRecovery"/>
   </toolshelf>
 
@@ -182,53 +181,6 @@ if len(viewports)>0:
 
     msg = "Cycled background to %s" % re.search("[^.]+$", str(s))[0].upper()
     hou.ui.setStatusMessage(msg)
-]]></script>
-  </tool>
-
-  <tool name="qLib::ToggleIntegerFrames" label="int.frames" icon="PLAYBAR_editable_keys">
-    <helpText><![CDATA[#icon: PLAYBAR/editable_keys
-#context: obj
-#type: tool
-
-= Toggle Integer Frames qL =
-
-*version 1*
-
-"""Toggle non-integer frame values on the playbar.
----
-LMB: Toggle non-integer frames.
-Shift-LMB: Switch to integer frames.
-"""
-
-@usage Usage
-
-- ((LMB)):
-    Toggle non-integer frames
-- ((Shift + LMB)):
-    Switch to integer frames
-
-
-_version 1_ ---
-
-2018-07-22:
-    - Added shift-click option
-    - Improved help page]]></helpText>
-    <script scriptType="python"><![CDATA[import hou
-
-shift = kwargs['shiftclick']
-
-fr = hou.playbar.frameRange()
-pr = hou.playbar.playbackRange()
-
-m = not hou.playbar.usesIntegerFrames()
-if shift:
-    m = True
-hou.playbar.setUseIntegerFrames(m)
-
-hou.playbar.setFrameRange(fr[0], fr[1])
-hou.playbar.setPlaybackRange(pr[0], pr[1])
-
-hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"))
 ]]></script>
   </tool>
 
