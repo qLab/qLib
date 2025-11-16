@@ -13,6 +13,7 @@
     <memberTool name="qLib::ToggleViewportTemplatesShading"/>
     <memberTool name="qLib::ToggleViewportCurrentGeometry"/>
     <memberTool name="qLib::ToggleViewportGuides"/>
+    <memberTool name="qLib::CycleOutputForViewFlag"/>
     <memberTool name="qLib::ReferenceCopy"/>
     <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
     <memberTool name="qLib::SelectExpandByDate"/>
@@ -1303,6 +1304,54 @@ if len(sel_fe)>0:
                     cb.parm("blockpath").set(ce_rel_path)
 else:
     pass # TODO: implement compiled-block wrapping around a bunch of nodes
+]]></script>
+  </tool>
+
+  <tool name="qLib::CycleOutputForViewFlag" label="/output for view/" icon="COMMON_switch">
+    <helpText><![CDATA[#icon: COMMON/switch
+#type: tool
+
+= Cycle Output For View Flag =
+
+*version 1*
+
+"""Cycles between which output to display if the displayed node has multiple outputs.
+"""
+
+...
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+#print kwargs
+
+# order to pick up current node context path --
+# - parent of first selected node
+# - kwargs['pane']
+# - toolutils.networkEditor()
+
+# get current pane
+pane = kwargs['pane']
+if not pane:
+    pane = toolutils.networkEditor()
+
+print(pane)
+
+if type(pane) is hou.NetworkEditor:
+    c = pane.pwd().children()
+    d = [ n for n in c if hasattr(n, "isDisplayFlagSet") and n.isDisplayFlagSet() ]
+    print(d)
+
+    if d and len(d)>0:
+        n = d[0]
+        num_outputs = len(n.outputConnectors())
+        c = n.outputForViewFlag() + ( 1 if not shift else -1 )
+        c = c % num_outputs
+        n.setOutputForViewFlag(c)
+#
 ]]></script>
   </tool>
 </shelfDocument>
