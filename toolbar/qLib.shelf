@@ -13,6 +13,7 @@
     <memberTool name="qLib::ToggleViewportTemplatesShading"/>
     <memberTool name="qLib::ToggleViewportCurrentGeometry"/>
     <memberTool name="qLib::ToggleViewportGuides"/>
+    <memberTool name="qLib::CycleOutputForViewFlag"/>
     <memberTool name="qLib::ReferenceCopy"/>
     <memberTool name="qLib::ToggleTimeDependencyDisplay"/>
     <memberTool name="qLib::SelectExpandByDate"/>
@@ -21,7 +22,6 @@
     <memberTool name="qLib::ResizeStickyNotes"/>
     <memberTool name="qLib::AddStash"/>
     <memberTool name="qLib::AddCompiledBlock"/>
-    <memberTool name="qLib::ToggleIntegerFrames"/>
     <memberTool name="qLib::CrashRecovery"/>
   </toolshelf>
 
@@ -182,53 +182,6 @@ if len(viewports)>0:
 
     msg = "Cycled background to %s" % re.search("[^.]+$", str(s))[0].upper()
     hou.ui.setStatusMessage(msg)
-]]></script>
-  </tool>
-
-  <tool name="qLib::ToggleIntegerFrames" label="int.frames" icon="PLAYBAR_editable_keys">
-    <helpText><![CDATA[#icon: PLAYBAR/editable_keys
-#context: obj
-#type: tool
-
-= Toggle Integer Frames qL =
-
-*version 1*
-
-"""Toggle non-integer frame values on the playbar.
----
-LMB: Toggle non-integer frames.
-Shift-LMB: Switch to integer frames.
-"""
-
-@usage Usage
-
-- ((LMB)):
-    Toggle non-integer frames
-- ((Shift + LMB)):
-    Switch to integer frames
-
-
-_version 1_ ---
-
-2018-07-22:
-    - Added shift-click option
-    - Improved help page]]></helpText>
-    <script scriptType="python"><![CDATA[import hou
-
-shift = kwargs['shiftclick']
-
-fr = hou.playbar.frameRange()
-pr = hou.playbar.playbackRange()
-
-m = not hou.playbar.usesIntegerFrames()
-if shift:
-    m = True
-hou.playbar.setUseIntegerFrames(m)
-
-hou.playbar.setFrameRange(fr[0], fr[1])
-hou.playbar.setPlaybackRange(pr[0], pr[1])
-
-hou.ui.setStatusMessage(" ---- Using Integer Frames: %s" % ("ON" if m else "OFF"))
 ]]></script>
   </tool>
 
@@ -1351,6 +1304,54 @@ if len(sel_fe)>0:
                     cb.parm("blockpath").set(ce_rel_path)
 else:
     pass # TODO: implement compiled-block wrapping around a bunch of nodes
+]]></script>
+  </tool>
+
+  <tool name="qLib::CycleOutputForViewFlag" label="/output for view/" icon="COMMON_switch">
+    <helpText><![CDATA[#icon: COMMON/switch
+#type: tool
+
+= Cycle Output For View Flag =
+
+*version 1*
+
+"""Cycles between which output to display if the displayed node has multiple outputs.
+"""
+
+...
+]]></helpText>
+    <script scriptType="python"><![CDATA[import toolutils
+
+shift = kwargs['shiftclick']
+ctrl  = kwargs['ctrlclick']
+alt   = kwargs['altclick']
+
+#print kwargs
+
+# order to pick up current node context path --
+# - parent of first selected node
+# - kwargs['pane']
+# - toolutils.networkEditor()
+
+# get current pane
+pane = kwargs['pane']
+if not pane:
+    pane = toolutils.networkEditor()
+
+print(pane)
+
+if type(pane) is hou.NetworkEditor:
+    c = pane.pwd().children()
+    d = [ n for n in c if hasattr(n, "isDisplayFlagSet") and n.isDisplayFlagSet() ]
+    print(d)
+
+    if d and len(d)>0:
+        n = d[0]
+        num_outputs = len(n.outputConnectors())
+        c = n.outputForViewFlag() + ( 1 if not shift else -1 )
+        c = c % num_outputs
+        n.setOutputForViewFlag(c)
+#
 ]]></script>
   </tool>
 </shelfDocument>
