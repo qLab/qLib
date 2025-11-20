@@ -495,7 +495,7 @@ if item:
     id = item.id
     topnode.setSelectedWorkItem(id)
 
-    editor.flashMessage(icon, "%d/%d %s  %s" % (index, num_items, item.name, str(item.data.allDataMap), ), 5.0)
+    editor.flashMessage(icon, "%d/%d %s  %s" % (index, num_items, item.label, str(item.data.allDataMap), ), 5.0)
 ]]></script>
   </tool>
 
@@ -555,7 +555,7 @@ if item:
     id = item.id
     topnode.setSelectedWorkItem(id)
 
-    editor.flashMessage(icon, "%d/%d %s  %s" % (index, num_items, item.name, str(item.data.allDataMap), ), 5.0)
+    editor.flashMessage(icon, "%d/%d %s  %s" % (index, num_items, item.label, str(item.data.allDataMap), ), 5.0)
 ]]></script>
   </tool>
 
@@ -598,7 +598,7 @@ if item:
     id = item.id
     topnode.setSelectedWorkItem(id)
 
-    editor.flashMessage(icon, "%d/%d %s  %s" % (index, num_items, item.name, str(item.data.allDataMap), ), 5.0)
+    editor.flashMessage(icon, "%d/%d %s  %s" % (index, num_items, item.label, str(item.data.allDataMap), ), 5.0)
 ]]></script>
   </tool>
 </shelfDocument>
