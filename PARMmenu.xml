@@ -394,6 +394,29 @@ import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Hermite
 
 			<separatorItem/>
 
+			<subMenu id="qlib_string_rel_ref_menu">
+				<label>Reference Upstream Parm</label>
+				<modifyItem><insertAfter>qlib_more_menu</insertAfter></modifyItem>
+				<context>
+								<expression>
+								import qlibmenutools
+								return qlibmenutools.parm_is_string(kwargs)
+								</expression>
+				</context>
+				<scriptMenuStripDynamic id="qlib_string_rel_ref_items">
+				<contentsScriptCode><![CDATA[
+				import qlibmenutools
+				return qlibmenutools.build_upstream_channel_refs_menu(kwargs)
+				]]></contentsScriptCode>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.set_upstream_channel_ref_value(kwargs)
+]]></scriptCode>
+				</scriptMenuStripDynamic>
+
+			</subMenu>
+
+			<separatorItem/>
+
 			<scriptItem id="ql_use_as_descriptive_parm">
 				<label>Use as Descriptive Parm</label>
 				<context>
@@ -407,27 +430,6 @@ import qlibmenutools; qlibmenutools.use_as_descriptive_parm(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 
-
-		</subMenu>
-
-		<subMenu id="qlib_string_rel_ref_menu">
-			<label>Reference Upstream Parm [qL]</label>
-			<modifyItem><insertAfter>qlib_more_menu</insertAfter></modifyItem>
-			<context>
-					<expression>
-						import qlibmenutools
-						return qlibmenutools.parm_is_string(kwargs)
-					</expression>
-			</context>
-			<scriptMenuStripDynamic id="qlib_string_rel_ref_items">
-			<contentsScriptCode><![CDATA[
-			import qlibmenutools
-			return qlibmenutools.build_upstream_channel_refs_menu(kwargs)
-			]]></contentsScriptCode>
-			<scriptCode><![CDATA[
-import qlibmenutools; qlibmenutools.set_upstream_channel_ref_value(kwargs)
-]]></scriptCode>
-	</scriptMenuStripDynamic>
 
 		</subMenu>
 
