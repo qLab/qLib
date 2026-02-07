@@ -43,8 +43,8 @@ if not (shift or alt):
     mode = "Zoom In (+)"
     m = 1.0/m;
 
-rows = max(2, int(int(prefs.maxTaskGraphRows(editor))*m))
-items = max(2, int(int(prefs.maxWorkItemsPerRow(editor))*m))
+rows = max(2, int(int(float(prefs.maxTaskGraphRows(editor))+0.5)*m))
+items = max(2, int(int(float(prefs.maxWorkItemsPerRow(editor))+0.5)*m))
 
 if ctrl:
     mode = "Reset Zoom:"
