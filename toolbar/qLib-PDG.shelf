@@ -99,11 +99,19 @@ if True: #try
 
     # cooking: show cooked nodes only from the current cook set
     cookset_size = 0
+    wi_count_all = 0
+    wi_count_cooked = 0
     if is_cooking:
         cookset = [ n.topNode() for n in ctx.cookSet ]
         cookset_size = len(cookset)
         cooked = list(set(cooked) & set(cookset))
-        # TODO: compute percent of cook set
+
+        # count cooked workitems to report progress
+        cooking = ctx.cookSet
+        for n in cooking:
+            workitems = n.workItems
+            wi_count_all += len(workitems)
+            wi_count_cooked += len([ i for i in workitems if i.isCooked ])
 
     sel = len(cooked)
     if sel>0:
@@ -113,7 +121,7 @@ if True: #try
 
     msg = "%d node(s) cooked" % sel
     if cookset_size:
-        msg = "%d cooked (from a cook set of %d) (%.1f%%)" % (sel, cookset_size, sel*100.0/float(cookset_size), )
+        msg = "%d cooked (from a cook set of %d) (%d/%d work items)" % (sel, cookset_size, wi_count_cooked, wi_count_all, )
     
     editor.flashMessage("TOP_status_cooked", "%s: %s" % (mode, msg, ), 3.0)
 

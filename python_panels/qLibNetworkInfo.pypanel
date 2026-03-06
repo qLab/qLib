@@ -5,7 +5,7 @@
  used by the application.  Note, that two definitions of the
  same interface or of the interfaces menu are not allowed
  in a single file. -->
-  <interface name="networkInfo_qL" label="qLib Network Info [qL]" icon="MISC_python" showNetworkNavigationBar="true" help_url="">
+  <interface name="networkInfo_qL" label="Network Info [qL]" icon="MISC_python" showNetworkNavigationBar="true" help_url="">
     <script><![CDATA[try:
     # prefer hutil
     from hutil.PySide import QtWidgets
