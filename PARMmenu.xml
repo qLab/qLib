@@ -396,7 +396,6 @@ import qlibmenutools; qlibmenutools.set_ramp_basis(kwargs, hou.rampBasis.Hermite
 
 			<subMenu id="qlib_string_rel_ref_menu">
 				<label>Reference Upstream Parm</label>
-				<modifyItem><insertAfter>qlib_more_menu</insertAfter></modifyItem>
 				<context>
 								<expression>
 								import qlibmenutools
