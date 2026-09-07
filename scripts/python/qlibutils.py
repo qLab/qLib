@@ -29,6 +29,10 @@ import nodegraphutils
 
 FLASH_SECONDS = 6.0
 
+# regex pattern for valid node/path names
+#
+OPNODEPATH_REGEX_PATTERN = "[a-zA-Z0-9/\.\-_]+"
+
 
 # TODO: msg functions with exception handling
 
@@ -1405,33 +1409,47 @@ def jump_to_path_on_clipboard(kwargs):
     msg = None
     if editor:
         parent = editor.pwd()
-        path = hou.ui.getTextFromClipboard()
-        path = path.replace("../", "", 1) # replace one level-up in potentially relative paths
-        # hackety hacky somewhat
+        paths = hou.ui.getTextFromClipboard()
+        paths = re.findall(OPNODEPATH_REGEX_PATTERN, paths)
 
-        # trying to find the valid path for both the absolute or relative case
-        target = \
-            hou.parm(path) or hou.node(path) or \
-            parent.parm(path) or parent.node(path)
+        def get_target(path):
+            hou.cd(parent.path()) # this is important for relative paths
+            path = path.replace("../", "", 1) # replace one level-up in potentially relative paths
+            target = \
+                hou.parm(path) or hou.node(path) or \
+                parent.parm(path) or parent.node(path)
+            return target
 
-        if target:
-            path = target.path() # text version of full node or parm path
+        paths = [ p for p in paths if get_target(p) ]
 
-            if type(target) is hou.Parm:
-                target = target.node()
+        if len(paths)>1:
+            sel = hou.ui.selectFromList(paths, exclusive=True,
+                                        title="Jump to Path",
+                                        message="Select an OP/parm path to jump to (from clipboard contents):")
+            paths = [ paths[sel[0]], ] if len(sel)>0 else []
 
-            # at this point we should have a node
-            if target and issubclass(type(target), hou.Node):
-                parent = target.parent()
-                editor.cd(parent.path())
-                hou.clearAllSelected()
-                target.setSelected(True)
-                editor.homeToSelection()
+        if len(paths)>0:
+            target = get_target(paths[0])
 
-            msg = "Jumping to: %s" % path
-        else:
-            # no valid target found
-            msg = "No valid path from '%s'" % path
+            if target:
+                path = target.path() # text version of full node or parm path
+
+                if type(target) is hou.Parm:
+                    target = target.node()
+
+                # at this point we should have a node
+                if target and issubclass(type(target), hou.Node):
+                    parent = target.parent()
+                    editor.cd(parent.path())
+                    hou.clearAllSelected()
+                    target.setSelected(True)
+                    editor.homeToSelection()
+
+                msg = "Jumping to: %s" % path
+            else:
+                # no valid target found
+                msg = "No valid path from '%s'" % path
 
         if msg:
             editor.flashMessage("BUTTONS_jump", msg, FLASH_SECONDS)
+ 
