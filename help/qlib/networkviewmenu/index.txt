@@ -13,11 +13,17 @@ NOTE:
 
 
 Jump to Path on Clipboard:
-    After copying a path (absolute or relative) from a `ch()`-expression of a parameter,
+    After copying path(s) (absolute or relative) from a `ch()`-expression of a parameter,
     this function can be used to jump to the node pointed to the copied path.
 
     This will only work if the jump is done from the same context where the path from
     the expression was copied from.
+
+    NOTE:
+        This function extracts all valid node paths from the clipboard contents,
+        so more complex expressions can be copied before jumping. If more than
+        one node paths found, a popup dialog will be displayed with all the paths.
+
 
 Select:
     Select nodes based on their various states or properties.
