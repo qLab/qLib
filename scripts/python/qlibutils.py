@@ -14,6 +14,7 @@ import datetime
 import getpass
 import glob
 import json
+import math
 import os
 import socket
 import sys
@@ -503,8 +504,10 @@ def find_same_colored(nodes):
         for n in nodes:
             colors.add(n.color())
 
-        all = nodes[0].parent().allItems()
-        r = [ n for n in all if n.color() in colors ]
+        for n in nodes[0].parent().allItems():
+            for c in colors:
+                if all( [ math.isclose(a, b, abs_tol=0.001) for a, b in zip( n.color().rgb(), c.rgb() ) ] ):
+                    r.append(n)
     return r
 
 
