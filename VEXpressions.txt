@@ -60,6 +60,10 @@ groupexpression/snippet
     [qL] Group by Same ids as in Second Input
     findattribval(1, chs("grouptype"), "id", @id)>=0
 
+groupexpression/snippet
+    [qL] Element inside Height Field
+    v@P.y < volumesample(1, 0, v@P)+getcomp(vector(point(1, "P", 0)), 1)
+
 
 
 attribexpression/snippet
