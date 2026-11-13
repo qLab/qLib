@@ -710,6 +710,18 @@ t.cd(path)
 ]]></scriptCode>
         </scriptItem>
 
+        <scriptItem id="pane.wsheet.node_list_ql">
+            <label>Node List...</label>
+            <scriptCode><![CDATA[
+#print(kwargs)
+t=hou.ui.curDesktop().createFloatingPaneTab(hou.paneTabType.PythonPanel, python_panel_interface="nodeList_qL")
+t.setPin(True)
+t.floatingPanel().setName("Node List [qL]")
+path = kwargs["editor"].pwd().path()
+t.cd(path)
+]]></scriptCode>
+        </scriptItem>
+
 <!--
         <scriptItem id="pane.wsheet.tmp_show_kwargs_ql">
             <label>debug: show kwargs [qL]</label>

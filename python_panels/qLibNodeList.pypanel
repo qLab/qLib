@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pythonPanelDocument>
+  <!-- This file contains definitions of Python interfaces and the
+ interfaces menu.  It should not be hand-edited when it is being
+ used by the application.  Note, that two definitions of the
+ same interface or of the interfaces menu are not allowed
+ in a single file. -->
+  <interface name="nodeList_qL" label="Node List [qL]" icon="MISC_python" showNetworkNavigationBar="true" help_url="charcter:autorigs">
+    <script><![CDATA[try:
+    # prefer hutil
+    from hutil.PySide import QtWidgets, QtGui, QtCore
+except:
+    # but fall back to previous approach
+    from PySide2 import QtWidgets, QtGui, QtCore
+
+
+import hou
+import qlibutils
+
+
+def get_defined_by(node):
+    t = node.type()
+    d = t.definition()
+    return d.libraryFilePath() if d else t.sourcePath()
+    
+
+# TODO: options: show selected only, author: name only/full name, date: absolute/relative/both, filter applies to name or all
+# remember column show/hide settings between windows/sessions
+
+class NodeList(QtWidgets.QWidget):
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        layout = QtWidgets.QVBoxLayout(self)
+
+        # menu bar
+        self.menubar = QtWidgets.QMenuBar()
+        m = self.menubar.addMenu("Options")
+
+        # item model for table
+        self.model = QtGui.QStandardItemModel()
+        self.model.setHorizontalHeaderLabels(
+            ["Name", "Type", "Author", "Modified", "Created", "Comment", "ToolId", "Defined By", ]
+        )
+
+        self.proxy = QtCore.QSortFilterProxyModel()
+        self.proxy.setSourceModel(self.model)
+        self.proxy.setFilterCaseSensitivity(QtCore.Qt.CaseInsensitive)
+
+        # main table view
+        self.view = QtWidgets.QTableView()
+        self.view.verticalHeader().setVisible(False)
+        self.view.setShowGrid(False)
+        self.view.setAlternatingRowColors(True)
+        self.view.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+        #self.view.setSelectionMode(QtWidgets.QTableView.MultiSelection)
+
+        self.view.setModel(self.proxy)
+        self.view.setSortingEnabled(True)
+        self.view.sortByColumn(0, QtCore.Qt.AscendingOrder)
+        
+        #self.view.selectionModel().selectionChanged.connect(self.selection_changed)
+
+        # filter bar
+        self.filter = QtWidgets.QLineEdit()
+        self.filter.textChanged.connect(self.proxy.setFilterFixedString)
+
+        self.btn_refresh = QtWidgets.QPushButton("Refresh")
+        self.btn_refresh.clicked.connect(lambda: self.refresh())
+
+        layout.addWidget(self.menubar)
+        layout.addWidget(self.view)
+        layout.addWidget(self.filter)
+        layout.addWidget(self.btn_refresh)
+
+        # Header context menu
+        header = self.view.horizontalHeader()
+        header.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        header.customContextMenuRequested.connect(self.show_header_menu)
+        
+        # set stretch modes for columns
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        #header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        #header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+        #header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
+
+        self.refresh()
+
+
+    def refresh(self):
+        """.
+        """
+        self.model.setRowCount(0)
+
+        pane = kwargs["paneTab"]
+        network = pane.pwd()
+
+        rc = 0
+        for node in network.children():
+
+            row = [
+                QtGui.QStandardItem(node.name()), # TODO: store actual node object?
+                QtGui.QStandardItem( node.type().name() ),
+                QtGui.QStandardItem( qlibutils.get_node_author(node) ),
+                QtGui.QStandardItem( qlibutils.date_string(node.modificationTime()) ), # TODO: store timestamp for sort and string for display
+                QtGui.QStandardItem( qlibutils.date_string(node.creationTime()) ),
+                QtGui.QStandardItem( node.comment() ),
+                QtGui.QStandardItem( node.userData("___toolid___") or "" ),
+                QtGui.QStandardItem( get_defined_by(node) ),
+            ]
+
+            # non-editable columns
+            for i in [1, 2, 3, 4, 6, 7]:
+                row[i].setEditable(False)
+
+            # TODO: editable columns: node name=rename, node comment=edit comment
+
+            print("adding row:", node.name(), )
+            self.model.appendRow(row)
+            if node.isSelected():
+                print("selecting", node, rc, )
+                #self.view.selectionModel().select(model.index(rc, 0), QtCore.QItemSelectionModel.Select | QtCore.QItemSelectionModel.Rows)
+                #self.view.selectRow(rc)
+            rc += 1
+
+
+    def selection_changed(self, selected):
+        """.
+        """
+        print("\nselection changed")
+        print(selected)
+        
+        for i in self.view.selectionModel().selectedRows():
+            first_column = self.view.model().index(i.row(), 0)
+            node_name = first_column.data(QtCore.Qt.ItemDataRole.DisplayRole)
+            print("Selected row:", i.row(), i.data(), node_name, )
+        
+        pass
+
+
+    def show_header_menu(self, pos):
+        """.
+        """
+
+        menu = QtWidgets.QMenu(self)
+        header = self.view.horizontalHeader()
+
+        for col in range(self.model.columnCount()):
+
+            # add switches to all column but "name"
+            if col>0:
+                name = self.model.headerData(col, QtCore.Qt.Horizontal)
+                action = QtWidgets.QAction(name, menu)
+                action.setCheckable(True)
+                action.setChecked(not self.view.isColumnHidden(col))
+                action.toggled.connect( lambda checked, c=col: self.view.setColumnHidden(c, not checked) )
+    
+                menu.addAction(action)
+
+        menu.exec_(header.mapToGlobal(pos))
+
+
+def onCreateInterface():
+    return NodeList()
+
+def onNodePathChanged(node):
+    #print("onNodePathChanged()")
+    #print("node: "+str(node))
+    pane = kwargs["paneTab"]
+    root = pane.activeInterfaceRootWidget()
+    root.refresh()
+]]></script>
+    <includeInPaneTabMenu menu_position="0" create_separator="false"/>
+    <includeInToolbarMenu menu_position="201" create_separator="false"/>
+    <help><![CDATA[]]></help>
+  </interface>
+</pythonPanelDocument>
