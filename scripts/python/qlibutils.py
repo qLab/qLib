@@ -98,10 +98,13 @@ def ynreq(text="Are you sure?",
     return do_it==0
 
 
-def date_string(timestamp):
+def date_string(timestamp, absolute=None):
     '''Returns an informal file date string (absolute/relative).
 
     timestamp:      can be a timestamp or a datetime.datetime
+    absolute:       None=give both absolute and relative (default)
+                    True=absolute only
+                    False=relative only
     '''
     r = "(?)"
     assert type(timestamp) in [ float, datetime.datetime ]
@@ -119,7 +122,11 @@ def date_string(timestamp):
     #ago = ago.split('.')[0] # chop off fractional seconds
     ago = re.sub(":[^:]+$", "", ago)    # chop off seconds
 
-    r = "%s (%s ago)" % (file_t.strftime("%Y-%m-%d %H:%M:%S"), ago, )
+    r = file_t.strftime("%Y-%m-%d %H:%M:%S")
+    if absolute==None:
+        r = "%s (%s ago)" % (r, ago, )
+    elif absolute==False:
+        r = "%s ago" % ago
     return r
 
 
