@@ -47,6 +47,8 @@ class NodeList(QtWidgets.QWidget):
         self.proxy = QtCore.QSortFilterProxyModel()
         self.proxy.setSourceModel(self.model)
         self.proxy.setFilterCaseSensitivity(QtCore.Qt.CaseInsensitive)
+        # filter runs on all columns of a row (TODO: run it on only specific columns!)
+        self.proxy.setFilterKeyColumn(-1)
 
         # main table view
         self.view = QtWidgets.QTableView()
@@ -60,7 +62,7 @@ class NodeList(QtWidgets.QWidget):
         self.view.setSortingEnabled(True)
         self.view.sortByColumn(0, QtCore.Qt.AscendingOrder)
         
-        #self.view.selectionModel().selectionChanged.connect(self.selection_changed)
+        self.view.selectionModel().selectionChanged.connect(self.selection_changed)
 
         # filter bar
         self.filter = QtWidgets.QLineEdit()
@@ -91,17 +93,19 @@ class NodeList(QtWidgets.QWidget):
     def refresh(self):
         """.
         """
+        selection = self.view.selectionModel()
+        block_signals = selection.blockSignals(True)
         self.model.setRowCount(0)
 
         pane = kwargs["paneTab"]
-        network = pane.pwd()
+        pwd = pane.pwd()
+        sel = hou.selectedNodes()
 
-        rc = 0
-        for node in network.children():
+        for node in pwd.children():
 
             row = [
-                QtGui.QStandardItem(node.name()), # TODO: store actual node object?
-                QtGui.QStandardItem( node.type().name() ),
+                name:=QtGui.QStandardItem(node.name()), # TODO: store actual node object!
+                type:=QtGui.QStandardItem( node.type().name() ),
                 QtGui.QStandardItem( qlibutils.get_node_author(node) ),
                 QtGui.QStandardItem( qlibutils.date_string(node.modificationTime()) ), # TODO: store timestamp for sort and string for display
                 QtGui.QStandardItem( qlibutils.date_string(node.creationTime()) ),
@@ -110,31 +114,52 @@ class NodeList(QtWidgets.QWidget):
                 QtGui.QStandardItem( get_defined_by(node) ),
             ]
 
+            # colorise text with node color (TODO: have an option for this)
+            if True:
+                c = node.color()
+                if not qlibutils.colors_close(c, node.type().defaultColor()):
+                    c = QtGui.QColor.fromRgbF(*c.rgb())
+                    name.setForeground(c)
+
+            # display bypassed nodes in italic
+            if hasattr(node, "isBypassed") and node.isBypassed():
+                f = name.font()
+                f.setItalic(True)
+                name.setFont(f)
+
             # non-editable columns
             for i in [1, 2, 3, 4, 6, 7]:
                 row[i].setEditable(False)
 
             # TODO: editable columns: node name=rename, node comment=edit comment
 
-            print("adding row:", node.name(), )
             self.model.appendRow(row)
-            if node.isSelected():
-                print("selecting", node, rc, )
-                #self.view.selectionModel().select(model.index(rc, 0), QtCore.QItemSelectionModel.Select | QtCore.QItemSelectionModel.Rows)
-                #self.view.selectRow(rc)
-            rc += 1
+
+        # select rows in the table that are actually selected in Houdini
+
+        for row in range(self.proxy.rowCount()):
+            index = self.proxy.index(row, 0)  # column 0 is Name
+            if pwd.node(index.data()) in sel:
+                selection.select(
+                    index,
+                    QtCore.QItemSelectionModel.Select
+                    | QtCore.QItemSelectionModel.Rows
+                )
+
+        selection.blockSignals(block_signals)
 
 
     def selection_changed(self, selected):
         """.
         """
-        print("\nselection changed")
-        print(selected)
-        
+        pane = kwargs["paneTab"]
+        pwd = pane.pwd()
+
+        hou.clearAllSelected()
         for i in self.view.selectionModel().selectedRows():
             first_column = self.view.model().index(i.row(), 0)
             node_name = first_column.data(QtCore.Qt.ItemDataRole.DisplayRole)
-            print("Selected row:", i.row(), i.data(), node_name, )
+            pwd.node(node_name).setSelected(True)
         
         pass
 
