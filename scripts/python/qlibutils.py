@@ -143,6 +143,14 @@ def sizeof_fmt(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
+def colors_close(a, b, tol=1e-3):
+    """Compares two colors, returns True if they're the same (within a floating-point tolerance).
+
+    a, b:           Colors (as hou.Color objects)
+    """
+    return all(abs(x - y) <= tol for x, y in zip(a.rgb(), b.rgb()))
+
+
 def uri_to_path(uri):
     """Converts URI paths to regular filesystem paths.
     https://stackoverflow.com/questions/5977576/is-there-a-convenient-way-to-map-a-file-uri-to-os-path
@@ -513,7 +521,7 @@ def find_same_colored(nodes):
 
         for n in nodes[0].parent().allItems():
             for c in colors:
-                if all( [ math.isclose(a, b, abs_tol=0.001) for a, b in zip( n.color().rgb(), c.rgb() ) ] ):
+                if colors_close(c, n.color()):
                     r.append(n)
     return r
 
