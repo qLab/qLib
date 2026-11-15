@@ -330,7 +330,7 @@ qlibutils.select_dependencies_same_network(kwargs)
                 <label>ROP Input Dependencies</label>
                 <scriptCode><![CDATA[
 import qlibutils
-qlibutils.select_ropnet_input_depdendents(kwargs)
+qlibutils.select_ropnet_input_dependents(kwargs)
                 ]]></scriptCode>
             </scriptItem>
 
