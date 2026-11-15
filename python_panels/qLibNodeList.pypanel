@@ -18,8 +18,9 @@ import hou
 import qlibutils
 
 
-# TODO: options: show selected only, author: name only/full name, date: absolute/relative/both, filter applies to name or all
-# remember column show/hide settings between windows/sessions
+# TODO: options: show selected only, date: absolute/relative/both, filter applies to name or "all"
+# TODO: implement "unsorted" list (e.g. top-to-down or left-to-right node order, depending on context)
+
 
 class NodeList(QtWidgets.QWidget):
 
@@ -30,6 +31,7 @@ class NodeList(QtWidgets.QWidget):
         self.settings = QtCore.QSettings("qLib", "NodeListPanel")
 
         self.view_author_username_only = self.settings.value("view/author_username_only", False, type=bool)
+        self.view_date_format = self.settings.value("view/date_format", 0, type=int)
 
         # build UI
         layout = QtWidgets.QVBoxLayout(self)
@@ -42,14 +44,14 @@ class NodeList(QtWidgets.QWidget):
         self.columns_menu.aboutToShow.connect(lambda: self.populate_column_menu(self.columns_menu))
 
         # "author" menu
-        self.author_menu = self.menubar.addMenu("Author")
+        self.author_menu = self.menubar.addMenu("Authors")
         self.author_group = QtWidgets.QActionGroup(self.author_menu)
         self.author_group.setExclusive(True)
 
         self.author_fullname_action = self.author_menu.addAction("Full Name")
         self.author_username_action = self.author_menu.addAction("Username Only")
 
-        for action in (self.author_fullname_action, self.author_username_action):
+        for action in (self.author_fullname_action, self.author_username_action, ):
             action.setCheckable(True)
             self.author_group.addAction(action)
 
@@ -57,6 +59,21 @@ class NodeList(QtWidgets.QWidget):
         self.author_username_action.setChecked(self.view_author_username_only)
 
         self.author_group.triggered.connect(self.set_author_mode)
+
+        # "dates" menu
+        self.dates_menu = self.menubar.addMenu("Dates")
+        self.dates_group = QtWidgets.QActionGroup(self.dates_menu)
+        self.dates_group.setExclusive(True)
+
+        self.dates_full_action = self.dates_menu.addAction("Full")
+        self.dates_abs_action = self.dates_menu.addAction("Absolute")
+        self.dates_rel_action = self.dates_menu.addAction("Relative")
+
+        for i, action in enumerate((self.dates_full_action, self.dates_abs_action, self.dates_rel_action, )):
+            action.setCheckable(True)
+            self.dates_group.addAction(action)
+            action.setChecked(self.view_date_format == i)
+            action.triggered.connect(lambda checked=False, mode=i: self.set_dates_mode(mode) )
 
 
         # item model for table
@@ -144,6 +161,14 @@ class NodeList(QtWidgets.QWidget):
         self.refresh()
 
 
+    def set_dates_mode(self, mode):
+        """.
+        """
+        self.view_date_format = mode
+        self.settings.setValue("view/date_format", mode)
+        self.refresh()
+
+
     def refresh(self):
         """.
         """
@@ -155,14 +180,16 @@ class NodeList(QtWidgets.QWidget):
         pwd = pane.pwd()
         sel = hou.selectedNodes()
 
+        date_format = [ None, True, False ][ self.view_date_format ]
+
         for node in pwd.children():
 
             row = [
                 name:=QtGui.QStandardItem(node.name()), # TODO: store actual node object!
                 type:=QtGui.QStandardItem( node.type().name() ),
                 QtGui.QStandardItem( qlibutils.get_node_author(node, self.view_author_username_only) ),
-                QtGui.QStandardItem( qlibutils.date_string(node.modificationTime()) ), # TODO: store timestamp for sort and string for display
-                QtGui.QStandardItem( qlibutils.date_string(node.creationTime()) ),
+                QtGui.QStandardItem( qlibutils.date_string(node.modificationTime(), absolute=date_format) ), # TODO: store timestamp for sort and string for display
+                QtGui.QStandardItem( qlibutils.date_string(node.creationTime(), absolute=date_format) ),
                 QtGui.QStandardItem( node.comment() ),
                 QtGui.QStandardItem( node.userData("___toolid___") or "" ),
                 QtGui.QStandardItem( qlibutils.get_node_defined_by(node) ),
@@ -228,7 +255,6 @@ class NodeList(QtWidgets.QWidget):
     def show_header_menu(self, pos):
         """.
         """
-
         menu = QtWidgets.QMenu(self)
         header = self.view.horizontalHeader()
         self.populate_column_menu(menu)
