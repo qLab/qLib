@@ -26,11 +26,38 @@ class NodeList(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        # settings
+        self.settings = QtCore.QSettings("qLib", "NodeListPanel")
+
+        self.view_author_username_only = self.settings.value("view/author_username_only", False, type=bool)
+
+        # build UI
         layout = QtWidgets.QVBoxLayout(self)
 
         # menu bar
         self.menubar = QtWidgets.QMenuBar()
-        m = self.menubar.addMenu("Options")
+
+        # "columns" menu
+        self.columns_menu = self.menubar.addMenu("Columns")
+        self.columns_menu.aboutToShow.connect(lambda: self.populate_column_menu(self.columns_menu))
+
+        # "author" menu
+        self.author_menu = self.menubar.addMenu("Author")
+        self.author_group = QtWidgets.QActionGroup(self.author_menu)
+        self.author_group.setExclusive(True)
+
+        self.author_fullname_action = self.author_menu.addAction("Full Name")
+        self.author_username_action = self.author_menu.addAction("Username Only")
+
+        for action in (self.author_fullname_action, self.author_username_action):
+            action.setCheckable(True)
+            self.author_group.addAction(action)
+
+        self.author_fullname_action.setChecked(not self.view_author_username_only)
+        self.author_username_action.setChecked(self.view_author_username_only)
+
+        self.author_group.triggered.connect(self.set_author_mode)
+
 
         # item model for table
         self.model = QtGui.QStandardItemModel()
@@ -58,6 +85,11 @@ class NodeList(QtWidgets.QWidget):
         
         self.view.selectionModel().selectionChanged.connect(self.selection_changed)
 
+        # restore column visibility
+        for col in range(1, self.model.columnCount()):  # Keep Name visible
+            visible = self.settings.value(f"columns/{col}/visible", True, type=bool)
+            self.view.setColumnHidden(col, not visible)
+
         # filter bar
         self.filter = QtWidgets.QLineEdit()
         self.filter.textChanged.connect(self.proxy.setFilterFixedString)
@@ -84,6 +116,34 @@ class NodeList(QtWidgets.QWidget):
         self.refresh()
 
 
+    def populate_column_menu(self, menu):
+        menu.clear()
+
+        action = QtWidgets.QAction("Show All", menu)
+        action.triggered.connect( lambda: self.set_column_visible(-1, True) )
+        menu.addAction(action)
+        action = QtWidgets.QAction("Show None", menu)
+        action.triggered.connect( lambda: self.set_column_visible(-1, False) )
+        menu.addAction(action)
+        menu.addSeparator()
+
+        for col in range(1, self.model.columnCount()): # Keep Name always visible
+            name = self.model.headerData(col, QtCore.Qt.Horizontal)
+            action = QtWidgets.QAction(name, menu)
+            action.setCheckable(True)
+            action.setChecked(not self.view.isColumnHidden(col))
+            action.toggled.connect( lambda checked, c=col: self.set_column_visible(c, checked) )
+            menu.addAction(action)
+
+
+    def set_author_mode(self, action):
+        """.
+        """
+        self.view_author_username_only = action==self.author_username_action
+        self.settings.setValue("view/author_username_only", self.view_author_username_only)
+        self.refresh()
+
+
     def refresh(self):
         """.
         """
@@ -100,7 +160,7 @@ class NodeList(QtWidgets.QWidget):
             row = [
                 name:=QtGui.QStandardItem(node.name()), # TODO: store actual node object!
                 type:=QtGui.QStandardItem( node.type().name() ),
-                QtGui.QStandardItem( qlibutils.get_node_author(node) ),
+                QtGui.QStandardItem( qlibutils.get_node_author(node, self.view_author_username_only) ),
                 QtGui.QStandardItem( qlibutils.date_string(node.modificationTime()) ), # TODO: store timestamp for sort and string for display
                 QtGui.QStandardItem( qlibutils.date_string(node.creationTime()) ),
                 QtGui.QStandardItem( node.comment() ),
@@ -154,8 +214,15 @@ class NodeList(QtWidgets.QWidget):
             first_column = self.view.model().index(i.row(), 0)
             node_name = first_column.data(QtCore.Qt.ItemDataRole.DisplayRole)
             pwd.node(node_name).setSelected(True)
-        
-        pass
+
+
+    def set_column_visible(self, column, visible):
+        """.
+        """
+        cols = [ column ] if column>0 else range(1, self.model.columnCount())
+        for col in cols:
+            self.view.setColumnHidden(col, not visible)
+            self.settings.setValue(f"columns/{col}/visible", visible)
 
 
     def show_header_menu(self, pos):
@@ -164,19 +231,7 @@ class NodeList(QtWidgets.QWidget):
 
         menu = QtWidgets.QMenu(self)
         header = self.view.horizontalHeader()
-
-        for col in range(self.model.columnCount()):
-
-            # add switches to all column but "name"
-            if col>0:
-                name = self.model.headerData(col, QtCore.Qt.Horizontal)
-                action = QtWidgets.QAction(name, menu)
-                action.setCheckable(True)
-                action.setChecked(not self.view.isColumnHidden(col))
-                action.toggled.connect( lambda checked, c=col: self.view.setColumnHidden(c, not checked) )
-    
-                menu.addAction(action)
-
+        self.populate_column_menu(menu)
         menu.exec_(header.mapToGlobal(pos))
 
 
