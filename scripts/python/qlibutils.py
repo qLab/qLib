@@ -836,7 +836,7 @@ def set_netview_selection(kwargs, criteria, allItems=False):
     select_netview_nodes(kwargs, criteria, allItems=allItems, selectMode="replace")
 
 
-def select_ropnet_input_depdendents(kwargs):
+def select_ropnet_input_dependents(kwargs):
     """Select ROP network input dependents.
     """
     sel = hou.selectedNodes()
