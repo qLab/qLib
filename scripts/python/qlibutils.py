@@ -638,6 +638,15 @@ def has_author(node, authors, username_only=False):
     return a in authors
 
 
+def get_node_defined_by(node):
+    """Get the path of the file (either a hda or an .so file) where the node definition
+    comes from.
+    """
+    t = node.type()
+    d = t.definition()
+    return d.libraryFilePath() if d else t.sourcePath()
+
+
 def parm_is_keyframed(parm):
     """Checks if parm is keyframed.
     A parm is considered keyframed if there's at least 2 keyframes,
