@@ -69,6 +69,12 @@ More (qL):
             Copies all values of the same parameter from multiple selected nodes to the clipboard
             as a newline-separated string.
 
+        Replace "#" with "$F4":
+            Replaces all "#" characters in the string (filename) with $F4. Useful when pasting file paths
+            from apps that use the hash as frame number.
+
+            Only appears if the parameter contains the "#" character.
+
         (subnet): Parent Network, Input #1-4 (0-3):
             Sets an expression that will give the node path connected to the container node's n-th input
             (`opinputpath("..", n)`). Useful for nodes in DOP networks that don't have the convenience "n-th input"

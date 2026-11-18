@@ -199,6 +199,21 @@ import qlibmenutools; qlibmenutools.copy_all_parm_values_to_clipboard(kwargs)
 
 			<separatorItem/>
 
+			<scriptItem id="ql_hash_to_f4">
+				<label>Replace "#" twith "$F4"</label>
+				<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_has_hash(kwargs)
+					</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.hash_to_f4(kwargs)
+]]></scriptCode>
+			</scriptItem>
+
+			<separatorItem/>
+
 
 			<scriptItem id="ql_set_to_parent_network_1">
 				<label>[subnet]: Parent Network, Input #1 (0)</label>
