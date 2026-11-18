@@ -75,6 +75,10 @@ More (qL):
 
             Only appears if the parameter contains the "#" character.
 
+        Replace "$F" with "%(UDIM)d":
+            Replaces frame number variable occurrence(s) with the UDIM texture syntax.
+            Only appears if the parameter has frame number variable.
+
         (subnet): Parent Network, Input #1-4 (0-3):
             Sets an expression that will give the node path connected to the container node's n-th input
             (`opinputpath("..", n)`). Useful for nodes in DOP networks that don't have the convenience "n-th input"

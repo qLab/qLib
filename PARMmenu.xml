@@ -212,6 +212,19 @@ import qlibmenutools; qlibmenutools.hash_to_f4(kwargs)
 ]]></scriptCode>
 			</scriptItem>
 
+			<scriptItem id="ql_framenum_to_udim">
+				<label>Replace "$F" with "%(UDIM)d"</label>
+				<context>
+					<expression>
+						import qlibmenutools
+						return qlibmenutools.parm_has_framenum_var(kwargs)
+					</expression>
+				</context>
+				<scriptCode><![CDATA[
+import qlibmenutools; qlibmenutools.framenum_to_udim(kwargs)
+]]></scriptCode>
+			</scriptItem>
+
 			<separatorItem/>
 
 
