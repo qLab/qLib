@@ -102,6 +102,10 @@ class NodeList(QtWidgets.QWidget):
         
         self.view.selectionModel().selectionChanged.connect(self.selection_changed)
 
+        font_metrics = QtGui.QFontMetrics(self.view.font())
+        row_height = font_metrics.height()+2
+        self.view.verticalHeader().setDefaultSectionSize(row_height)
+
         # restore column visibility
         for col in range(1, self.model.columnCount()):  # Keep Name visible
             visible = self.settings.value(f"columns/{col}/visible", True, type=bool)
@@ -194,6 +198,8 @@ class NodeList(QtWidgets.QWidget):
                 QtGui.QStandardItem( node.userData("___toolid___") or "" ),
                 QtGui.QStandardItem( qlibutils.get_node_defined_by(node) ),
             ]
+
+            name.setIcon(hou.qt.Icon(node.type().icon()))
 
             # colorise text with node color (TODO: have an option for this)
             if True:
