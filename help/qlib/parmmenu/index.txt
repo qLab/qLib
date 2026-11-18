@@ -10,8 +10,9 @@ NOTE:
     environment with potentially heavily customized menu sets.
 
 The following is a list of all parameter menu items. Note that these are parameter
-type sensitive, so only a subset of these is usually visible, depending on the
-parameter type. (We include the corresponding types in each description.)
+type (or content) sensitive, so only a subset of these is usually visible, depending on the
+parameter type or value. (For corresponding types or other conditions, see the
+individual descriptions below.)
 
 
 Toggle Absolute/Relative OP Path(s) (qL):
