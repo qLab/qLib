@@ -33,6 +33,7 @@ FLASH_SECONDS = 6.0
 # regex pattern for valid node/path names
 #
 OPNODEPATH_REGEX_PATTERN = "[a-zA-Z0-9/\.\-_]+"
+FRAMENUM_REGEX_PATTERN = "\$(?:F\d?|\{F\d?\})"
 
 
 # TODO: msg functions with exception handling

@@ -143,6 +143,33 @@ def parm_is_fspath(kwargs):
     return r
 
 
+def parm_has_hash(kwargs):
+    """Checks if the (first) RMB-clicked parm has hash symbol(s) in it ("#").
+    """
+    r = False
+    try:
+        p = get_all_parms(kwargs)[0]
+        v = p.evalAsString().strip()
+        r = "#" in v
+    except:
+        pass #print("ERROR: %s" % traceback.format_exc())
+    return r
+
+
+def parm_has_framenum_var(kwargs):
+    """Checks if the (first) RMB-clicked parm has frame number variable in it.
+    """
+    r = False
+    try:
+        p = get_all_parms(kwargs)[0]
+        v = p.rawValue().strip()
+        r = re.search(qlibutils.FRAMENUM_REGEX_PATTERN, v) is not None
+    except:
+        pass #print("ERROR: %s" % traceback.format_exc())
+    return r
+
+
+
 
 def parm_has_target_node(kwargs):
     """Checks if the (first) RMB-clicked parm points to another node in the hip file.
@@ -342,6 +369,40 @@ def switch_spaces_newlines(kwargs):
         v = re.sub("[\n ]+", "\n" if to_newlines else " ", v)
         reset_parm(parm)
         parm.set(v)
+
+
+def hash_to_f4(kwargs):
+    """Converts hash (#) signs to $F4 in a string parm. Handy for paths copy/pasted from nuke, etc.
+    (Called from PARMmenu.xml)
+    """
+    parms = get_all_parms(kwargs)
+
+    for parm in parms:
+        v = parm.evalAsString()
+        v0 = v
+
+        v = re.sub("[#]+", "$F4", v)
+
+        if v!=v0:
+            reset_parm(parm)
+            parm.set(v)
+
+
+def framenum_to_udim(kwargs):
+    """Converts a frame number variable into an UDIM tile variable in a string parm.
+    (Called from PARMmenu.xml)
+    """
+    parms = get_all_parms(kwargs)
+
+    for parm in parms:
+        v = parm.rawValue()
+        v0 = v
+
+        v = re.sub(qlibutils.FRAMENUM_REGEX_PATTERN, "%(UDIM)d", v)
+
+        if v!=v0:
+            reset_parm(parm)
+            parm.set(v)
 
 
 def use_as_descriptive_parm(kwargs):

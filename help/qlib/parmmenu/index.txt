@@ -10,8 +10,9 @@ NOTE:
     environment with potentially heavily customized menu sets.
 
 The following is a list of all parameter menu items. Note that these are parameter
-type sensitive, so only a subset of these is usually visible, depending on the
-parameter type. (We include the corresponding types in each description.)
+type (or content) sensitive, so only a subset of these is usually visible, depending on the
+parameter type or value. (For corresponding types or other conditions, see the
+individual descriptions below.)
 
 
 Toggle Absolute/Relative OP Path(s) (qL):
@@ -68,6 +69,16 @@ More (qL):
         Copy All Parm Values to Clipboard:
             Copies all values of the same parameter from multiple selected nodes to the clipboard
             as a newline-separated string.
+
+        Replace "#" with "$F4":
+            Replaces all "#" characters in the string (filename) with $F4. Useful when pasting file paths
+            from apps that use the hash as frame number.
+
+            Only appears if the parameter contains the "#" character.
+
+        Replace "$F" with "%(UDIM)d":
+            Replaces frame number variable occurrence(s) with the UDIM texture syntax.
+            Only appears if the parameter has frame number variable.
 
         (subnet): Parent Network, Input #1-4 (0-3):
             Sets an expression that will give the node path connected to the container node's n-th input
