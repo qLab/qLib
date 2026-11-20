@@ -199,7 +199,10 @@ class NodeList(QtWidgets.QWidget):
                 QtGui.QStandardItem( qlibutils.get_node_defined_by(node) ),
             ]
 
-            name.setIcon(hou.qt.Icon(node.type().icon()))
+            try:
+                name.setIcon(hou.qt.Icon(node.type().icon()))
+            except:
+                pass # some OPs might have no icon at all
 
             # colorise text with node color (TODO: have an option for this)
             if True:
