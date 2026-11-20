@@ -1423,6 +1423,19 @@ def set_main_window_title():
         w.setWindowIconText(title)
 
 
+def set_app_icon_from_selected():
+    """Set the taskbar icon from the selected node.
+    """
+    sel = hou.selectedNodes()
+
+    if len(sel)>0:
+        icon = sel[0].type().icon()
+        if icon:
+            icon = hou.qt.Icon(icon)
+            if not icon.isNull():
+                w = hou.qt.mainWindow()
+                w.setWindowIcon(icon)
+
 
 def jump_to_path_on_clipboard(kwargs):
     """Jump to an OP path stored on the clipboard.
