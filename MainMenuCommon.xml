@@ -250,6 +250,15 @@ qlibutils.set_main_window_title()
 				</scriptCode>
 			</scriptItem>
 
+			<scriptItem id="h.ql_misc_setappiconfromselected">
+				<label>Set Window Icon from Selected Node</label>
+				<scriptCode><![CDATA[
+import qlibutils
+qlibutils.set_app_icon_from_selected()
+]]>
+				</scriptCode>
+			</scriptItem>
+
 		</subMenu>
 
 		<separatorItem />
